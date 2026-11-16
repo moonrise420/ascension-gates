@@ -1,4 +1,5 @@
 # Ascension Gates
+<img src=".github/images/thumbnail.jpg" width="220" align="right" alt="">
 > Stargates, rings, ships, Replicators and power - all in one pack.
 
 Ascension Gates is based on Carter's Addon Pack and CAP Enhanced. It adds bug fixes and many new parts of our own, and every text comes in 12 languages. Old saves and dupes keep working: the parts kept their names.
@@ -6,12 +7,33 @@ Ascension Gates is based on Carter's Addon Pack and CAP Enhanced. It adds bug fi
 ## Install
 **Steam Workshop (easiest):** subscribe to Ascension Gates - Steam brings everything it needs with it.
 
-**By hand:** download `ascension_gates-1.0.0.zip` from [Releases](../../releases/latest) and unpack it into
-`garrysmod/addons/`. This repository holds the code only; the models, sounds, maps and materials (2.9 GB) come from
-the Workshop items *Ascension Gates - Resources 1, 2 and 3*. It also needs PowerGrid and Wiremod.
+**By hand:** download all four zips from [Releases](../../releases/latest) and unpack them into `garrysmod/addons/`:
+`ascension_gates-1.0.0.zip` (the code) and `ascension_gates_res1`, `_res2`, `_res3` (models, sounds, maps and
+materials, 2.9 GB together - that is why they are release files and not part of this repository). It also needs
+[PowerGrid](https://github.com/moonrise420/powergrid) and [Wiremod](https://github.com/wiremod/wire).
 
 ## Bugs, problems and wishes
 Please use [Issues](../../issues): pick *Bug report* or *Wish or idea*. On the Steam Workshop page the comments work too.
+
+## Pictures
+<p>
+<img src=".github/images/01_op_arrive.jpg" width="49%" alt="">
+<img src=".github/images/02_op_iris.jpg" width="49%" alt="">
+<img src=".github/images/03_t_gate_atlantis.jpg" width="49%" alt="">
+<img src=".github/images/04_t2_super_wide.jpg" width="49%" alt="">
+<img src=".github/images/05_t2_fly_alkesh.jpg" width="49%" alt="">
+<img src=".github/images/06_t_fly_aurora_sp.jpg" width="49%" alt="">
+<img src=".github/images/07_t2_fly_daedalus.jpg" width="49%" alt="">
+<img src=".github/images/08_t2_fly_dart.jpg" width="49%" alt="">
+<img src=".github/images/09_t2_fly_destiny.jpg" width="49%" alt="">
+<img src=".github/images/10_op_hatak_jump.jpg" width="49%" alt="">
+<img src=".github/images/11_op_battle_wide.jpg" width="49%" alt="">
+<img src=".github/images/12_t2_in_peltak.jpg" width="49%" alt="">
+<img src=".github/images/13_op_rings.jpg" width="49%" alt="">
+<img src=".github/images/14_t_rep_swarm.jpg" width="49%" alt="">
+<img src=".github/images/15_op_in_queen.jpg" width="49%" alt="">
+<img src=".github/images/16_op_shield.jpg" width="49%" alt="">
+</p>
 
 ---
 
