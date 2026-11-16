@@ -5,7 +5,7 @@
 Ascension Gates is based on Carter's Addon Pack and CAP Enhanced. It adds bug fixes and many new parts of our own, and every text comes in 12 languages. Old saves and dupes keep working: the parts kept their names.
 
 ## Install
-**Steam Workshop (easiest):** subscribe to Ascension Gates - Steam brings everything it needs with it.
+**Steam Workshop (easiest):** subscribe to [Ascension Gates](https://steamcommunity.com/sharedfiles/filedetails/?id=3840679305) - Steam brings everything it needs with it.
 
 **By hand:** download all four zips from [Releases](../../releases/latest) and unpack them into `garrysmod/addons/`:
 `ascension_gates-1.0.0.zip` (the code) and `ascension_gates_res1`, `_res2`, `_res3` (models, sounds, maps and
@@ -72,7 +72,7 @@ Steam lists them under *Required Items* and offers to subscribe them with this o
 - PowerGrid (energy network and life support)
 - [Wiremod](https://steamcommunity.com/sharedfiles/filedetails/?id=160250458) (Wire inputs and outputs, E2)
 
-**Everything in one click:** *Ascension Gates - Complete* (Steam Workshop collection)
+**Everything in one click:** [Ascension Gates - Complete](https://steamcommunity.com/sharedfiles/filedetails/?id=3840681489)
 
 Optional, from the same team: **StarCore** (turn your own build into a ship), **Black Hole Cache**, **SpaceGrid** (build ships and stations).
 

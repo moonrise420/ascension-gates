@@ -5,7 +5,7 @@ AGP.Version = "1.0.0" -- numbers first: the update check compares them with the 
 -- Fill these in once they exist. Empty = the buttons are not shown.
 AGP.Links = {
 	GitHub = "https://github.com/moonrise420/ascension-gates",
-	Workshop = "", -- e.g. https://steamcommunity.com/sharedfiles/filedetails/?id=<collection id>
+	Workshop = "https://steamcommunity.com/sharedfiles/filedetails/?id=3840679305",
 }
 
 -- list of { label, url } for the links that are set (for the menus)
