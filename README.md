@@ -2,7 +2,7 @@
 <img src=".github/images/thumbnail.jpg" width="220" align="right" alt="">
 > Stargates, rings, ships, Replicators and power - all in one pack.
 
-Ascension Gates is based on Carter's Addon Pack and CAP Enhanced. It adds bug fixes and many new parts of my own, and every text comes in 12 languages. Old saves and dupes keep working: the parts kept their names.
+Ascension Gates is based on Carter's Addon Pack and CAP Enhanced. It adds bug fixes and many new parts, and every text comes in 12 languages. Old saves and dupes keep working: the parts kept their names.
 
 ## Install
 **Steam Workshop (easiest):** subscribe to [Ascension Gates](https://steamcommunity.com/sharedfiles/filedetails/?id=3840679305) - Steam brings everything it needs with it.
@@ -74,7 +74,7 @@ Steam lists them under *Required Items* and offers to subscribe them with this o
 
 **Everything in one click:** [Ascension Gates - Complete](https://steamcommunity.com/sharedfiles/filedetails/?id=3840681489)
 
-Optional, also made by me: **StarCore** (turn your own build into a ship), **Black Hole Cache**, **SpaceGrid** (build ships and stations).
+Optional, made to work with it: **StarCore** (turn your own build into a ship), **Black Hole Cache**, **SpaceGrid** (build ships and stations).
 
 ## Using CAP or CAP Enhanced?
 Ascension Gates already includes their parts, under the same file names. Please keep only one of them subscribed. With both, there is no telling which version of a part the game loads.
