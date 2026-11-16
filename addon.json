@@ -1,0 +1,16 @@
+{
+	"title": "Ascension Gates (AGP)",
+	"type": "entity",
+	"tags": [
+		"build",
+		"fun"
+	],
+	"ignore": [
+		"*.md",
+		"*.txt",
+		".git*",
+		"addon.json",
+		"*.sw.vtx",
+		"*.xbox.vtx"
+	]
+}

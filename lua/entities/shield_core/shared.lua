@@ -1,0 +1,14 @@
+if (StarGate!=nil and StarGate.LifeSupportAndWire!=nil) then StarGate.LifeSupportAndWire(ENT); end
+ENT.Type = "anim"
+ENT.Base = "base_anim"
+ENT.PrintName = "Shield Core"
+ENT.WireDebugName = "Shield Core"
+ENT.Author = "Madman07, Rafael De Jongh"
+ENT.Instructions= ""
+ENT.Contact = "madman097@gmail.com"
+ENT.Category = "Ascension Gates"
+
+list.Set("CAP.Entity", ENT.PrintName, ENT);
+
+ENT.RenderGroup = RENDERGROUP_BOTH
+ENT.AutomaticFrameAdvance = true

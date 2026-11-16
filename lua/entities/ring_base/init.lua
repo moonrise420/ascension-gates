@@ -1,0 +1,828 @@
+if (StarGate!=nil and StarGate.LifeSupportAndWire!=nil) then StarGate.LifeSupportAndWire(ENT); end
+if (StarGate == nil or StarGate.CheckModule == nil or not StarGate.CheckModule("extra")) then return end
+local base_size = 100 -- the size of the ring tube
+
+-- stuff in here cannnot be teleported
+local protected_entities = {
+    ramp = true,
+    func_door = true,
+    func_door_rotating = true,
+    func_movelinear = true,
+    func_rot_button = true,
+    func_rotating = true,
+    prop_door_rotating = true
+}
+
+-- ring_* and stargate_* protected too
+local playersonly = CreateConVar("rings_players_only", "0")
+AddCSLuaFile("cl_init.lua")
+AddCSLuaFile("shared.lua")
+include('shared.lua')
+
+-- AGP 2026-11-15 (owner, trailer: "they bugged the ring around", "some ring glitched sideways under the floor"): the
+-- rings pass round their cargo instead of shoving it, as in the series. A collision rule, not a no-collide constraint:
+-- through the rings (no-collided with the world) a constraint tied the cargo to the world, and the transporter leaves
+-- world-attached things behind.
+hook.Add("ShouldCollide", "AGPRingsPassCargo", function(a, b)
+    local pa, pb = a.AGPRingPass, b.AGPRingPass
+    if ((pa and pa[b]) or (pb and pb[a])) then return false end
+end)
+local function RingsPass(rings, e)
+    for _, r in pairs(rings or {}) do
+        if (IsValid(r) and r ~= e) then
+            r.AGPRingPass = r.AGPRingPass or {}
+            r.AGPRingPass[e] = true
+            r:SetCustomCollisionCheck(true)
+            r:CollisionRulesChanged()
+        end
+    end
+end
+
+function ENT:Initialize()
+    self.Entity:PhysicsInit(SOLID_VPHYSICS)
+    self.Entity:SetMoveType(MOVETYPE_VPHYSICS)
+    self.Entity:SetSolid(SOLID_VPHYSICS)
+    if (self.RingModel) then util.PrecacheModel(self.RingModel) end -- prevent gmod freeze on ori ring activation
+    self:AddResource("energy",1);
+    self.Rings = {}
+    self.EndPos = Vector(0, 0, 0)
+    self.Ready = 0
+    self.Other = self.Entity
+    self.Master = false
+    self.Busy = false
+    self.Ents = {}
+    self.Effect = false
+    self.WaitTime = 0
+    self.WireRange = 2024
+    self.Entity:SetUseType(SIMPLE_USE)
+    self.Address = nil
+    self.Laser = false
+    self.Anims = false
+    self.Disallowed = {}
+    self.EngageEnergy = 500
+
+    for _, v in pairs(StarGate.CFG:Get("ring", "classnames", ""):TrimExplode(",")) do
+        self.Disallowed[v:lower()] = true
+    end
+
+    -- Wire support to the ring base using stargate lib - @aVoN
+    self:CreateWireInputs("Dial Closest", "Dial Address [STRING]", "Set Range", "UnUsable")
+    self:CreateWireOutputs("Usable", "Active")
+end
+
+function ENT:KeyValue(key, value)
+    if key == "name" then
+        self.Address = value
+        self.Entity:SetNWString("address", value)
+    end
+end
+
+--################# Stops rings if you remove the dialling ring-transporter while it was dialling @aVoN
+function ENT:OnRemove()
+    if (IsValid(self.Other) and self.Other.Busy) then
+        self.Other.Other = NULL
+
+        if (IsValid(self.Other)) then
+            self.Other:ReadyChecks()
+        end
+    end
+
+    if self.Laser then
+        self.Laser = false
+
+        if (IsValid(self.LaserBeam)) then
+            self.LaserBeam:Remove()
+        end
+    end
+end
+
+function ENT:CAP_CanModify(ply)
+    if (not IsValid(ply)) then return false end
+    local allowed = true
+
+    if (hook.Call("StarGate.Player.CanModify.Ring", GAMEMODE, ply, self.Entity) == false) then
+        allowed = false
+    elseif (self.GateSpawnerProtected) then
+        allowed = hook.Call("StarGate.Player.CanModifyProtected.Ring", GAMEMODE, ply, self.Entity)
+
+        if (allowed == nil) then
+            allowed = (ply:IsAdmin() or game.SinglePlayer())
+        end
+    end
+
+    return allowed
+end
+
+function ENT:Use(ply)
+    if (not self:CAP_CanModify(ply)) then return end
+    umsg.Start("RingTransporterShowNameWindowCap", ply)
+    umsg.Entity(self.Entity)
+    umsg.End()
+    ply.RingNameEnt = self
+end
+
+function RingsNamingCallback(ply, cmd, args)
+    if ply.RingNameEnt and ply.RingNameEnt ~= NULL then
+        if (not ply.RingNameEnt:CAP_CanModify(ply)) then return end
+
+        if args[1] then
+            local adr = args[1]:gsub("[^0-9]", "")
+
+            -- No multiple rings please!
+            for _, v in pairs(ents.FindByClass("ring_base_*")) do
+                if (v.Address == adr and v.Entity ~= ply.RingNameEnt) then
+                    ply:SendLua("GAMEMODE:AddNotify(SGLanguage.GetMessage(\"agp_ring_address_taken\"), NOTIFY_ERROR, 5); surface.PlaySound( \"buttons/button2.wav\" )")
+
+                    return
+                end
+            end
+
+            ply.RingNameEnt.Address = adr
+            ply.RingNameEnt:SetNWString("address", adr)
+            ply.RingNameEnt:SetEntityModifier("Address", adr)
+        end
+
+        ply.RingNameEnt = nil
+    end
+end
+
+concommand.Add("setringname", RingsNamingCallback)
+
+function ENT:SetRingAddress(address)
+    if not IsValid(self.Entity) then return end
+    local adr = address:gsub("[^0-9]", "")
+
+    -- No multiple rings please!
+    for _, v in pairs(ents.FindByClass("ring_base_*")) do
+        if (v.Address == adr and v.Entity ~= self.Entity) then return end
+    end
+
+    self.Address = adr
+    self.Entity:SetNWString("address", adr)
+    self.Entity:SetEntityModifier("Address", adr)
+end
+
+-- this'll be called when a ring gets to its position
+function ENT:ReportReachedPos(ent)
+    self.Ready = self.Ready + 1
+end
+
+function ENT:FindNearest(address)
+    if address == "" or not address then
+        local dist = -1
+        local nEnt = self.Entity
+        local rings = ents.FindByClass("ring_base_*")
+
+        for k, ent in pairs(rings) do
+            if (ent ~= self.Entity and ent.IsRings and not ent.Busy and ent.Laser == false) then
+                local nDist = (self.Entity:GetPos() - ent:GetPos()):Length()
+
+                if nDist < dist or dist < 0 then
+                    dist = nDist
+                    nEnt = ent
+                end
+            end
+        end
+
+        return nEnt
+    else
+        local rings = ents.FindByClass("ring_base_*")
+
+        for k, ent in pairs(rings) do
+            if (ent.IsRings and ent.Address == address and not ent.Busy and ent.Laser == false) then return ent end
+        end
+
+        return false
+    end
+end
+
+local function CheckedEntRemove(ent)
+    if IsValid(ent) then
+        ent:Remove()
+    end
+end
+
+function ENT:ReturnRings()
+    self.Entity:EmitSound("tech/ring_transporter3.wav", 100, 100)
+    local times = {0.2, 0.7, 1.0, 1.2, 1.4}
+
+    for k, v in pairs(self.Rings) do
+        timer.Simple(times[k], function()
+            if IsValid(v) then
+                v:ReturnPos()
+            end
+        end)
+
+        timer.Simple(3, function()
+            CheckedEntRemove(v)
+        end)
+    end
+
+    timer.Simple(3, function()
+        if IsValid(self.Entity) then
+            self.Busy = false
+            self:SetWire("Active", false)
+            self:Anim(true)
+        end
+    end)
+
+    self.Ents = {}
+end
+
+--################# Get's an entities bone's for suckup (taken from my teleportation module) @aVoN
+function ENT:GetBones(e)
+    -- And as well, get the bones of an object
+    local bones = {}
+
+    if (e:IsVehicle() or e:GetClass() == "prop_ragdoll") then
+        for i = 0, e:GetPhysicsObjectCount() - 1 do
+            local bone = e:GetPhysicsObjectNum(i)
+
+            if (bone:IsValid()) then
+                table.insert(bones, {
+                    Entity = bone
+                })
+            end
+        end
+    end
+
+    return bones
+end
+
+function ENT:DoTeleport()
+    -- (2026-11-12: the other platform removed in the 0.3 s between "both ready" and the teleport: self.Other is NULL
+    -- then and self.Other.Ents below threw a script error. Nothing to exchange with - the rings just go back.)
+    if (not IsValid(self.Other)) then return end
+    local entz = ents.FindInSphere(self.Entity:LocalToWorld(self.EndPos), 80)
+
+    for _, ent in pairs(entz) do
+        -- stargate_* and ring_* protect by AlexALX
+        -- fixed by mad
+        -- No, by AlexALX ;) xD
+        local class = ent:GetClass()
+
+        if not self.Disallowed[class] and not string.find(class, "stargate_") and not string.find(class, "ring_") and not protected_entities[class] and ent ~= game.GetWorld() and not self.Other.Ents[ent] and not self.Ents[ent] and not ent.NotTeleportable and not ent:GetParent():IsValid() and not ent.GateSpawnerProtected then
+            if playersonly:GetBool() and not ent:IsPlayer() then
+            else
+                if ent:GetPhysicsObject():IsValid() then
+                    self.Ents[ent] = true
+                    local allow = hook.Call("StarGate.Rings.TeleportEnt", nil, ent, self)
+                    if (allow == false) then continue end
+
+                    if (constraint.HasConstraints(ent)) then
+                        local entities = StarGate.GetConstrainedEnts(ent, 2)
+                        local cont = false
+
+                        if (entities) then
+                            for c, b in pairs(entities) do
+                                if (b:IsWorld()) then
+                                    cont = true
+                                    break
+                                end
+                            end
+                        end
+
+                        if (cont) then continue end
+                    end
+
+                    local offset = ent:GetPos() - self.Entity:LocalToWorld(self.EndPos)
+                    local destination = self.Other:LocalToWorld(self.Other.EndPos) + offset
+                    -- Fix for stuck in ground/ramps by AlexALX
+                    local trace = {}
+                    trace.start = destination
+                    trace.endpos = destination + Vector(0, 0, -5)
+                    trace.filter = {self.Entity, self.Rings[1], self.Rings[2], self.Rings[3], self.Rings[4], self.Rings[5], ent}
+                    table.Add(trace.filter, player.GetAll())
+                    local traceRes = util.TraceLine(trace)
+
+                    if (traceRes.Hit) then
+                        destination = traceRes.HitPos + Vector(0, 0, 4)
+                    end
+
+                    -- AGP: a player lands standing on the floor. The arrival is the other ring's end point plus the offset at
+                    -- the sending ring; a ring set a little into a ship's floor (the Tel'tak's cargo room ring) put the feet a
+                    -- few units into the floor, where the 5-unit trace above, started inside it, found nothing: stuck.
+                    if (ent:IsPlayer() and AGP and AGP.PlayerStandSpot) then
+                        destination = AGP.PlayerStandSpot(destination, ent, nil, 40, 60) or destination
+                    elseif (not ent:IsPlayer()) then
+                        -- AGP: the same for NPCs, props and everything else: its lowest part on top of the floor (set down a
+                        -- few units into it, an NPC stood stuck and a prop was shot out of it)
+                        local fl = util.TraceLine({ start = destination + Vector(0, 0, 60), endpos = destination - Vector(0, 0, 60),
+                            filter = { self.Entity, self.Rings[1], self.Rings[2], self.Rings[3], self.Rings[4], self.Rings[5], ent }, mask = MASK_SOLID })
+                        local low = destination.z + ent:OBBMins().z
+                        if (fl.Hit and not fl.StartSolid and low < fl.HitPos.z) then destination = destination + Vector(0, 0, fl.HitPos.z - low + 2) end
+                    end
+
+                    -- ragdoll fix by AlexALX
+                    local Bones = self:GetBones(ent)
+
+                    for _, bone in pairs(Bones) do
+                        if (bone.Entity:IsValid()) then
+                            local bone_offset = bone.Entity:GetPos() - self.Entity:LocalToWorld(self.EndPos)
+                            local bone_destination = self.Other:LocalToWorld(self.Other.EndPos) + bone_offset
+                            local trace = {}
+                            trace.start = bone_destination
+                            trace.endpos = bone_destination + Vector(0, 0, -5)
+                            trace.filter = {self.Entity, self.Rings[1], self.Rings[2], self.Rings[3], self.Rings[4], self.Rings[5], ent}
+                            table.Add(trace.filter, player.GetAll())
+                            local traceRes = util.TraceLine(trace)
+
+                            if (traceRes.Hit) then
+                                bone_destination = traceRes.HitPos + Vector(0, 0, 10)
+                            end
+
+                            bone.Entity:SetPos(bone_destination)
+                            bone.Entity:ApplyForceCenter(Vector(0, 0, 0))
+                        end
+                    end
+
+                    if ent:GetClass() == "player" then
+                        ent.__PreviousMoveType = ent.__PreviousMoveType or ent:GetMoveType()
+                        ent:SetMoveType(MOVETYPE_NOCLIP) -- Needed, or person dont get teleported correctly
+
+                        timer.Simple(0, function()
+                            if (IsValid(ent)) then
+                                ent:SetMoveType(ent.__PreviousMoveType or 2)
+                                ent.__PreviousMoveType = nil
+                            end
+                        end)
+                    end
+
+                    ent:SetPos(destination)
+                    ent.AGPRingArrive = CurTime() -- AGP: a ship shield lets ring arrivals in (ship_shield/init.lua)
+                    -- AGP: what arrives passes through the rings standing round it (arriving props and Replicators shoved
+                    -- and tipped them; RingsPass at the top)
+                    if (not ent:IsPlayer()) then
+                        RingsPass(self.Rings, ent)
+                        RingsPass(self.Other.Rings, ent)
+                    end
+
+                    if ent:GetClass() == "player" then
+                        umsg.Start("RingTransporterTele", ent)
+                        umsg.Bool(false)
+                        umsg.End()
+                    end
+                end
+            end
+        end
+    end
+
+    -- let's have a delay before returning the rings
+    timer.Simple(0.1, function()
+        if IsValid(self) then
+            self:ReturnRings()
+        end
+    end)
+
+    self.Ready = 0
+end
+
+function ENT:ReadyChecks()
+    if self and IsValid(self.Entity) then
+        -- Receiving end is not valid anymore - Retreive the rings!
+        if (not IsValid(self.Other)) then
+            if (self.Ready == 5) then
+                timer.Simple(0.3, function()
+                    if IsValid(self.Entity) then
+                        self:ReturnRings()
+                    end
+                end)
+
+                return
+            end
+
+            timer.Simple(0.2, function()
+                if IsValid(self.Entity) then
+                    self:ReadyChecks()
+                end
+            end)
+
+            return
+        end
+
+        if self.Other.Ready == 5 and self.Ready == 5 then
+            timer.Simple(0.3, function()
+                if IsValid(self.Entity) then
+                    self.Entity:DoTeleport()
+                end
+            end)
+
+            timer.Simple(0.3, function()
+                if IsValid(self.Other) then
+                    self.Other:DoTeleport()
+                end
+            end)
+
+            local entz = constraint.GetAllConstrainedEntities(self.Entity)
+
+            for _, ent in pairs(entz) do
+                self.Ents[ent] = true
+            end
+
+            local entz = constraint.GetAllConstrainedEntities(self.Other)
+
+            for _, ent in pairs(entz) do
+                self.Other.Ents[ent] = true
+            end
+
+            local effectdata = EffectData()
+            effectdata:SetOrigin(self.Entity:LocalToWorld(self.EndPos))
+            effectdata:SetMagnitude(1)
+            util.Effect("transportcore", effectdata)
+            local effectdata = EffectData()
+            effectdata:SetOrigin(self.Other:LocalToWorld(self.Other.EndPos))
+            effectdata:SetMagnitude(1)
+            util.Effect("transportcore", effectdata)
+
+            if (self.Other:GetClass() == "ring_base_ori") then
+                for i = 1, 5 do
+                    self.Other.Rings[i]:ChangeMaterial()
+                end
+            end
+
+            if (self.Entity:GetClass() == "ring_base_ori") then
+                for i = 1, 5 do
+                    self.Rings[i]:ChangeMaterial()
+                end
+            end
+
+            local entz = ents.FindInSphere(self.Entity:LocalToWorld(self.EndPos), 80)
+
+            for _, ent in pairs(entz) do
+                if ent:GetClass() == "player" then
+                    umsg.Start("RingTransporterTele", ent)
+                    umsg.Bool(true)
+                    umsg.End()
+                end
+            end
+        else
+            if self.WaitTime < CurTime() then
+                self:ReturnRings()
+
+                if (IsValid(self.Other)) then
+                    self.Other:ReturnRings()
+                end
+
+                return
+            end
+
+            -- and again and again and again and *
+            timer.Simple(0.2, function()
+                if IsValid(self.Entity) then
+                    self:ReadyChecks()
+                end
+            end)
+        end
+    end
+end
+
+function ENT:DoRings()
+    self.Busy = true
+    self.Entity:EmitSound("tech/ring_transporter2.wav", 100, 100)
+    self:Anim(false)
+    local dir = 1
+
+    -- Addtion by aVoN: Use "FindRange" everytime we are facing down and the angle is below 45° (pi/4)
+    if (self.Entity:GetUp():DotProduct(Vector(0, 0, -1)) > 1 / math.sqrt(2)) then
+        dir = -1
+    end
+
+    for i = 1, 5 do
+        self.Rings[i] = ents.Create("ring_ring")
+        self.Rings[i].GateSpawnerSpawned = self.GateSpawnerSpawned
+        self.Rings[i]:SetModel(self.RingModel or "models/Madman07/ancient_rings/ring.mdl") -- fix: the bare base has no RingModel
+
+        if (dir == -1) then
+            self.Rings[i]:SetPos(self.Entity:GetPos() - self:GetUp() * 15)
+        else
+            self.Rings[i]:SetPos(self.Entity:GetPos())
+        end
+
+        self.Rings[i].Dir = dir
+        self.Rings[i]:SetAngles(self.Entity:GetAngles())
+        self.Rings[i]:SetParent(self.Entity)
+        self.Rings[i]:SetColor(self:GetColor())
+        self.Rings[i]:SetMaterial(self:GetMaterial())
+        self.Rings[i]:Spawn()
+        self.Rings[i]:Activate()
+        constraint.NoCollide(self.Rings[i], self, 0, 0)
+        self.Entity:DeleteOnRemove(self.Rings[i])
+    end
+
+    for k, v in pairs(self.Rings) do
+        if (IsValid(v)) then
+            for k2, v2 in pairs(self.Rings) do
+                if (IsValid(v2)) then
+                    constraint.NoCollide(v, v2, 0, 0)
+                end
+            end
+
+            if (IsValid(self.Ramp)) then
+                constraint.NoCollide(v, self.Ramp, 0, 0)
+            end
+
+            constraint.NoCollide(v, game.GetWorld(), 0, 0)
+            local entz = constraint.GetAllConstrainedEntities(self.Entity)
+
+            for _, ent in pairs(entz) do
+                constraint.NoCollide(v, ent, 0, 0)
+            end
+        end
+    end
+
+    -- AGP: the rings come up through whatever stands on the platform (the cargo) without pushing it: made inside
+    -- the legs of Replicators standing there, a ring was shoved sideways half into the floor and the cargo was pushed
+    -- together. Players are left out (the rings still crush a player who stands still where they come down).
+    local reach = IsValid(self.Rings[1]) and self.Rings[1]:BoundingRadius() or 100
+    for _, e in ipairs(ents.FindInSphere(self.Entity:GetPos() + self.Entity:GetUp() * 50 * dir, reach + 60)) do
+        if (IsValid(e) and e ~= self.Entity and not e:IsPlayer() and not e.IsRings and e:GetClass() ~= "ring_ring" and not IsValid(e:GetParent()) and IsValid(e:GetPhysicsObject())) then
+            RingsPass(self.Rings, e)
+        end
+    end
+
+    local num = 20
+    self.Ready = 0
+    -- find the end position
+    local trace = {}
+    -- Instead of using a mask to avoid "stuff in the ring's way", Catdaemon, I start the traceline a bit later
+    trace.start = self.Entity:GetPos() + self.Entity:GetUp() * 110
+    trace.endpos = self.Entity:GetPos() + self.Entity:GetUp() * self.WireRange
+    trace.filter = {self.Entity, self.Rings[1], self.Rings[2], self.Rings[3], self.Rings[4], self.Rings[5]}
+    table.Add(trace.filter, player.GetAll())
+    local traceRes = util.TraceLine(trace)
+
+    -- move the rings and set the teleport position
+    if (traceRes.HitWorld or traceRes.HitPos:Distance(self.Entity:GetPos()) < 999 and traceRes.HitPos:Distance(self.Entity:GetPos()) > 100) and dir == -1 then
+        local times = {3.6, 3.5, 3.0, 2.5, 2.0}
+
+        for k, v in pairs(self.Rings) do
+            local pos = traceRes.HitPos - (self.Entity:GetUp() * 110) + (self.Entity:GetUp() * num) * (k - self.OriFix)
+
+            timer.Simple(times[k], function()
+                if IsValid(v) then
+                    v:GotoPos(self.Entity:WorldToLocal(pos))
+                end
+            end)
+        end
+
+        local pos = traceRes.HitPos - (self.Entity:GetUp() * 50)
+        self.EndPos = self.Entity:WorldToLocal(pos)
+    else
+        local times = {3.7, 3.5, 3.0, 2.5, 2.0}
+
+        for k, v in pairs(self.Rings) do
+            local pos = self.Entity:GetPos() + (self.Entity:GetUp() * num) * (k + self.OriFix)
+
+            timer.Simple(times[k], function()
+                if IsValid(v) then
+                    v:GotoPos(self.Entity:WorldToLocal(pos))
+                end
+            end)
+        end
+
+        local pos = self.Entity:GetPos() + (self.Entity:GetUp() * 50) + (self.Entity:GetUp() * self.OriFix * 25)
+        self.EndPos = self.Entity:WorldToLocal(pos)
+    end
+
+    self:SetWire("Active", true)
+end
+
+function ENT:StartSequence(address, forced)
+
+
+    self.WaitTime = CurTime() + 10
+    -- find another ring transporter (AGP: or the one asked for directly, see DialEntity)
+    local nearest = forced or self.Entity:FindNearest(address)
+
+    if not nearest or nearest.Busy then
+        self.Entity:EmitSound("common/warning.wav", 100, 70)
+
+        return
+    end
+
+    if nearest == self.Entity then return end -- don't want to teleport to ourselves now do we
+    self.Other = nearest
+    self.Master = true
+    nearest.Other = self.Entity
+    nearest.Master = false
+
+    if (StarGate.CFG:Get("cap_misc", "disable_rings", false)) then
+        timer.Simple(6, function() 
+        self:ReturnRings()
+        self.Other:ReturnRings()
+        end)
+    else
+
+        self.Entity:ReadyChecks() -- go to the next stage
+    end
+    -- set their rings going
+    self.Entity:DoRings()
+    self.Other:DoRings()
+end
+
+-- #############################################################
+-- Wire port, first done by Meeces, implemented by Catdaemon, and now rewritten by aVoN
+-- #############################################################
+-- ################### This uses my Wire class @aVoN
+function ENT:Think()
+    self:SetWire("Usable", not self.Busy)
+
+    if self.Anims then
+        self:NextThink(CurTime())
+
+        return true
+    end
+end
+
+-- ################### Slightly improved wireinput version @aVoN
+function ENT:TriggerInput(name, value)
+    local b = util.tobool(value)
+
+    if (name == "Dial Closest") then
+        if (b and not self.Busy) then
+            self:Dial("")
+        end
+    elseif (name == "Dial Address") then
+        if (not self.Busy and value ~= "") then
+            self:Dial(value)
+        end
+    elseif (name == "Set Range") then
+        if (b and not self.Busy) then
+            self.WireRange = value
+        end
+    elseif (name == "UnUsable") then
+        self.Busy = b
+        self:SetNWBool("Busy", b)
+    end
+end
+
+--################# AGP: ring to one particular ring (Ha'tak deck menu: an exact deck or the nearest ring outside the ship)
+function ENT:DialEntity(target)
+    if (self.Busy or not IsValid(target) or target == self.Entity or not target.IsRings or target.Busy or target.Laser) then
+        self.Entity:EmitSound("common/warning.wav", 100, 70)
+        return false
+    end
+    self.Entity:StartSequence("", target)
+    return true
+end
+
+--################# Dials @aVoN
+function ENT:Dial(address)
+    if (self.Busy) then return end
+
+    if (address ~= "") then
+        local adr = address:gsub("[^0-9]", "")
+
+        if (adr ~= "") then
+            self.Entity:StartSequence(adr)
+        else
+            self.Entity:StartSequence(" ") -- fail
+        end
+    else
+        self.Entity:StartSequence(address)
+    end
+end
+
+-- Easter Egg ;]
+function ENT:StopLaser()
+    self.Laser = false
+    self.Busy = false
+
+    if IsValid(self.LaserBeam) then
+        self.LaserBeam:Remove()
+    end
+end
+
+function ENT:StartLaser()
+    self.Busy = true
+    self.Laser = true
+    local energyBeam = ents.Create("energy_laser")
+    energyBeam.Owner = self.Entity
+    energyBeam:SetPos(StarGate.GetEntityCentre(self.Entity))
+    energyBeam:Spawn()
+    energyBeam:Activate()
+    energyBeam:SetOwner(self.Entity)
+    energyBeam:Setup(self.Entity, "ONeill", true)
+    self.LaserBeam = energyBeam
+    local ringbaseshutdown = self.Entity -- Haha, i have to make some limits ;p
+
+    timer.Create(self.Entity:EntIndex() .. "LaserBeam", 30, 1, function()
+        if IsValid(ringbaseshutdown) then
+            ringbaseshutdown:StopLaser()
+        end
+    end)
+end
+
+-- ################### This function originally has been added to the ring_panel. But my "ring caller" swep sets Player.RingDialEnt to the actual ring_base rather than the ring_panel entity so we need it here again to avoid lua errors @aVoN
+function ENT:DoCallback(range, address)
+    local ranger
+
+    if (range == "1") then
+        ranger = 1024
+    end
+
+    if (not self.Busy) then
+        self:Dial(address)
+    end
+end
+
+--##################################
+--#### Duplicator Entity Modifiers (for the rings)
+--##################################
+--################# Sets a new value to one modifier @aVoN
+function ENT:SetEntityModifier(k, v)
+    self.Duplicator = self.Duplicator or {}
+    self.Duplicator[k] = v
+    duplicator.StoreEntityModifier(self.Entity, "RingBase", self.Duplicator)
+end
+
+-- FIXME: Maybe a recode? The PostEntityPaste etc functions are already used by Wire/RD2 so I do not want to override them.
+function ENT.DuplicatorEntityModifier(_, e, data)
+    if (data) then
+        for k, v in pairs(data) do
+            if (k == "Address") then
+                local allow = true
+
+                for _, ring in pairs(ents.FindByClass("ring_base_*")) do
+                    if (ring.Address == v) then
+                        allow = false
+                        break
+                    end
+                end
+
+                if (allow) then
+                    e:SetNWString("address", v)
+                    e.Address = v
+                end
+            end
+
+            e:SetEntityModifier(k, v)
+        end
+    end
+end
+
+duplicator.RegisterEntityModifier("RingBase", ENT.DuplicatorEntityModifier)
+
+function ENT:PostEntityPaste(ply, Ent, CreatedEntities)
+    if (StarGate.NotSpawnable(Ent:GetClass(), ply)) then
+        self.Entity:Remove()
+
+        return
+    end
+
+    StarGate.WireRD.PostEntityPaste(self, ply, Ent, CreatedEntities)
+end
+
+--######################## @AlexALX, aVoN -- snap gates to cap ramps
+function ENT:CartersRampsRing(t)
+    local e = t.Entity
+    if (not IsValid(e)) then return end
+    local RampOffset = StarGate.RampOffset.Ring
+    local mdl = e:GetModel()
+
+    if (RampOffset[mdl]) then
+        if (RampOffset[mdl][2]) then
+            self.Entity:SetAngles(e:GetAngles() + RampOffset[mdl][2])
+        else
+            self.Entity:SetAngles(e:GetAngles())
+        end
+
+        self.Entity:SetPos(e:LocalToWorld(RampOffset[mdl][1]))
+        self.Ramp = e
+        constraint.Weld(e, self.Entity, 0, 0, 0, true)
+        -- Is this needed?
+    end
+end
+
+--######################## Check if gate in ramp (for gatespawner) by AlexALX
+function ENT:CheckRamp()
+    for _, e in pairs(ents.FindInSphere(self.Entity:GetPos(), 20)) do
+        if (StarGate.Ramps.Ring[e:GetModel()]) then
+            constraint.Weld(self.Entity, e, 0, 0, 0, true)
+            break
+        end
+    end
+end
+
+-----------------------------------ANIM----------------------------------
+function ENT:Anim(up)
+    if not self.Anims then
+        if up then
+            local seq = self.Entity:LookupSequence("up")
+            self.Entity:ResetSequence(seq)
+            self.Anims = true
+
+            timer.Create("Anim" .. self:EntIndex(), 0.01, 1, function()
+                self.Anims = false
+            end)
+        else
+            local seq = self.Entity:LookupSequence("down")
+            self.Entity:ResetSequence(seq)
+            self.Anims = true
+
+            timer.Create("Anim" .. self:EntIndex(), 0.01, 1, function()
+                self.Anims = false
+            end)
+        end
+    end
+end

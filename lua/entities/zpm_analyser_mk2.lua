@@ -1,0 +1,414 @@
+
+ENT.Type = "anim"
+ENT.Base = "base_anim"
+ENT.PrintName = "ZPM Analyser MK II"
+ENT.Author = "Madman07, Rafael De Jongh"
+ENT.Contact = ""
+ENT.Purpose = ""
+ENT.Instructions = "May include Carter's toaster."
+ENT.Category = "Ascension Gates"
+if (SGLanguage!=nil and SGLanguage.GetMessage!=nil) then
+ENT.Category = SGLanguage.GetMessage("entity_main_cat");
+end
+list.Set("CAP.Entity", ENT.PrintName, ENT)
+ENT.ZPMHub = true -- AGP: the ZPM tool aimed at it hands the new ZPM over (Touch)
+if (StarGate ~= nil and StarGate.LifeSupportAndWire ~= nil) then
+	StarGate.LifeSupportAndWire(ENT)
+end
+
+if SERVER then
+	AddCSLuaFile()
+
+	ENT.Sounds = {
+		Place = Sound("tech/comstone_placestone.wav"),
+		Transfer = Sound("tech/comstone_transferminds.wav")
+	}
+
+	function ENT:Initialize()
+		self.Entity:SetModel("models/soren/zpm_analyzer/zpm_analyzer_mk2.mdl");
+		self.Entity:PhysicsInit(SOLID_VPHYSICS)
+		self.Entity:SetMoveType(MOVETYPE_VPHYSICS)
+		self.Entity:SetSolid(SOLID_VPHYSICS)
+		self.Entity:SetUseType(SIMPLE_USE)
+		self.Sound = CreateSound(self,Sound("weapons/atlantis_scanner.wav"));
+		local phys = self.Entity:GetPhysicsObject();
+		if(phys:IsValid())then
+			phys:EnableMotion(false);
+			phys:SetMass(2000);
+		end
+		self.Active = false
+		self.CanEject = true
+		self.Percentcomp = 0
+		self.Time = 0
+		self.Complete = 0
+
+		self.ZPM = {
+			On = false,
+			Ent = nil,
+			IsValid = false,
+			Dir = 1,
+			Dist = 1,
+			Eject = 0,
+			Type = "ZPH",
+			SoundIn = 0,
+			SoundOut = 0
+		}
+
+		self.Position = {
+			R = 0,
+			F = 0.8
+		}
+
+		self:CreateWireInputs("Activate","Eject ZPM")
+		self:CreateWireOutputs("Active","ZPM [ENTITY]","Progress %","Tainted")
+	end
+
+
+	function ENT:SpawnFunction(p,t)
+		if (not t.Hit) then return end
+		local ang = p:GetAimVector():Angle(); ang.p = 0; ang.r = 0; ang.y = (ang.y+90) % 360;
+		local pos = t.HitPos+Vector(0,0,0);
+		local e = ents.Create("zpm_analyser_mk2");
+		e:SetPos(pos);
+		e:SetAngles(ang);
+		e:DrawShadow(true);
+		e:SetVar("Owner",p)
+		e:Spawn();
+		e:Activate();
+		e.Owner = p;
+		return e;
+	end
+
+	function ENT:TurnOn()
+		self.Entity:SetNWBool("Active", true)
+		self.Sound:PlayEx(0.5,70)
+		self.Active = true
+		self.Entity:SetNWInt("Result",0)
+
+		self:SetWire("Active",1)
+		self:SetWire("Tainted",0)
+	end
+
+	function ENT:TurnOff()
+		self.Entity:SetNWBool("Active", false)
+		self.Sound:Stop()
+		self.Active = false
+
+		self:SetWire("Active",0)
+	end
+
+	function ENT:Use()
+		if (self.Active) then
+			self:TurnOff()
+		else
+			if(self.ZPM.Ent and IsValid(self.ZPM.Ent)) then
+				self:TurnOn()
+			end
+		end
+	end
+
+
+	function ENT:Touch(ent)
+    if (IsValid(ent) and (ent.AGPPlacing or 0) > CurTime()) then return end -- AGP: still being placed
+		local pos = self.Entity:GetPos()
+		local ang = self.Entity:GetAngles()
+
+		if (self.CanEject == true and ent.IsZPM and ent ~= self.ZPM.Ent) then
+			if (not self.ZPM.IsValid and self.ZPM.Eject == 0) then
+				self.ZPM.Ent = ent
+				self.ZPM.Dist = 1
+				self.ZPM.Dir = 1
+				self.ZPM.Type = "ZPH"
+				self.ZPM.IsValid = true
+				ent:SetUseType(SIMPLE_USE)
+
+				ent.Use = function()
+					local constr = constraint.FindConstraint(self, "Weld")
+
+					if (constr and IsValid(constr.Entity[1].Entity)) then
+						constr.Entity[1].Entity:EjectZPM()
+					end
+				end
+
+				-- AGP: placed and welded after the touch callback (collision changes inside it can crash)
+				ent.AGPPlacing = CurTime() + 0.3 -- no second touch before it sits
+				timer.Simple(0, function()
+				    if (not (IsValid(self) and IsValid(ent))) then return end
+				    constraint.RemoveAll(ent)
+    				ent:SetPos(pos + self.Entity:GetRight() * (self.Position.R) + self.Entity:GetUp() * (10) + self.Entity:GetForward() * (self.Position.F))
+    				ent:SetAngles(ang)
+				    constraint.Weld(self.Entity, ent, 0, 0, 0, true)
+				end)
+
+				self:SetWire("ZPM",ent)
+				self:SetWire("Progress %",self.Percentcomp)
+			end
+		end
+	end
+
+	function ENT:ZPMsMovement()
+		local pos = self.Entity:GetPos()
+		local ang = self.Entity:GetAngles()
+		local spd = 0.015
+
+		if (self.ZPM.IsValid and self.ZPM.Dist ~= self.ZPM.Dir) then
+			if (self.ZPM.Dist < 0) then
+				self.ZPM.Dist = 0
+			elseif (self.ZPM.Dist > 1) then
+				self.ZPM.Dist = 1
+			end
+
+			if (self.ZPM.Dir < self.ZPM.Dist) then
+				self.ZPM.Dist = self.ZPM.Dist - spd
+
+				if (self.ZPM.SoundIn == 1) then
+					self.Entity:EmitSound(self.Sounds.SlideIn, 60, 100)
+					self.ZPM.SoundIn = 2
+				end
+
+				if (self.ZPM.SoundOut == 2) then
+					self.ZPM.SoundOut = 0
+				end
+			elseif (self.ZPM.Dir > self.ZPM.Dist) then
+
+				self.ZPM.Dist = self.ZPM.Dist + spd
+
+				if (self.ZPM.SoundOut == 1) then
+					self.Entity:EmitSound(self.Sounds.SlideOut, 60, 100)
+					self.ZPM.SoundOut = 2
+				end
+
+				if (self.ZPM.SoundIn == 2) then
+					self.ZPM.SoundIn = 0
+				end
+			end
+
+			constraint.RemoveAll(self.ZPM.Ent)
+			self.ZPM.Ent:SetAngles(self.Entity:GetAngles())
+			self.ZPM.Ent:SetPos(pos + self.Entity:GetRight() * (self.Position.R) + self.Entity:GetUp() * (10 * self.ZPM.Dist) + self.Entity:GetForward() * (self.Position.F))
+			constraint.Weld(self.Entity, self.ZPM.Ent, 0, 0, math.floor(self.ZPM.Dist) * 5000, true)
+		end
+	end
+
+	-- AGP: a ZPM was only taken on a physics touch, which a ZPM spawned onto the frozen analyser (spawn menu) or set
+	-- down on it never made: take a loose one lying on it. Not the one just ejected until it was taken away.
+	local function loose(e)
+		return IsValid(e) and e.IsZPM and not IsValid(e:GetParent()) and not e:IsPlayerHolding() and not e.AGPInGoauldHub
+			and not (e.GetInHub and e:GetInHub()) and not IsValid(e.AGPHubShip)
+	end
+
+	function ENT:AGPOnTop(e)
+		local lp = self:WorldToLocal(e:WorldSpaceCenter())
+		local mn, mx = self:OBBMins(), self:OBBMaxs()
+		return lp.x > mn.x - 6 and lp.x < mx.x + 6 and lp.y > mn.y - 6 and lp.y < mx.y + 6 and lp.z > mn.z and lp.z < mx.z + 24
+	end
+
+	function ENT:AGPWatch()
+		if ((self.AGPNextScan or 0) > CurTime()) then return end
+		self.AGPNextScan = CurTime() + 0.5
+		local last = self.AGPEjected
+		if (IsValid(last) and not self:AGPOnTop(last)) then self.AGPEjected = nil; last = nil end
+		if (self.ZPM.IsValid or self.ZPM.Eject ~= 0 or not self.CanEject) then return end
+		for _, e in ipairs(ents.FindInSphere(self:WorldSpaceCenter(), self:BoundingRadius() + 30)) do
+			if (e ~= last and loose(e) and self:AGPOnTop(e)) then self:Touch(e) return end
+		end
+	end
+
+	function ENT:Think()
+		self:AGPWatch()
+		if(self.ZPM.IsValid and not IsValid(self.ZPM.Ent)) then
+			self.ZPM.IsValid = false
+			self.ZPM.On = false
+			self.CanEject = true
+			self.Percentcomp = 0
+		end
+
+		if self.Active then
+			if CurTime() > self.Time then
+				self.Percentcomp = math.Clamp(self.Percentcomp + math.floor(math.Rand(0.5, 5)) , 0, 100) 
+				self.Time = CurTime() + 0.2
+				self.Entity:SetNWInt("zpm_analyzer_percent",self.Percentcomp)
+			end
+			
+			self.Entity:SetNWInt("Percentage", self.Percentcomp)
+			self:SetWire("Progress %",self.Percentcomp)
+
+			if self.Percentcomp == 100 then
+				self:TurnOff()
+				if(self.ZPM.Ent.ZPMType == "tampered") then
+					self.Entity:SetNWInt("Result",1)
+					self:SetWire("Tainted",1)
+					-- AGP 2026-11-08: sg/scanner/deactivate2.wav does not exist (scan result was silent): a tainted ZPM warns
+					self:EmitSound("jumper/failbeep.mp3")
+
+					self.ZPM.Ent:SetNWInt("ZPMScannedTainted",1)
+				else
+					self.Entity:SetNWInt("Result",2)
+					self:SetWire("Tainted",0)
+					self:EmitSound("button/ancient_button1.wav") -- AGP 2026-11-08: was the missing sg/scanner/deactivate2.wav
+				end
+			end
+		end
+		self:ZPMsMovement()
+	end
+
+	function ENT:EjectZPM()
+		if (self.ZPM.Ent and IsValid(self.ZPM.Ent)) then
+			self.AGPEjected = self.ZPM.Ent -- AGP: not taken back in while it still lies on top
+			self.ZPM.Ent.Use = function() end
+			local phys = self.ZPM.Ent:GetPhysicsObject()
+
+			if (phys:IsValid()) then
+				constraint.RemoveAll(self.ZPM.Ent)
+			end
+
+			local mul = 3.2
+			self.CanEject = false
+
+			timer.Simple(1, function()
+				if (IsValid(self.Entity)) then
+					self.CanEject = true
+				end
+			end)
+
+			local pos = self.Entity:GetPos()
+			self.ZPM.Ent:SetPos(pos + self.Entity:GetRight() * (self.Position.R * mul) + self.Entity:GetUp() * (29.1 + 12) + self.Entity:GetForward() * (self.Position.F * mul))
+		end
+
+		self:TurnOff()
+		self.Entity:SetNWInt("Result",0)
+		self.Entity:SetNWInt("zpm_analyzer_percent",0)
+		self.Entity:SetNWInt("Percentage",0)
+		self:SetWire("ZPM",Entity(0))
+		self:SetWire("Progress %",0)
+		self:SetWire("Tainted",0)
+
+		self.ZPM.Ent = nil
+		self.ZPM.IsValid = false
+		self.ZPM.On = false
+		self.Percentcomp = 0
+	end
+
+	function ENT:TriggerInput(iname,value)
+		if(iname == "Activate") then
+			if(value >= 1) then
+				if(self.ZPM.Ent and IsValid(self.ZPM.Ent) and self.Active == false) then
+					self:TurnOn()
+				end
+			else
+				if(self.Active) then
+					self:TurnOff()
+				end
+			end
+		elseif(iname == "Eject ZPM") then
+			if(value >= 1) then
+				self:EjectZPM()
+			end
+		end
+	end
+
+	function ENT:OnRemove()
+		if (self.ZPM.IsValid) then
+			self:EjectZPM()
+		end
+	end
+end
+
+
+if CLIENT then
+
+	ENT.Device_hud = surface.GetTextureID("VGUI/resources_hud/tier_1")
+	function ENT:Draw()
+		local percentComplete = 0
+		if (IsValid(self.Entity)) then
+			percentComplete = self.Entity:GetNWInt("zpm_analyzer_percent",0)
+		end
+		self.Entity:DrawModel()
+		hook.Remove("HUDPaint", tostring(self.Entity) .. "zpm_a")
+		if (LocalPlayer():GetEyeTrace().Entity == self.Entity and EyePos():Distance(self.Entity:GetPos()) < 1024) then
+			hook.Add("HUDPaint", tostring(self.Entity) .. "zpm_a", function()
+				
+				
+				-- Set the position and size of the graph
+				local graphX, graphY = 100, 100
+				local graphWidth, graphHeight = 500, 300
+				local totalPoints = 200  -- Total number of points to draw
+
+				-- Calculate the number of points to draw based on percentComplete
+				local numPoints = math.floor(totalPoints * (percentComplete / 100))
+
+				-- Draw the background of the graph
+				surface.SetDrawColor(50, 50, 50, 200)  -- Dark grey background with some transparency
+				surface.DrawRect(graphX, graphY, graphWidth, graphHeight)
+
+				-- Draw the axes
+				surface.SetDrawColor(255, 255, 255, 255)  -- White color for axes
+				-- X-axis
+				surface.DrawLine(graphX, graphY + graphHeight / 2, graphX + graphWidth, graphY + graphHeight / 2)
+				-- Y-axis
+				surface.DrawLine(graphX + graphWidth / 2, graphY, graphX + graphWidth / 2, graphY + graphHeight)
+
+				-- Plot the points for the sine function
+				for i = 0, numPoints do
+					local x = i / totalPoints * graphWidth
+					local y = math.sin(i / totalPoints * math.pi * 2) * (graphHeight / 2)  -- Sine function
+					local pointX = graphX + x
+					local pointY = graphY + (graphHeight / 2) - y
+
+					if percentComplete == 100 then
+						-- Draw the point
+						if (i < 80 and i > 60) or (i > 110 and i < 120) then
+							surface.SetDrawColor(255, 0, 0)  -- Green color for points
+						else
+							surface.SetDrawColor(0, 255, 0, 255)  -- Green color for points
+						end
+					else
+						surface.SetDrawColor(0, 255, 0, 255)  -- Green color for points
+					end
+					surface.DrawRect(pointX - 2, pointY - 2, 4, 4)  -- Draw a small square for each point
+				end
+			end)
+		end
+
+		local Online = self:GetNWBool("Active")
+
+		if (Online) then
+			self:DynLight(true)
+		elseif ((not (Online))) then
+			self:DynLight(false)
+		end
+	end
+
+
+	function ENT:DynLight()
+		local percentComplete = 0
+		if (IsValid(self.Entity)) then
+			percentComplete = self.Entity:GetNWInt("zpm_analyzer_percent",0)
+		end
+		local pos = self:GetPos() + self:GetUp() * 15 + self:GetUp() * (math.sin(CurTime()*2)*5)
+		local pos2 = self:GetPos() + self:GetUp() * (percentComplete/5)
+		local Online = self:GetNWBool("Active",false)
+
+
+		if (IsValid(self)) then
+			if (Online) then
+				local dynlight = DynamicLight(self:EntIndex() + 4096)
+				dynlight.Pos = pos2
+				dynlight.Brightness = 15
+				dynlight.Size = 14
+				dynlight.Decay = 1024
+				dynlight.R = 25
+				dynlight.G = 255
+				dynlight.B = 255
+				dynlight.DieTime = CurTime() + 1
+			end
+		end
+	end
+
+
+	function ENT:OnRemove()
+		hook.Remove("HUDPaint", tostring(self.Entity) .. "zpm_a")
+	end
+
+
+end

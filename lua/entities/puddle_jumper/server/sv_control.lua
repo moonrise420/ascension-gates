@@ -1,0 +1,202 @@
+ENT.PlayerColor = Color(255,255,255,255);
+function ENT:ExitJumper() --################# Get out the jumper@RononDex
+	if (self.Autopilot) then self:AutoPilot(false) end -- AGP: the autopilot ends with the pilot (the next one had every key blocked)
+	if (IsValid(self.Pilot)) then
+		StarGate.KeyBoard.ResetKeys(self.Pilot,"PuddleJumper");
+
+		self.Pilot:UnSpectate()
+		self.Pilot:DrawViewModel(true)
+		self.Pilot:DrawWorldModel(true)
+		if (AGP and AGP.ShipRespawnPilot) then AGP.ShipRespawnPilot(self.Pilot) else self.Pilot:Spawn() end -- AGP 2026-11-08: keeps armour and ammo, no Ha'tak bunk move (agp_ship_shield.lua)
+		self.Pilot:SetNWBool("isFlyingjumper",false)
+		if(IsValid(self.PilotAvatar)) then self.PilotAvatar:Remove() end -- AGP: the pilot figure sat on the exit spot (it blocked the cabin: you were put outside)
+		-- AGP: behind the pilot seat in the cabin; if that spot is taken, further back, then the middle of the cabin
+		local spot
+		for _, back in ipairs({ -25, -60, 0, -95 }) do
+			local want = self:GetPos()+self:GetForward()*back+self:GetUp()*-40
+			spot = AGP and AGP.PlayerStandSpot and AGP.PlayerStandSpot(want, self.Pilot, nil, 40, 120)
+			if (spot) then break end
+		end
+		local want = self:GetPos()+self:GetForward()*-25+self:GetUp()*-40
+		self.Pilot:SetPos(spot or (AGP and AGP.ShipExitSpot and AGP.ShipExitSpot(self, self.Pilot, want, true)) or want) -- AGP: a free spot (outside only if the cabin is full)
+		self.AllowActivation=false
+		self.Pilot:SetHealth(self.health)
+		self.Pilot:SetMoveType(MOVETYPE_WALK);
+		self.Pilot:SetCollisionGroup(COLLISION_GROUP_PLAYER);
+		self.Pilot:SetNetworkedEntity("ScriptedVehicle", NULL)
+		self.Pilot:SetViewEntity(NULL)
+        self.Pilot:SetCollisionGroup(COLLISION_GROUP_PLAYER);
+        self.Pilot:SetColor(self.PlayerColor);
+		for k,v in pairs(self.PWeapons) do
+			self.Pilot:Give(tostring(v))
+		end
+		self.Pilot = nil;
+	end
+    
+    if(IsValid(self.PilotAvatar)) then
+        self.PilotAvatar:Remove(); 
+    end
+
+	if(IsValid(self)) then
+		self:EmitSound(self.Sounds.Shutdown,100,100)
+		self:SetNetworkedEntity("jumper",NULL)
+		self.HoverPos = self:GetPos();
+		self:SetWire("Driver",NULL)
+
+		self:RemoveDrones() -- Remove the drone props... SO MANY BUGS BECAUSE OF THESE THINGS!
+		self.Roll=0
+		self.LiftOff = false
+		self.Inflight=false
+		self.Accel.FWD = 0;
+		self.Accel.RIGHT = 0;
+		self.Accel.UP = 0;
+
+		self:SetNWBool("JumperInflight",false);
+
+		self:SpawnToggleButton(self.Owner);
+		self:SpawnBulkHeadDoor(nil,self.Owner);
+		self:SpawnBackDoor(nil,self.Owner);
+		if(self.door) then
+			self.Door:SetSolid(SOLID_NONE);
+		end
+		self:SpawnOpenedDoor(self.Owner);
+
+		self:ToggleRotorwash(false);
+
+		if(self.epodo) then
+			self.CanDoPods = false
+			self.sequence = self:LookupSequence("epodc")
+			self:EmitSound(self.Sounds.EnginePodClose,100,100)
+			self.Roll = 0
+			self:RemoveDrones()
+			self.CloakPods = false;
+			timer.Simple( 1, function() if not IsValid(self) then return end
+				self.epodo = false
+			end)
+		
+			self:ResetSequence(self.sequence)
+			self:SetPlaybackRate(0.9)
+			self.NextUse.EnginePods = CurTime() + self:SequenceDuration(self.sequence)
+		end
+
+		timer.Simple( 0.75, function() if not IsValid(self) then return end
+			self.AllowActivation = true
+		end);
+	end
+
+end
+
+function ENT:AutoPilot(b)
+	
+	if(b) then
+		if self.Autopilot then return end;
+		local gate = self:FindGate(5000);
+		if(IsValid(gate)) then
+			if((self:GetPos()-gate:GetPos()):DotProduct(gate:GetForward()) > 0) then
+			
+				local Dist = self:WorldToLocal(gate:GetPos()).x;
+				if(Dist < 600) then Dist = 600 end;
+				self.AutoAlignPos = gate:GetPos()+gate:GetForward()*Dist;
+				
+				
+				local gateRoll = gate:GetAngles().r;
+				self.AutoAlignAng = gate:GetAngles() + Angle(180,0,-180-gateRoll*2);
+				
+				self.Autopilot = true;
+				self.AutoGate = gate;
+				AGP.Say(self.Pilot, "agp_jumper_autopilot_on", "Autopilot engaged");
+				
+				if(self.epodo) then
+					self:TogglePods();
+				end
+				
+				if(self.Cloaked) then
+					self:ToggleCloak();
+				end
+				
+				if(self.Shielded) then
+					self:ToggleShield();
+				end
+				
+				if(self.door) then
+					self:ToggleDoor();
+				end
+			else
+				AGP.Say(self.Pilot, "agp_jumper_autopilot_front", "Please move to the front of the Stargate");
+			end
+		else
+			AGP.Say(self.Pilot, "agp_jumper_autopilot_range", "You are not in range of a Stargate");
+		end
+	else
+		self.AutoAlignPos = nil;
+		self.AutoAlignAng = nil;
+		self.Autopilot = false;
+		self.AutoGate = NULL;
+		self.FinalAlignment = false;
+		AGP.Say(self.Pilot, "agp_jumper_autopilot_off", "Autopilot disengaged");
+	end
+
+end
+
+
+function ENT:EnterJumper(ply) --############### Get in the jumper @ RononDex
+	self.RequireATAGene = StarGate.CFG:Get("cap_enhanced_cfg","ATA_gene_active",false);
+
+	if self.RequireATAGene and StarGate.HasATA(ply,true) == false then return end
+
+	if(self.AllowActivation) then
+		self:GetPhysicsObject():Wake()
+		self:GetPhysicsObject():EnableMotion(true)
+		self.Inflight = true
+		self.Pilot=ply
+		self:SetWire("Driver",self.Pilot)
+		self.Roll=0
+		if(self.BulkHead) then
+			self:ToggleBulkHead()
+		end
+
+		if(not self.Cloaked) then
+			self:ToggleRotorwash(true)
+		end
+
+		ply:SetNetworkedEntity("ScriptedVehicle", self) -- still needed for event horizon
+		ply:SetViewEntity(self)
+
+		for _,v in pairs(ply:GetWeapons()) do
+			table.insert(self.PWeapons, v:GetClass())
+		end
+		self.health=ply:Health()
+
+		self.AllowActivation=false
+		self.LiftOff = true
+		self:EmitSound(self.Sounds.Startup, 100, 100)
+		ply:DrawViewModel(false)
+		ply:DrawWorldModel(false)
+
+		self.StartPos = self:GetPos()
+
+		self:RemoveAll(); -- We need to remove all welded props in order to go through gates properly.
+
+		ply:Spectate( OBS_MODE_CHASE )
+		ply:StripWeapons()
+
+		ply:SetNWBool("isFlyingjumper",true)
+		ply:SetNetworkedEntity("jumper",self)
+		self:SetNWBool("JumperInflight",true);
+        self.PlayerColor = ply:GetColor() or Color(255,255,255,255);
+		ply:SetRenderMode(RENDERMODE_TRANSALPHA);
+		ply:SetColor(Color(255,255,255,0));
+        ply:SpectateEntity(self);
+		ply:SetMoveType(MOVETYPE_OBSERVER);		
+		ply:SetCollisionGroup(COLLISION_GROUP_WEAPON);
+		ply:SetEyeAngles(self:GetAngles());
+        if(!self.Cloaked) then self:SpawnPilot(self:GetPos()+self:GetForward()*47.5+self:GetUp()*-17.5+self:GetRight()*-32.5) end;
+		ply:Flashlight(false);
+		
+	end
+	self.Entered=true
+	timer.Simple( 0.75, function() if not IsValid(self) then return end
+		self.AllowActivation=true
+		self.LiftOff=false
+	end)
+end
