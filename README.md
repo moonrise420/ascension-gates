@@ -10,7 +10,7 @@ Ascension Gates is based on Carter's Addon Pack and CAP Enhanced. It adds bug fi
 **By hand:** download all four zips from [Releases](../../releases/latest) and unpack them into `garrysmod/addons/`:
 `ascension_gates-1.0.1.zip` (the code) and `ascension_gates_res1`, `_res2`, `_res3` (models, sounds, maps and
 materials, 2.9 GB together - that is why they are release files and not part of this repository). It also needs
-[PowerGrid](https://github.com/moonrise420/powergrid) and [Wiremod](https://github.com/wiremod/wire).
+[PowerGrid](https://github.com/moonrise420/powergrid); [Wiremod](https://github.com/wiremod/wire) for Wire and E2.
 
 ## Bugs, problems and wishes
 Please use [Issues](../../issues): pick *Bug report* or *Wish or idea*. On the Steam Workshop page the comments work too.
@@ -40,12 +40,12 @@ Please use [Issues](../../issues): pick *Bug report* or *Wish or idea*. On the S
 ## What's inside
 
 ### Stargates and rings
-- Milky Way, Pegasus, Universe, Supergate, Movie, Infinity, Orlin, Tollan, Alteran, Asuran and Virgo gates
+- Milky Way (SG-1), Pegasus (Atlantis), Universe, Supergate, Movie, Infinity, Orlin, Tollan, Alteran and Virgo gates
 - DHDs, iris and Goa'uld iris, iris computer, GDO, mobile DHD
 - Ring transporters with panels and a hand-held ring caller
 
 ### Ships
-- **Ha'tak** you can walk through: five decks, pel'tak, gate room, glider bay, barracks, sarcophagus. Power crystals feed every system - pull one and that system gets weaker. Strangers can steal the ship with the control crystal.
+- **Ha'tak** you can walk through (where the map has room for it): five decks, pel'tak, gate room, glider bay, barracks, sarcophagus. Power crystals feed every system - pull one and that system gets weaker. Strangers can steal the ship with the control crystal, unless the server switches that off.
 - Death Glider, Al'kesh, Tel'tak, Puddle Jumper, F-302, Daedalus, Wraith Dart
 - Aurora, Destiny, O'Neill, Prometheus, Ori Mothership, Wraith Cruiser, Replicator Mothership, Traveler, Gate Seeder
 - Hyperspace windows, shields, cloaks
@@ -56,7 +56,7 @@ Please use [Issues](../../issues): pick *Bug report* or *Wish or idea*. On the S
 - Only three things finish them: the Dakara weapon, the ARG and an opening gate's kawoosh
 
 ### Weapons and gear
-Zat'nik'tel, staff weapon, hand device, healing device, P90, Beretta, Ori staff, Wraith blaster, Ronon's gun, Asuran gun, Tac, personal shield, Sodan cloak, mimetic imaging device and the Ancient control chair with drones.
+Zat'nik'tel, staff weapon, hand device, healing device, SGC PDW (P90), SGC Sidearm (Beretta), Ori staff, Wraith blaster, Ronon's gun, Asuran gun, Tac, personal shield, Sodan cloak, mimetic imaging device and the Ancient control chair with drones.
 
 ### Power and life support
 ZPMs, naquadah generators and the Goa'uld power hub run on **PowerGrid**. In space there is no air and it is cold: suits, life support and a short report of what waits behind a gate before you step through.
@@ -86,7 +86,7 @@ Ascension Gates already includes their parts, under the same file names. Please 
 4. Walk through.
 
 ## Privacy
-Ascension Gates collects nothing. The only time it goes online is when you press "Check for updates" - then it asks GitHub for the newest version number and sends nothing about you.
+Ascension Gates collects nothing. From the Workshop it never goes online - Steam keeps it up to date. Installed by hand from GitHub, it has a "Check for updates" button: that asks GitHub for the newest version number and sends nothing about you.
 
 ---
 
