@@ -127,6 +127,18 @@ local function expand(nd)
 	return nb
 end
 
+-- a point read from the saved map: is its surface still there? (owner 2026-11-18, freespace13: "crawling up in the air as
+-- if there was a pillar but there was none" - every first climb at the building went 340 up a wall of saved points with
+-- nothing there, then fell. Whatever stood there once - a test's block, a changed map - is gone.) Looked at once, the
+-- first time a way comes by it; a dead one is never used and not saved again
+local function alive(nd)
+	if nd.ok ~= nil then return nd.ok end
+	local t = tr(nd.p + nd.n * H, nd.p - nd.n * (H + 6))
+	nd.ok = (t.Hit and not t.StartSolid and t.HitNormal:Dot(nd.n) > 0.7) and true or false
+	if not nd.ok then nd.nb = {} G.dead = (G.dead or 0) + 1 end
+	return nd.ok
+end
+
 -- the surface nearest a point (a goal on a roof, a wall over a door, a ceiling)
 local AX = { Vector(0, 0, -1), Vector(0, 0, 1), Vector(1, 0, 0), Vector(-1, 0, 0), Vector(0, 1, 0), Vector(0, -1, 0) }
 local function surfaceAt(p, first)
@@ -208,10 +220,12 @@ function G.Plan(pos, up, goal)
 	local n = 0
 	while #open > 0 do
 		local nd = pop(open)
-		if not closed[nd.k] then
+		if not closed[nd.k] and (not nd.loaded or alive(nd)) then
 			closed[nd.k] = true
 			local d = nd.p:Distance(gp)
-			if d < bestD then best, bestD = nd, d end
+			-- (as far as it gets, for a way not all the way: never a point with the goal behind its surface - under the slab
+			-- the goal stands on, 16 from it: the way ended there and the bug hung under it, owner 2026-11-18)
+			if d < bestD and (gp - nd.p):Dot(nd.n) > -4 then best, bestD = nd, d end
 			if d < S * 0.8 and not tr(nd.p + nd.n * 4, gp + gn * 4).Hit then found = nd break end
 			n = n + 1
 			if n > MAXX then break end
@@ -344,7 +358,7 @@ local function r2(x) return math.Round(x, 3) end
 function G.Save()
 	local list, idx = {}, {}
 	local function take(nd) if not idx[nd] then list[#list + 1] = nd idx[nd] = #list end end
-	for _, nd in pairs(G.nodes) do if nd.nb and not nd.prop then take(nd) for _, l in ipairs(nd.nb) do take(l[1]) end end end
+	for _, nd in pairs(G.nodes) do if nd.nb and not nd.prop and nd.ok ~= false then take(nd) for _, l in ipairs(nd.nb) do if l[1].ok ~= false then take(l[1]) end end end end
 	if #list == 0 or #list > 200000 then return 0 end
 	local out = { "agpsurf 1" }
 	for i, nd in ipairs(list) do
@@ -352,10 +366,10 @@ function G.Save()
 		local line = r1(p.x) .. " " .. r1(p.y) .. " " .. r1(p.z) .. " " .. r2(n.x) .. " " .. r2(n.y) .. " " .. r2(n.z)
 		if nd.nb and not nd.prop then
 			local ls = {}
-			for _, l in ipairs(nd.nb) do
+			for _, l in ipairs(nd.nb) do if idx[l[1]] then
 				local v = l[3]
 				ls[#ls + 1] = idx[l[1]] .. " " .. r1(l[2]) .. (v and (" " .. r1(v.x) .. " " .. r1(v.y) .. " " .. r1(v.z)) or "")
-			end
+			end end
 			line = line .. "|" .. table.concat(ls, ";")
 		end
 		out[i + 1] = line
@@ -379,6 +393,7 @@ function G.Load()
 		local x, y, z, nx, ny, nz = a:match("^(%S+) (%S+) (%S+) (%S+) (%S+) (%S+)")
 		if x then
 			local nd = node(Vector(tonumber(x), tonumber(y), tonumber(z)), Vector(tonumber(nx), tonumber(ny), tonumber(nz)))
+			nd.loaded = true
 			list[#list + 1] = nd
 			links[#list] = l
 		end

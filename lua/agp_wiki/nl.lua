@@ -44,7 +44,7 @@ pages = {
 - [Q] > Ascension Gates > **Poorten en ringen**: gates, DHD's, ringen en ringpanelen.
 - Gereedschap ([Q] > rechterkant > Ascension Gates > Tech): Mobiele DHD, Supergate-DHD, Iris, Goa'uld-iris.
 # Kiezen met de DHD
-1. Zet de DHD dicht bij de gate (dichterbij dan 1000).
+1. Zet de DHD dicht bij de gate (dichterbij dan 1000 eenheden).
 2. Kijk naar een glyph op de DHD en druk op [E]: ze licht op.
 3. Druk alle glyphs van het adres in, dan de grote knop in het midden.
 - Middenknop zonder ingedrukte glyphs: het kiesmenu opent.
@@ -59,11 +59,11 @@ pages = {
 - **Iris Computer** (Poorten en ringen): houd hem tegen een gate met iris, [E] = menu (codes, automatisch sluiten).
 - **GDO** (wapen): rechtsklik = je code typen, linksklik = naar een open gate sturen.
 # Ringen
-- Ringplatform + ringpaneel, dicht bij elkaar (het paneel werkt voor ringen binnen 500).
+- Ringplatform + ringpaneel, dicht bij elkaar (het paneel werkt voor ringen binnen 500 eenheden).
 - [E] op een paneelknop drukt hem in. **DIAL** zonder cijfers = naar de dichtstbijzijnde ringen. Met cijfers = naar dat ringadres.
 - [E] op de ringbasis: geef hem een naam (adres).
 - **Ring Caller** (wapen): linksklik roept de dichtstbijzijnde ringen, rechtsklik opent het kiesvenster.
-! Ringen pletten je als je stilstaat waar ze neerkomen. Stap op het platform of stap ervan weg.
+! Ringen pletten je als je stilstaat waar ze neerkomen. Ga in het midden van het platform staan of stap ervan af.
 ]] },
 
 { id = "hatak", title = "Ha'tak moederschip", icon = "icon16/house.png", body = [[
@@ -121,7 +121,7 @@ pages = {
 1. Druk op [R] in de pilotenstoel (of [E] op de navigatieconsole).
 2. Kies een doel: opgeslagen merken, een Stargate of een andere speler. Of typ x y z.
 3. Klik op **Jump**. Het schip laadt op (3 s), een venster opent, je vliegt erdoorheen.
-- **Save mark 1/2/3 here** onthoudt de plek.
+- **Markering 1/2/3 hier** onthoudt de plek.
 - Heeft 30 % hyperdrive-power nodig. 8 s pauze tussen sprongen.
 # Wapens
 - [E] op de **wapenconsole**: radar van bovenaf en een lijst met doelen.
@@ -191,14 +191,14 @@ pages = {
 - Muis: sturen.
 - [1]: cockpitzicht aan / uit.
 - Geen toets: hij blijft op zijn plek in de lucht.
-- [Mouse1]: beide staafkanonnen afvuren.
+- [Mouse1]: beide stafkanonnen afvuren.
 - Muiswiel: rollen. [Mouse3]: terug rollen naar waterpas.
 - Pijltjestoetsen: cameraafstand en -hoogte.
 - [Backspace]: zelfvernietiging.
 # Vrije vlucht (serverinstelling)
 - Met **agp_glider_free_flight 1**: [S] achteruit, [A] / [D] opzij, [Space] omhoog, [Ctrl] omlaag.
 # HUD
-- Linksonder: romp, snelheid, staafkanonnen, de toetsen.
+- Linksonder: romp, snelheid, stafkanonnen, de toetsen.
 - 300 romp. Bij 0 ontploft hij.
 > Toetsen veranderen: {page:keys|Toetsen veranderen}.
 ]] },
@@ -216,7 +216,7 @@ pages = {
 - Dezelfde toetsen als de Al'kesh. Ook [Mouse2] doel volgen, [G] schild.
 # Kleine schepen
 - **Puddle Jumper:** [Mouse1] drones (opent de pods zelf), [Mouse2] ingedrukt houden = drones volgen je richtpunt, [Alt] cloak, [2] deur, [T] zweven, [G] schild, [R] dichtstbijzijnde poort kiezen.
-- **Tel'tak:** [Mouse2] staafkanonnen, [G] schild, [Alt] cloak, houd [R] ingedrukt: hyperspace, [2] deur. Ringstraal: [Enter] (landingsmodus), dan [Mouse1].
+- **Tel'tak:** [Mouse2] stafkanonnen, [G] schild, [Alt] cloak, houd [R] ingedrukt: hyperspace, [2] deur. Ringstraal: [Enter] (landingsmodus), dan [Mouse1].
 - **F-302:** [Mouse1] kanonnen, [Mouse2] raketten, [Alt] afleidingsvuurwerk, [B] boost, [2] schietstoel.
 - **Daedalus:** [Mouse1] railguns, [Mouse2] Asgard-straal, [1] tot [8] raketten.
 - **Wraith Dart:** [C] mensen oppakken, [Alt] ze weer loslaten.
@@ -236,7 +236,7 @@ pages = {
 3. Richt waar het moet staan. Je ziet er een schim van.
 4. Linksklik [Mouse1]: geplaatst. Rechtsklik [Mouse2]: 90 graden gedraaid geplaatst.
 - Richt op een deel en druk op [R]: dat deel is gekozen.
-- Op een schip of prop wordt het vastgelast aan waar je op richt (vakje **Weld to what I aim at**).
+- Op een schip of prop wordt het vastgelast aan waar je op richt (vakje **Lassen aan waar je op richt**).
 # De delen
 - **Energiecellen (XS tot XL):** slaan energie op.
 - **Zonnepanelen:** maken energie zolang er open lucht boven is.
@@ -252,7 +252,7 @@ pages = {
 - **Manual:** gereedschap **PowerGrid-koppeling**: linksklik op de delen (ze worden blauw), rechtsklik op het deel of de powernode waaraan ze koppelen. [R] wist de selectie; [R] op een deel haalt zijn koppelingen weg.
 - **Automatic:** delen die aan elkaar vastgelast zijn, delen vanzelf.
 - **Off:** alles heeft vrije energie.
-! Spacebuild geïnstalleerd? Dan wordt het netwerk van Spacebuild gebruikt. Onze powernodes zijn dan Spacebuild-nodes: koppel met het gereedschap PowerGrid-koppeling. Admins kunnen **Altijd PowerGrid** aanzetten.
+! Spacebuild geïnstalleerd? Dan wordt het netwerk van Spacebuild gebruikt. De powernodes van PowerGrid werken dan als Spacebuild-nodes: koppel met het gereedschap PowerGrid-koppeling. Admins kunnen **Altijd PowerGrid** aanzetten.
 # Energiebronnen
 - **ZPM:** gereedschap **ZPM MK III**. Zet hem in een ZPM-hub of een {page:goauldpower|Goa'uld powerhub}.
 - **Naquadah-generator:** gereedschap onder Energy.
@@ -275,7 +275,7 @@ pages = {
 - Kijk naar de hub: een klein plaatje toont kristallen en energie.
 > Een ZPM geeft tien keer de power van een kristal en drijft de kern harder aan.
 # Schuif in het gereedschap
-- **Crystal charge:** hoe vol nieuwe kristallen zijn (0 tot 100 %).
+- **Kristallading:** hoe vol nieuwe kristallen zijn (0 tot 100 %).
 ]] },
 
 { id = "lifesupport", title = "Levensondersteuning en ruimte", icon = "icon16/heart.png", body = [[
@@ -303,20 +303,20 @@ pages = {
 = Je vindt ze bij [Q] > Ascension Gates > Wapens. Mouse1 = hoofdgebruik, Mouse2 = tweede gebruik.
 # Goa'uld
 - **Zat'nik'tel:** 1e schot verdooft, 2e doodt, 3e laat het verdwijnen.
-- **Staff weapon:** [Mouse2] klaarmaken, [Mouse1] vuren.
-- **Hand device:** [Mouse1] gebruiken, [Mouse2] volgende modus.
-- **Healing device:** houd op een speler om te genezen.
+- **Stafwapen:** [Mouse2] klaarmaken, [Mouse1] vuren.
+- **Handapparaat:** [Mouse1] gebruiken, [Mouse2] volgende modus.
+- **Geneesapparaat:** houd op een speler om te genezen.
 - **Mobile DHD:** zet het op een gate.
 # Aarde (SGC)
 - **P90 (PDW):** [Mouse1] vuren, [Mouse2] richten, [R] herladen.
 - **Beretta:** [Mouse1] vuren, [R] herladen.
 - **GDO:** [Mouse2] code typen, [Mouse1] sturen.
 # Overige
-- **Ori hand weapon / staff, Wraith blaster, Ronon's gun, Asuran gun.**
+- **Ori-handwapen en Ori-staf, Wraith-verdover, Ronons wapen, Asuraans wapen.**
 - **Tac:** gooien, nog eens = laten ontploffen. [Mouse2] doden / verdoven / rook.
-- **Repair tool:** houd op een schip, gate of DHD om het te repareren.
+- **Reparatiegereedschap:** houd op een schip, gate of DHD om het te repareren.
 - **Controlestoel (Ancient, spawn-tab Wapens):** [E] om te gaan zitten (heeft een opgeladen ZPM in zijn hub nodig). [1] = doellijst: vergrendel de drones op een doel, of richt vrij.
-- **Personal shield, Sodan cloak:** [Mouse1] aan, [Mouse2] uit.
+- **Persoonlijk schild, Sodan-camouflage:** [Mouse1] aan, [Mouse2] uit.
 - **Mimetisch beeldapparaat:** houd [Mouse1] op een persoon vlak voor je om die af te beelden, [Mouse2] projectie aan / uit, [R] beeld wissen.
 ]] },
 
@@ -336,23 +336,23 @@ pages = {
 { id = "admin", title = "Instellingen voor admins", icon = "icon16/shield.png", body = [[
 = Admins (en jij in singleplayer) veranderen de serverinstellingen. Alle anderen zien ze alleen. Houd de muis boven een instelling voor een korte tip.
 # Scheepsinstellingen: [Q] > Ascension Gates > Config > AGP-schepen
-- **Hijacking:** alleen bemanning / met het controlekristal / iedereen.
-- **Weapons fire at owner and friends:** ja of nee.
-- **Weapon + radar range:** hoe ver de kanonnen schieten en de radar ziet.
-- **Radar: most targets shown.**
-- **Power crystals strangers may pull:** 0 tot 15 (standaard 2). De bemanning heeft geen limiet.
-- **Ship can be destroyed:** ja (standaard) of nee (de romp blijft op 1).
-- **Hull health (new ships):** 10.000 tot 1.000.000 (standaard 100.000).
-- **Cloak allowed:** ja of nee.
-- **Glider bay: lost gliders come back:** ja of nee, en na hoeveel seconden (standaard 60).
-- **Shield bubble (all ships):** alleen bij een treffer en bij het in- of uitschakelen (standaard), of altijd zichtbaar.
-- **Self-destruct countdown (all ships):** 1 tot 600 seconden (standaard 5).
+- **Kapen:** alleen bemanning / met het controlekristal / iedereen.
+- **Wapens schieten op eigenaar en vrienden:** ja of nee.
+- **Bereik wapens + radar:** hoe ver de kanonnen schieten en de radar ziet.
+- **Radar: maximaal getoonde doelen.**
+- **Energiekristallen die vreemden mogen uittrekken:** 0 tot 15 (standaard 2). De bemanning heeft geen limiet.
+- **Schip kan vernietigd worden:** ja (standaard) of nee (de romp blijft op 1).
+- **Rompsterkte (nieuwe schepen):** 10.000 tot 1.000.000 (standaard 100.000).
+- **Camouflage toegestaan:** ja of nee.
+- **Zweefhangar: verloren zwevers komen terug:** ja of nee, en na hoeveel seconden (standaard 60).
+- **Schildbel (alle schepen):** alleen bij een treffer en bij het in- of uitschakelen (standaard), of altijd zichtbaar.
+- **Zelfvernietiging: aftellen (alle schepen):** 1 tot 600 seconden (standaard 5).
 # Power-instellingen: [Q] > PowerGrid > Instellingen > PowerGrid
-- **How parts connect:** Manual / Automatic / Mix / Off. Zie {page:spacegrid|PowerGrid}.
+- **Hoe onderdelen verbinden:** Handmatig / Automatisch / Mix / Uit. Zie {page:spacegrid|PowerGrid}.
 - **Altijd PowerGrid:** PowerGrid gebruiken, ook met Spacebuild (vraagt een mapwissel).
 - **Zwarte-gat-energie:** alleen admins of iedereen.
-- **Space simulation:** alleen ruimtemaps / elke map / uit. Zie {page:lifesupport|Levensondersteuning}.
-- **Gate destination report:** aan of uit.
+- **Ruimtesimulatie:** alleen ruimtemaps / elke map / uit. Zie {page:lifesupport|Levensondersteuning}.
+- **Bestemmingsrapport van de gate:** aan of uit.
 # Alleen voor jou (elke speler)
 - Kabels, machinegeluiden, gaterapport op je scherm, eenheden voor afstand, temperatuur en zwaartekracht.
 ]] },
@@ -376,7 +376,7 @@ pages = {
 - Doorgangen in scheepsinterieurs laten je niet door als de andere kant dicht is. Open eerst de deur.
 - Nog steeds vast: noclip ([V]) of respawn.
 # Een gereedschap toont tekst zoals #tool.something.name
-- Er mist een tekst. Vertel ons alsjeblieft welk gereedschap het is.
+- Er mist een tekst. Vertel me alsjeblieft welk gereedschap het is.
 ]] },
 
 },

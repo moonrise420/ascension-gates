@@ -34,7 +34,7 @@ stargate_settings_09 = Çoklu dil kütüphanesi AlexALX tarafından yapıldı.
 // Entity'ler, silahlar, araçlar
 entity_destiny_node = Destiny Düğümü
 entity_imcd = IMCD
-weapon_tac = Tac
+weapon_tac = TAC
 weapon_wraith_grenade = Wraith El Bombası
 weapon_misc_lucian_door_opener = Lucian Kapı Açıcı
 weapon_misc_lucian_door_opener_desc = Destiny kapılarını açar\n\nCihazı yerleştirmek için sol tıkla
@@ -169,7 +169,7 @@ antiprior_c_3 = Hiç kimse
 sgcscreen_title = Yıldız Geçidi Komutanlığı - Kod Yöneticisi
 sgcscreen_code = Kod
 sgcscreen_dcode = Kendini imha kodu
-sgcscreen_rcode = Sıfırlama kodu
+sgcscreen_rcode = Durdurma kodu
 sgcscreen_desc = Açıklama
 sgcscreen_save = Kaydet
 sgcscreen_cancel = İptal

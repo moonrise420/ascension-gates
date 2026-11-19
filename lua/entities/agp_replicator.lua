@@ -51,6 +51,12 @@ ENT.RepSwing = 22           -- client: leg swing / lift (degrees)
 ENT.RepLift = 16
 ENT.RepLegs = { "leg_l1", "leg_r1", "leg_l2", "leg_r2" }
 ENT.RepGait = { leg_l1 = 0, leg_r2 = 0, leg_r1 = 1, leg_l2 = 1 }   -- diagonal pairs, like a trotting animal
+-- client: where each leg's hip and foot are in the model (its source, notes/models/build_replicator/agp_replicator.smd) -
+-- each foot finds its own ground (ENT:ClFeet)
+ENT.RepFeet = {
+	HIP = { leg_l1 = Vector(0.2282, 3.2138, 11.0095), leg_l2 = Vector(0.1014, 9.1825, 11.0095), leg_r1 = Vector(-0.2281, 3.2138, 11.0095), leg_r2 = Vector(-0.1014, 9.1824, 11.0095) },
+	FOOT = { leg_l1 = Vector(6.9142, -14.5892, 0.0337), leg_l2 = Vector(18.4658, 14.1183, 0.0337), leg_r1 = Vector(-6.7184, -14.6605, 0.0337), leg_r2 = Vector(-18.5197, 13.917, 0.0337) },
+}
 
 -- (owner 2026-11-06: "why are they colliding so much - with the world and each bug with itself?"): Replicator bodies
 -- do not push each other - they keep their distance by their own rule (Think) - pushed bodies knocked the waiting
@@ -135,6 +141,8 @@ if SERVER then
 	-- A bug walks like a spider: up walls, over edges, along ceilings (its "up" is the surface's normal); the Queen
 	-- (RepClimb = false) stays on the ground and stops at ledges.
 	R.WALK_BUDGET = 4   -- ms of leg-ray walking per server tick for the whole swarm (a tick is 15 ms; ENT:PhysicsSimulate)
+	R.WALK_HARD = 4     -- ms a tick the swarm's walking may want before bugs share ticks (R.walkDiv, ENT:PhysicsSimulate)
+	R.walkDiv = R.walkDiv or 1
 	function ENT:PhysicsSimulate(ph, dt)
 		if (self:IsPlayerHolding() or self.RepGone or self.Clinging or self.GateRide) then return SIM_NOTHING end   -- (GateRide: in a wormhole, sv_pursuit.lua)
 		if (self.Falling and self.Jumping and CurTime() - (self.FallT or 0) < 2.5) then
@@ -167,8 +175,17 @@ if SERVER then
 			local T = self.Crossing
 			local p0 = ph:GetPos()
 			local to = T.b - p0; to.z = 0
-			if (not T.done or T.dead or to:Length() < 24) then
-				self.Crossing = nil
+			-- (no closer for 1.5 s: at the far end - against the roof's lip, a step up from the bridge - it pushed on
+			-- towards the far point for ever; owner's play test 2026-11-17, "2 are standing at the end of the bridge and do
+			-- nothing ... its 1-2 steps". The walker takes over from there and climbs the step)
+			local tl, ct = to:Length(), CurTime()
+			if (self.CrossOf ~= T) then self.CrossOf, self.CrossBest, self.CrossBestT = T, tl, ct
+			elseif (tl < self.CrossBest - 4) then self.CrossBest, self.CrossBestT = tl, ct end
+			local short = ct - self.CrossBestT > 1.5
+			if (short) then R.Stat("bridge crossing ended short of the far point") end
+			if (not T.done or T.dead or tl < 24 or short) then
+				self.Crossing, self.CrossOf = nil, nil
+				if (short) then self.NextGap = ct + 3 end   -- (not straight onto the same bridge again)
 				if (self.AfterCross) then   -- (over: on to where it was going)
 					self.MoveTo, self.AfterCross = self.AfterCross, nil
 					if (to:Length() < 24) then R.Stat("bridge arrivals") end
@@ -206,6 +223,12 @@ if SERVER then
 		local st = self.SteerTo
 		if (st and ((self.SteerUp and self.SteerUp:Dot(up) < 0.9) or CurTime() > (self.SteerT or 0) + 1.5 or st:DistToSqr(pos) < 12 * 12)) then self.SteerTo = nil end
 		local goalPos = self.SteerTo or self.MoveTo
+		-- (its goal straight through the surface it is on - on the slab it hangs under: to that surface's nearest edge and
+		-- round it, not "there" and waiting under it; owner 2026-11-18, R.EdgeAim in sv_walk.lua)
+		if (goalPos and self.RepClimb and not self.SurfPath and R.EdgeAim) then
+			local ea = R.EdgeAim(self, pos, up, goalPos)
+			if (ea) then goalPos = ea end
+		end
 		if (goalPos and R.Awake() and not self.Eating) then
 			local d = goalPos - pos
 			d = d - up * d:Dot(up)
@@ -322,6 +345,48 @@ if SERVER then
 		-- along it without probing: every other tick near the players, two ticks of three further away (the probing was
 		-- a quarter of the server's time with 22 bugs - owner 2026-11-06: "the game is lagging"). Near edges, corners
 		-- and walls it probes every tick.
+		-- the felt map (prototype, owner 2026-11-17; sv_field.lua): it glides on what the swarm felt of the map - no leg rays.
+		-- Not near a prop (the map only is felt), not on a planned way or round a corner body and all, not in a tower or a
+		-- bridge; where the felt map has no surface near it walks with its legs as before
+		if (R.cv.fieldwalk and (R.cv.fieldwalk:GetBool() or (R.TestOn and R.TestOn.field)) and R.FieldWalk and self.RepClimb and not self.SurfPath and not self.Transit and not self.InTower and not self.InBridge) then
+			local now = CurTime()
+			if (now > (self.FieldPropT or 0)) then
+				self.FieldPropT = now + 0.5
+				self.FieldProps = false
+				for _, e in ipairs(ents.FindInSphere(pos, 90)) do
+					if (e ~= self and not e:IsWorld() and walkable(e) and IsValid(e:GetPhysicsObject())) then self.FieldProps = true break end
+				end
+			end
+			-- (its goal even when it is straight out from the surface - above the wall it stands at: "not moving" above, and
+			-- the felt map stood still under it, felt map v2 clip 2026-11-17)
+			local fg = (goalPos and R.Awake() and not self.Eating) and goalPos or nil
+			-- (a planned way first, as the leg walker asks for one (sv_walk.lua): the felt map never asked, and a bug that fell
+			-- off the roof's edge stood on the floor below it for good - with legs it got a new way and climbed)
+			if (not self.FieldProps and fg and R.SurfNav and R.SurfNav.Step) then
+				local pt, pu, pf = R.SurfNav.Step(self, pos, up, fwd, fg, moving, dt)
+				if (pt) then
+					self.WalkWhy = "planned way"
+					if (R.DeadClamp and #R.deadGates > 0) then pt = R.DeadClamp(self, pos, pt) end
+					self.RepUp, self.RepFwd, self.RepAt = pu, pf, pt
+					ph:ComputeShadowControl({ secondstoarrive = 0.08, pos = pt, angle = pf:AngleEx(pu), maxangular = 4000,
+						maxangulardamp = 8000, maxspeed = vmax, maxspeeddamp = 9000, dampfactor = 0.85, teleportdistance = 0, deltatime = dt })
+					return
+				end
+			end
+			if (not self.FieldProps) then
+				local ft, fu, ff = R.FieldWalk(self, pos, up, fwd, fg, self.RepSpeed * (self.SpeedMul or 1), dt)
+				if (ft) then
+					R.walkField = (R.walkField or 0) + 1
+					self.WalkWhy = "felt map"
+					if (R.DeadClamp and #R.deadGates > 0) then ft = R.DeadClamp(self, pos, ft) end
+					self.RepUp, self.RepFwd, self.RepAt = fu, ff, ft
+					self.RepPlane, self.RepFlat = nil, nil
+					ph:ComputeShadowControl({ secondstoarrive = 0.08, pos = ft, angle = ff:AngleEx(fu), maxangular = 4000,
+						maxangulardamp = 8000, maxspeed = vmax, maxspeeddamp = 9000, dampfactor = 0.85, teleportdistance = 0, deltatime = dt })
+					return
+				end
+			end
+		end
 		self.RepTick2 = (self.RepTick2 or 0) + 1
 		local skip = self.RepMid and (self.RepTick2 % 3 ~= 0) or (self.RepTick2 % 2 == 1)
 		local pn = self.RepPlane
@@ -342,7 +407,15 @@ if SERVER then
 		-- walks with its legs only every third tick. Eating, carrying metal and building do not wait for this (owner:
 		-- "important is that they replicate too there").
 		local tk = engine.TickCount()
-		if (R.walkTick ~= tk) then R.walkTick, R.walkUsed = tk, 0 end
+		if (R.walkTick ~= tk) then
+			-- (owner 2026-11-17, freespace13: 60 bugs at a building = 3 fps - nearly all of them climbing or at corners, where
+			-- the budget below never applies; their leg-ray walking took 45 % of all the time): how much walking the swarm
+			-- wants a tick (smoothed); over R.WALK_HARD each bug walks with its legs only every 2nd, 3rd or 4th tick
+			-- (R.walkDiv) and between those goes on along the surface it is on
+			R.walkDemand = Lerp(0.1, R.walkDemand or 0, (R.walkUsed or 0) * (R.walkDiv or 1))
+			R.walkDiv = math.Clamp(math.ceil(R.walkDemand / R.WALK_HARD), 1, 4)
+			R.walkTick, R.walkUsed = tk, 0
+		end
 		local pn0 = self.RepPlane
 		if (self.RepClimb and pn0 and not self.SurfPath and not self.Transit and up:Dot(pn0) > 0.99 and CurTime() - (self.RepWrapT or 0) > 0.5
 			and (self.WalkCheapN or 0) < (self.RepFar and 3 or 2) and (R.walkUsed > R.WALK_BUDGET * (R.lag and R.lag.behind and 0.5 or 1) or (self.RepFar and self.RepTick2 % 3 ~= 0))) then
@@ -357,6 +430,41 @@ if SERVER then
 			return
 		end
 		self.WalkCheapN = 0
+		-- unseen by every player (Think, RepUnseen): on along the surface it is on with two rays - nothing ahead, the same
+		-- surface under the next step at the same height (within 3) - instead of its legs'. Anything else (a wall, a step, an
+		-- edge, a corner, a planned way) and it walks with its legs as always: it stays on real surfaces, and where a player
+		-- looks again it is where it would have been
+		if (self.RepUnseen and moving and self.RepClimb and not (R.TestOff and R.TestOff.ghost) and not self.SurfPath and not self.Transit and CurTime() - (self.RepWrapT or 0) > 0.4) then
+			local sl = step:Length()
+			if (sl > 0.01) then
+				local w = surf(self, pos + up * 6, pos + up * 6 + step * ((sl + (self.RepRadius or 18) + 6) / sl))
+				if (not w.Hit) then
+					local g = surf(self, target + up * 20, target - up * 24)
+					if (g.Hit and not g.StartSolid and g.HitNormal:Dot(up) > 0.95 and math.abs((g.HitPos - pos):Dot(up)) < 3) then
+						R.walkGhost = (R.walkGhost or 0) + 1
+						self.WalkWhy = "unseen (two rays)"
+						target = g.HitPos
+						if (R.DeadClamp and #R.deadGates > 0) then target = R.DeadClamp(self, pos, target) end
+						self.RepUp, self.RepFwd, self.RepAt = up, fwd, target
+						ph:ComputeShadowControl({ secondstoarrive = 0.08, pos = target, angle = fwd:AngleEx(up), maxangular = 4000,
+							maxangulardamp = 8000, maxspeed = vmax, maxspeeddamp = 9000, dampfactor = 0.85, teleportdistance = 0, deltatime = dt })
+						return
+					end
+				end
+			end
+		end
+		-- a crowded swarm shares the ticks (see R.walkDiv above): never right after a corner, round one (body and all) or on
+		-- a planned way - there it walks with its legs every tick
+		if (R.walkDiv > 1 and self.RepClimb and (tk + self:EntIndex()) % R.walkDiv ~= 0 and not self.SurfPath and not self.Transit
+			and CurTime() - (self.RepWrapT or 0) > 0.4 and self.RepAt) then
+			R.walkShared = (R.walkShared or 0) + 1
+			self.WalkWhy = "shared tick (no probe)"
+			if (R.DeadClamp and #R.deadGates > 0) then target = R.DeadClamp(self, pos, target) end
+			self.RepFwd, self.RepAt = fwd, target
+			ph:ComputeShadowControl({ secondstoarrive = 0.08, pos = target, angle = fwd:AngleEx(up), maxangular = 4000,
+				maxangulardamp = 8000, maxspeed = vmax, maxspeeddamp = 9000, dampfactor = 0.85, teleportdistance = 0, deltatime = dt })
+			return
+		end
 		if (self.RepClimb and R.cv.walker and R.cv.walker:GetInt() == 2) then
 			-- the leg-ray walker (agp_replicators/sv_walk.lua)
 			local walkT0 = SysTime()
@@ -804,7 +912,8 @@ if SERVER then
 	end
 
 	function ENT:Bite(t)
-		if (CurTime() < (self.NextBite or 0)) then return end
+		-- (dormant: no bites - a leap or a landing from before the emergency brake bit late and clung on again, 2026-11-16)
+		if (CurTime() < (self.NextBite or 0) or not R.Awake()) then return end
 		self.NextBite = CurTime() + 0.8
 		-- a skirmisher bites once and runs (hit and run while the swarm holds back)
 		local h = R.Hive(self.RepOwner)
@@ -1139,9 +1248,14 @@ if SERVER then
 			if (not los.Hit) then self:Pounce(aim) return true end
 		end
 		if (tactic == "tower") then return self:Tower(aim, ap, now, pos) end
-		if (not self.Ambush or now > (self.AmbushUntil or 0)) then
-			self.Ambush = self:LaunchSpot(ap, tactic == "side")
-			self.AmbushUntil = now + 8
+		-- (kept while the target stays where it is: picked anew every 8 s, the spot - worked out from the target's point
+		-- nearest the bug, which moves as it climbs - jumped from one side of a roof's corner to the other, and it went
+		-- back and forth on the wall; repfs13 the roof corner, 2026-11-17)
+		local tpos = aim:GetPos()
+		if (not self.Ambush or now > (self.AmbushUntil or 0) or not self.AmbushFor or self.AmbushFor:DistToSqr(tpos) > 120 * 120) then
+			local s = self:LaunchSpot(ap, tactic == "side")
+			if (not (self.Ambush and s and s:DistToSqr(self.Ambush) < 150 * 150)) then self.Ambush = s end
+			self.AmbushFor, self.AmbushUntil = tpos, now + 30
 		end
 		if (self.Ambush) then
 			-- standing on the spot and still no jump: this spot is no good (in the way, too far) - next time another
@@ -1691,6 +1805,25 @@ if SERVER then
 		local enemy, edist, metal, fullShip = sense(self, pos)
 		local alarm = R.Enemy(self.RepOwner)
 		if (alarm and R.MayAttack(self, alarm) and alarm:GetPos():DistToSqr(pos) < 3000 * 3000 and queen) then enemy, edist = alarm, alarm:GetPos():Distance(pos) end
+		-- (owner 2026-11-17: "they follow or hunt me only a short time and distance ... they know where I am but only come
+		-- again when I shoot them"): out of its sight (800) the prey it hunts stays its prey up to 3000 away - the hive mind
+		-- knows where he is - and whoever threatened the swarm is felt by every bug up to twice its sight
+		if (not enemy) then
+			local t = self.Target
+			if (self.State == "attack" and IsValid(t) and (t:IsPlayer() or t:IsNPC()) and R.MayAttack(self, t) and t:GetPos():DistToSqr(pos) < 3000 * 3000) then
+				enemy, edist = t, t:GetPos():Distance(pos)
+			else
+				local th = R.threats[IsValid(self.RepOwner) and self.RepOwner or game.GetWorld()]
+				local best = (self.RepSight * 2) ^ 2
+				for e in pairs(th or {}) do
+					if (IsValid(e) and R.MayAttack(self, e)) then
+						local d = e:GetPos():DistToSqr(pos)
+						if (d < best) then enemy, best = e, d end
+					end
+				end
+				if (enemy) then edist = math.sqrt(best) end
+			end
+		end
 		self.SpeedMul = nil
 		-- following prey through a Stargate or by ring, or ringing over to start a new home (sv_pursuit.lua)
 		if (self.Pursuit) then return self:Pursue() end
@@ -2219,10 +2352,15 @@ if SERVER then
 	end
 
 	-- a way across the map (sv_nav.lua) as its waypoints: on from the one after the nearest it already is at
+	-- (from the nearest one it can SEE: by distance alone, under the top floor's ceiling of a building that was the
+	-- way's last one, on the roof right above - the way was over at once, it went straight up into the ceiling, wobbled
+	-- there and got the same way again every 3 s; owner 2026-11-16 on freespace13, "ship on the roof, bugs inside")
 	function ENT:TakeWay(r, pos)
+		local eye = pos + (self.RepUp or Vector(0, 0, 1)) * 8
+		local function sees(q) return (R.TestOff and R.TestOff.waySight) or R.Nav.Sees(eye, q, self.Target) end   -- (TestOff: test runs only)
 		local i, bd = 1, nil
-		for k, q in ipairs(r) do local d = q:DistToSqr(pos) if (not bd or d < bd) then i, bd = k, d end end
-		if (bd and bd < 90 * 90 and r[i + 1]) then i = i + 1 end
+		for k, q in ipairs(r) do local d = q:DistToSqr(pos) if ((not bd or d < bd) and sees(q)) then i, bd = k, d end end
+		if (bd and bd < 90 * 90 and r[i + 1] and sees(r[i + 1])) then i = i + 1 end
 		self.Route, self.RouteI = r, i
 		self.MoveTo = r[i]
 		self.NavUsed, self.NavRoute = CurTime(), r
@@ -2409,6 +2547,21 @@ if SERVER then
 		end
 		self.RepFar = not near
 		self.RepMid = near and not close   -- seen only from further away: walks with half the probing (PhysicsSimulate)
+		-- (owner 2026-11-17: "off-screen they walk on rails"): can any player see it? Not when he is far, it is behind him,
+		-- or a wall is between. Unseen it walks with two rays instead of its legs' (PhysicsSimulate) - twice a second
+		if (now > (self.SeenT or 0)) then
+			self.SeenT = now + 0.5
+			local c, unseen = self:WorldSpaceCenter(), true
+			for _, p in ipairs(player.GetAll()) do
+				local eye = p:EyePos()
+				local to = c - eye
+				local d2 = to:LengthSqr()
+				if (d2 < 260 * 260) then unseen = false break end   -- (right by him: always properly)
+				if (d2 < 3500 * 3500 and p:GetAimVector():Dot(to:GetNormalized()) > 0.25
+					and not util.TraceLine({ start = eye, endpos = c, mask = MASK_OPAQUE, filter = { p, self } }).HitWorld) then unseen = false break end
+			end
+			self.RepUnseen = unseen
+		end
 		self:NextThink(now + ((R.lag and R.lag.dormant) and 2 or near and (R.lag and R.lag.behind and 0.3 or 0.2) or (R.lag and R.lag.behind and 3 or 1.0)))   -- (while the game is behind: 0.3 s near, 3 s far off; dormant: 2 s)
 		if (not near and now < (self.NextFarThink or 0)) then return true end   -- far from everyone: a calm, slow mind
 		if (not near) then self.NextFarThink = now + 2.5 end
@@ -2475,11 +2628,42 @@ if SERVER then
 		end
 		self:WarnOff(now, pos)
 		self:Brain(now, pos)
+		-- (owner 2026-11-16: "if its player prop it will eat the door or wall away ... than walk in"): its way runs through
+		-- a player's build part the plan saw it can eat (sv_nav.lua, Route.eats) - at it, it eats it out of the way; the
+		-- way is worked out again once it is gone. One no longer edible (or gone) is crossed off.
+		local ea = self.Route and self.Route.eats
+		if (ea and not self.Eating) then
+			local e = ea[1]
+			while (e ~= nil and not (IsValid(e) and R.Edible(e))) do table.remove(ea, 1) e = ea[1] end
+			if (IsValid(e) and e:NearestPoint(pos):DistToSqr(pos) < 50 * 50) then
+				self.State, self.Target, self.MoveTo, self.Route = "eat", e, nil, nil
+				self:Eat(e)
+				R.Stat("ate a way through a player's build")
+				R.Dbg(self, "eats a way through", e)
+			end
+		end
 		-- route: next waypoint
+		-- (on to the next one only when it sees it from here, or is at this one: from 90 away it turned for the next one at
+		-- once - at a door that is round the door's edge, at a stair hole round its rim - and went straight at it, up the
+		-- wall beside the door, into the ceiling under the hole, and wobbled there; owner 2026-11-16, freespace13: "they
+		-- wobbled in the top corner of the ground floor's ceiling", "one slid along a wall instead of leaving")
 		if (self.Route and self.MoveTo and self.MoveTo:DistToSqr(pos) < 90 * 90) then
-			self.RouteI = self.RouteI + 1
-			self.MoveTo = self.Route[self.RouteI] or self.Goal
-			if (not self.Route[self.RouteI]) then self.Route = nil end
+			local nx = self.Route[self.RouteI + 1] or self.Goal
+			self.WpNearT = (self.WpNearI == self.RouteI and self.WpNearR == self.Route) and self.WpNearT or now
+			self.WpNearI, self.WpNearR = self.RouteI, self.Route
+			local up0 = self.RepUp or Vector(0, 0, 1)
+			local eye = pos + up0 * 8
+			-- (on a wall a waypoint in the air out in front of it - a cell of the way across the map, beside a cliff - is
+			-- never within 28: right in front of it along the wall it counts as reached. It stood still there on the high
+			-- edge's cliff and let go before the 3 s were over, strict 0 of 3 clean; 2026-11-17)
+			local tw = self.MoveTo - pos
+			local onWall = math.abs(up0.z) < 0.7 and tw:Dot(up0) > 0 and (tw - up0 * tw:Dot(up0)):LengthSqr() < 28 * 28
+			if (not nx or self.MoveTo:DistToSqr(pos) < 28 * 28 or onWall or now - self.WpNearT > 3
+				or R.Nav.Sees(eye, nx, self.Target)) then
+				self.RouteI = self.RouteI + 1
+				self.MoveTo = self.Route[self.RouteI] or self.Goal
+				if (not self.Route[self.RouteI]) then self.Route = nil end
+			end
 		end
 		-- its way across the map, being worked out: taken when it is ready (and still for the same goal)
 		if (self.NavWait) then
@@ -2489,6 +2673,20 @@ if SERVER then
 				local r = R.Nav.Request(w.from, w.goal)
 				if (r) then self.NavWait = nil self:TakeWay(r, pos)
 				elseif (r == false) then self.NavWait = nil R.Dbg(self, "no way across the map:", tostring(R.Nav.lastWhy)) end
+			end
+		end
+		-- its way across the map was lost (it stepped aside when stuck, a detour ended, it waited too long for it) and its
+		-- goal still lies behind something, far or high: it asks again every 3 s. It asked only when its goal changed - for
+		-- food that stays put, never again, and it went straight for it (owner 2026-11-16, freespace13: inside a building,
+		-- the ships behind it, they wobbled in the top corner of the ground floor's ceiling)
+		if (self.Goal and not self.Route and not self.NavWait and not self.DetourUntil and not self.SurfPath and self.RepClimb and R.Nav and now > (self.NavRetryT or 0)
+			and not self.Transit and not self.InTower and not self.InBridge and not self.BridgeJob and not self.Crossing and not self.Boarded and not self.Clinging
+			and self.State ~= "attack" and self.State ~= "flee" and self.State ~= "merge" and not (IsValid(self.Target) and (self.Target:IsPlayer() or self.Target:IsNPC()))) then
+			self.NavRetryT = now + 3
+			if (R.Nav.Wanted(pos, self.Goal)) then
+				local r = R.Nav.Request(pos, self.Goal)
+				if (r) then self:TakeWay(r, pos) R.Stat("asked again for a way across the map")
+				elseif (r == nil) then self.NavWait = { from = Vector(pos), goal = self.Goal, t = now } end
 			end
 		end
 		if (self.MoveTo and near and now > (self.NextFeel or 0)) then self.NextFeel = now + 0.4; self:Feel(pos) end
@@ -2783,7 +2981,10 @@ if SERVER then
 			if (self.StuckGoalK ~= gk or now - (self.StuckGoalT or 0) > 60) then self.StuckGoalK, self.StuckGoalN = gk, 0 end
 			self.StuckGoalN, self.StuckGoalT = self.StuckGoalN + 1, now
 			if (g0 and self.StuckGoalN < 3) then
-				self.DetourBack = { move = self.MoveTo, goal = self.Goal }
+				-- (back by a fresh way across the map when it was on one: back to the old waypoint without it, it went
+				-- straight at the roof spot from inside the building, into the ceiling, for 15-20 s - repfs13 2026-11-17)
+				local nav = self.Goal and self.RepClimb and R.Nav and not (R.TestOff and R.TestOff.detourNav) and R.Nav.Wanted(pos, self.Goal) or nil
+				self.DetourBack = { move = self.MoveTo, goal = self.Goal, nav = nav }
 				self.MoveTo = self:WanderSpot(220)
 				self.DetourTo, self.DetourUntil = self.MoveTo, now + 3
 				self.NextLook = math.max(self.NextLook or 0, now + 4)
@@ -3212,6 +3413,86 @@ if CLIENT then
 		for _, s in pairs(self.ClSnd or {}) do s:Stop() end
 	end
 
+	-- each foot on its own ground (owner 2026-11-17: "why do they hang ... when they know there is a step and the feet
+	-- need more lift up ... and down until contact"): the legs were one walking pose, the same on any ground - at a step
+	-- down the front feet hung in the air, at a step up they went into it. Now each foot looks along the body's down for
+	-- the ground under it and its leg turns (the same "lift" as walking) until the foot is on it: lower until contact,
+	-- higher until free. Only near the player (1200), 10 times a second, smoothed.
+	local feetCv = CreateClientConVar("agp_rep_feet", "1", true, false, "Replicators: each foot finds its own ground (1) or the plain walking pose (0)")
+	local FEET_MAX = 52   -- degrees a leg turns at most for its ground (40 lifted too little at a step, owner 2026-11-17)
+	local function footAt(F, root, name, ang)
+		local v = F.FOOT[name] - F.HIP[name]
+		v:Rotate(ang)
+		return root * (F.HIP[name] + v)   -- (the bone matrix carries the model's scale)
+	end
+	-- the lift that puts this foot "drop" units lower along up (negative: higher), within FEET_MAX: searched - how the
+	-- leg's turn moves the foot depends on the leg and on the body's tilt
+	local function liftFor(F, root, name, side, up, drop)
+		local base = footAt(F, root, name, Angle(0, 0, 0)):Dot(up)
+		local function lower(l) return base - footAt(F, root, name, Angle(l * side, 0, 0)):Dot(up) end
+		local s = lower(FEET_MAX) > lower(-FEET_MAX) and 1 or -1   -- (the turn that lowers it: +lift or -lift)
+		if drop < 0 then
+			s, drop = -s, -drop
+			lower = function(l) return footAt(F, root, name, Angle(l * side, 0, 0)):Dot(up) - base end
+		end
+		if lower(s * FEET_MAX) <= drop then return s * FEET_MAX end
+		local lo, hi = 0, FEET_MAX
+		for _ = 1, 8 do
+			local m = (lo + hi) * 0.5
+			if lower(s * m) < drop then lo = m else hi = m end
+		end
+		return s * (lo + hi) * 0.5
+	end
+	function ENT:ClFeet()
+		local f = self.ClFeetT
+		if (not f) then f = { t = 0, want = {}, cur = {} }; self.ClFeetT = f end
+		local F = self.RepFeet
+		local now = RealTime()
+		local lp = LocalPlayer()
+		local d2 = IsValid(lp) and lp:GetPos():DistToSqr(self:GetPos()) or 1e12
+		local near = F and feetCv:GetBool() and d2 < 1200 * 1200 and not IsValid(self:GetParent())
+		if (near and now > f.t) then
+			-- (10 times a second within 500, 4 times further out - 60 bugs round the player cost 7 ms a frame, 2026-11-17)
+			local close = d2 < 500 * 500
+			f.t = now + (close and 0.1 or 0.25)
+			local root = self:GetBoneMatrix(0)
+			if (root) then
+				local up = self:GetUp()
+				local sc = self:GetModelScale() or 1
+				-- (owner 2026-11-17: "still not lifting the front feet high enough when there is a step"): each foot feels
+				-- from higher up (30, a stair step), and while it walks also a little ahead of itself - the step before it
+				-- reaches it lifts it, the higher ground of the two wins
+				local fwd = close and (self.ClSpd or 0) > 20 and self:GetForward() or nil   -- (ahead: only close by)
+				local function filt(e) return e ~= self and not e.AGPReplicator end
+				local function dropAt(foot, p)
+					local tr = util.TraceLine({ start = p + up * 30 * sc, endpos = p - up * 22 * sc, mask = MASK_PLAYERSOLID, filter = filt })
+					-- (started in something: a low overhang above - feel from just above the foot instead; solid there too:
+					-- a tall step right at it)
+					if (tr.StartSolid) then tr = util.TraceLine({ start = p + up * 12 * sc, endpos = p - up * 22 * sc, mask = MASK_PLAYERSOLID, filter = filt }) end
+					if (tr.StartSolid) then return -30 * sc end
+					if (tr.Hit) then return (foot - tr.HitPos):Dot(up) end
+					return 22 * sc   -- (nothing: it reaches down as far as it goes, over an edge)
+				end
+				for _, name in ipairs(self.RepLegs) do
+					if (F.HIP[name]) then
+						local foot = footAt(F, root, name, Angle(0, 0, 0))
+						local drop = dropAt(foot, foot)
+						if (fwd) then drop = math.min(drop, dropAt(foot, foot + fwd * 12 * sc)) end
+						-- (a foot within 1.5 of its ground stays as it was: no twitching on even ground)
+						f.want[name] = math.abs(drop) < 1.5 and 0 or liftFor(F, root, name, name:find("_l") and 1 or -1, up, drop)
+					end
+				end
+			end
+		elseif (not near) then
+			f.want = {}
+		end
+		local dt = math.max(FrameTime(), 0.001)
+		for _, name in ipairs(self.RepLegs) do
+			f.cur[name] = Lerp(math.min(1, dt * 10), f.cur[name] or 0, f.want[name] or 0)
+		end
+		return f.cur
+	end
+
 	-- legs: in pairs / threes while it walks (speed from how far it moved), a slow twitch while it stands, a fast
 	-- flailing while it falls or lies on its back
 	function ENT:Draw()
@@ -3247,6 +3528,7 @@ if CLIENT then
 		self.ClBones = self.ClBones or {}
 		local t = CurTime()
 		local dbg = AGP and AGP.Rep and AGP.Rep.DebugPose   -- test pictures: { lift, swing }
+		local feet = (not flail) and self:ClFeet() or nil   -- (each foot on its own ground: ENT:ClFeet)
 		for i, name in ipairs(self.RepLegs) do
 			local b = self.ClBones[name]
 			if (b == nil) then b = self:LookupBone(name) or false; self.ClBones[name] = b end
@@ -3256,6 +3538,7 @@ if CLIENT then
 				local twitch = (1 - walk) * math.sin(t * 2.3 + i * 1.7) * 3
 				local swing = math.sin(ph) * self.RepSwing * walk + twitch
 				local lift = math.max(0, math.cos(ph)) * self.RepLift * walk
+				if (feet and feet[name]) then lift = lift + feet[name] end
 				if (flail) then swing = math.sin(t * 23 + i * 1.9) * 28; lift = 10 + math.sin(t * 29 + i * 2.7) * 22 end
 				if (dbg) then swing, lift = dbg[2], dbg[1] end
 				self:ManipulateBoneAngles(b, Angle(lift * side, swing, 0), false)

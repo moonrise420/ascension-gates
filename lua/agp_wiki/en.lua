@@ -44,7 +44,7 @@ pages = {
 - [Q] > Ascension Gates > **StarGates and Rings**: gates, DHDs, rings and ring panels.
 - Tools ([Q] > right side > Ascension Gates > Tech): Mobile DHD, Supergate DHD, Iris, Goa'uld Iris.
 # Dial with the DHD
-1. Put the DHD near the gate (closer than 1000).
+1. Put the DHD near the gate (closer than 1000 units).
 2. Look at a glyph on the DHD and press [E]: it lights up.
 3. Press all glyphs of the address, then the big centre button.
 - Centre button with no glyphs pressed: the dial menu opens.
@@ -59,11 +59,11 @@ pages = {
 - **Iris Computer** (StarGates and Rings): touch it to a gate with an iris, [E] = menu (codes, auto close).
 - **GDO** (weapon): right click = type your code, left click = send it to an open gate.
 # Rings
-- Ring platform + ring panel, close together (panel works for rings within 500).
+- Ring platform + ring panel, close together (panel works for rings within 500 units).
 - [E] on a panel button presses it. **DIAL** with no digits = to the nearest rings. With digits = to that ring address.
 - [E] on the ring base: give it a name (address).
 - **Ring Caller** (weapon): left click calls the nearest rings, right click opens the dial window.
-! Rings crush you if you stand still where they come down. Step onto the platform or away from it.
+! Rings crush you if you stand still where they come down. Stand in the middle of the platform or step off it.
 ]] },
 
 { id = "hatak", title = "Ha'tak mothership", icon = "icon16/house.png", body = [[
@@ -72,7 +72,7 @@ pages = {
 - [Q] > Ascension Gates > **Bigger Motherships** > Ha'tak.
 - It appears high above the spot you aim at (or in front of you if you aim at the sky). It hovers.
 # Get in
-- **Hangar:** the big door at the bottom of the pyramid. [E] on it opens it. Walk in: you are straight in the hangar inside.
+- **Hangar:** the big door at the bottom of the pyramid. [E] on it opens it. Walk in: you are straight inside the hangar.
 - The hangar door outside and inside are one door: open or closed on both sides. A door control (gold plate) is beside it inside and outside.
 - **Rings:** use rings outside near the ship, or a ring panel inside.
 - [E] on a door or on the gold control beside it: door opens or closes.
@@ -122,7 +122,7 @@ pages = {
 2. Pick a target: saved marks, a Stargate or another player. Or type x y z.
 3. Click **Jump**. The ship charges (3 s), a window opens, you fly through.
 - **Save mark 1/2/3 here** remembers the spot.
-- Needs 30 % hyperdrive power. 8 s pause between jumps.
+- Needs 30% hyperdrive power. 8 s pause between jumps.
 # Weapons
 - [E] on the **weapons console**: radar from above and a list of targets.
 - **OFF:** no shots. **DEFEND:** shoots only what attacked the ship. **AUTO:** also NPCs and strangers.
@@ -142,8 +142,8 @@ pages = {
 - [E] on a crystal: you pull it out and carry it.
 - [E] at a free slot: you put it in.
 - Burnt crystals (dark) come from hard hits. Put them in the **spare rack**: they recharge in 60 s.
-- The two naquadah generators: [E] switches them on (+15 % each).
-- **Fourth hub arm:** one more crystal (+15 %) or a **ZPM** (130 %). Bring the ZPM close with the gravity gun: it snaps on.
+- The two naquadah generators: [E] switches them on (+15% each).
+- **Fourth hub arm:** one more crystal (+15%) or a **ZPM** (130%). Bring the ZPM close with the gravity gun: it snaps on.
 - **Engineering console:** shows all power. Buttons send more power to one system.
 # Computer core: data crystals
 - Blue crystals in 4 racks: **Rings**, **Doors**, **Sensors**, **Communication**. 2 of 3 must be in, or that function stops.
@@ -154,16 +154,16 @@ pages = {
 # Shields and cloak
 - Shield room console or command console: **RAISE / LOWER SHIELDS**.
 - **AUTO:** shields go up by themselves when someone attacks.
-- The shield stops every weapon, also the owner's: shots stop at the golden bubble.
-- **CLOAK:** the ship fades out. Needs 30 % shield power. Shields drop while cloaked.
+- The shield stops every weapon, including the owner's: shots stop at the golden bubble.
+- **CLOAK:** the ship fades out. Needs 30% shield power. Shields drop while cloaked.
 # Life support
-- Air, warmth and gravity aboard, also in space.
-- It needs power from the core and a hull above 10 %. Without it, inside is like outside (no air in space).
+- Air, warmth and gravity aboard, even in space.
+- It needs power from the core and a hull above 10%. Without it, inside is like outside (no air in space).
 - Master menu: status on SHIP, on/off on SYSTEMS.
 # Damage
 - Only heavy hits count. While the shield holds, it takes the hits.
 - Explosions **inside** hurt twice as much and burn crystals nearby.
-- Alarm at 50, 25 and 10 % hull. At 0 the ship explodes (admins can switch that off).
+- Alarm at 50, 25 and 10% hull. At 0 the ship explodes (admins can switch that off).
 - The **repair tool** repairs the hull.
 # Rooms
 - **Glider bay:** 4 Death Gliders. [E] = fly. Fly out through the launch tunnel. Lost gliders come back after 60 s.
@@ -218,8 +218,8 @@ pages = {
 - **Puddle Jumper:** [Mouse1] drones (opens the pods by itself), [Mouse2] hold = drones follow your aim, [Alt] cloak, [2] door, [T] hover, [G] shield, [R] dial the nearest gate.
 - **Tel'tak:** [Mouse2] staff cannons, [G] shield, [Alt] cloak, hold [R] hyperspace, [2] door. Ring beam: [Enter] (landing mode), then [Mouse1].
 - **F-302:** [Mouse1] guns, [Mouse2] missiles, [Alt] flares, [B] boost, [2] eject.
-- **Daedalus:** [Mouse1] railguns, [Mouse2] Asgard beam, [1] to [8] missiles.
-- **Wraith Dart:** [C] collect people, [Alt] put them out.
+- **Daedalus:** [Mouse1] rail guns, [Mouse2] Asgard beam, [1] to [8] missiles.
+- **Wraith Dart:** [C] collect people, [Alt] release them.
 > Change the keys: {page:keys|Change keys}.
 ]] },
 
@@ -233,10 +233,10 @@ pages = {
 # Place a part
 1. Take the tool **PowerGrid Parts**.
 2. Click a picture on the right (for example an energy cell).
-3. Aim where it should stand. You see a ghost of it.
+3. Aim where it should go. You see a ghost of it.
 4. Left click [Mouse1]: placed. Right click [Mouse2]: placed turned by 90 degrees.
 - Aim at a part and press [R]: that part is chosen.
-- On a ship or prop it is welded to what you aim at (box **Weld to what I aim at**).
+- On a ship or prop it is welded to what you aim at (box **Weld to what you aim at**).
 # The parts
 - **Energy cells (XS to XL):** store energy.
 - **Solar panels:** make energy while open sky is above them.
@@ -252,7 +252,7 @@ pages = {
 - **Manual:** tool **PowerGrid Connector**: left click the parts (they turn blue), right click the part or power node to link them to. [R] clears the selection; [R] on a part removes its links.
 - **Automatic:** parts welded together share by themselves.
 - **Off:** everything has free energy.
-! Spacebuild installed? Then Spacebuild's network is used. Our power nodes are Spacebuild nodes then: link with the PowerGrid Connector. Admins can switch on **Always PowerGrid**.
+! Spacebuild installed? Then Spacebuild's network is used, and PowerGrid's power nodes act as Spacebuild nodes: link with the PowerGrid Connector. Admins can switch on **Always PowerGrid**.
 # Energy sources
 - **ZPM:** tool **ZPM MK III**. Put it into a ZPM hub or a {page:goauldpower|Goa'uld power hub}.
 - **Naquadah generator:** tool in Energy.
@@ -275,7 +275,7 @@ pages = {
 - Look at the hub: a small plate shows crystals and energy.
 > A ZPM gives ten times the power of a crystal and drives the core harder.
 # Slider in the tool
-- **Crystal charge:** how full new crystals are (0 to 100 %).
+- **Crystal charge:** how full new crystals are (0 to 100%).
 ]] },
 
 { id = "lifesupport", title = "Life support and space", icon = "icon16/heart.png", body = [[
@@ -339,7 +339,7 @@ pages = {
 - **Hijacking:** crew only / with the control crystal / anyone.
 - **Weapons fire at owner and friends:** yes or no.
 - **Weapon + radar range:** how far guns shoot and the radar sees.
-- **Radar: most targets shown.**
+- **Radar: max targets shown.**
 - **Power crystals strangers may pull:** 0 to 15 (default 2). The crew has no limit.
 - **Ship can be destroyed:** yes (default) or no (the hull stays at 1).
 - **Hull health (new ships):** 10,000 to 1,000,000 (default 100,000).
@@ -376,7 +376,7 @@ pages = {
 - Doorways of ship interiors do not let you through when the other side is closed. Open the door first.
 - Still stuck: noclip ([V]) or respawn.
 # A tool shows text like #tool.something.name
-- A missing text. Please tell us which tool.
+- A missing text. Please tell me which tool.
 ]] },
 
 },

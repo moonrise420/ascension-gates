@@ -143,7 +143,7 @@ converted to Source formats (notes/hatak/glb2mdl.py).
   (models/weapons/v_models/v_hdevice: geometry, UVs, materials unchanged) carried joint by joint onto the player
   skeleton's right hand by us (notes/models/agp_hdevice_build.py).
 
-## Own models (Ascension Gates team, CC BY-NC-SA 4.0 like the pack)
+## Own models (Ascension Gates, CC BY-NC-SA 4.0 like the pack)
 - Ha'tak interior (models/agp/hatak/agp_hatak_interior2), Goa'uld door panels (models/agp/hatak/props/door_*),
   door control (door_control), power crystals; generators in notes/hatak (interior2.py, mkdoor.py, mkpanel.py, mkcrystal.py).
 - Prop spawn-menu pictures (materials/agp/propicons): rendered from the models of the authors above.

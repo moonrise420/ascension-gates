@@ -49,6 +49,7 @@ local function build(panel)
     slider("agp_rep_max_queens", L("agp_rep_maxqueens", "Most Queens"), 0, 50, "agp_rep_tip_max", "Higher = more Replicators; if your frame rate drops, lower it.")
     choice("agp_rep_lagguard", L("agp_rep_lagguard", "Lag guard"), yesno, "agp_rep_tip_lagguard", "Yes: when the game lags, the swarm stops growing and Replicators far from players rest until it runs smoothly again.")
     slider("agp_rep_lagguard_fps", L("agp_rep_lagfps", "Lag guard: lowest frame rate"), 0, 144, "agp_rep_tip_lagfps", "Below this frame rate (single player or your own listen server) the lag guard steps in. 0 = only when the server itself falls behind.")
+    choice("agp_rep_navscan", L("agp_rep_navscan", "Live area scan"), yesno, "agp_rep_tip_navscan", "Yes: they learn the ways around them in the background and keep them in a file per map (a few MB on big maps).")
     local b = panel:Button(L("agp_rep_clear", "Remove all Replicators"), "agp_rep_clear")
     if (IsValid(b)) then b:SetEnabled(admin()) end
     -- (after the lag guard's emergency brake made them dormant: they wake by themselves once a quarter are gone)

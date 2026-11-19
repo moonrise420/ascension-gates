@@ -2,39 +2,39 @@
 ring_ancient = Anneaux (Ancien)
 ring_goauld = Anneaux (Goa'uld)
 ring_ori = Anneaux (Ori)
-ring_panel_ancient = Cadran Ancien
-ring_panel_goauld = Cadran Goa'uld
-ring_panel_ori = Cadran Ori
-ring_name = Nommez ces anneaux (nombres uniquement!):
-ring_dial = Entrez la destination (nombres uniquement!):
-ring_dialb = Appeler
-ring_error = Des anneaux avec cette adresse existe déjà!
+ring_panel_ancient = Panneau d'anneaux (Ancien)
+ring_panel_goauld = Panneau d'anneaux (Goa'uld)
+ring_panel_ori = Panneau d'anneaux (Ori)
+ring_name = Nomme ces anneaux (nombres uniquement!):
+ring_dial = Entre la destination (nombres uniquement!):
+ring_dialb = Composer
+ring_error = Des anneaux avec cette adresse existent déjà !
 
 // Weapon Entities
 entity_weapon_cat = Armes
 entity_ag3 = Satellite AG-3
 entity_asgard_beam = Rayon Asgard
-entity_asgard_ashen_def = Sytème de défense Aschen
+entity_asgard_ashen_def = Système de défense Aschen
 entity_asuran_satellite = Satellite Asuran
 entity_dakara = Arme de Dakara
-entity_drone = Lanceur de Drone
+entity_drone = Lanceur de drones
 entity_overloader = Surchargeur de porte
-entity_asuran_weapon = Arme de porte
+entity_asuran_weapon = Arme de porte Asuran
 entity_horizon_missile = Missile Horizon
-entity_ion_cannon = Canon à Ion
+entity_ion_cannon = Canon à ions Tollan
 entity_dest_main = Arme principale
 entity_dest_med = Tourelle moyenne
 entity_dest_small = Petite tourelle
-entity_minidrone = Minidrone
+entity_minidrone = Plateforme de Minidrones
 entity_ori_beam = Canon à rayon Ori
 entity_ori_satellite = Satellite Ori
 entity_shiprail = Railgun de vaisseau
-entity_stat_railgun = Railgun Stationnaire
-entity_staff_weapon = Lance Jaffa Stationnaire
+entity_stat_railgun = Railgun stationnaire
+entity_staff_weapon = Lance Jaffa stationnaire
 
 //Shaped Charge
-entity_directional_nuke = Bombe direction.
-directional_nuke_menu_t = Chrono explosion
+entity_directional_nuke = Charge creuse
+directional_nuke_menu_t = Minuterie de la charge
 directional_nuke_menu_d = Secondes avant explosion:
 directional_nuke_menu_c = Annuler
 
@@ -47,19 +47,19 @@ entity_death_glider = Planeur de la mort
 entity_dest_shuttle = Navette du Destinée
 entity_f302 = F-302
 entity_jumper = Jumper
-entity_teltak = Tel'Tak
-entity_dart = Dart
+entity_teltak = Tel'tak
+entity_dart = Dart Wraith
 
 // Main Entities
 entity_main_cat = Divers
-entity_obelisk = Obélisque Ancienne
-entity_antiprior = Dispositif anti-précheur
+entity_obelisk = Obélisque Ancien
+entity_antiprior = Dispositif anti-Prêcheur
 entity_apple_core = Noyau du Destinée
 entity_arthurs_mantle = Manteau d'Arthur
 entity_asgart_trans = Téléporteur Asgard
-entity_black_hole = Trou Noir
+entity_black_hole = Trou noir
 entity_cfd = DRA
-entity_cfd_full = Dispositif de Retour en Arrière
+entity_cfd_full = Dispositif de Renvoi d'Appel
 entity_dest_console = Console du Destinée
 entity_dest_timer = Compteur du Destinée
 entity_kino_dis = Distributeur de Kinos
@@ -67,17 +67,17 @@ entity_lant_holo = Hologramme Lantien
 entity_malp = MALP
 entity_mcd = ACM
 entity_mcd_full = Appareil de Construction Moléculaire
-entity_shield_core = Bouclier du Destinée
+entity_shield_core = Noyau de bouclier
 entity_ship_hangar = Hangar à vaisseaux
-entity_iris_comp = Ordinateur à iris
+entity_iris_comp = Ordinateur d'iris
 entity_stone = Pierre
-entity_stone_tablet = Tablette
-entity_telchak = Appareil de soins
+entity_stone_tablet = Tablette de pierre
+entity_telchak = Appareil de soins de Tel'chak
 entity_atlantist = Téléporteur d'Atlantis
 
 // Sodan obelisk
 entity_sodan_obelisk = Obélisque Sodan
-sodan_obelisk_menu = Mot de passe de l'obélisque (seulement de 1 à 6!):
+sodan_obelisk_menu = Mot de passe de l'obélisque (chiffres de 1 à 6 uniquement !) :
 
 // Npcs
 npc_cat = NPCs
@@ -96,9 +96,9 @@ weapon_ronongun = Magnum à particule
 weapon_p90 = SGC PDW
 weapon_staff = Lance Jaffa
 weapon_zat = Zat'nik'tel
-weapon_wraith = Main Wraith
+weapon_wraith = Mains Wraith
 weapon_wraith_blaster = Blaster Wraith
-weapon_tac = Tac
+weapon_tac = TAC
 weapon_wraith_grenade = Grenade Wraith
 
 // Player Misc Weapons
@@ -107,33 +107,33 @@ weapon_misc_atanik = Bracelet Atanik
 weapon_misc_virus = Virus Aschen
 weapon_misc_gdhd = DHD mobile Goa'uld
 weapon_misc_jumper = Télécommande Jumper
-weapon_misc_kino = Télécommande KINO
-weapon_misc_lsd = Détecteur de signe de vie
+weapon_misc_kino = Télécommande Kino
+weapon_misc_lsd = Détecteur de signes de vie
 weapon_misc_malp = Télécommande MALP
 weapon_misc_shield = Bouclier personnel
 weapon_misc_ring = Activateur d'anneaux
 weapon_misc_sodan = Camouflage Sodan
 weapon_misc_gdo = GDO
-weapon_misc_nox = Main Nox
-weapon_misc_nox_desc = Clic gauche: Ouvre le menu des portes de étoiles\nClic droit: Soigne un allié proche.
-weapon_misc_adrenaline = Dose D'Adrenaline
+weapon_misc_nox = Mains Nox
+weapon_misc_nox_desc = Clic gauche : ouvre le menu de composition de la Porte\nClic droit : soigne un allié proche.
+weapon_misc_adrenaline = Dose d'adrénaline
 weapon_misc_atl_medkit = Kit de soin d'Atlantis
 weapon_misc_lucian_door_opener = Ouvre-porte Lucian
-weapon_misc_lucian_door_opener_desc = Ouvre les portes du Destinée\n\nClique gauche pour placer l'appareil
+weapon_misc_lucian_door_opener_desc = Ouvre les portes du Destinée\n\nClic gauche pour placer l'appareil
 
 // Stools Cats
 stool_cat = Portes des étoiles
 stool_cat_config = Config
 stool_cat_tech = Technologie
-stool_cat_energy = Energie
+stool_cat_energy = Énergie
 stool_cat_weapons = Armes
-stool_cat_keys = Assignation touches
+stool_cat_keys = Assignation des touches
 stool_cat_ramps = Rampes
 
 // Stools Updater
-stool_update_01 = Votre version d'Ascension Gates est dépassée.
+stool_update_01 = Ta version d'Ascension Gates est dépassée.
 stool_update_02 = Dernière version:
-stool_update_03 = Si ce message apparait sur un serveur, Dites à l'admin de mettre le mod à jour.
+stool_update_03 = Si ce message apparaît sur un serveur, dites à l'admin de mettre le mod à jour.
 
 // Stool Names - Configuration
 stool_credits = Crédits
@@ -156,20 +156,20 @@ stool_cloak = Camouflage
 stool_mdhd = DHD mobile
 stool_iris = Iris
 stool_shield = Bouclier
-stool_light = Lampes D'atlantis
+stool_light = Lampes d'Atlantis
 stool_sdhd = DHD Superporte
 stool_tshield = Émetteur bouclier Tok'ra
 stool_tshieldc = Contrôleur bouclier Tok'ra
-stool_tolland = Désactiveur d'armes Tollan
+stool_tolland = Désactivateur d'armes Tollan
 stool_harvester = Téléporteur Wraith
-stool_controlpanel = Panneau de Contrôle
-stool_sgcscreen = Écran du SGC
-stool_sgcscreen_srv = Serveur du SGC
+stool_controlpanel = Panneau de contrôle
+stool_sgcscreen = Écrans du SGC
+stool_sgcscreen_srv = Serveurs du SGC
 
 // Stool Names - Energy
 stool_asuran_hub = Hub E2PZ Asuran
 stool_atlantis_hub = Hub E2PZ Atlante
-stool_naq_gen = gén. à Naquadah MK1/MK2
+stool_naq_gen = Générateur à Naquadah MK1/MK2
 stool_sgc_hub = Hub E2PZ SGC
 stool_zpm_mk3 = E2PZ MK III
 stool_naq_bottle = Flacon de Naquadah
@@ -189,286 +189,286 @@ stool_ring_ramps = Plateforme d'anneaux
 // Stool Names - Keybinders
 stool_key_deadalus = Paramètres du Dédale
 stool_key_dart = Paramètres Dart
-stool_key_glider = Paramètres Enf. d'aiguilles
-stool_key_dglider = Paramètres Pl. de la mort
+stool_key_glider = Paramètres Enfileur d'aiguille
+stool_key_dglider = Paramètres Planeur de la mort
 stool_key_f302 = Paramètres F-302
 stool_key_jumper = Paramètres Jumper
 stool_key_malp = Paramètres MALP
-stool_key_dest = Paramètres nav. du Destinée
+stool_key_dest = Paramètres navette du Destinée
 stool_key_teltak = Paramètres Tel'tak
 
 // Stool Global
 stool_autoweld = Soudage automatique
 stool_autolink = Lien automatique
-stool_autolink_desc = Relier automatiquement l'entité au ressource nodes ?
-stool_disabled_ship = Ce vaisseau est désactivé sur ce serveur!
-stool_disabled_tool = Cet Outils est désactivé sur ce serveur!
-stool_disabled_ent = Cette entité est désactivée sur ce serveur!
-stool_model = Model:
+stool_autolink_desc = Relier automatiquement à un nœud de ressources ?
+stool_disabled_ship = Ce vaisseau est désactivé sur ce serveur !
+stool_disabled_tool = Cet outil est désactivé sur ce serveur !
+stool_disabled_ent = Cette entité est désactivée sur ce serveur !
+stool_model = Modèle :
 stool_size = Taille:
 stool_brightness = Luminosité:
-stool_toggle = Toggle:
+stool_toggle = Basculer :
 stool_desc = Description:
 stool_activate = Activer:
-stool_deactivate = Desactiver:
+stool_deactivate = Désactiver :
 stool_immunity = Immunité
 stool_help = Aide
 
 // Naquadah bomb menu
 entity_naq_bomb = Bombe au Naquadah
-naq_bomb_menu_01 = Entrez le code de détonation
+naq_bomb_menu_01 = Entre le code de détonation
 naq_bomb_menu_02 = Code de détonation:
-naq_bomb_menu_01a = Entrez le code d'annuation:
+naq_bomb_menu_01a = Entre le code d'annulation
 naq_bomb_menu_02a = Code d'annulation:
 naq_stool_menu_y = Portée:
 naq_stool_menu_d = Durée de la charge:
 naq_stool_menu_h = HUD
-naq_stool_menu_h_d = Afficher ou cacher le HUD sur la bombe.
+naq_stool_menu_h_d = Afficher ou masquer le HUD sur la bombe (pas sur la bombe Lucian).
 naq_stool_menu_c = Chariot
-naq_stool_menu_c_d = Apparait avec un chariot. (Seulement pour le modèle Tau'ri)
-naq_stool_menu_a_d = Souder automatiquement la bombe. Si apparut avec un chariot la bombe ne sera attaché qu'au chariot.
-naq_stool_menu_code = Entrez le code de détonation de la bombe
-naq_stool_menu_abort = Entrez le code d'annulation de la bombe
+naq_stool_menu_c_d = Apparaît avec un chariot (bombe Tau'ri uniquement).
+naq_stool_menu_a_d = Soude automatiquement la bombe à l'objet sur lequel elle apparaît. Avec un chariot, la bombe n'est soudée qu'au chariot.
+naq_stool_menu_code = Entre le code qui fera exploser la bombe.
+naq_stool_menu_abort = Entre le code qui annulera la détonation.
 
 // Dakara
 ancient_control_panel = Panneau de contrôle Ancien
-dakara_energy_kill = Vague énergetique
-dakara_panel = Panneau de contrôle de Dakara
-dakara_power = Puissance de l'appareil, Influe sur le rayon et la puissance.
-dakara_power_d = Rapide - Fort
+dakara_energy_kill = Vague d'énergie de Dakara
+dakara_panel = Panneau de contrôle de l'arme de Dakara
+dakara_power = Règle la puissance de l'arme, qui influe sur le rayon et le temps de charge.
+dakara_power_d = Plus rapide - Plus grand
 dakara_menu_01 = Désintégrer les joueurs
-dakara_menu_02 = Désintégrera les joueurs.
+dakara_menu_02 = La vague détruit les joueurs.
 dakara_menu_03 = Désintégrer les props
-dakara_menu_04 = Désintégrera les props.
+dakara_menu_04 = La vague détruit les props.
 dakara_menu_05 = Désintégrer les véhicules
-dakara_menu_06 = Désintégrera les véhicules.
+dakara_menu_06 = La vague détruit les véhicules.
 dakara_menu_07 = Désintégrer les réplicateurs
-dakara_menu_08 = Désintégrera les réplicateurs.
-dakara_menu_09 = Désintégrer les NPCs
-dakara_menu_10 = Désintégrera les NPCs.
+dakara_menu_08 = La vague détruit les Réplicateurs.
+dakara_menu_09 = Désintégrer les PNJ
+dakara_menu_10 = La vague détruit les PNJ.
 dakara_menu_11 = Fermer
 dakara_menu_12 = Lancer
 
 // Atlantis transporter
-atl_tp_01 = Saisir le nom de ce téléporteur:
+atl_tp_01 = Paramètres du téléporteur d'Atlantis
 atl_tp_02 = Nom du téléporteur de destination:
 atl_tp_03 = Sauvegarder
 atl_tp_04 = Téléporter
 atl_tp_05 = Destination
-atl_tp_06 = Privée
-atl_tp_07 = Téléporteur privée, invisible dans le menu, mais peut-être contacter!
-atl_tp_08 = Définit si il faut utiliser un groupe local ou non
-atl_tp_error = Ce nom est déjà utiliser!
-atl_tp_local = Locale
+atl_tp_06 = Privé
+atl_tp_07 = Les téléporteurs privés n'apparaissent pas dans le menu, mais restent joignables !
+atl_tp_08 = Définit s'il faut utiliser un groupe local
+atl_tp_error = Ce nom est déjà utilisé !
+atl_tp_local = Local
 atl_tp_group = Groupe
 atl_tp_name = Nom
 
 // Misc
 //
 kawoosh_hurt = Vortex instable
-event_horizon = Horizon des êvénements
-gate_nuke = Radiation
+event_horizon = Horizon des événements
+gate_nuke = Incinéré
 drone_kill = Drone
 energy_pulse_kill = Choc énergétique
 energy_laser_kill = Laser
 energy_beam_kill = Rayon
 entity_kino = Kino
-entity_kd = Disrupteur Coeur
-mdrone_kill = Mini-Drone
-naq_gen_mk1 = Generateur à Naquadah MK1
-naq_gen_mk2 = Generateur à Naquadah MK2
+entity_kd = Disrupteur Kull
+mdrone_kill = Minidrone
+naq_gen_mk1 = Générateur à Naquadah MK1
+naq_gen_mk2 = Générateur à Naquadah MK2
 ramp_kill = Rampe
-sat_blask_wave = Vague d'énergie
+sat_blask_wave = Onde de choc
 tshield_desc = Bouclier Tok'ra
-glider_staff = Lance du Planeur de la mort
+glider_staff = Lance de planeur
 ship_shield = Bouclier de vaisseau
-ship_core_buble = Bouclier
-energy_cell = Cellule energetique
+ship_core_buble = Bulle du noyau de bouclier
+energy_cell = Cellule énergétique
 naquadah = Naquadah
 liquid_naquadah = Naquadah liquide
 ring_kill = Anneaux
 cap_prop_cat = Props
 cap_prop_cat1 = Divers
-cap_prop_cat2 = Cap construction
-cap_prop_cat3 = Cat construction (route)
+cap_prop_cat2 = Construction CAP
+cap_prop_cat3 = Construction passerelles
 cap_menu_author = Auteur
-cap_admin_ent = Cette entité est réserver au Admin!
-cap_admin_swep = Cette arme est réserver au Admin!
-cap_admin_tool = Cet outil est réserver au Admin!
-cap_disabled_ent = Cette entité est désactiver sur ce serveur!
-cap_disabled_swep = Cette arme est désactiver sur ce serveur!
-cap_disabled_tool = Cet outil est désactiver sur ce serveur!
-cap_disabled_npc = Ce PNJ est désactiver sur ce serveur!
-iris_gatespawner = Vous ne pouvez pas outrepasser l'iris du GateSpawner! Faîtes apparaitre un Ordinateur à iris pour le controller.
-iris_protection = L'iris à bien été ajoutée au GateSpawner, Faîtes apparaitre un ordinateur à iris pour la controlée.
+cap_admin_ent = Cette entité est réservée aux admins !
+cap_admin_swep = Cette arme est réservée aux admins !
+cap_admin_tool = Cet outil est réservé aux admins !
+cap_disabled_ent = Cette entité est désactivée sur ce serveur !
+cap_disabled_swep = Cette arme est désactivée sur ce serveur !
+cap_disabled_tool = Cet outil est désactivé sur ce serveur !
+cap_disabled_npc = Ce PNJ est désactivé sur ce serveur !
+iris_gatespawner = Tu ne peux pas contourner l'iris du gatespawner ! Fais apparaître un ordinateur d'iris pour le contrôler.
+iris_protection = Un iris a été ajouté à la Porte du gatespawner. Fais apparaître un ordinateur d'iris pour le contrôler.
 
 // gatespawner
-sg_gtsp_title = Générateur de Gatespawner
-sg_stsp_text =[[<h2>Gatespawner Créer avec succès!</h2>
-Fichier: <u>garrysmod\data\%s.txt</u>
-<br>Renommez ce fichier pour <u>%s.lua</u> Et déplacez le dans:
-<br><u>garrysmod\lua\data\%s\</u> pour le faire fonctionner.
-<br>N'oubliez pas de recharger le GateSpawner ou redémarer le serveur pour qu'il soit pris en compte!
+sg_gtsp_title = Créateur de gatespawner
+sg_stsp_text =[[<h2>Gatespawner créé avec succès !</h2>
+Fichier : <u>garrysmod\data\%s.txt</u>
+<br>Renomme ce fichier en <u>%s.lua</u> et déplace-le dans :
+<br><u>garrysmod\lua\data\%s\</u> pour qu'il fonctionne.
+<br>N'oublie pas de recharger le gatespawner ou de redémarrer la map pour qu'il soit pris en compte !
 <br>
-<br><b>Note:</b> Vous avez changer l'éxtention du fichier de ".txt" à ".lua".
-<br>Si vous n'êtes pas familier à ce processus, utilisez <b>Google</b>.
+<br><b>Note :</b> Tu dois changer l'extension du fichier de ".txt" en ".lua".
+<br>Si tu ne sais pas comment faire, cherche comment changer l'extension d'un fichier sous Windows.
 ]]
 
 // iris computer
-iriscomp_title = Menu de l'ordinateur à Iris
-iriscomp_code = Code de l'Iris
+iriscomp_title = Menu de l'ordinateur d'iris
+iriscomp_code = Code de l'iris
 iriscomp_desc = Description
-iriscomp_time = Temps de Fermeture
-iriscomp_time_desc = The time in seconds the iris will stay open after a correct code is sent. Set to 0 to stay open forever.
-iriscomp_close = Fermeture Automatique?
-iriscomp_close_desc = Si coché, the iris will close as soon as an incoming connection is established.
-iriscomp_open = Désactivé l'ouverture automatique?
-iriscomp_open_desc = Si coché, L'iris ne s'ouvrira pas tant que le wire ne lui aura pas dit.
-iriscomp_cancel = Annulez
-iriscomp_toggle = Activer/Desactiver l'Iris
+iriscomp_time = Délai de fermeture
+iriscomp_time_desc = Durée en secondes pendant laquelle l'iris reste ouvert après un code correct. 0 = ouvert indéfiniment.
+iriscomp_close = Fermeture automatique ?
+iriscomp_close_desc = Si coché, l'iris se ferme dès qu'une connexion entrante est établie.
+iriscomp_open = Pas d'ouverture automatique ?
+iriscomp_open_desc = Si coché, l'iris ne s'ouvre que sur ordre de l'entrée Wire.
+iriscomp_cancel = Annuler
+iriscomp_toggle = Ouvrir/Fermer l'iris
 iriscomp_ok = Sauvegarder
 
 //Shield Identifier
-shieldid_title = Shield Identifier
+shieldid_title = Identificateur de bouclier
 shieldid_frequency = Fréquence
-shieldid_toggle = Toggle
+shieldid_toggle = Basculer
 shieldid_save = Sauvegarder
 shieldid_on = Activer
 shieldid_off = Désactiver
 
 // destiny timer
-destimer_title = Timeur de Destiné
+destimer_title = Compteur du Destinée
 destimer_time = Définir le temps:
-destimer_autostart = Démarage Automatique
-destimer_autostart_desc = Le Timeur démarre automatiquement après l'ouverture de la porte des étoiles.
+destimer_autostart = Démarrage automatique
+destimer_autostart_desc = Démarre automatiquement le compteur après l'ouverture de la porte.
 destimer_autostop = Remise à zéro automatique
-destimer_autostop_desc = Réinitialisation automatique du Timeur après fermeture du Stargate. Décochez cette case si vous souhaitez démarrer/arrêter le Timeur manuellement.
-destimer_autoclose = Fermeture Automatique
-destimer_autoclose_desc = Fermer automatique la porte des étoiles quand le Timeur est fini.
-destimer_countup = Compter à l'envers
-destimer_countup_desc = Si sélectionner, alors le timeur compte vers le haut.
+destimer_autostop_desc = Remet automatiquement le compteur à zéro après la fermeture de la porte. Décoche pour démarrer et arrêter le compteur à la main.
+destimer_autoclose = Fermeture automatique
+destimer_autoclose_desc = Ferme automatiquement la porte quand le temps est écoulé.
+destimer_countup = Compte croissant
+destimer_countup_desc = Si coché, le compteur augmente au lieu de diminuer.
 destimer_font = Police de caractère normale
-destimer_font_desc = Si sélectionner, alors vous utiliser une police normale.
+destimer_font_desc = Si coché, la police normale est utilisée.
 destimer_save = Sauvegarder
-destimer_start = Démarer le Timeur
-destimer_stop = Arreter le Timeur
-destimer_reset = Remetre à zéro le compteur
-destimer_close = Fermer la Porte des Étoiles
-destimer_error = On ne peut pas démarer le timeur quand la porte des étoiles est fermée avec l'option de remise à zéro automatique!
+destimer_start = Démarrer le compteur
+destimer_stop = Arrêter le compteur
+destimer_reset = Remettre le compteur à zéro
+destimer_close = Fermer la porte
+destimer_error = Impossible de démarrer le compteur quand la porte est fermée et que la remise à zéro automatique est active !
 
 // asgard transporter
 asgardtp_title = Téléporteur Asgard
 asgardtp_target = Cible
-asgardtp_target_desc = Choose target what you want to teleport
+asgardtp_target_desc = Choisis la cible à téléporter
 asgardtp_dest = Destination
-asgardtp_dest_desc = Choose where you want to teleport target
-asgardtp_ents = Teleport with ents and props
-asgardtp_ents_desc = Teleport with entities and props near target
+asgardtp_dest_desc = Choisis où téléporter la cible
+asgardtp_ents = Téléporter avec les entités et props
+asgardtp_ents_desc = Téléporter avec les entités et props proches de la cible
 asgardtp_action = Action:
-asgardtp_noact = Pas d'action choisie!
-asgardtp_none = Pas d'action.
-asgardtp_act = Teleporter %s\na %s
-asgardtp_act2 = Teleporter un joueur/PNJ\nde %s\na %s
-asgardtp_acte = Avec les entités et les props
+asgardtp_noact = Aucune action choisie !
+asgardtp_none = Aucune action.
+asgardtp_act = Téléporter %s\nvers %s
+asgardtp_act2 = Téléporter un joueur/PNJ\nprès de %s\nvers %s
+asgardtp_acte = avec les entités et props
 asgardtp_send = Envoyer
-asgardtp_retrieve = Retrouver
-asgardtp_refresh = Rafraichir la liste
-asgardtp_type1 = Joueur
-asgardtp_type2 = PNJS
+asgardtp_retrieve = Récupérer
+asgardtp_refresh = Rafraîchir la liste
+asgardtp_type1 = Joueurs
+asgardtp_type2 = PNJ
 asgardtp_type3 = Wire GPS
-asgardtp_busy = Le téléporteur Asgard est cassé!
-asgardtp_energy = Pas assez d'énergie!
-asgardtp_wrong = Mauvaises Coordonées! (peut-être pas dans la map?)
-asgardtp_error = Cible ou destination invalide! (rafraichir la liste?)
-asgardtp_jamming = Impossible de téléporter à ces Coordonées - Brouilleur en ligne.
-asgardtp_succ = Téléportation éfféctuée.
+asgardtp_busy = Le téléporteur Asgard est occupé !
+asgardtp_energy = Pas assez d'énergie !
+asgardtp_wrong = Mauvaises coordonnées ! (hors de la map ?)
+asgardtp_error = Cible ou destination invalide ! (essaie de rafraîchir la liste)
+asgardtp_jamming = Impossible de téléporter à ces coordonnées : un brouilleur est actif.
+asgardtp_succ = Téléportation réussie.
 
 // MCD
 mcd_title = Dispositif de construction moléculaire - Menu de création
 mcd_device = Choisir un appareil
-mcd_device_desc = Sélectionner une entité.
+mcd_device_desc = Sélectionne un appareil.
 mcd_replicator = Réplicateur
-mcd_toggle = Mettre le Toogle
-mcd_toggle_desc = Mettre le Toggle pour cette appareil.
-mcd_color = Choisir la couleur pour le bouclier.
+mcd_toggle = Touche d'activation
+mcd_toggle_desc = Définit la touche d'activation de cet appareil.
+mcd_color = Choisis la couleur du bouclier.
 mcd_size = Taille
-mcd_size_desc = Choisir la taille pour cette appareil.
-mcd_strengh = Rapide - Fort
+mcd_size_desc = Définit la taille de cet appareil.
+mcd_strengh = Régén. rapide - Plus fort
 mcd_close = Fermer
 mcd_create = Créer
 mcd_progress = Progression
 mcd_effcolor = Couleur de l'effet
-mcd_effcolor_desc = Définir la couleur de l'effet de création.
-mcd_settings = paramètres additionnels
-mcd_nosettings = Pas de paramètres supplémentaires disponibles.
-mcd_classname = Classname: %s
+mcd_effcolor_desc = Définit la couleur de l'effet de construction.
+mcd_settings = Paramètres supplémentaires
+mcd_nosettings = Aucun paramètre supplémentaire disponible.
+mcd_classname = Nom de classe : %s
 
 // anti-prior
 antiprior_c_t = Mode immunité
-antiprior_c_1 = Moi et mes amis
-antiprior_c_2 = Seulement pour moi
+antiprior_c_1 = Propriétaire et amis
+antiprior_c_2 = Propriétaire uniquement
 antiprior_c_3 = Personne
 
 // SGC Screen menu
-sgcscreen_title = Gestionnaire de code - SGC
+sgcscreen_title = Gestionnaire de codes - SGC
 sgcscreen_code = Code
 sgcscreen_dcode = Code d'auto-destruction
-sgcscreen_rcode = Code de réinitialisation
+sgcscreen_rcode = Code d'annulation
 sgcscreen_desc = Description
 sgcscreen_save = Sauvegarder
 sgcscreen_cancel = Annuler
 // make sure to check this field, change \n positions to fit in menu
-sgcscreen_info = Exige deux joueurs pour démarrer/annuler l'auto-destruction.\nDans ce cas, vous devez saisir deux codes différents.
+sgcscreen_info = Exige deux joueurs pour lancer/annuler l'auto-destruction.\nDeux codes différents sont alors nécessaires.
 
 // huds
 hud_status = Statut
-hud_energy = Energie
+hud_energy = Énergie
 hud_capacity = Capacité
 hud_capacities = Capacités
 hud_naquadah = Naquadah
 hud_sts_active = Actif
 hud_sts_inactive = Inactif
-hud_sts_connected = Conneter
-hud_sts_disconnected = Déconnecter
-hud_sts_depleted = Vide
+hud_sts_connected = Connecté
+hud_sts_disconnected = Déconnecté
+hud_sts_depleted = Épuisé
 
 // jumper hud
 jumper_hud_dial = Composition:
 
 //Shield Identifier
-shieldid_title = Shield Identifier
+shieldid_title = Identificateur de bouclier
 shieldid_frequency = Fréquence
-shieldid_toggle = Toggle
+shieldid_toggle = Basculer
 shieldid_save = Sauvegarder
 shieldid_on = Activer
 shieldid_off = Désactiver
 
 // Limits reached
-entity_limit_ag3 = Limite de satellites AG-3 atteinte!
-entity_limit_anc_obelisk = Limite d'obélisque anciens atteinte!
-entity_limit_app_core = Apple Core limit reached!
-entity_limit_asgard_beam = Limite de Rayon Asgard atteinte!
-entity_limit_asuran_weap = Limite d'arme de porte Asuran atteinte!
-entity_limit_dakara = Limite d'arme de Dakara atteinte!
-entity_limit_dest_console = Limite de console du Destinée atteinte!
-entity_limit_shaped = Shaped Charge limit reached!
-entity_limit_overloader = Limite de Surchargeur de porte atteinte!
-entity_limit_horizon = Limite de missile Horizon atteinte!
-entity_limit_iris_pc = Limite d'ordinateur à iris atteinte!
-entity_limit_kino = Limite de Kino atteinte!
-entity_limit_kino_dis = Limite de distributeur de Kino atteinte!
-entity_limit_holo = Limite d'hologramme Ancien atteinte!
-entity_limit_drone_laun = Limite de Lanceur de drone atteinte!
-entity_limit_minidrone = Limite de plateforme de Minidorne atteinte!
-entity_limit_mcd = Limite de MCD atteinte!
-entity_limit_ori_beam = Limite de Rayon Ori atteinte!
-entity_limit_ori_sat = Limite de satellites Ori atteinte!
-entity_limit_ships = Limite de vaisseaux atteinte!
-entity_limit_dest_main = Limite d'Arme Principale du Destinée atteinte!
-entity_limit_dest_med = Limite de Tourelles Moyenne du Destinée atteinte!
-entity_limit_dest_tur = Limite de Tourelle du Destinée atteinte!
-entity_limit_ship_rail = Limite de Railgun de vaisseaux atteinte!
-entity_limit_toll_ion = Limite de Canon à Ion Tollan atteinte!
-entity_limit_shield_core = Limite de Bouclier du Destinée atteinte!
-entity_limit_sod_obelisk = Limite d'obélisk Sodan atteinte!
-entity_limit_stat_rail = Limite de Railgun Stationnaire atteinte! 
+entity_limit_ag3 = Limite de satellites AG-3 atteinte !
+entity_limit_anc_obelisk = Limite d'obélisques anciens atteinte !
+entity_limit_app_core = Limite de noyaux du Destinée atteinte !
+entity_limit_asgard_beam = Limite de rayons Asgard atteinte !
+entity_limit_asuran_weap = Limite d'armes de porte Asuran atteinte !
+entity_limit_dakara = Limite d'armes de Dakara atteinte !
+entity_limit_dest_console = Limite de consoles du Destinée atteinte !
+entity_limit_shaped = Limite de charges creuses atteinte !
+entity_limit_overloader = Limite de surchargeurs de porte atteinte !
+entity_limit_horizon = Limite de missiles Horizon atteinte !
+entity_limit_iris_pc = Limite d'ordinateurs d'iris atteinte !
+entity_limit_kino = Limite de Kinos atteinte !
+entity_limit_kino_dis = Limite de distributeurs de Kinos atteinte !
+entity_limit_holo = Limite d'hologrammes lantiens atteinte !
+entity_limit_drone_laun = Limite de lanceurs de drones atteinte !
+entity_limit_minidrone = Limite de plateformes de Minidrones atteinte !
+entity_limit_mcd = Limite d'ACM atteinte !
+entity_limit_ori_beam = Limite de canons à rayon Ori atteinte !
+entity_limit_ori_sat = Limite de satellites Ori atteinte !
+entity_limit_ships = Limite de vaisseaux atteinte !
+entity_limit_dest_main = Limite d'armes principales du Destinée atteinte !
+entity_limit_dest_med = Limite de tourelles moyennes du Destinée atteinte !
+entity_limit_dest_tur = Limite de tourelles du Destinée atteinte !
+entity_limit_ship_rail = Limite de railguns de vaisseau atteinte !
+entity_limit_toll_ion = Limite de canons à ions Tollan atteinte !
+entity_limit_shield_core = Limite de noyaux de bouclier atteinte !
+entity_limit_sod_obelisk = Limite d'obélisques Sodan atteinte !
+entity_limit_stat_rail = Limite de railguns stationnaires atteinte !

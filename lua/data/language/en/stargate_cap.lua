@@ -70,11 +70,11 @@ entity_mcd = MCD
 entity_imcd = IMCD
 entity_mcd_full = Molecular Construction Device
 entity_shield_core = Shield Core
-entity_ship_hangar = Ships Hangar
+entity_ship_hangar = Ship Hangar
 entity_iris_comp = Stargate Iris Computer
 entity_stone = Stone
 entity_stone_tablet = Stone Tablet
-entity_telchak = Telchak healing device
+entity_telchak = Tel'chak Healing Device
 entity_atlantist = Atlantis Transporter
 
 // Sodan obelisk
@@ -100,7 +100,7 @@ weapon_staff = Staff Weapon
 weapon_zat = Zat'nik'tel
 weapon_wraith = Wraith Hands
 weapon_wraith_blaster = Wraith Blaster
-weapon_tac = Tac
+weapon_tac = TAC
 weapon_wraith_grenade = Wraith Grenade
 
 // Player Misc Weapons
@@ -109,7 +109,7 @@ weapon_misc_atanik = Atanik Armband
 weapon_misc_virus = AGV
 weapon_misc_gdhd = Goa'uld Mobile DHD
 weapon_misc_jumper = Jumper Remote
-weapon_misc_kino = KINO Remote Device
+weapon_misc_kino = Kino Remote
 weapon_misc_lsd = Life Sign Detector
 weapon_misc_malp = MALP Remote
 weapon_misc_shield = Personal Shield
@@ -117,11 +117,11 @@ weapon_misc_ring = Ring Caller
 weapon_misc_sodan = Sodan Cloaking
 weapon_misc_gdo = Stargate GDO
 weapon_misc_nox = Nox Hands
-weapon_misc_nox_desc = Left Click: Open Stargate dialing menu, Right Click: Heal your friend.
+weapon_misc_nox_desc = Left click: open the Stargate dialling menu. Right click: heal a friend.
 weapon_misc_adrenaline = Adrenaline Shot
 weapon_misc_atl_medkit = Atlantis Medical Kit
 weapon_misc_lucian_door_opener = Lucian Door Opener
-weapon_misc_lucian_door_opener_desc = Open Destiny Doors\n\nLeft Click to place Device
+weapon_misc_lucian_door_opener_desc = Opens Destiny doors\n\nLeft click to place the device
 
 // Stools Cats
 stool_cat = Stargate
@@ -129,7 +129,7 @@ stool_cat_config = Config
 stool_cat_tech = Tech
 stool_cat_energy = Energy
 stool_cat_weapons = Weapons
-stool_cat_keys = Keybinders
+stool_cat_keys = Key Bindings
 stool_cat_ramps = Ramps
 
 // Stools Updater
@@ -140,7 +140,7 @@ stool_update_03 = If you are getting this message on an internet server, tell th
 // Stool Names - Config
 stool_credits = Credits
 stool_settings = Settings/Language
-stool_weapvis = Weapons Visuals
+stool_weapvis = Weapon Visuals
 stool_miscvis = Misc Visuals
 stool_shipvis = Ship Visuals
 
@@ -203,10 +203,10 @@ stool_key_teltak = Tel'tak Settings
 // Stool Global
 stool_autoweld = Autoweld
 stool_autolink = Autolink
-stool_autolink_desc = Autolink this to resource node using Entities?
-stool_disabled_ship = This ship is disabled on server!
-stool_disabled_tool = This tool is disabled on server!
-stool_disabled_ent = This entity is disabled on server!
+stool_autolink_desc = Automatically link this to a resource node?
+stool_disabled_ship = This ship is disabled on this server!
+stool_disabled_tool = This tool is disabled on this server!
+stool_disabled_ent = This entity is disabled on this server!
 stool_model = Model:
 stool_size = Size:
 stool_brightness = Brightness:
@@ -226,9 +226,9 @@ naq_bomb_menu_02a = Abort Code:
 naq_stool_menu_y = Yield:
 naq_stool_menu_d = Charge Duration:
 naq_stool_menu_h = HUD
-naq_stool_menu_h_d = Display or hide HUD on bomb. (Does not show on Lucian Bomb)
+naq_stool_menu_h_d = Show or hide the HUD on the bomb (not on the Lucian bomb).
 naq_stool_menu_c = Cart
-naq_stool_menu_c_d = Spawn with cart. (Only works with Tau'ri bomb)
+naq_stool_menu_c_d = Spawn with a cart (Tau'ri bomb only).
 naq_stool_menu_a_d = Autoweld the bomb to the object it is spawned on. If it is spawned with a cart, the bomb is not welded (except to the cart).
 naq_stool_menu_code = Enter the code you wish to use to detonate the bomb.
 naq_stool_menu_abort = Enter the code you wish to use to abort the detonation.
@@ -236,19 +236,19 @@ naq_stool_menu_abort = Enter the code you wish to use to abort the detonation.
 // Dakara
 ancient_control_panel = Ancient Control Panel
 dakara_energy_kill = Dakara Energy Wave
-dakara_panel = Dakara Device Control Panel
+dakara_panel = Dakara Weapon Control Panel
 dakara_power = Set the power of the device, which affects the radius and the charging time.
-dakara_power_d = Faster - Stronger
+dakara_power_d = Faster - Bigger
 dakara_menu_01 = Disintegrate Players
-dakara_menu_02 = Set for disintegrate players.
+dakara_menu_02 = The wave destroys players.
 dakara_menu_03 = Disintegrate Props
-dakara_menu_04 = Set for disintegrate props.
+dakara_menu_04 = The wave destroys props.
 dakara_menu_05 = Disintegrate Vehicles
-dakara_menu_06 = Set for disintegrate vehicles.
+dakara_menu_06 = The wave destroys vehicles.
 dakara_menu_07 = Disintegrate Replicators
-dakara_menu_08 = Set for disintegrate replicators.
+dakara_menu_08 = The wave destroys Replicators.
 dakara_menu_09 = Disintegrate NPCs
-dakara_menu_10 = Set for disintegrate NPCs.
+dakara_menu_10 = The wave destroys NPCs.
 dakara_menu_11 = Close
 dakara_menu_12 = Launch
 
@@ -260,7 +260,7 @@ atl_tp_04 = Teleport
 atl_tp_05 = Destination
 atl_tp_06 = Private
 atl_tp_07 = Private transporters do not show in the dial menu, but they can still be called!
-atl_tp_08 = Sets whether to use a Local Group or not
+atl_tp_08 = Sets whether to use a local group
 atl_tp_error = This name is already in use!
 atl_tp_local = Local
 atl_tp_group = Group
@@ -276,7 +276,7 @@ energy_laser_kill = Energy Laser
 energy_beam_kill = Energy Beam
 entity_kino = Kino
 entity_kd = Kull Disruptor
-mdrone_kill = Mini-Drone
+mdrone_kill = Minidrone
 naq_gen_mk1 = Naquadah Generator MK1
 naq_gen_mk2 = Naquadah Generator MK2
 ramp_kill = Ramp
@@ -291,19 +291,19 @@ liquid_naquadah = Liquid Naquadah
 ring_kill = Rings
 cap_prop_cat = Props
 cap_prop_cat1 = Misc
-cap_prop_cat2 = Cap build
+cap_prop_cat2 = CAP build
 cap_prop_cat3 = Catwalk build
 cap_menu_author = Author
 cap_group_ent = This entity is not allowed for your group!
 cap_group_swep = This weapon is not allowed for your group!
 cap_group_tool = This tool is not allowed for your group!
-cap_group_npc = This npc is not allowed for your group!
-cap_disabled_ent = This entity is disabled on server!
-cap_disabled_swep = This weapon is disabled on server!
-cap_disabled_tool = This tool is disabled on server!
-cap_disabled_npc = This npc is disabled on server!
+cap_group_npc = This NPC is not allowed for your group!
+cap_disabled_ent = This entity is disabled on this server!
+cap_disabled_swep = This weapon is disabled on this server!
+cap_disabled_tool = This tool is disabled on this server!
+cap_disabled_npc = This NPC is disabled on this server!
 iris_gatespawner = You can't override the gatespawner's iris! Spawn an iris computer to control it.
-iris_protection = Iris has been successfully added to the gatespawner's stargate, spawn an iris computer to control it.
+iris_protection = An iris was added to the gatespawner's Stargate. Spawn an iris computer to control it.
 
 // gatespawner
 sg_gtsp_title = Gatespawner Creator
@@ -314,7 +314,7 @@ File: <u>garrysmod\data\%s.txt</u>
 <br>Do not forget to reload the gatespawner or restart the map to have it take effect!
 <br>
 <br><b>Note:</b> You have to change the file extensions from ".txt" to ".lua".
-<br>If you're unfamiliar about this process please make use of <b>Google</b>.
+<br>If you are not sure how to do this, look up how to change file extensions in Windows.
 ]]
 
 // iris computer
@@ -360,48 +360,48 @@ destimer_close = Close stargate
 destimer_error = Can't start the counter when the stargate is closed and the auto-reset option is on!
 
 // asgard transporter
-asgardtp_title = Asgard transporter
+asgardtp_title = Asgard Transporter
 asgardtp_target = Target
 asgardtp_target_desc = Choose the target you want to teleport
 asgardtp_dest = Destination
 asgardtp_dest_desc = Choose where you want to teleport the target
 asgardtp_ents = Teleport with entities and props
-asgardtp_ents_desc = Teleport with entities and props near target
+asgardtp_ents_desc = Teleport with entities and props near the target
 asgardtp_action = Action:
 asgardtp_noact = No action chosen!
 asgardtp_none = No action.
 asgardtp_act = Teleport %s\nto %s
-asgardtp_act2 = Teleport player/npc\nnear %s\nto %s
-asgardtp_acte = with ents and props
+asgardtp_act2 = Teleport player/NPC\nnear %s\nto %s
+asgardtp_acte = with entities and props
 asgardtp_send = Send
 asgardtp_retrieve = Retrieve
 asgardtp_refresh = Refresh list
 asgardtp_type1 = Players
 asgardtp_type2 = NPCs
 asgardtp_type3 = Wire GPS
-asgardtp_busy = Asgard transporter is busy!
+asgardtp_busy = The Asgard Transporter is busy!
 asgardtp_energy = Not enough energy!
-asgardtp_wrong = Wrong coordinates! (maybe not in world?)
-asgardtp_error = Invalid target or destination! (refresh list?)
+asgardtp_wrong = Wrong coordinates! (outside the map?)
+asgardtp_error = Invalid target or destination! (try refreshing the list)
 asgardtp_jamming = Can't teleport to these coordinates - a jamming device is online.
-asgardtp_succ = Successful teleportation.
+asgardtp_succ = Teleport successful.
 
 // MCD
 mcd_title = Molecular Construction Device - Creation menu
 mcd_device = Select Device
-mcd_device_desc = Select your Entity.
+mcd_device_desc = Select a device.
 mcd_replicator = Replicator
-mcd_toggle = Set the Toggle
-mcd_toggle_desc = Set the Toggle for this device.
-mcd_color = Set the Color for Shield.
+mcd_toggle = Toggle key
+mcd_toggle_desc = Set the toggle key for this device.
+mcd_color = Set the shield colour.
 mcd_size = Size
-mcd_size_desc = Set the Size for this device.
-mcd_strengh = Faster - Stronger
+mcd_size_desc = Set the size of this device.
+mcd_strengh = Faster regen - Stronger
 mcd_close = Close
 mcd_create = Create
 mcd_progress = Progress
-mcd_effcolor = Effect color
-mcd_effcolor_desc = Set creation effect color.
+mcd_effcolor = Effect colour
+mcd_effcolor_desc = Set the colour of the build effect.
 mcd_settings = Additional settings
 mcd_nosettings = No additional settings available.
 mcd_classname = Classname: %s
@@ -409,19 +409,19 @@ mcd_classname = Classname: %s
 // anti-prior
 antiprior_c_t = Immunity Mode
 antiprior_c_1 = Owner and friends
-antiprior_c_2 = Only for owner
+antiprior_c_2 = Owner only
 antiprior_c_3 = No one
 
 // SGC Screen menu
 sgcscreen_title = Stargate Command - Codes Manager
 sgcscreen_code = Code
 sgcscreen_dcode = Self-destruct code
-sgcscreen_rcode = Reset code
+sgcscreen_rcode = Abort code
 sgcscreen_desc = Description
 sgcscreen_save = Save
 sgcscreen_cancel = Cancel
 // make sure to check this field, change \n positions to fit in menu
-sgcscreen_info = Require two players to start/cancel self-destruct.\nIn this case you need to enter two different codes.
+sgcscreen_info = Require two players to start/cancel self-destruct.\nThen two different codes are needed.
 
 // huds
 hud_status = Status
@@ -443,10 +443,10 @@ vis_fps_high = Frame Burst: High
 vis_fps_medium = Frame Burst: Medium
 vis_fps_low = Frame Burst: Low
 vis_title = Draw Effects
-vis_title_desc = Turning this off will disable all settings below. When it's on, the settings below will be used
+vis_title_desc = Turning this off disables all settings below.
 vis_dyn_light = Dynamic Lights
 vis_ripple = Draw ripple on the Event Horizon
-vis_kawoosh_eff = Draw kawoosh enter effect on stargate open
+vis_kawoosh_eff = Draw the kawoosh effect when a gate opens
 vis_kawoosh_mat = Use New Kawoosh Material
 vis_kawoosh_mat_desc = Frame Burst: none. It only changes the material of the kawoosh.
 vis_stargate_eff = Draw Open/Close Effects
@@ -474,19 +474,19 @@ vis_fly_dyn_light = Dynamic Lights while flying
 vis_wall = Scorch on Walls
 vis_diss_eff = Dissolve Effect
 vis_glow = Glow
-vis_sunbeams = SunBeams
-vis_sunbeams_desc = %s, Requires SM v2
+vis_sunbeams = Sun Beams
+vis_sunbeams_desc = %s, requires SM v2
 vis_part_rings = Particle rings
 vis_shield_part = Shielded Particles
-vis_shield_part_desc = %s, Prevents particles from spawning in shield
+vis_shield_part_desc = %s, stops particles from spawning inside the shield
 vis_plasma = Plasma
 vis_plasma_light = Plasma Dynamic Lighting
-vis_plasma_desc = %s, This one is affected by the one above
+vis_plasma_desc = %s, depends on the setting above
 vis_refl_rings = Refraction Ring Pulse
 vis_sm_laser = Small lasers
 vis_charge_up = Charge up rings
 vis_refl_sphere = Refraction spheres
-vis_reset_menu = Reset stargate menu
+vis_reset_menu = Reset Stargate menu
 
 // keybinder
 key_move_title = Movement
@@ -534,7 +534,7 @@ key_act_cockpit = Toggle Cockpit
 key_act_auto = Toggle AutoPilot
 key_view_title = View
 key_view_hud = Hide HUD
-key_view_lsd = Hide LSD
+key_view_lsd = Hide Life Signs
 key_view_zoomin = Zoom in
 key_view_zoomout = Zoom out
 key_view_up = Move view up
@@ -546,37 +546,37 @@ key_cam_right = Camera Right
 key_cam_up = Camera Up
 key_cam_down = Camera Down
 key_cam_reset = Reset camera
-key_rocket_title = Missiles control
+key_rocket_title = Missile Control
 key_rocket = Missile
 
 
 // Limits reached
-entity_limit_ag3 = AG-3 Satellites limit reached!
+entity_limit_ag3 = AG-3 Satellite limit reached!
 entity_limit_anc_obelisk = Ancient Obelisk limit reached!
 entity_limit_app_core = Apple Core limit reached!
-entity_limit_asgard_beam = Asgard Beams limit reached!
+entity_limit_asgard_beam = Asgard Beam limit reached!
 entity_limit_asuran_weap = Asuran Gate Weapon limit reached!
-entity_limit_dakara = Dakara Building limit reached!
+entity_limit_dakara = Dakara Weapon limit reached!
 entity_limit_dest_console = Destiny Console limit reached!
 entity_limit_shaped = Shaped Charge limit reached!
 entity_limit_overloader = Gate Overloader limit reached!
-entity_limit_horizon = Horizon Missiles limit reached!
-entity_limit_iris_pc = Iris computer limit reached!
+entity_limit_horizon = Horizon Missile limit reached!
+entity_limit_iris_pc = Iris Computer limit reached!
 entity_limit_kino = Kino limit reached!
-entity_limit_kino_dis = KINO Dispenser limit reached!
+entity_limit_kino_dis = Kino Dispenser limit reached!
 entity_limit_holo = Lantean Holo limit reached!
-entity_limit_drone_laun = Drone Launchers limit reached!
+entity_limit_drone_laun = Drone Launcher limit reached!
 entity_limit_minidrone = Minidrone Platform limit reached!
 entity_limit_mcd = MCD limit reached!
 entity_limit_ori_beam = Ori Beam Cannon limit reached!
-entity_limit_ori_sat = Ori Satellites limit reached!
-entity_limit_ships = Ships limit reached!
-entity_limit_dest_main = Destiny Main Weapons limit reached!
-entity_limit_dest_med = Destiny Medium Turrets limit reached!
-entity_limit_dest_tur = Destiny Turrets limit reached!
-entity_limit_ship_rail = Ship Railguns limit reached!
-entity_limit_toll_ion = Tollan Ion Cannons limit reached!
+entity_limit_ori_sat = Ori Satellite limit reached!
+entity_limit_ships = Ship limit reached!
+entity_limit_dest_main = Destiny Main Weapon limit reached!
+entity_limit_dest_med = Destiny Medium Turret limit reached!
+entity_limit_dest_tur = Destiny Turret limit reached!
+entity_limit_ship_rail = Ship Railgun limit reached!
+entity_limit_toll_ion = Tollan Ion Cannon limit reached!
 entity_limit_shield_core = Shield Core limit reached!
 entity_limit_sod_obelisk = Sodan Obelisk limit reached!
-entity_limit_staff_stat = Staff Stationary limit reached!
-entity_limit_stat_rail = Stationary Railguns limit reached!
+entity_limit_staff_stat = Stationary Staff Weapon limit reached!
+entity_limit_stat_rail = Stationary Railgun limit reached!

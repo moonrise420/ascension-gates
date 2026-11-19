@@ -8,7 +8,7 @@ Ascension Gates is based on Carter's Addon Pack and CAP Enhanced. It adds bug fi
 **Steam Workshop (easiest):** subscribe to [Ascension Gates](https://steamcommunity.com/sharedfiles/filedetails/?id=3840679305) - Steam brings everything it needs with it.
 
 **By hand:** download all four zips from [Releases](../../releases/latest) and unpack them into `garrysmod/addons/`:
-`ascension_gates-1.0.0.zip` (the code) and `ascension_gates_res1`, `_res2`, `_res3` (models, sounds, maps and
+`ascension_gates-1.0.1.zip` (the code) and `ascension_gates_res1`, `_res2`, `_res3` (models, sounds, maps and
 materials, 2.9 GB together - that is why they are release files and not part of this repository). It also needs
 [PowerGrid](https://github.com/moonrise420/powergrid) and [Wiremod](https://github.com/wiremod/wire).
 
@@ -67,7 +67,7 @@ Type **agp_wiki** in the console, or Q > Ascension Gates > Config > Help. Every 
 ---
 
 ## Required
-Steam lists them under *Required Items* and offers to subscribe them with this one:
+Steam lists them under *Required Items* and offers to subscribe you to them along with this one:
 - Ascension Gates - Resources 1, 2 and 3 (models, sounds, maps, materials)
 - PowerGrid (energy network and life support)
 - [Wiremod](https://steamcommunity.com/sharedfiles/filedetails/?id=160250458) (Wire inputs and outputs, E2)

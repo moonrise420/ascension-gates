@@ -316,6 +316,10 @@ function ENT:TogglePods() --############# Toggle Engine Pods @ RononDex
 			if(not(self.epodo)) then
 				self.sequence = self:LookupSequence("epodo") -- Open the drive pods
 				self.epodo = true
+				-- AGP 2026-11-16 (owner test): the drone pods sit in the drive pods - with the drive pods closed they are
+				-- closed too. A WepPods flag left over (pilot got out with both open) made Fire skip opening them: no
+				-- drones, and Q "closed" them first.
+				self.WepPods = false
 				self:EmitSound(self.Sounds.EnginePodOpen,100,100)
 				self.CanDoPods=false
 				self.CloakPods = true;

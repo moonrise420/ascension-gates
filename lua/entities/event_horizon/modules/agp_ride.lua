@@ -50,6 +50,83 @@ if (SERVER) then
 		if (isShip(e) and IsValid(e.Pilot) and e.Pilot:IsPlayer()) then return e.Pilot end
 	end
 
+	-- AGP 2026-11-18 (owner test: a seat with a StarCore welded behind it rode the wormhole twice - every welded part
+	-- started its own ride once it was through, and the second ride moved the whole ship again from the source gate: it
+	-- came out far off, under the map; the pilot in the seat saw no tunnel, only a frozen picture): a contraption rides
+	-- as one. The part that is through first starts the ride; every other part of it (and what is parented to them) is
+	-- held where it is - frozen, unseen, not solid - and comes along; the players in its seats are unhurt and see the
+	-- tunnel. The far gate gets the whole contraption once, as without the ride.
+	local function heldState(v)
+		local p = v:GetPhysicsObject()
+		local st = { Ent = v, Flags = v:GetSolidFlags(), Color = v:GetColor(), RenderMode = v:GetRenderMode(), Vel = v:GetVelocity() }
+		if (IsValid(p)) then st.Motion = p:IsMotionEnabled(); p:EnableMotion(false) end
+		return st
+	end
+
+	local function seated(v)
+		if (v:IsVehicle()) then return v:GetDriver() end
+		if (isShip(v)) then return v.Pilot end
+	end
+
+	-- every part of the contraption but e, its children, the players in its seats
+	local function groupHold(e, r, list)
+		local held, seen = {}, { [e] = true }
+		local function hide(v)
+			if (not IsValid(v) or seen[v] or v:IsPlayer()) then return end
+			seen[v] = true
+			held[#held + 1] = heldState(v)
+			v.AGPRideWith = e
+			v:AddSolidFlags(FSOLID_NOT_SOLID)
+			v:SetRenderMode(RENDERMODE_TRANSALPHA)
+			v:SetColor(Color(0, 0, 0, 0))
+			for _, c in ipairs(v:GetChildren()) do hide(c) end
+		end
+		for _, v in ipairs(list or {}) do hide(v) end
+		for _, c in ipairs(e:GetChildren()) do hide(c) end
+		local riders = {}
+		for _, v in ipairs({ e, unpack(list or {}) }) do
+			local d = IsValid(v) and seated(v)
+			if (IsValid(d) and d:IsPlayer() and not riders[d]) then
+				riders[d] = { God = d:HasGodMode() }
+				d:GodEnable()
+				d:SetNoDraw(true)
+			end
+		end
+		r.Group, r.Seated = held, riders
+	end
+
+	-- back into the world: the held parts at their speed as they went in (the teleport turns it to the far gate)
+	local function groupFree(r)
+		for _, st in ipairs(r.Group or {}) do
+			local v = st.Ent
+			if (IsValid(v)) then
+				v.AGPRideWith = nil
+				v:SetSolidFlags(st.Flags)
+				v:SetColor(st.Color)
+				v:SetRenderMode(st.RenderMode)
+				local p = v:GetPhysicsObject()
+				if (IsValid(p) and st.Motion) then
+					p:EnableMotion(true)
+					p:Wake()
+					p:SetVelocity(st.Vel)
+				end
+			end
+		end
+		for d, st in pairs(r.Seated or {}) do
+			if (IsValid(d)) then
+				d:SetNoDraw(false)
+				if (not st.God) then d:GodDisable() end
+			end
+		end
+		r.Group, r.Seated = nil, nil
+	end
+
+	-- the tunnel for everyone who sees this ride
+	local function viewAll(r, on)
+		for _, ply in ipairs(r.Viewers or {}) do view(ply, on) end
+		if (not on) then r.Viewers = nil end
+	end
+
 	-- the two gates count this ride in "Entities On Route"; once over, counted down again (once)
 	local function routeDone(r)
 		if (not r or not r.AGPRoute) then return end
@@ -89,7 +166,9 @@ if (SERVER) then
 		k:SetColor(r.Color)
 		k:SetRenderMode(r.RenderMode)
 		k:SetParent(nil)
+		k.AGPRideWith = nil
 		setMalpWheels(k, true)
+		groupFree(r)
 	end
 
 	local function gravityBack(k, r)
@@ -107,10 +186,12 @@ if (SERVER) then
 		if (r.AGPTimer) then timer.Remove(r.AGPTimer) end
 		routeDone(r)
 		if (IsValid(eh) and eh.Ents) then eh.Ents[k] = nil end
-		view(r.Viewer, false)
-		if (not IsValid(k)) then return end
+		viewAll(r, false)
+		if (not IsValid(k)) then groupFree(r) return end
 		if (k:IsPlayer()) then k.AGPRide = nil end
+		local group = r.Group
 		restore(k, r)
+		local from = k:GetPos()
 		local gate = r.AGPSource
 		if (stays(gate)) then
 			local fwd = gate:GetForward()
@@ -128,6 +209,14 @@ if (SERVER) then
 			end
 		else
 			k:SetPos(k:GetPos())
+		end
+		local moved = k:GetPos() - from
+		for _, st in ipairs(group or {}) do
+			if (IsValid(st.Ent) and not IsValid(st.Ent:GetParent())) then
+				st.Ent:SetPos(st.Ent:GetPos() + moved)
+				local p = st.Ent:GetPhysicsObject()
+				if (IsValid(p)) then p:SetVelocity(vector_origin) end
+			end
 		end
 		gravityBack(k, r)
 		local phys = k:GetPhysicsObject()
@@ -155,6 +244,7 @@ if (SERVER) then
 		block = false   -- looked at again when it arrives (a far iris may open or shut meanwhile; the Virgo gate's way back)
 		if (e:IsPlayer() and not e:Alive()) then return end
 		if (isShip(e) and IsValid(e.Pilot) and e.Pilot:IsPlayer() and not e.Pilot:Alive()) then return end
+		if (e.AGPRideWith) then return end   -- a part of a contraption already on its way (it rides along)
 		if (self.ShuttingDown) then lost(e) return end
 		-- still forming (the kawoosh), unstable or closing with a kill: destroyed at once, as without the ride
 		if (not self:IsOpen() or self.ShuttingDownKill or self.Unstable) then
@@ -172,14 +262,22 @@ if (SERVER) then
 			end
 		end
 
-		local viewer = rideViewer(e)
-		local wantsView = IsValid(viewer) and viewer:GetInfoNum("cl_stargate_wormhole", 1) ~= 0
+		-- who sees the tunnel: the player, a ship's pilot, everyone in a seat of the contraption
+		local list = istable(attached) and attached.Attached or {}
+		local viewers, wants = {}, {}
+		for _, v in ipairs({ e, unpack(list) }) do
+			local p = IsValid(v) and (rideViewer(v) or seated(v))
+			if (IsValid(p) and p:IsPlayer() and not table.HasValue(viewers, p)) then
+				viewers[#viewers + 1] = p
+				if (p:GetInfoNum("cl_stargate_wormhole", 1) ~= 0) then wants[#wants + 1] = p end
+			end
+		end
 		local r = {
 			MoveType = e:GetMoveType(), Solid = e:GetSolid(), Color = e:GetColor(), RenderMode = e:GetRenderMode(),
 			Vel = e:GetVelocity(), Health = e:Health(), Gravity = gravity,
 			AGPSince = CurTime(),          -- the gate stays open meanwhile (ENT:AGPPassing)
 			AGPSource = self:GetParent(),  -- where a ride that cannot be finished comes out
-			Viewer = wantsView and viewer or nil,
+			Viewers = wants,
 		}
 		if (e:IsPlayer()) then
 			r.God = e:HasGodMode()
@@ -199,9 +297,11 @@ if (SERVER) then
 		e:SetSolid(SOLID_NONE)
 		e:SetMoveType(MOVETYPE_NONE)
 		self.Ents[e] = r
+		e.AGPRideWith = e
+		groupHold(e, r, list)
 
 		-- through at once: from behind (destroyed), a player without the picture, one who died this very moment
-		local now = totalkill or (IsValid(viewer) and not wantsView) or (e:IsPlayer() and not e:Alive())
+		local now = totalkill or (#viewers > 0 and #wants == 0) or (e:IsPlayer() and not e:Alive())
 		if (totalkill) then block = true end
 		local gate = self:GetParent()
 		if (gate:GetClass() ~= "mobile_gate") then
@@ -219,7 +319,7 @@ if (SERVER) then
 			local phys = e:GetPhysicsObject()
 			if (IsValid(phys)) then r.AGPGravity = phys:IsGravityEnabled(); phys:EnableGravity(false) end
 		end
-		view(r.Viewer, true)
+		viewAll(r, true)
 		local name = "AGP.WormholeRide." .. gate:EntIndex() .. "." .. e:EntIndex()
 		r.AGPTimer = name
 		table.insert(self.timer_table, name)
@@ -240,11 +340,11 @@ if (SERVER) then
 			return
 		end
 		r.AGPDone = true
-		if (not IsValid(k)) then view(r.Viewer, false) routeDone(r) self.Ents[k] = nil return end
+		if (not IsValid(k)) then viewAll(r, false) groupFree(r) routeDone(r) self.Ents[k] = nil return end
 		if (k:IsPlayer()) then k.AGPRide = nil end
 		-- he died during the ride (and may have respawned meanwhile): his ride is just over, no teleport
 		if (k:IsPlayer() and r.AGPDied) then
-			view(r.Viewer, false)
+			viewAll(r, false)
 			restore(k, r)   -- seen and free again (the alpha 0 would outlive a respawn)
 			routeDone(r)
 			self.Ents[k] = nil
@@ -267,7 +367,7 @@ if (SERVER) then
 			restore(k, r)
 			rider:StripWeapons()
 			rider:KillSilent()
-			view(r.Viewer, false)
+			viewAll(r, false)
 			umsg.Start("StarGate.EventHorizon.PlayerKill")
 			umsg.Entity(rider)
 			umsg.End()
@@ -276,14 +376,15 @@ if (SERVER) then
 			self.Ents[k] = nil
 			return
 		elseif (self.ShuttingDown and not rider:IsPlayer()) then
-			view(r.Viewer, false)
+			viewAll(r, false)
+			groupFree(r)
 			k:Remove()
 			routeDone(r)
 			self.Ents[k] = nil
 			return
 		end
 
-		view(r.Viewer, false)
+		viewAll(r, false)
 		restore(k, r)
 		-- its speed as it went in, turned to the far gate by the teleport (was: no speed, then twice the old one in
 		-- the old direction)
@@ -316,6 +417,18 @@ if (SERVER) then
 				end)
 			end
 			if (IsValid(k) and not k:IsPlayer()) then gravityBack(k, r) end
+			-- AGP 2026-11-16 (owner test: the Gate Glider stayed in the far event horizon, only its tip out, until the gate
+			-- threw it out): a ship comes out at the depth it went in, and a ship without throttle then just hovers there.
+			-- Every sg_vehicle_ ship comes out wholly in front of the far gate (its centre a bounding radius out).
+			if (IsValid(k) and k:GetClass():sub(1, 11) == "sg_vehicle_") then
+				local g = (cfd and self or self.Target):GetParent()
+				if (IsValid(g)) then
+					local fwd = g:GetForward()
+					local need = k:BoundingRadius() + 24
+					local d = (k:WorldSpaceCenter() - g:GetPos()):Dot(fwd)
+					if (d < need) then k:SetPos(k:GetPos() + fwd * (need - d)) end
+				end
+			end
 			-- a player or NPC steps out on the ground in front of the gate
 			if (IsValid(k) and (k:IsPlayer() or k:IsNPC())) then
 				local g = (cfd and self or self.Target):GetParent()

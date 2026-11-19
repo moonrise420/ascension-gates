@@ -100,10 +100,10 @@ converted to Source formats (notes/hatak/glb2mdl.py).
 - The classic Atlantis event horizon (materials/sgorlin/effect_01, horizon_new_hd): the series' Atlantis horizon.
 - The wormhole ride's tunnel (materials/williamdefly/wormhole) and travel sound (sound/stargate/travelnew.mp3): the
   series' wormhole. The ride itself is our own code (lua/entities/event_horizon/modules/agp_ride.lua, 2026-11-10).
-- The Replicators' walking sound, calls and clicks (sound/agp_replicator/rep_walk_loop, rep_chatter, rep_chatter2,
-  rep_click1-4): the series' own Replicator sounds - the centre channel of the episodes' 5.1 sound, where the creatures
-  are without the music: walking and the quiet, curious call from SG-1 4x01 "Small Victories", the loud call from 5x19
-  "Menace", the clicks from both (notes/sounds/rep_centre_clips.py, rep_install_centre.py).
+- The Replicators' walking sound and their quiet call (sound/agp_replicator/rep_walk_loop, rep_chatter2): the series'
+  own Replicator sounds - the centre channel of the episodes' 5.1 sound, where the creatures are without the music:
+  walking and the quiet, curious call from SG-1 4x01 "Small Victories" (notes/sounds/rep_centre_clips.py,
+  rep_install_centre.py).
 - The Tau'ri soldiers in our cloth (models/player/agp_cap/cap_soldier_*, materials/models/agp/cap_soldier): ViktorK's SG
   soldier from CAP (body, head, hands, skeleton, textures) rebuilt by us with the cloth recoloured per group. Their shoulder
   patches (patch_l / patch_r) are the series' designs: the Earth patch, the SG-1 team patch and the Atlantis expedition

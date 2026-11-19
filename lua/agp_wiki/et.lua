@@ -44,7 +44,7 @@ pages = {
 - [Q] > Ascension Gates > **Väravad ja ringitransporterid**: väravad, DHD-d, ringid ja ringipaneelid.
 - Tööriistad ([Q] > parem pool > Ascension Gates > Tech): Mobiilne DHD, Supervärava DHD, Iris, Goa'uld Iris.
 # Vali aadress DHD-ga
-1. Pane DHD värava lähedale (lähemale kui 1000).
+1. Pane DHD värava lähedale (lähemale kui 1000 ühikut).
 2. Vaata DHD-l ühte tähist ja vajuta [E]: see süttib.
 3. Vajuta kõik aadressi tähised, siis suur keskmine nupp.
 - Keskmine nupp, kui ühtegi tähist pole vajutatud: avaneb valimismenüü.
@@ -59,11 +59,11 @@ pages = {
 - **Iris Computer** (Väravad ja ringitransporterid): puuduta sellega iirisega väravat, [E] = menüü (koodid, automaatne sulgemine).
 - **GDO** (relv): parem klõps = kirjuta oma kood, vasak klõps = saada see avatud väravale.
 # Ringid
-- Ringiplatvorm + ringipaneel, lähestikku (paneel töötab ringidega 500 piires).
+- Ringiplatvorm + ringipaneel, lähestikku (paneel töötab ringidega 500 ühiku piires).
 - [E] paneeli nupul vajutab seda. **DIAL** ilma numbriteta = lähimate ringideni. Numbritega = selle ringiaadressini.
 - [E] ringi aluse peal: anna sellele nimi (aadress).
 - **Ring Caller** (relv): vasak klõps kutsub lähimad ringid, parem klõps avab valimisakna.
-! Ringid muljuvad sind, kui seisad paigal seal, kuhu nad alla tulevad. Astu platvormile või sellest eemale.
+! Ringid muljuvad sind, kui seisad paigal seal, kuhu nad alla tulevad. Seisa platvormi keskel või astu sellelt maha.
 ]] },
 
 { id = "hatak", title = "Ha'tak emalaev", icon = "icon16/house.png", body = [[
@@ -121,7 +121,7 @@ pages = {
 1. Vajuta [R] piloodiistmel (või [E] navigatsioonikonsoolil).
 2. Vali siht: salvestatud märgid, Stargate või teine mängija. Või kirjuta x y z.
 3. Klõpsa **Jump**. Laev laeb (3 s), avaneb aken, sa lendad läbi.
-- **Save mark 1/2/3 here** jätab koha meelde.
+- **Märk 1/2/3 siia** jätab koha meelde.
 - Vaja on 30 % hüperajami energiat. Hüpete vahel 8 s paus.
 # Relvad
 - [E] **relvakonsoolil**: radar ülalt ja sihtmärkide loend.
@@ -218,7 +218,7 @@ pages = {
 - **Puddle Jumper:** [Mouse1] droonid (kapslid avanevad ise), [Mouse2] hoia = droonid järgivad sinu sihti, [Alt] varjamine, [2] uks, [T] hõljumine, [G] kilp, [R] vali lähim värav.
 - **Tel'tak:** [Mouse2] kepikahurid, [G] kilp, [Alt] varjamine, hoia [R] hüperruum, [2] uks. Rõngaskiir: [Enter] (maandumisrežiim), siis [Mouse1].
 - **F-302:** [Mouse1] kahurid, [Mouse2] raketid, [Alt] pettesihtmärgid, [B] kiirendus, [2] katapult.
-- **Daedalus:** [Mouse1] rööpakahurid, [Mouse2] Asgardi kiir, [1] kuni [8] raketid.
+- **Daedalus:** [Mouse1] rööpkahurid, [Mouse2] Asgardi kiir, [1] kuni [8] raketid.
 - **Wraith Dart:** [C] kogub inimesi, [Alt] paneb nad välja.
 > Klahvide muutmine: {page:keys|Klahvide muutmine}.
 ]] },
@@ -236,7 +236,7 @@ pages = {
 3. Sihi, kuhu see peab jääma. Näed selle kummitusena.
 4. Vasak klõps [Mouse1]: paigas. Parem klõps [Mouse2]: paigas 90 kraadi pööratult.
 - Sihi osa ja vajuta [R]: see osa on valitud.
-- Laeval või propil keevitatakse see selle külge, mida sihid (kast **Weld to what I aim at**).
+- Laeval või propil keevitatakse see selle külge, mida sihid (kast **Keevita sellele, millele sihid**).
 # Osad
 - **Energiaelemendid (XS kuni XL):** salvestavad energiat.
 - **Päikesepaneelid:** toodavad energiat, kui nende kohal on avatud taevas.
@@ -252,7 +252,7 @@ pages = {
 - **Manual:** tööriist **PowerGridi ühendus**: vasak klõps osadel (need lähevad siniseks), parem klõps osal või energiasõlmel, millega need ühendatakse. [R] tühistab valiku; [R] osal eemaldab selle ühendused.
 - **Automatic:** kokku keevitatud osad jagavad ise.
 - **Off:** kõigel on vaba energia.
-! Spacebuild installitud? Siis kasutatakse Spacebuildi võrku. Meie energiasõlmed on siis Spacebuildi sõlmed: ühenda tööriistaga PowerGridi ühendus. Adminid saavad sisse lülitada **Alati PowerGrid**.
+! Spacebuild installitud? Siis kasutatakse Spacebuildi võrku. PowerGridi energiasõlmed töötavad siis Spacebuildi sõlmedena: ühenda tööriistaga PowerGridi ühendus. Adminid saavad sisse lülitada **Alati PowerGrid**.
 # Energiaallikad
 - **ZPM:** tööriist **ZPM MK III**. Pane see ZPM keskusesse või {page:goauldpower|Goa'uldi energiakeskusesse}.
 - **Naquadah generaator:** tööriist jaotises Energy.
@@ -275,7 +275,7 @@ pages = {
 - Vaata keskust: väike silt näitab kristalle ja energiat.
 > ZPM annab kümme korda rohkem energiat kui kristall ja ajab tuuma tugevamini.
 # Liugur tööriistas
-- **Crystal charge:** kui täis uued kristallid on (0 kuni 100 %).
+- **Kristalli laeng:** kui täis uued kristallid on (0 kuni 100 %).
 ]] },
 
 { id = "lifesupport", title = "Elutugi ja kosmos", icon = "icon16/heart.png", body = [[
@@ -336,23 +336,23 @@ pages = {
 { id = "admin", title = "Adminide seaded", icon = "icon16/shield.png", body = [[
 = Adminid (ja sina ühe mängija režiimis) muudavad serveri seadeid. Kõik teised näevad neid ainult. Vii hiir seade peale, et näha lühikest vihjet.
 # Laevade seaded: [Q] > Ascension Gates > Config > AGP laevad
-- **Hijacking:** ainult meeskond / juhtkristalliga / igaüks.
-- **Weapons fire at owner and friends:** jah või ei.
-- **Weapon + radar range:** kui kaugele kahurid tulistavad ja radar näeb.
-- **Radar: most targets shown.**
-- **Power crystals strangers may pull:** 0 kuni 15 (vaikimisi 2). Meeskonnal piirangut pole.
-- **Ship can be destroyed:** jah (vaikimisi) või ei (kere jääb 1 peale).
-- **Hull health (new ships):** 10 000 kuni 1 000 000 (vaikimisi 100 000).
-- **Cloak allowed:** jah või ei.
-- **Glider bay: lost gliders come back:** jah või ei ja mitme sekundi pärast (vaikimisi 60).
-- **Shield bubble (all ships):** ainult tabamusel ning sisse- või väljalülitamisel (vaikimisi) või alati nähtav.
-- **Self-destruct countdown (all ships):** 1 kuni 600 sekundit (vaikimisi 5).
+- **Kaaperdamine:** ainult meeskond / juhtkristalliga / igaüks.
+- **Relvad tulistavad omanikku ja sõpru:** jah või ei.
+- **Relvade + radari ulatus:** kui kaugele kahurid tulistavad ja radar näeb.
+- **Radar: suurim sihtmärkide arv.**
+- **Energiakristallid, mida võõrad tohivad välja võtta:** 0 kuni 15 (vaikimisi 2). Meeskonnal piirangut pole.
+- **Laeva saab hävitada:** jah (vaikimisi) või ei (kere jääb 1 peale).
+- **Kere tugevus (uued laevad):** 10 000 kuni 1 000 000 (vaikimisi 100 000).
+- **Maskeering lubatud:** jah või ei.
+- **Purilennukite angaar: kaotatud tulevad tagasi:** jah või ei ja mitme sekundi pärast (vaikimisi 60).
+- **Kilbi mull (kõik laevad):** ainult tabamusel ning sisse- või väljalülitamisel (vaikimisi) või alati nähtav.
+- **Enesehävitus: loendus (kõik laevad):** 1 kuni 600 sekundit (vaikimisi 5).
 # Energia seaded: [Q] > PowerGrid > Seaded > PowerGrid
-- **How parts connect:** Manual / Automatic / Mix / Off. Vaata {page:spacegrid|PowerGrid}.
+- **Kuidas osad ühenduvad:** Käsitsi / Automaatne / Segu / Väljas. Vaata {page:spacegrid|PowerGrid}.
 - **Alati PowerGrid:** kasuta PowerGrid'it ka Spacebuildiga (vaja kaarti vahetada).
 - **Musta augu energia:** ainult adminid või kõik.
-- **Space simulation:** ainult kosmosekaardid / iga kaart / väljas. Vaata {page:lifesupport|Elutugi}.
-- **Gate destination report:** sees või väljas.
+- **Kosmose simulatsioon:** ainult kosmosekaardid / iga kaart / väljas. Vaata {page:lifesupport|Elutugi}.
+- **Värava sihtkoha raport:** sees või väljas.
 # Ainult sinule (iga mängija)
 - Kaablid, masinate helid, värava aruanne su ekraanil, ühikud kauguse, temperatuuri ja gravitatsiooni jaoks.
 ]] },
@@ -376,7 +376,7 @@ pages = {
 - Laevasisemuse ukseavad ei lase läbi, kui teine pool on suletud. Ava uks kõigepealt.
 - Ikka kinni: noclip ([V]) või ärka uuesti.
 # Tööriist näitab teksti nagu #tool.something.name
-- Puuduv tekst. Palun ütle meile, milline tööriist.
+- Puuduv tekst. Palun ütle mulle, milline tööriist.
 ]] },
 
 },

@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.1
+- Built ships (StarCore ships, welded props) ride the wormhole in one piece, and their pilots see the tunnel; every ship comes out wholly in front of the far gate
+- Replicators: far less lag in big swarms, better paths through buildings, they plan around players' props and climb them, climb past a lip without flipping over, no more climbing up thin air
+- Puddle Jumper fixes (pods, exit spot, windshield frame)
+- Spawn icons for the two Goa'uld chairs; Ascension Gates, SpaceGrid and PowerGrid tabs side by side
+- Clearer texts in all 12 languages
+
 ## 1.0.0
 First release.
 

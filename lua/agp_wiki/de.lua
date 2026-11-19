@@ -44,7 +44,7 @@ pages = {
 - [Q] > Ascension Gates > **Gates und Ringe**: Gates, DHDs, Ringe und Ringpanels.
 - Werkzeuge ([Q] > rechte Seite > Ascension Gates > Tech): Mobiles DHD, Supergate DHD, Iris, Goa'uld Iris.
 # Anwählen mit dem DHD
-1. Stelle das DHD nahe ans Gate (näher als 1000).
+1. Stelle das DHD nahe ans Gate (näher als 1000 Einheiten).
 2. Sieh ein Symbol am DHD an und drücke [E]: Es leuchtet.
 3. Drücke alle Symbole der Adresse, dann den großen Knopf in der Mitte.
 - Mittelknopf ohne gedrückte Symbole: Das Wahlmenü öffnet sich.
@@ -59,11 +59,11 @@ pages = {
 - **Iris Computer** (Gates und Ringe): Berühre damit ein Gate mit Iris, [E] = Menü (Codes, automatisch schließen).
 - **GDO** (Waffe): Rechtsklick = Code eingeben, Linksklick = an ein offenes Gate senden.
 # Ringe
-- Ringplattform + Ringpanel, nah beieinander (das Panel schaltet Ringe im Umkreis von 500).
+- Ringplattform + Ringpanel, nah beieinander (das Panel schaltet Ringe im Umkreis von 500 Einheiten).
 - [E] auf einen Panelknopf drückt ihn. **DIAL** ohne Ziffern = zu den nächsten Ringen. Mit Ziffern = zu dieser Ringadresse.
 - [E] auf der Ringbasis: Gib ihr einen Namen (Adresse).
 - **Ring Caller** (Waffe): Linksklick ruft die nächsten Ringe, Rechtsklick öffnet das Wahlfenster.
-! Ringe zerquetschen dich, wenn du still stehst, wo sie herunterkommen. Tritt auf die Plattform oder weg davon.
+! Ringe zerquetschen dich, wenn du still stehst, wo sie herunterkommen. Stell dich in die Mitte der Plattform oder geh von ihr runter.
 ]] },
 
 { id = "hatak", title = "Ha'tak-Mutterschiff", icon = "icon16/house.png", body = [[
@@ -72,7 +72,7 @@ pages = {
 - [Q] > Ascension Gates > **Größere Mutterschiffe** > Ha'tak.
 - Es erscheint hoch über der Stelle, auf die du zielst (oder vor dir, wenn du in den Himmel zielst). Es schwebt.
 # Einsteigen
-- **Hangar:** die große Tür unten an der Pyramide. [E] darauf öffnet sie. Geh hinein: Du bist direkt im Hangar im Inneren.
+- **Hangar:** die große Tür unten an der Pyramide. [E] darauf öffnet sie. Geh hinein: Du stehst direkt im Hangar.
 - Die Hangar-Tür außen und innen ist eine Tür: auf beiden Seiten offen oder zu. Ein Türschalter (goldene Platte) ist innen und außen daneben.
 - **Ringe:** Nutze Ringe außen nahe am Schiff oder ein Ringpanel innen.
 - [E] auf eine Tür oder auf das goldene Bedienfeld daneben: Die Tür öffnet oder schließt sich.
@@ -121,7 +121,7 @@ pages = {
 1. Drücke [R] auf dem Pilotensitz (oder [E] auf der Navigationskonsole).
 2. Wähle ein Ziel: gespeicherte Marken, ein Stargate oder eine andere Person. Oder tippe x y z.
 3. Klicke **Jump**. Das Schiff lädt auf (3 s), ein Fenster öffnet sich, du fliegst hindurch.
-- **Save mark 1/2/3 here** merkt sich die Stelle.
+- **Marke 1/2/3 hier** merkt sich die Stelle.
 - Braucht 30 % Hyperantrieb-Power. 8 s Pause zwischen den Sprüngen.
 # Waffen
 - [E] auf die **Waffenkonsole**: Radar von oben und eine Zielliste.
@@ -236,7 +236,7 @@ pages = {
 3. Ziele dorthin, wo es stehen soll. Du siehst einen Geist davon.
 4. Linksklick [Mouse1]: platziert. Rechtsklick [Mouse2]: um 90 Grad gedreht platziert.
 - Ziele auf ein Teil und drücke [R]: Dieses Teil ist gewählt.
-- Auf einem Schiff oder Prop wird es an das angeschweißt, worauf du zielst (Kästchen **Weld to what I aim at**).
+- Auf einem Schiff oder Prop wird es an das angeschweißt, worauf du zielst (Kästchen **An das Ziel schweißen**).
 # Die Teile
 - **Energiezellen (XS bis XL):** speichern Energie.
 - **Solarpanels:** machen Energie, solange offener Himmel über ihnen ist.
@@ -252,7 +252,7 @@ pages = {
 - **Manual:** Werkzeug **PowerGrid-Verbinder**: Linksklick auf die Teile (sie werden blau), Rechtsklick auf das Teil oder den Power-Knoten, mit dem sie verbunden werden. [R] löscht die Auswahl; [R] auf ein Teil entfernt seine Verbindungen.
 - **Automatic:** Teile, die zusammengeschweißt sind, teilen von selbst.
 - **Off:** Alles hat freie Energie.
-! Spacebuild installiert? Dann wird das Netz von Spacebuild benutzt. Unsere Power-Knoten sind dann Spacebuild-Knoten: verbinde mit dem Werkzeug PowerGrid-Verbinder. Admins können **Immer PowerGrid** einschalten.
+! Spacebuild installiert? Dann wird das Netz von Spacebuild benutzt. Die Power-Knoten von PowerGrid arbeiten dann als Spacebuild-Knoten: verbinde mit dem Werkzeug PowerGrid-Verbinder. Admins können **Immer PowerGrid** einschalten.
 # Energiequellen
 - **ZPM:** Werkzeug **ZPM MK III**. Setze es in einen ZPM-Hub oder einen {page:goauldpower|Goa'uld-Powerhub}.
 - **Naquadah-Generator:** Werkzeug unter Energy.
@@ -275,7 +275,7 @@ pages = {
 - Sieh den Hub an: Ein kleines Schild zeigt Kristalle und Energie.
 > Ein ZPM gibt zehnmal so viel Power wie ein Kristall und treibt den Kern stärker an.
 # Regler im Werkzeug
-- **Crystal charge:** wie voll neue Kristalle sind (0 bis 100 %).
+- **Kristallladung:** wie voll neue Kristalle sind (0 bis 100 %).
 ]] },
 
 { id = "lifesupport", title = "Lebenserhaltung und Weltraum", icon = "icon16/heart.png", body = [[
@@ -303,20 +303,20 @@ pages = {
 = Du findest sie unter [Q] > Ascension Gates > Waffen. Mouse1 = Hauptfunktion, Mouse2 = zweite Funktion.
 # Goa'uld
 - **Zat'nik'tel:** 1. Schuss betäubt, 2. tötet, 3. lässt es verschwinden.
-- **Staff weapon:** [Mouse2] bereit machen, [Mouse1] feuern.
-- **Hand device:** [Mouse1] benutzen, [Mouse2] nächster Modus.
-- **Healing device:** auf eine Person halten, um zu heilen.
+- **Stabwaffe:** [Mouse2] bereit machen, [Mouse1] feuern.
+- **Handgerät:** [Mouse1] benutzen, [Mouse2] nächster Modus.
+- **Heilgerät:** auf eine Person halten, um zu heilen.
 - **Mobile DHD:** auf ein Gate legen.
 # Erde (SGC)
 - **P90 (PDW):** [Mouse1] feuern, [Mouse2] zielen, [R] nachladen.
 - **Beretta:** [Mouse1] feuern, [R] nachladen.
 - **GDO:** [Mouse2] Code eingeben, [Mouse1] senden.
 # Andere
-- **Ori hand weapon / staff, Wraith blaster, Ronon's gun, Asuran gun.**
+- **Ori-Handwaffe und Ori-Stab, Wraith-Betäuber, Ronons Waffe, Asuranische Waffe.**
 - **Tac:** werfen, nochmal = sprengen. [Mouse2] töten / betäuben / Rauch.
-- **Repair tool:** auf ein Schiff, Gate oder DHD halten, um es zu reparieren.
+- **Reparaturwerkzeug:** auf ein Schiff, Gate oder DHD halten, um es zu reparieren.
 - **Kontrollstuhl (Antiker, Spawn-Tab Waffen):** [E] zum Sitzen (braucht einen geladenen ZPM in seinem Hub). [1] = Zielliste: Lenke die Drohnen auf ein Ziel, oder ziele frei.
-- **Personal shield, Sodan cloak:** [Mouse1] an, [Mouse2] aus.
+- **Persönlicher Schild, Sodan-Tarnung:** [Mouse1] an, [Mouse2] aus.
 - **Mimetisches Abbildungsgerät:** [Mouse1] auf eine Person dicht vor dir halten bildet sie ab, [Mouse2] Projektion an / aus, [R] Abbild löschen.
 ]] },
 
@@ -336,23 +336,23 @@ pages = {
 { id = "admin", title = "Einstellungen für Admins", icon = "icon16/shield.png", body = [[
 = Admins (und du im Einzelspieler) ändern die Server-Einstellungen. Alle anderen sehen sie nur. Halte die Maus über eine Einstellung für einen kurzen Tipp.
 # Schiffs-Einstellungen: [Q] > Ascension Gates > Config > AGP-Schiffe
-- **Hijacking:** nur Besatzung / mit dem Kontrollkristall / alle.
-- **Weapons fire at owner and friends:** ja oder nein.
-- **Weapon + radar range:** wie weit die Kanonen schießen und das Radar sieht.
-- **Radar: most targets shown.**
-- **Power crystals strangers may pull:** 0 bis 15 (Standard 2). Die Besatzung hat kein Limit.
-- **Ship can be destroyed:** ja (Standard) oder nein (die Hülle bleibt bei 1).
-- **Hull health (new ships):** 10.000 bis 1.000.000 (Standard 100.000).
-- **Cloak allowed:** ja oder nein.
-- **Glider bay: lost gliders come back:** ja oder nein, und nach wie vielen Sekunden (Standard 60).
-- **Shield bubble (all ships):** nur bei Treffern und beim Ein- oder Ausschalten (Standard) oder immer sichtbar.
-- **Self-destruct countdown (all ships):** 1 bis 600 Sekunden (Standard 5).
+- **Kapern:** nur Besatzung / mit dem Kontrollkristall / alle.
+- **Waffen schießen auf Besitzer und Freunde:** ja oder nein.
+- **Waffen- + Radarreichweite:** wie weit die Kanonen schießen und das Radar sieht.
+- **Radar: max. angezeigte Ziele.**
+- **Energiekristalle, die Fremde ziehen dürfen:** 0 bis 15 (Standard 2). Die Besatzung hat kein Limit.
+- **Schiff kann zerstört werden:** ja (Standard) oder nein (die Hülle bleibt bei 1).
+- **Hüllenstärke (neue Schiffe):** 10.000 bis 1.000.000 (Standard 100.000).
+- **Tarnung erlaubt:** ja oder nein.
+- **Gleiterhangar: verlorene Gleiter kommen zurück:** ja oder nein, und nach wie vielen Sekunden (Standard 60).
+- **Schildblase (alle Schiffe):** nur bei Treffern und beim Ein- oder Ausschalten (Standard) oder immer sichtbar.
+- **Selbstzerstörung: Countdown (alle Schiffe):** 1 bis 600 Sekunden (Standard 5).
 # Power-Einstellungen: [Q] > PowerGrid > Einstellungen > PowerGrid
-- **How parts connect:** Manual / Automatic / Mix / Off. Siehe {page:spacegrid|PowerGrid}.
+- **Wie Teile verbunden werden:** Manuell / Automatisch / Mix / Aus. Siehe {page:spacegrid|PowerGrid}.
 - **Immer PowerGrid:** PowerGrid auch mit Spacebuild benutzen (braucht einen Kartenwechsel).
 - **Schwarzes-Loch-Energie:** nur Admins oder alle.
-- **Space simulation:** nur Weltraum-Karten / jede Karte / aus. Siehe {page:lifesupport|Lebenserhaltung}.
-- **Gate destination report:** an oder aus.
+- **Weltraum-Simulation:** nur Weltraum-Karten / jede Karte / aus. Siehe {page:lifesupport|Lebenserhaltung}.
+- **Gate-Zielbericht:** an oder aus.
 # Nur für dich (jeder Spieler)
 - Kabel, Maschinengeräusche, Gate-Bericht auf deinem Bildschirm, Einheiten für Entfernung, Temperatur und Schwerkraft.
 ]] },
@@ -376,7 +376,7 @@ pages = {
 - Durchgänge in Schiffsinnenräumen lassen dich nicht durch, wenn die andere Seite zu ist. Öffne zuerst die Tür.
 - Immer noch fest: Noclip ([V]) oder respawne.
 # Ein Werkzeug zeigt Text wie #tool.something.name
-- Ein Text fehlt. Sag uns bitte, welches Werkzeug es ist.
+- Ein Text fehlt. Sag mir bitte, welches Werkzeug es ist.
 ]] },
 
 },

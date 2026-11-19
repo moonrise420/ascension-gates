@@ -44,7 +44,7 @@ pages = {
 - [Q] > Ascension Gates > **Portes et anneaux** : portes, DHD, anneaux et panneaux d'anneaux.
 - Outils ([Q] > côté droit > Ascension Gates > Tech) : DHD mobile, DHD Superporte, Iris, Iris Goa'uld.
 # Composer avec le DHD
-1. Place le DHD près de la porte (à moins de 1000).
+1. Place le DHD près de la porte (à moins de 1000 unités).
 2. Regarde un glyphe du DHD et appuie sur [E] : il s'allume.
 3. Appuie sur tous les glyphes de l'adresse, puis sur le gros bouton du centre.
 - Bouton du centre sans glyphe appuyé : le menu de composition s'ouvre.
@@ -59,11 +59,11 @@ pages = {
 - **Iris Computer** (Portes et anneaux) : pose-le contre une porte avec iris, [E] = menu (codes, fermeture auto).
 - **GDO** (arme) : clic droit = taper ton code, clic gauche = l'envoyer à une porte ouverte.
 # Anneaux
-- Plateforme d'anneaux + panneau d'anneaux, proches l'un de l'autre (le panneau marche pour des anneaux à moins de 500).
+- Plateforme d'anneaux + panneau d'anneaux, proches l'un de l'autre (le panneau marche pour des anneaux à moins de 500 unités).
 - [E] sur un bouton du panneau l'appuie. **DIAL** sans chiffres = vers les anneaux les plus proches. Avec des chiffres = vers cette adresse d'anneaux.
 - [E] sur la base des anneaux : donne-lui un nom (adresse).
 - **Ring Caller** (arme) : clic gauche appelle les anneaux les plus proches, clic droit ouvre la fenêtre de composition.
-! Les anneaux t'écrasent si tu restes immobile là où ils descendent. Monte sur la plateforme ou éloigne-toi.
+! Les anneaux t'écrasent si tu restes immobile là où ils descendent. Mets-toi au centre de la plateforme ou descends-en.
 ]] },
 
 { id = "hatak", title = "Vaisseau mère Ha'tak", icon = "icon16/house.png", body = [[
@@ -121,7 +121,7 @@ pages = {
 1. Appuie sur [R] au siège de pilote (ou sur [E] à la console de navigation).
 2. Choisis une cible : repères enregistrés, un Stargate ou un autre joueur. Ou tape x y z.
 3. Clique sur **Jump**. Le vaisseau se charge (3 s), une fenêtre s'ouvre, tu voles à travers.
-- **Save mark 1/2/3 here** retient l'endroit.
+- **Repère 1/2/3 ici** retient l'endroit.
 - Demande 30 % de power d'hyperpropulsion. Pause de 8 s entre les sauts.
 # Armes
 - [E] sur la **console d'armes** : radar vu du dessus et liste de cibles.
@@ -236,7 +236,7 @@ pages = {
 3. Vise l'endroit où elle doit se tenir. Tu en vois un fantôme.
 4. Clic gauche [Mouse1] : placée. Clic droit [Mouse2] : placée tournée de 90 degrés.
 - Vise une pièce et appuie sur [R] : cette pièce est choisie.
-- Sur un vaisseau ou un prop, elle est soudée à ce que tu vises (case **Weld to what I aim at**).
+- Sur un vaisseau ou un prop, elle est soudée à ce que tu vises (case **Souder à ce que tu vises**).
 # Les pièces
 - **Cellules d'énergie (XS à XL) :** stockent de l'énergie.
 - **Panneaux solaires :** produisent de l'énergie tant qu'il y a du ciel dégagé au-dessus.
@@ -252,7 +252,7 @@ pages = {
 - **Manual :** outil **Liaison PowerGrid** : clic gauche sur les pièces (elles deviennent bleues), clic droit sur la pièce ou le nœud d'énergie auquel les relier. [R] efface la sélection ; [R] sur une pièce retire ses liens.
 - **Automatic :** les pièces soudées ensemble partagent toutes seules.
 - **Off :** tout a de l'énergie libre.
-! Spacebuild est installé ? Alors le réseau de Spacebuild est utilisé. Nos nœuds d'énergie sont alors des nœuds Spacebuild : relie avec l'outil Liaison PowerGrid. Les admins peuvent activer **Toujours PowerGrid**.
+! Spacebuild est installé ? Alors le réseau de Spacebuild est utilisé. Les nœuds d'énergie de PowerGrid servent alors de nœuds Spacebuild : relie avec l'outil Liaison PowerGrid. Les admins peuvent activer **Toujours PowerGrid**.
 # Sources d'énergie
 - **ZPM :** outil **ZPM MK III**. Mets-le dans un hub ZPM ou un {page:goauldpower|hub d'énergie goa'uld}.
 - **Générateur de naquadah :** outil dans Energy.
@@ -275,7 +275,7 @@ pages = {
 - Regarde le hub : une petite plaque montre les cristaux et l'énergie.
 > Un ZPM donne dix fois le power d'un cristal et pousse plus fort le noyau.
 # Curseur dans l'outil
-- **Crystal charge :** à quel point les nouveaux cristaux sont pleins (0 à 100 %).
+- **Charge du cristal :** à quel point les nouveaux cristaux sont pleins (0 à 100 %).
 ]] },
 
 { id = "lifesupport", title = "Survie et espace", icon = "icon16/heart.png", body = [[
@@ -303,20 +303,20 @@ pages = {
 = Trouve-les dans [Q] > Ascension Gates > Armes. Mouse1 = usage principal, Mouse2 = deuxième usage.
 # Goa'uld
 - **Zat'nik'tel :** 1er tir étourdit, 2e tue, 3e fait disparaître.
-- **Staff weapon :** [Mouse2] la préparer, [Mouse1] tirer.
-- **Hand device :** [Mouse1] utiliser, [Mouse2] mode suivant.
-- **Healing device :** tiens-le sur un joueur pour le soigner.
+- **Lance :** [Mouse2] la préparer, [Mouse1] tirer.
+- **Appareil manuel :** [Mouse1] utiliser, [Mouse2] mode suivant.
+- **Appareil de soin :** tiens-le sur un joueur pour le soigner.
 - **Mobile DHD :** pose-le sur une porte.
 # Terre (SGC)
 - **P90 (PDW) :** [Mouse1] tirer, [Mouse2] viser, [R] recharger.
 - **Beretta :** [Mouse1] tirer, [R] recharger.
 - **GDO :** [Mouse2] taper le code, [Mouse1] envoyer.
 # Autres
-- **Ori hand weapon / staff, Wraith blaster, Ronon's gun, Asuran gun.**
+- **Arme à main et bâton ori, étourdisseur wraith, arme de Ronon, arme asurane.**
 - **Tac :** lancer, encore = faire exploser. [Mouse2] tuer / étourdir / fumée.
-- **Repair tool :** tiens-le sur un vaisseau, une porte ou un DHD pour le réparer.
+- **Outil de réparation :** tiens-le sur un vaisseau, une porte ou un DHD pour le réparer.
 - **Fauteuil de contrôle (Anciens, onglet Armes) :** [E] pour s'asseoir (il faut un ZPM chargé dans son hub). [1] = liste de cibles : verrouille les drones sur une cible, ou vise librement.
-- **Personal shield, Sodan cloak :** [Mouse1] activer, [Mouse2] couper.
+- **Bouclier personnel, camouflage sodan :** [Mouse1] activer, [Mouse2] couper.
 - **Imageur mimétique :** maintiens [Mouse1] sur une personne juste devant toi pour la capturer, [Mouse2] projection on / off, [R] effacer l'image.
 ]] },
 
@@ -336,23 +336,23 @@ pages = {
 { id = "admin", title = "Réglages pour les admins", icon = "icon16/shield.png", body = [[
 = Les admins (et toi en solo) changent les réglages du serveur. Les autres ne font que les voir. Passe la souris sur un réglage pour une courte astuce.
 # Réglages des vaisseaux : [Q] > Ascension Gates > Config > Vaisseaux AGP
-- **Hijacking :** équipage seulement / avec le cristal de contrôle / tout le monde.
-- **Weapons fire at owner and friends :** oui ou non.
-- **Weapon + radar range :** jusqu'où les canons tirent et le radar voit.
-- **Radar: most targets shown.**
-- **Power crystals strangers may pull :** 0 à 15 (par défaut 2). L'équipage n'a pas de limite.
-- **Ship can be destroyed :** oui (par défaut) ou non (la coque reste à 1).
-- **Hull health (new ships) :** 10 000 à 1 000 000 (par défaut 100 000).
-- **Cloak allowed :** oui ou non.
-- **Glider bay: lost gliders come back :** oui ou non, et après combien de secondes (par défaut 60).
-- **Shield bubble (all ships):** seulement à l'impact et à l'activation ou la désactivation (par défaut), ou toujours visible.
-- **Self-destruct countdown (all ships):** de 1 à 600 secondes (5 par défaut).
+- **Détournement :** équipage seulement / avec le cristal de contrôle / tout le monde.
+- **Les armes tirent sur le propriétaire et ses amis :** oui ou non.
+- **Portée armes + radar :** jusqu'où les canons tirent et le radar voit.
+- **Radar : nombre max. de cibles.**
+- **Cristaux que les étrangers peuvent retirer :** 0 à 15 (par défaut 2). L'équipage n'a pas de limite.
+- **Le vaisseau peut être détruit :** oui (par défaut) ou non (la coque reste à 1).
+- **Résistance de la coque (nouveaux vaisseaux) :** 10 000 à 1 000 000 (par défaut 100 000).
+- **Camouflage autorisé :** oui ou non.
+- **Baie des planeurs : les planeurs perdus reviennent :** oui ou non, et après combien de secondes (par défaut 60).
+- **Bulle du bouclier (tous les vaisseaux) :** seulement à l'impact et à l'activation ou la désactivation (par défaut), ou toujours visible.
+- **Autodestruction : compte à rebours (tous les vaisseaux) :** de 1 à 600 secondes (5 par défaut).
 # Réglages de l'énergie : [Q] > PowerGrid > Réglages > PowerGrid
-- **How parts connect :** Manual / Automatic / Mix / Off. Voir {page:spacegrid|PowerGrid}.
+- **Comment les pièces se connectent :** Manuel / Automatique / Mixte / Désactivé. Voir {page:spacegrid|PowerGrid}.
 - **Toujours PowerGrid :** utiliser PowerGrid même avec Spacebuild (demande un changement de carte).
 - **Énergie de trou noir :** admins seulement ou tout le monde.
-- **Space simulation :** cartes spatiales seulement / toutes les cartes / aucune. Voir {page:lifesupport|Survie}.
-- **Gate destination report :** oui ou non.
+- **Simulation spatiale :** cartes spatiales seulement / toutes les cartes / aucune. Voir {page:lifesupport|Survie}.
+- **Rapport de destination de la porte :** oui ou non.
 # Seulement pour toi (chaque joueur)
 - Câbles, sons des machines, rapport de porte sur ton écran, unités de distance, de température et de gravité.
 ]] },
@@ -376,7 +376,7 @@ pages = {
 - Les passages des intérieurs de vaisseau ne te laissent pas passer quand l'autre côté est fermé. Ouvre d'abord la porte.
 - Toujours coincé : noclip ([V]) ou réapparais.
 # Un outil affiche du texte comme #tool.something.name
-- Un texte manque. Dis-nous quel outil, s'il te plaît.
+- Un texte manque. Dis-moi quel outil, s'il te plaît.
 ]] },
 
 },

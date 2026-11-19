@@ -43,7 +43,7 @@ stargate_settings_09 = Mehrsprachen-Bibliothek von AlexALX.
 // Entities, Waffen, Werkzeuge
 entity_destiny_node = Destiny-Knoten
 entity_imcd = IMCD
-weapon_tac = Tac
+weapon_tac = TAC
 weapon_wraith_grenade = Wraith-Granate
 weapon_misc_adrenaline = Adrenalinspritze
 weapon_misc_atl_medkit = Atlantis-Medizinkoffer
@@ -194,7 +194,7 @@ antiprior_c_3 = Niemand
 sgcscreen_title = Stargate-Center - Code-Verwaltung
 sgcscreen_code = Code
 sgcscreen_dcode = Selbstzerstörungscode
-sgcscreen_rcode = Reset-Code
+sgcscreen_rcode = Abbruchcode
 sgcscreen_desc = Beschreibung
 sgcscreen_save = Speichern
 sgcscreen_cancel = Abbrechen

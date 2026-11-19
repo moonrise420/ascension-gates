@@ -44,7 +44,7 @@ pages = {
 - [Q] > Ascension Gates > **Stjärnportar och ringar**: portar, DHD:er, ringar och ringpaneler.
 - Verktyg ([Q] > höger sida > Ascension Gates > Tech): Mobil DHD, Superportens DHD, Iris, Goa'uld-iris.
 # Slå med DHD:n
-1. Ställ DHD:n nära porten (närmare än 1000).
+1. Ställ DHD:n nära porten (närmare än 1000 enheter).
 2. Titta på en symbol på DHD:n och tryck [E]: den lyser.
 3. Tryck alla symboler i adressen, sedan den stora mittknappen.
 - Mittknappen utan tryckta symboler: slagningsmenyn öppnas.
@@ -59,11 +59,11 @@ pages = {
 - **Iris Computer** (Stjärnportar och ringar): rör den vid en port med iris, [E] = meny (koder, automatisk stängning).
 - **GDO** (vapen): högerklick = skriv din kod, vänsterklick = skicka den till en öppen port.
 # Ringar
-- Ringplattform + ringpanel, nära varandra (panelen fungerar för ringar inom 500).
+- Ringplattform + ringpanel, nära varandra (panelen fungerar för ringar inom 500 enheter).
 - [E] på en panelknapp trycker på den. **DIAL** utan siffror = till de närmaste ringarna. Med siffror = till den ringadressen.
 - [E] på ringbasen: ge den ett namn (adress).
 - **Ring Caller** (vapen): vänsterklick kallar de närmaste ringarna, högerklick öppnar slagningsfönstret.
-! Ringar krossar dig om du står still där de kommer ner. Kliv upp på plattformen eller gå därifrån.
+! Ringar krossar dig om du står still där de kommer ner. Ställ dig mitt på plattformen eller kliv av den.
 ]] },
 
 { id = "hatak", title = "Ha'tak moderskepp", icon = "icon16/house.png", body = [[
@@ -121,7 +121,7 @@ pages = {
 1. Tryck [R] i pilotsätet (eller [E] på navigationskonsolen).
 2. Välj mål: sparade märken, en Stargate eller en annan spelare. Eller skriv x y z.
 3. Klicka **Jump**. Skeppet laddar (3 s), ett fönster öppnas, du flyger igenom.
-- **Save mark 1/2/3 here** kommer ihåg platsen.
+- **Märke 1/2/3 här** kommer ihåg platsen.
 - Kräver 30 % hyperdrivkraft. 8 s paus mellan hopp.
 # Vapen
 - [E] på **vapenkonsolen**: radar uppifrån och en lista med mål.
@@ -236,7 +236,7 @@ pages = {
 3. Sikta där den ska stå. Du ser ett spöke av den.
 4. Vänsterklick [Mouse1]: placerad. Högerklick [Mouse2]: placerad vriden 90 grader.
 - Sikta på en del och tryck [R]: den delen väljs.
-- På ett skepp eller en prop svetsas den fast på det du siktar på (rutan **Weld to what I aim at**).
+- På ett skepp eller en prop svetsas den fast på det du siktar på (rutan **Svetsa fast i det du siktar på**).
 # Delarna
 - **Energiceller (XS till XL):** lagrar energi.
 - **Solpaneler:** gör energi när det är öppen himmel över dem.
@@ -252,7 +252,7 @@ pages = {
 - **Manual:** verktyget **PowerGrid-koppling**: vänsterklicka på delarna (de blir blå), högerklicka på delen eller kraftnoden de ska länkas till. [R] rensar valet; [R] på en del tar bort dess länkar.
 - **Automatic:** delar som är svetsade ihop delar av sig själva.
 - **Off:** allt har fri energi.
-! Är Spacebuild installerat? Då används Spacebuilds nätverk. Våra kraftnoder är då Spacebuild-noder: länka med verktyget PowerGrid-koppling. Admins kan slå på **Alltid PowerGrid**.
+! Är Spacebuild installerat? Då används Spacebuilds nätverk. PowerGrids kraftnoder fungerar då som Spacebuild-noder: länka med verktyget PowerGrid-koppling. Admins kan slå på **Alltid PowerGrid**.
 # Energikällor
 - **ZPM:** verktyget **ZPM MK III**. Sätt den i ett ZPM-nav eller ett {page:goauldpower|Goa'uld-kraftnav}.
 - **Naquadah-generator:** verktyg i Energy.
@@ -275,7 +275,7 @@ pages = {
 - Titta på navet: en liten skylt visar kristaller och energi.
 > En ZPM ger tio gånger så mycket kraft som en kristall och driver kärnan hårdare.
 # Reglage i verktyget
-- **Crystal charge:** hur fulla nya kristaller är (0 till 100 %).
+- **Kristallens laddning:** hur fulla nya kristaller är (0 till 100 %).
 ]] },
 
 { id = "lifesupport", title = "Livsuppehållning och rymden", icon = "icon16/heart.png", body = [[
@@ -336,23 +336,23 @@ pages = {
 { id = "admin", title = "Inställningar för admins", icon = "icon16/shield.png", body = [[
 = Admins (och du i singleplayer) ändrar serverinställningarna. Alla andra ser dem bara. Håll musen över en inställning för ett kort tips.
 # Skeppsinställningar: [Q] > Ascension Gates > Config > AGP-skepp
-- **Hijacking:** bara besättningen / med kontrollkristallen / vem som helst.
-- **Weapons fire at owner and friends:** ja eller nej.
-- **Weapon + radar range:** hur långt kanonerna skjuter och radarn ser.
-- **Radar: most targets shown.**
-- **Power crystals strangers may pull:** 0 till 15 (standard 2). Besättningen har ingen gräns.
-- **Ship can be destroyed:** ja (standard) eller nej (skrovet stannar på 1).
-- **Hull health (new ships):** 10 000 till 1 000 000 (standard 100 000).
-- **Cloak allowed:** ja eller nej.
-- **Glider bay: lost gliders come back:** ja eller nej, och efter hur många sekunder (standard 60).
-- **Shield bubble (all ships):** bara vid träff och när den slås på eller av (standard), eller alltid synlig.
-- **Self-destruct countdown (all ships):** 1 till 600 sekunder (standard 5).
+- **Kapning:** bara besättningen / med kontrollkristallen / vem som helst.
+- **Vapen skjuter på ägare och vänner:** ja eller nej.
+- **Räckvidd vapen + radar:** hur långt kanonerna skjuter och radarn ser.
+- **Radar: max antal visade mål.**
+- **Kraftkristaller som främlingar får dra ut:** 0 till 15 (standard 2). Besättningen har ingen gräns.
+- **Skeppet kan förstöras:** ja (standard) eller nej (skrovet stannar på 1).
+- **Skrovets hälsa (nya skepp):** 10 000 till 1 000 000 (standard 100 000).
+- **Kamouflage tillåten:** ja eller nej.
+- **Glidarhangar: förlorade glidare kommer tillbaka:** ja eller nej, och efter hur många sekunder (standard 60).
+- **Sköldbubbla (alla skepp):** bara vid träff och när den slås på eller av (standard), eller alltid synlig.
+- **Självförstörelse: nedräkning (alla skepp):** 1 till 600 sekunder (standard 5).
 # Kraftinställningar: [Q] > PowerGrid > Inställningar > PowerGrid
-- **How parts connect:** Manual / Automatic / Mix / Off. Se {page:spacegrid|PowerGrid}.
+- **Hur delar kopplas ihop:** Manuellt / Automatiskt / Mix / Av. Se {page:spacegrid|PowerGrid}.
 - **Alltid PowerGrid:** använd PowerGrid även med Spacebuild (kräver kartbyte).
 - **Svart håls-energi:** bara admins eller alla.
-- **Space simulation:** bara rymdkartor / alla kartor / av. Se {page:lifesupport|Livsuppehållning}.
-- **Gate destination report:** på eller av.
+- **Rymdsimulering:** bara rymdkartor / alla kartor / av. Se {page:lifesupport|Livsuppehållning}.
+- **Gatens destinationsrapport:** på eller av.
 # Bara för dig (varje spelare)
 - Kablar, maskinljud, portrapport på din skärm, enheter för avstånd, temperatur och gravitation.
 ]] },
@@ -376,7 +376,7 @@ pages = {
 - Dörröppningar i skeppsinteriörer släpper inte igenom dig när andra sidan är stängd. Öppna dörren först.
 - Sitter du fortfarande fast: noclip ([V]) eller återuppstå.
 # Ett verktyg visar text som #tool.something.name
-- En saknad text. Berätta för oss vilket verktyg.
+- En saknad text. Berätta för mig vilket verktyg.
 ]] },
 
 },

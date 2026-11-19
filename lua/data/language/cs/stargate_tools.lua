@@ -1,378 +1,378 @@
 // Ramps
-stool_ramp_spawner = Spawner Ramp
-stool_ramp_create = Vytvoří Rampu pro bránu
+stool_ramp_spawner = Spawner ramp
+stool_ramp_create = Vytvoří rampu pro bránu
 stool_ramp_desc = Levý klik pro vytvoření
 stool_ramp_remove = Rampa smazána
 stool_ramp_cleanup = Rampy
-stool_ramp_cleaned = Smazány všechny Rampy
-stool_ramp_limit = Limit pro Rampy byl dosažen!
-stool_ramp_anim_limit = Limit pro Animované Rampy byl dosažen!
+stool_ramp_cleaned = Smazány všechny rampy
+stool_ramp_limit = Limit pro rampy byl dosažen!
+stool_ramp_anim_limit = Limit pro animované rampy byl dosažen!
 
 // Ashen defence
-stool_ashen_defence_spawner = Spawner Aschenského Obranného Systému
-stool_ashen_defence_create = Vytvoří Aschenský Obranný Systém
+stool_ashen_defence_spawner = Spawner aschenského obranného systému
+stool_ashen_defence_create = Vytvoří aschenský obranný systém
 stool_ashen_defence_desc = Levý klik pro vytvoření
-stool_ashen_defence_undone = Aschenský Obranný Systém smazán
-stool_ashen_defence_cleanup = Aschenské Obranné Systémy
-stool_ashen_defence_cleaned = Smazány všechny Aschenské Obranné Systémy
-stool_ashen_defence_limit = Limit pro Aschenské Obranné Systémy byl dosažen!
+stool_ashen_defence_undone = Aschenský obranný systém smazán
+stool_ashen_defence_cleanup = Aschenské obranné systémy
+stool_ashen_defence_cleaned = Smazány všechny aschenské obranné systémy
+stool_ashen_defence_limit = Limit pro aschenské obranné systémy byl dosažen!
 
 // Asuran ZPM Hub
-stool_asuran_zpm_hub_spawner = Spawner Asuranského ZPM Hub-u
-stool_asuran_zpm_hub_create = Vytvoří Asuranský ZPM Hub
+stool_asuran_zpm_hub_spawner = Spawner asuranského ZPM hubu
+stool_asuran_zpm_hub_create = Vytvoří asuranský ZPM hub
 stool_asuran_zpm_hub_desc = Levý klik pro vytvoření
-stool_asuran_zpm_hub_undone = Asuranský ZPM Hub smazán
-stool_asuran_zpm_hub_cleanup = Asuranské ZPM Hub-y
-stool_asuran_zpm_hub_cleaned = Smazány všechny Asuranské ZPM Hub-y
-stool_asuran_zpm_hub_limit = Limit pro Asuranské ZPM Hub-y byl dosažen!
-stool_asuran_zpm_hub_fulldesc = Tohle je Hub pro ZPM.
+stool_asuran_zpm_hub_undone = Asuranský ZPM hub smazán
+stool_asuran_zpm_hub_cleanup = Asuranské ZPM huby
+stool_asuran_zpm_hub_cleaned = Smazány všechny asuranské ZPM huby
+stool_asuran_zpm_hub_limit = Limit pro asuranské ZPM huby byl dosažen!
+stool_asuran_zpm_hub_fulldesc = Tohle je asuranský ZPM hub.
 
 // Atlantis ZPM Hub
-stool_atlantis_zpm_hub_spawner = Spawner Atlantského ZPM Hub-u
-stool_atlantis_zpm_hub_create = Vytvoří Atlantský ZPM Hub
+stool_atlantis_zpm_hub_spawner = Spawner atlantského ZPM hubu
+stool_atlantis_zpm_hub_create = Vytvoří atlantský ZPM hub
 stool_atlantis_zpm_hub_desc = Levý klik pro vytvoření
-stool_atlantis_zpm_hub_undone = Atlantský ZPM Hub smazán
-stool_atlantis_zpm_hub_cleanup = Atlantské ZPM Hub-y
-stool_atlantis_zpm_hub_cleaned = Smazány všechny Atlantské ZPM Hub-y
-stool_atlantis_zpm_hub_limit = Limit pro Atlantské ZPM Hub-y byl dosažen!
-stool_atlantis_zpm_hub_fulldesc = Tohle je Hub pro ZPM.
+stool_atlantis_zpm_hub_undone = Atlantský ZPM hub smazán
+stool_atlantis_zpm_hub_cleanup = Atlantské ZPM huby
+stool_atlantis_zpm_hub_cleaned = Smazány všechny atlantské ZPM huby
+stool_atlantis_zpm_hub_limit = Limit pro atlantské ZPM huby byl dosažen!
+stool_atlantis_zpm_hub_fulldesc = Tohle je atlantský ZPM hub.
 
 // Gate Bearing
-stool_bearing_spawner = Spawner Ložiska Brány
+stool_bearing_spawner = Spawner ložiska brány
 stool_bearing_create = Vytvoří ložisko pro bránu Universe
 stool_bearing_desc = Levý klik pro vytvoření
 stool_bearing_undone = Ložisko smazáno
-stool_bearing_cleanup = Ložiská Brány
-stool_bearing_cleaned = Smazány všechny Ložiska Brány
-stool_bearing_limit = Limit pro Ložisko brány byl dosažen!
-stool_bearing_fulldesc = Ložisko visí ze stropu nad bránou v místností s bránou na Destiny. Ložisko zasvítí při zadnání symbolu, a slouží jako počítadlo na chevrony.
-stool_bearing_err = Cíl není Brána Universe!
+stool_bearing_cleanup = Ložiska brány
+stool_bearing_cleaned = Smazána všechna ložiska brány
+stool_bearing_limit = Limit pro ložiska brány byl dosažen!
+stool_bearing_fulldesc = Ložisko visí ze stropu místnosti s bránou na lodi Destiny. Rozsvítí se s každým zadaným symbolem, podobně jako chevrony na branách Mléčné dráhy a Pegasu.
+stool_bearing_err = Cíl není brána Universe!
 stool_bearing_exs = Tahle brána už ložisko má!
 
 // Braziers
-stool_braziers_spawner = Spawner Pochodní
-stool_braziers_create = Vytvoří Pochodeň
+stool_braziers_spawner = Spawner ohnišť
+stool_braziers_create = Vytvoří ohniště
 stool_braziers_desc = Levý klik pro vytvoření
-stool_braziers_undone = Pochodeň smazána
-stool_braziers_cleanup = Pochodně
-stool_braziers_cleaned = Smazány všechny Pochodně
-stool_braziers_limit = Limit pro Pochodně byl Dosažen!
+stool_braziers_undone = Ohniště smazáno
+stool_braziers_cleanup = Ohniště
+stool_braziers_cleaned = Smazána všechna ohniště
+stool_braziers_limit = Limit pro ohniště byl dosažen!
 
 // Door Controller
-stool_cap_door_contr_spawner = Spawner Ovládání Dveří
-stool_cap_door_contr_create = Vytvoří Ovládání Dveří
+stool_cap_door_contr_spawner = Spawner ovládání dveří
+stool_cap_door_contr_create = Vytvoří ovládání dveří
 stool_cap_door_contr_desc = Levý klik pro vytvoření
-stool_cap_door_contr_undone = Ovládání Dveří smazáno
-stool_cap_door_contr_cleanup = Ovládádání Dveří
-stool_cap_door_contr_cleaned = Smazány všechny Ovládádání Dveří
-stool_cap_door_contr_limit = Limit pro Ovládání Dveří byl dosažen!
+stool_cap_door_contr_undone = Ovládání dveří smazáno
+stool_cap_door_contr_cleanup = Ovládání dveří
+stool_cap_door_contr_cleaned = Smazána všechna ovládání dveří
+stool_cap_door_contr_limit = Limit pro ovládání dveří byl dosažen!
 
 // Doors
-stool_cap_doors_spawner = Spawner Dveří
-stool_cap_doors_create = Vytvoří Dveře
+stool_cap_doors_spawner = Spawner dveří
+stool_cap_doors_create = Vytvoří dveře
 stool_cap_doors_desc = Levý klik pro vytvoření
 stool_cap_doors_undone = Dveře smazány
 stool_cap_doors_cleanup = Dveře
-stool_cap_doors_cleaned = Smazány všechny Dveře
-stool_cap_doors_limit = Limit pro Dveře byl dosažen!
-stool_cap_doors_redt = Červená textura při Atlantském rámu 
+stool_cap_doors_cleaned = Smazány všechny dveře
+stool_cap_doors_limit = Limit pro dveře byl dosažen!
+stool_cap_doors_redt = Červená textura na atlantském rámu
 
 // Console
-stool_cappanel_spawner = Spawner Konzolí
-stool_cappanel_create = Vytvoří Konzoli
+stool_cappanel_spawner = Spawner konzolí
+stool_cappanel_create = Vytvoří konzoli
 stool_cappanel_desc = Levý klik pro vytvoření
 stool_cappanel_undone = Konzole smazána
 stool_cappanel_cleanup = Konzole
-stool_cappanel_cleaned = Smazány všechny Konzole
-stool_cappanel_limit = Limit pro Konzole byl dosažen!
+stool_cappanel_cleaned = Smazány všechny konzole
+stool_cappanel_limit = Limit pro konzole byl dosažen!
 
 // Control Panel
-stool_controlpanel_spawner = Spawner Ovládacího Panelu
-stool_controlpanel_create = Vytvoří Ovládací Panel
+stool_controlpanel_spawner = Spawner ovládacího panelu
+stool_controlpanel_create = Vytvoří ovládací panel
 stool_controlpanel_desc = Levý klik pro vytvoření
-stool_controlpanel_undone = Ovládací Panel smazán
-stool_controlpanel_cleanup = Ovládací Panely
-stool_controlpanel_cleaned = Smazány všechny Ovládací Panely
-stool_controlpanel_limit = Limit pro Ovládací Panely byl dosažen!
+stool_controlpanel_undone = Ovládací panel smazán
+stool_controlpanel_cleanup = Ovládací panely
+stool_controlpanel_cleaned = Smazány všechny ovládací panely
+stool_controlpanel_limit = Limit pro ovládací panely byl dosažen!
 
 // Drones
-stool_drones_spawner = Spawner Vypouštěče Střel
-stool_drones_create = Vytvoří Vypouštěč Střel
+stool_drones_spawner = Spawner vypouštěče dronů
+stool_drones_create = Vytvoří vypouštěč dronů
 stool_drones_desc = Levý klik pro vytvoření
-stool_drones_undone = Vypouštěč Střel smazán
-stool_drones_cleanup = Vypouštěče Střel
-stool_drones_cleaned = Smazány všechny Vypouštěče Střel
-stool_drones_limit = Limit pro Vypouštěč Střel byl dosažen!
+stool_drones_undone = Vypouštěč dronů smazán
+stool_drones_cleanup = Vypouštěče dronů
+stool_drones_cleaned = Smazány všechny vypouštěče dronů
+stool_drones_limit = Limit pro vypouštěče dronů byl dosažen!
 stool_drones_shoot = Vystřelit:
-stool_drones_kill = Zničit Střely:
+stool_drones_kill = Zničit drony:
 stool_drones_track = Sledovat cíl:
-stool_drones_eye_track = Oční ovládání:
+stool_drones_eye_track = Sledování pohledu:
 
 // Floor Chevron
-stool_floorchevron_spawner = Spawner Podlažního Chevronu
-stool_floorchevron_create = Vytvoří Podlažní Chevron
+stool_floorchevron_spawner = Spawner podlahového chevronu
+stool_floorchevron_create = Vytvoří podlahový chevron
 stool_floorchevron_desc = Levý klik pro vytvoření
-stool_floorchevron_undone = Podlažní Chevron smazán
-stool_floorchevron_cleanup = Podlažní Chevrony
-stool_floorchevron_cleaned = Smazány všechny Podlažní Chevrony
-stool_floorchevron_limit = Limit pro Podlažní Chevron byl dosažen!
-stool_floorchevron_fulldesc = Chevron na podlaze před bránou který se rozsvítí, když zapadne poslední Chevron a brána se otevře.
-stool_floorchevron_err = Cíl není Brána Universe!
-stool_floorchevron_exs = Tato brána už Podlažní Chevron má!
+stool_floorchevron_undone = Podlahový chevron smazán
+stool_floorchevron_cleanup = Podlahové chevrony
+stool_floorchevron_cleaned = Smazány všechny podlahové chevrony
+stool_floorchevron_limit = Limit pro podlahové chevrony byl dosažen!
+stool_floorchevron_fulldesc = Chevron na podlaze, který se rozsvítí, když zapadne poslední symbol a brána vytvoří nestabilní vír.
+stool_floorchevron_err = Cíl není brána Universe!
+stool_floorchevron_exs = Tato brána už podlahový chevron má!
 
 // Goauld Iris
-stool_goauld_iris_spawner = Spawner Goa'uldské Iris
-stool_goauld_iris_create = Vytvoří Goa'uldskou Iris
+stool_goauld_iris_spawner = Spawner goa'uldské iris
+stool_goauld_iris_create = Vytvoří goa'uldskou iris
 stool_goauld_iris_desc = Levý klik pro vytvoření
-stool_goauld_iris_undone = Goa'uldská Iris smazána
-stool_goauld_iris_cleanup = Goa'uldské Iris
-stool_goauld_iris_cleaned = Smazány všechny Goa'uldské Iris
-stool_goauld_iris_limit = Limit pro Goa'uldskou Iris byl dosažen!
+stool_goauld_iris_undone = Goa'uldská iris smazána
+stool_goauld_iris_cleanup = Goa'uldské iris
+stool_goauld_iris_cleaned = Smazány všechny goa'uldské iris
+stool_goauld_iris_limit = Limit pro goa'uldské iris byl dosažen!
 
 // Gravity Controller
-stool_gravitycontroller_spawner = Spawner Gravitačního Stabilizéru
-stool_gravitycontroller_create = Postavte vesmírné lodě bez použití HoverBall, nebo prostě stabilizujte věci.
-stool_gravitycontroller_desc = Klikněte kde by jste chtěli spawnout Stabilizér, kliknutím na existující Stabilizér ho aktualizujete.
-stool_gravitycontroller_undone = Gravitační Stabilizér smazán
-stool_gravitycontroller_cleanup = Gravitační Stabilizér
-stool_gravitycontroller_cleaned = Smazány všechny Gravitační Stabilizéry
-stool_gravitycontroller_limit = Limit pro Gravitační Stabilizér byl dosažen!
-stool_gravitycontroller_wait = Prosím, čekejte...
-stool_gravitycontroller_mp = Cesta k souboru Modelu
+stool_gravitycontroller_spawner = Spawner gravitačního stabilizéru
+stool_gravitycontroller_create = Postav vesmírné lodě bez hoverballů, nebo stabilizuj své stavby
+stool_gravitycontroller_desc = Klikni pro umístění stabilizéru, nebo klikni na existující pro jeho aktualizaci.
+stool_gravitycontroller_undone = Gravitační stabilizér smazán
+stool_gravitycontroller_cleanup = Gravitační stabilizéry
+stool_gravitycontroller_cleaned = Smazány všechny gravitační stabilizéry
+stool_gravitycontroller_limit = Limit pro gravitační stabilizéry byl dosažen!
+stool_gravitycontroller_wait = Prosím, čekej...
+stool_gravitycontroller_mp = Cesta k modelu
 stool_gravitycontroller_so = Zvuk
-stool_gravitycontroller_sp = Cesta k souboru
-stool_gravitycontroller_ds = Vykřeslit efekt
+stool_gravitycontroller_sp = Cesta ke zvuku
+stool_gravitycontroller_ds = Vykreslit sprite
 stool_gravitycontroller_we = Hmotnost
-stool_gravitycontroller_we_desc = 0: Model Default
-stool_gravitycontroller_bo = Brake Only (Don't change gravity)
-stool_gravitycontroller_ab = Always Brake
-stool_gravitycontroller_ga = Global Airbrake
-stool_gravitycontroller_gb = Global Brake
-stool_gravitycontroller_bx = Brake X
-stool_gravitycontroller_by = Brake Y
-stool_gravitycontroller_bz = Brake Z
-stool_gravitycontroller_ant = Angle Brake (buggy sometimes)
-stool_gravitycontroller_an = Angle Brake
-stool_gravitycontroller_ho = Hovermode
-stool_gravitycontroller_hu = Hover Up
-stool_gravitycontroller_hd = Hover Down
-stool_gravitycontroller_hs = Hover Speed
-stool_gravitycontroller_ha = Height above ground
-stool_gravitycontroller_hmd = Popis Hover módu
-stool_gravitycontroller_hmd_desc = Stabilizér se bude chovat jako HoverBall. Automaticky vybalansuje všechny stabilizéry na stavbě. To znamená, když se jeden aktivuje, všechny budou mít stejnou výšku. Ujistěte se, že na lodi je máte ve stejné výšce!
-stool_gravitycontroller_lbd = Popis Lokální Brzdy
-stool_gravitycontroller_lbd_desc = If you enable that, the GC will brake seperate on every axis. If you set every but one axis to 100, it will 'slide' along that axis. So if you want your ship not to brake as hard forward as it should sideways or upwards, this is for you!
-stool_gravitycontroller_sga = Stargate Atlantis Powernode Mód
+stool_gravitycontroller_we_desc = 0: výchozí podle modelu
+stool_gravitycontroller_bo = Jen brzdit (neměnit gravitaci)
+stool_gravitycontroller_ab = Vždy brzdit
+stool_gravitycontroller_ga = Globální vzduchová brzda
+stool_gravitycontroller_gb = Globální brzda
+stool_gravitycontroller_bx = Brzda X
+stool_gravitycontroller_by = Brzda Y
+stool_gravitycontroller_bz = Brzda Z
+stool_gravitycontroller_ant = Úhlová brzda (někdy nespolehlivá)
+stool_gravitycontroller_an = Úhlová brzda
+stool_gravitycontroller_ho = Režim vznášení
+stool_gravitycontroller_hu = Vznášet nahoru
+stool_gravitycontroller_hd = Vznášet dolů
+stool_gravitycontroller_hs = Rychlost vznášení
+stool_gravitycontroller_ha = Výška nad zemí
+stool_gravitycontroller_hmd = Popis režimu vznášení
+stool_gravitycontroller_hmd_desc = Stabilizér funguje jako hoverball. Vyrovná všechny stabilizéry na stavbě, takže po zapnutí drží všechny stejnou výšku. Ujisti se, že jsou všechny ve stejné výšce, když je přidáváš na loď!
+stool_gravitycontroller_lbd = Popis lokální brzdy
+stool_gravitycontroller_lbd_desc = Když je zapnuto, stabilizér brzdí v každé ose zvlášť. Nastav všechny osy kromě jedné na 100 a bude klouzat podél té jedné. Hodí se, když má loď brzdit méně dopředu než do stran nebo nahoru.
+stool_gravitycontroller_sga = Režim SGA Powernode
 
 // Jamming Device
-stool_jamming_spawner = Spawner Rušičky
-stool_jamming_create = Vytvoří Rušičku
+stool_jamming_spawner = Spawner rušičky
+stool_jamming_create = Vytvoří rušičku
 stool_jamming_desc = Levý klik pro vytvoření
 stool_jamming_undone = Rušička smazána
 stool_jamming_cleanup = Rušičky
-stool_jamming_cleaned = Smazány všechny Rušičky
-stool_jamming_limit = Limit pro Rušičky byl dosažen!
-stool_jamming_imm_desc = Poznámka: Imunita vám dovolí transportovat se, i když je rušička zapnutá
+stool_jamming_cleaned = Smazány všechny rušičky
+stool_jamming_limit = Limit pro rušičky byl dosažen!
+stool_jamming_imm_desc = Poznámka: s imunitou se můžeš transportovat, i když je rušička zapnutá
 
 // Naquadah Bottle
-stool_naq_bottle_spawner = Spawner Naquadahové Láhve
-stool_naq_bottle_create = Vytvoří Naquadahovou Láhev
+stool_naq_bottle_spawner = Spawner naquadahové láhve
+stool_naq_bottle_create = Vytvoří naquadahovou láhev
 stool_naq_bottle_desc = Levý klik pro vytvoření
-stool_naq_bottle_undone = Naquadahová Láhev smazána
-stool_naq_bottle_cleanup = Naquadahové Láhve
-stool_naq_bottle_cleaned = Smazány všechny Naquadahové Láhve
-stool_naq_bottle_limit = Limit pro Naquadahové Láhve byl dosažen!
-stool_naq_bottle_fulldesc = Tohle je Naquadahová Láhev.
+stool_naq_bottle_undone = Naquadahová láhev smazána
+stool_naq_bottle_cleanup = Naquadahové láhve
+stool_naq_bottle_cleaned = Smazány všechny naquadahové láhve
+stool_naq_bottle_limit = Limit pro naquadahové láhve byl dosažen!
+stool_naq_bottle_fulldesc = Tohle je naquadahová láhev.
 
 // Naquada Generator MK1/MK2
-stool_naq_gen_mks_spawner = Naquadahový Generátor
-stool_naq_gen_mks_create = Vytvoří Naquadahový Generátor
-stool_naq_gen_mks_desc = Levý klik pro vytvoření. Pravý klik - doplní 25%% (jednou za 30 sekund).
-stool_naq_gen_mks_undone = Naquadahový Generátor smazán
-stool_naq_gen_mks_cleanup = Naquadahové Generátory
-stool_naq_gen_mks_cleaned = Smazány všechny Naquadahové Generátory
-stool_naq_gen_mks_limit = Limit pro Naquadahové Generátory byl dosažen!
-stool_naq_gen_mks_fulldesc = Tohle je Naquadahový Generátor typu MK1 a MK2.
+stool_naq_gen_mks_spawner = Spawner naquadahového generátoru
+stool_naq_gen_mks_create = Vytvoří naquadahový generátor
+stool_naq_gen_mks_desc = Levý klik pro vytvoření. Pravý klik doplní 25%% (jednou za 30 sekund).
+stool_naq_gen_mks_undone = Naquadahový generátor smazán
+stool_naq_gen_mks_cleanup = Naquadahové generátory
+stool_naq_gen_mks_cleaned = Smazány všechny naquadahové generátory
+stool_naq_gen_mks_limit = Limit pro naquadahové generátory byl dosažen!
+stool_naq_gen_mks_fulldesc = Vytvoří naquadahový generátor Mark 1 nebo Mark 2. MK1 má menší výkon než MK2, ale pořád se hodí.
 
 // Naquadah Bomb
-stool_naqbomb_spawner = Spawner Naquadahových Bomb
+stool_naqbomb_spawner = Spawner naquadahových bomb
 stool_naqbomb_create = Vytvoří nukleární hlavici obohacenou naquadahem
 stool_naqbomb_desc = Levý klik pro vytvoření
-stool_naqbomb_undone = Naquadahová Bomba smazána
-stool_naqbomb_cleanup = Naquadahové Bomby
-stool_naqbomb_cleaned = Smazány všechny Naquadahové Bomby
-stool_naqbomb_limit = Limit pro Naquadahové Bomby byl dosažen!
+stool_naqbomb_undone = Naquadahová bomba smazána
+stool_naqbomb_cleanup = Naquadahové bomby
+stool_naqbomb_cleaned = Smazány všechny naquadahové bomby
+stool_naqbomb_limit = Limit pro naquadahové bomby byl dosažen!
 
 // Ring Ramps
-stool_ring_ramps_spawner = Spawner Ramp pro Kruhy
-stool_ring_ramps_create = Vytvoří Rampu
+stool_ring_ramps_spawner = Spawner ramp pro kruhy
+stool_ring_ramps_create = Vytvoří rampu pro kruhy
 stool_ring_ramps_desc = Levý klik pro vytvoření
 stool_ring_ramps_undone = Rampa smazána
-stool_ring_ramps_cleanup = Rampy pro Kruhy
-stool_ring_ramps_cleaned = Smazány všechny Rampy pro kruhy
-stool_ring_ramps_limit = Limit pro Rampy pro Kruhy byl dosažen!
+stool_ring_ramps_cleanup = Rampy pro kruhy
+stool_ring_ramps_cleaned = Smazány všechny rampy pro kruhy
+stool_ring_ramps_limit = Limit pro rampy pro kruhy byl dosažen!
 
 // SGC ZPM Hub
-stool_sgc_zpm_hub_spawner = Spawner SGC ZPM Hub-u
-stool_sgc_zpm_hub_create = Vytvoří SGC ZPM Hub
+stool_sgc_zpm_hub_spawner = Spawner SGC ZPM hubu
+stool_sgc_zpm_hub_create = Vytvoří SGC ZPM hub
 stool_sgc_zpm_hub_desc = Levý klik pro vytvoření
-stool_sgc_zpm_hub_undone = SGC ZPM Hub smazán
-stool_sgc_zpm_hub_cleanup = SGC ZPM Hub-y
-stool_sgc_zpm_hub_cleaned = Smazány všechny SGC ZPM Hub-y
-stool_sgc_zpm_hub_limit = Limit pro SGC ZPM Hub byl dosažen!
-stool_sgc_zpm_hub_fulldesc = Tohle je Hub pro ZPM.
+stool_sgc_zpm_hub_undone = SGC ZPM hub smazán
+stool_sgc_zpm_hub_cleanup = SGC ZPM huby
+stool_sgc_zpm_hub_cleaned = Smazány všechny SGC ZPM huby
+stool_sgc_zpm_hub_limit = Limit pro SGC ZPM huby byl dosažen!
+stool_sgc_zpm_hub_fulldesc = Tohle je ZPM hub velitelství SGC.
 
 // Staff Weapon
-stool_staff_weapon_spawner = Spawner Tyčových Zbraní Kluzáku
-stool_staff_weapon_create = Vytvoří Tyčovou Zbraň Kluzáku
+stool_staff_weapon_spawner = Spawner tyčových zbraní kluzáku
+stool_staff_weapon_create = Vytvoří tyčovou zbraň kluzáku
 stool_staff_weapon_desc = Levý klik pro vytvoření
-stool_staff_weapon_undone = Tyčová Zbraň Kluzáku smazána
-stool_staff_weapon_cleanup = Tyčové Zbraně Kluzáku
-stool_staff_weapon_cleaned = Smazány všechny Tyčové Zbraně Kluzáku
-stool_staff_weapon_limit = Limit pro Tyčové Zbraně Kluzáku byl dosažen!
+stool_staff_weapon_undone = Tyčová zbraň kluzáku smazána
+stool_staff_weapon_cleanup = Tyčové zbraně kluzáku
+stool_staff_weapon_cleaned = Smazány všechny tyčové zbraně kluzáku
+stool_staff_weapon_limit = Limit pro tyčové zbraně kluzáku byl dosažen!
 stool_staff_weapon_shoot = Vystřelit:
 stool_staff_weapon_explode = Vybuchnout:
 stool_staff_weapon_color = Barva:
 stool_staff_weapon_explosion = Exploze
 
 // Cloaking
-stool_stargate_cloaking_spawner = Spawner Generátoru Maskování
+stool_stargate_cloaking_spawner = Spawner generátoru maskování
 stool_stargate_cloaking_create = Vytvoří generátor maskování
 stool_stargate_cloaking_desc = Levý klik pro vytvoření
-stool_stargate_cloaking_undone = Generátor Maskování smazán
-stool_stargate_cloaking_cleanup = Generátory Maskování
-stool_stargate_cloaking_cleaned = Smazány všechny Generátory Maskování
-stool_stargate_cloaking_limit = Limit pro Generátory Maskování byl dosažen!
-stool_stargate_cloaking_note = Poznámka: Propy které jsou v kontaktu s generátorem se automaticky maskují. Nastavte velikost jestli opravdu potřebujete pole. Když chcete maskovat jenom připevněné propy, nastavte velikost na 1!
+stool_stargate_cloaking_undone = Generátor maskování smazán
+stool_stargate_cloaking_cleanup = Generátory maskování
+stool_stargate_cloaking_cleaned = Smazány všechny generátory maskování
+stool_stargate_cloaking_limit = Limit pro generátory maskování byl dosažen!
+stool_stargate_cloaking_note = Poznámka: propy připojené ke generátoru se maskují automaticky. Velikost nastav, jen pokud opravdu potřebuješ pole. Chceš-li maskovat jen připojené propy, nastav velikost na 1!
 stool_stargate_cloaking_ow = Viditelné pro majitele
 stool_stargate_cloaking_ow_desc = Majitel generátoru vždy vidí své maskované propy
 stool_stargate_cloaking_nc = Fázové posunutí
-stool_stargate_cloaking_nc_desc = Všechny maskované propy strácí kolize se všemi ostatními, kromě mapy.
+stool_stargate_cloaking_nc_desc = Maskované propy nekolidují s ničím kromě mapy
 stool_stargate_cloaking_ca = Maskovat připojené
-stool_stargate_cloaking_ca_desc = Každý připojený prop se zamaskuje.(Funguje to jako Duplikátor)
+stool_stargate_cloaking_ca_desc = Když je zaškrtnuto, zamaskuje se každý připojený prop (jako u Duplikátoru); jinak jen propy uvnitř pole
 
 // Mobile DHD
-stool_stargate_dhd_spawner = Spawner Přenosního DHD
-stool_stargate_dhd_create = Vytvoří Přenosné DHD
+stool_stargate_dhd_spawner = Spawner přenosného DHD
+stool_stargate_dhd_create = Vytvoří přenosné DHD
 stool_stargate_dhd_desc = Levý klik pro vytvoření
 stool_stargate_dhd_undone = Přenosné DHD smazáno
-stool_stargate_dhd_cleanup = Přenosné DHDs
-stool_stargate_dhd_cleaned = Smazány všechny Přenosné DHDs
-stool_stargate_dhd_limit = Limit pro Přenosné DHD byl dosažen!
+stool_stargate_dhd_cleanup = Přenosná DHD
+stool_stargate_dhd_cleaned = Smazána všechna přenosná DHD
+stool_stargate_dhd_limit = Limit pro přenosná DHD byl dosažen!
 
 // Iris
-stool_stargate_iris_spawner = Spawner Iris
-stool_stargate_iris_create = Vytvoří Iris nebo Štít pro Bránu
+stool_stargate_iris_spawner = Spawner iris
+stool_stargate_iris_create = Vytvoří iris nebo štít pro bránu
 stool_stargate_iris_desc = Levý klik pro vytvoření
-stool_stargate_iris_undone = Iris/Štít smazán
-stool_stargate_iris_cleanup = Iris/Štíty
-stool_stargate_iris_cleaned = Smazány všechny Iris/Štíty
-stool_stargate_iris_limit = Limit pro Iris/Štít byl dosažen!
-stool_stargate_iris_err = Cíl není Hvězdná Brána!
-stool_stargate_iris_err2 = Iris/Štít nelze vytvořit pro Orlinovou Bránu nebo Superbránu!
+stool_stargate_iris_undone = Iris/štít smazán
+stool_stargate_iris_cleanup = Iris/štíty
+stool_stargate_iris_cleaned = Smazány všechny iris/štíty
+stool_stargate_iris_limit = Limit pro iris/štíty byl dosažen!
+stool_stargate_iris_err = Cíl není hvězdná brána!
+stool_stargate_iris_err2 = Iris nelze vytvořit na superbráně ani na Orlinově bráně!
 
 // Shield
-stool_stargate_shield_spawner = Spawner Generátoru Štítu
-stool_stargate_shield_create = Vytvoří Generátor Štítu
+stool_stargate_shield_spawner = Spawner generátoru štítu
+stool_stargate_shield_create = Vytvoří generátor štítu
 stool_stargate_shield_desc = Levý klik pro vytvoření
-stool_stargate_shield_undone = Generátor Štítu smazán
-stool_stargate_shield_cleanup = Generátory Štítu
-stool_stargate_shield_cleaned = Smazány všechny Generátory Štítu
-stool_stargate_shield_limit = Limit pro Generátor Štítu byl dosažen!
-stool_stargate_shield_str = Rychlejší - Silnější
-stool_stargate_shield_str_desc = Poznámka: Čím silnější, tím pomalší regenerace a vyšší spotřeba energie
+stool_stargate_shield_undone = Generátor štítu smazán
+stool_stargate_shield_cleanup = Generátory štítu
+stool_stargate_shield_cleaned = Smazány všechny generátory štítu
+stool_stargate_shield_limit = Limit pro generátory štítu byl dosažen!
+stool_stargate_shield_str = Rychlejší obnova - Silnější
+stool_stargate_shield_str_desc = Poznámka: větší síla znamená pomalejší regeneraci a vyšší spotřebu energie
 stool_stargate_shield_str_color = Barva:
-stool_stargate_shield_imm = Majitel Generátoru Štítu je schopen střílet do i ze štítu, neohledně na fakt, jestli byl při zapnutí uvnitř štítu
-stool_stargate_shield_db = Vykřeslit bublinu
-stool_stargate_shield_db_desc = Vykřeslit bublinu štítu při zásahu?
-stool_stargate_shield_se = Efekt při projetí štítem
-stool_stargate_shield_se_desc = Vykřeslí efekt, když něco projede skrz štít.
-stool_stargate_shield_co = Funkce Obsahu
-stool_stargate_shield_co_desc = Když zaškrtnuto, štít udrží věci uvnitř místo toho, aby je udržel mimo štítu
+stool_stargate_shield_imm = Když je zapnuto, majitel štítu jím může vždy projít i střílet, ať byl při zapnutí uvnitř, nebo ne
+stool_stargate_shield_db = Vykreslit bublinu
+stool_stargate_shield_db_desc = Vykreslit bublinu štítu při zásahu?
+stool_stargate_shield_se = Efekt při průchodu
+stool_stargate_shield_se_desc = Vykreslí efekt štítu, když jím něco projde
+stool_stargate_shield_co = Zadržení
+stool_stargate_shield_co_desc = Zapni, aby štít držel věci uvnitř, místo aby je držel venku
 stool_stargate_shield_an = Anti-Noclip
-stool_stargate_shield_an_desc = Do štítu se nelze dostat ani pomocí Noclipu.
+stool_stargate_shield_an_desc = Hráči nemohou ve štítu používat noclip
 
 // Supergate DHD
-stool_supergate_dhd_spawner = Spawner DHD Superbrány
-stool_supergate_dhd_create = Vytvoří DHD Superbrány
+stool_supergate_dhd_spawner = Spawner DHD superbrány
+stool_supergate_dhd_create = Vytvoří DHD superbrány
 stool_supergate_dhd_desc = Levý klik pro vytvoření
-stool_supergate_dhd_undone = DHD Superbrány smazáno
-stool_supergate_dhd_cleanup = DHD Superbrány
-stool_supergate_dhd_cleaned = Smazány všechny DHD Superbrány
-stool_supergate_dhd_limit = Limit pro DHD Superbrány byl dosažen!
-stool_supergate_dhd_err = Cíl není Superbrána!
-stool_supergate_dhd_exs = Tato Superbrána už DHD má!
+stool_supergate_dhd_undone = DHD superbrány smazáno
+stool_supergate_dhd_cleanup = DHD superbrán
+stool_supergate_dhd_cleaned = Smazána všechna DHD superbrán
+stool_supergate_dhd_limit = Limit pro DHD superbrán byl dosažen!
+stool_supergate_dhd_err = Nemíříš na superbránu!
+stool_supergate_dhd_exs = Tato superbrána už DHD má!
 
 // Tampered ZPM
-stool_tampered_zpm_spawner = Spawner Manipulovaného ZPM
-stool_tampered_zpm_create = Vytvoří Manipulované ZPM
+stool_tampered_zpm_spawner = Spawner manipulovaného ZPM
+stool_tampered_zpm_create = Vytvoří manipulované ZPM
 stool_tampered_zpm_desc = Levý klik pro vytvoření
 stool_tampered_zpm_undone = Manipulované ZPM smazáno
-stool_tampered_zpm_cleanup = Manipulované ZPM
-stool_tampered_zpm_cleaned = Smazány všechny Manipulované ZPM
-stool_tampered_zpm_limit = Limit pro Manipulované ZPM byl dosažen!
-stool_tampered_zpm_fulldesc = Tohle je Modul Nulového Bodu.
-stool_tampered_zpm_fulldesc2 = S tímto ZPM manipuloval Goa'uld Camulus. Nějak ho upravil, a doufal že se Země zničí. Doktor Bill Lee však zjistil, že při kontaktu tohodle ZPM s elektrickým výbojem dochází k nárustu obrovské energie. Následne nastává veliká exploze, která by zničila asi polovinu slunečné soustavy.
+stool_tampered_zpm_cleanup = Manipulovaná ZPM
+stool_tampered_zpm_cleaned = Smazána všechna manipulovaná ZPM
+stool_tampered_zpm_limit = Limit pro manipulovaná ZPM byl dosažen!
+stool_tampered_zpm_fulldesc = Tohle je manipulované ZPM.
+stool_tampered_zpm_fulldesc2 = Goa'uld Camulus objevil ZPM v antické základně. Sám ho použít nedokázal, a tak ho potáhl nestabilní látkou, která při kontaktu s elektrickým nábojem exploduje. Navedl k němu Tau'ri v naději, že se sami zničí. Bill Lee látku odhalil náhodou, když bylo nutné zaplavit základnu gama zářením. Výbuch ZPM nabitého asi z poloviny mohl zasáhnout celou sluneční soustavu a přinejmenším by zcela zničil Zemi. (SG-1: Zero Hour) Látku se pokusili odstranit, ale první test ZPM zničil jeho i planetu, na které byl.
 
 // Tokra Shield Emmiter
-stool_tokra_shield_emmiter_spawner = Spawner Tokerského Emitoru Štítu
-stool_tokra_shield_emmiter_create = Vytvoří Tokerský Emitoru Štítu
+stool_tokra_shield_emmiter_spawner = Spawner tok'rského emitoru štítu
+stool_tokra_shield_emmiter_create = Vytvoří tok'rský emitor štítu
 stool_tokra_shield_emmiter_desc = Levý klik pro vytvoření
-stool_tokra_shield_emmiter_undone = Tokerský Emitor Štítu smazán
-stool_tokra_shield_emmiter_cleanup = Tokerské Emitory Štítu
-stool_tokra_shield_emmiter_cleaned = Smazány všechny Tokerské Emitory Štítu
-stool_tokra_shield_emmiter_limit = Limit pro Tokerské Emitory Štítu byl dosažen!
+stool_tokra_shield_emmiter_undone = Tok'rský emitor štítu smazán
+stool_tokra_shield_emmiter_cleanup = Tok'rské emitory štítu
+stool_tokra_shield_emmiter_cleaned = Smazány všechny tok'rské emitory štítu
+stool_tokra_shield_emmiter_limit = Limit pro tok'rské emitory štítu byl dosažen!
 
 // Tokra Shield Controller
-stool_tokra_shield_key_spawner = Spawner Tokerského Ovladaču Štítu
-stool_tokra_shield_key_create = Vytvoří Tokerský Ovladač Štítu
+stool_tokra_shield_key_spawner = Spawner tok'rského ovladače štítu
+stool_tokra_shield_key_create = Vytvoří tok'rský ovladač štítu
 stool_tokra_shield_key_desc = Levý klik pro vytvoření
-stool_tokra_shield_key_undone = Tokerský Ovladač Štítu smazán
-stool_tokra_shield_key_cleanup = Tokerské Ovladače Štítu
-stool_tokra_shield_key_cleaned = Smazány všechny Tokerské Ovladače Štítu
-stool_tokra_shield_key_limit = Limit pro Tokerské Ovladače Štítu byl dosažen!
+stool_tokra_shield_key_undone = Tok'rský ovladač štítu smazán
+stool_tokra_shield_key_cleanup = Tok'rské ovladače štítu
+stool_tokra_shield_key_cleaned = Smazány všechny tok'rské ovladače štítu
+stool_tokra_shield_key_limit = Limit pro tok'rské ovladače štítu byl dosažen!
 
 // Tollan Weapon Disabler
-stool_tollan_disabler_spawner = Spawner Tollanské Rušičky Zbraní
-stool_tollan_disabler_create = Vytvoří Tollanskou Rušičku Zbraní
+stool_tollan_disabler_spawner = Spawner tollanské rušičky zbraní
+stool_tollan_disabler_create = Vytvoří tollanskou rušičku zbraní
 stool_tollan_disabler_desc = Levý klik pro vytvoření
-stool_tollan_disabler_undone = Tollanská Rušička Zbraní smazána
-stool_tollan_disabler_cleanup = Tollanské Rušičky Zbraní
-stool_tollan_disabler_cleaned = Smazány všechny Tollanské Rušičky Zbraní
-stool_tollan_disabler_limit = Limit pro Tollanské Rušičky Zbraní byl dosažen!
-stool_tollan_disabler_imm = Poznámka: Imunita vám dovolí používat vaše zbraně, i když je rušička zapnutá
+stool_tollan_disabler_undone = Tollanská rušička zbraní smazána
+stool_tollan_disabler_cleanup = Tollanské rušičky zbraní
+stool_tollan_disabler_cleaned = Smazány všechny tollanské rušičky zbraní
+stool_tollan_disabler_limit = Limit pro tollanské rušičky zbraní byl dosažen!
+stool_tollan_disabler_imm = Poznámka: s imunitou můžeš používat své zbraně, i když je rušička zapnutá
 
 // Wraith Stun Bomb
-stool_wraith_bomb_spawner = Spawner Wraitské Omračovací Bomby
-stool_wraith_bomb_create = Vytvoří Wraitskou Omračovací Bombu
+stool_wraith_bomb_spawner = Spawner wraithské omračovací bomby
+stool_wraith_bomb_create = Vytvoří wraithskou omračovací bombu
 stool_wraith_bomb_desc = Levý klik pro vytvoření
-stool_wraith_bomb_undone = Wraitská Omračovací Bomba smazána
-stool_wraith_bomb_cleanup = Wraitské Omračovací Bomby
-stool_wraith_bomb_cleaned = Smazány všechny Wraitské Omračovací Bomby
-stool_wraith_bomb_limit = Maximální počet vytvořených Wraitských Omračovacích Bomb
+stool_wraith_bomb_undone = Wraithská omračovací bomba smazána
+stool_wraith_bomb_cleanup = Wraithské omračovací bomby
+stool_wraith_bomb_cleaned = Smazány všechny wraithské omračovací bomby
+stool_wraith_bomb_limit = Limit pro wraithské omračovací bomby byl dosažen!
 stool_wraith_bomb_yield = Dosah
 stool_wraith_bomb_timer = Čas
 stool_wraith_bomb_power = Síla
 
 // Harvester
-stool_wraith_harvester_spawner = Spawner Wraitského Sklízeču
-stool_wraith_harvester_create = Vytvoří sklízeč, který dokáže vcucnout živé i neživé objekty
+stool_wraith_harvester_spawner = Spawner wraithského sklízeče
+stool_wraith_harvester_create = Vytvoří sklízeč, který dokáže nasát lidi
 stool_wraith_harvester_desc = Levý klik pro vytvoření
-stool_wraith_harvester_undone = Wraitský Sklízeč smazán
-stool_wraith_harvester_cleanup = Wraitské Sklízeče
-stool_wraith_harvester_cleaned = Smazány všechny Wraitské Sklízeče
-stool_wraith_harvester_limit = Limit pro Wraitský Sklízeč byl dosažen!
-stool_wraith_harvester_suck = Vcucnout:
-stool_wraith_harvester_spit = Vyndat:
-stool_wraith_harvester_beam = Paprsek míří vždy přímo nadol
+stool_wraith_harvester_undone = Wraithský sklízeč smazán
+stool_wraith_harvester_cleanup = Wraithské sklízeče
+stool_wraith_harvester_cleaned = Smazány všechny wraithské sklízeče
+stool_wraith_harvester_limit = Limit pro wraithské sklízeče byl dosažen!
+stool_wraith_harvester_suck = Nasát:
+stool_wraith_harvester_spit = Vypustit:
+stool_wraith_harvester_beam = Paprsek míří vždy přímo dolů
 
 // ZPM MK III
 stool_zpm_mk3_spawner = Spawner ZPM MK III
-stool_zpm_mk3_create = Vytvoří Modul Nulového Bodu
+stool_zpm_mk3_create = Vytvoří modul nulového bodu
 stool_zpm_mk3_desc = Levý klik pro vytvoření
-stool_zpm_mk3_undone = Modul Nulového Bodu smazán
-stool_zpm_mk3_cleanup = Moduly Nulového Bodu
-stool_zpm_mk3_cleaned = Smazány všechny Moduly Nulového Bodu
-stool_zpm_mk3_limit = Limit pro Modul Nulového Bodu byl dosažen!
-stool_zpm_mk3_fulldesc = Tohle je Modul Nulového Bodu.
+stool_zpm_mk3_undone = Modul nulového bodu smazán
+stool_zpm_mk3_cleanup = Moduly nulového bodu
+stool_zpm_mk3_cleaned = Smazány všechny moduly nulového bodu
+stool_zpm_mk3_limit = Limit pro moduly nulového bodu byl dosažen!
+stool_zpm_mk3_fulldesc = Tohle je ZPM MK III.
 stool_zpm_mk3_capacity = Kapacita:

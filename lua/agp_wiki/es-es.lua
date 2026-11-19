@@ -44,7 +44,7 @@ pages = {
 - [Q] > Ascension Gates > **Portales y anillos**: puertas, DHD, anillos y paneles de anillos.
 - Herramientas ([Q] > lado derecho > Ascension Gates > Tech): DHD móvil, DHD del Supergate, Iris, Iris Goa'uld.
 # Marcar con el DHD
-1. Pon el DHD cerca de la puerta (a menos de 1000).
+1. Pon el DHD cerca de la puerta (a menos de 1000 unidades).
 2. Mira un glifo del DHD y pulsa [E]: se enciende.
 3. Pulsa todos los glifos de la dirección, luego el botón grande del centro.
 - Botón del centro sin glifos pulsados: se abre el menú de marcado.
@@ -59,11 +59,11 @@ pages = {
 - **Iris Computer** (Portales y anillos): acércalo a una puerta con iris, [E] = menú (códigos, cierre automático).
 - **GDO** (arma): clic derecho = escribir tu código, clic izquierdo = enviarlo a una puerta abierta.
 # Anillos
-- Plataforma de anillos + panel de anillos, cerca uno del otro (el panel funciona con anillos a menos de 500).
+- Plataforma de anillos + panel de anillos, cerca uno del otro (el panel funciona con anillos a menos de 500 unidades).
 - [E] en un botón del panel lo pulsa. **DIAL** sin dígitos = a los anillos más cercanos. Con dígitos = a esa dirección de anillos.
 - [E] en la base de los anillos: ponle un nombre (dirección).
 - **Ring Caller** (arma): clic izquierdo llama a los anillos más cercanos, clic derecho abre la ventana de marcado.
-! Los anillos te aplastan si te quedas quieto donde bajan. Sube a la plataforma o aléjate de ella.
+! Los anillos te aplastan si te quedas quieto donde bajan. Ponte en el centro de la plataforma o bájate de ella.
 ]] },
 
 { id = "hatak", title = "Nave nodriza Ha'tak", icon = "icon16/house.png", body = [[
@@ -121,7 +121,7 @@ pages = {
 1. Pulsa [R] en el asiento de piloto (o [E] en la consola de navegación).
 2. Elige un destino: marcas guardadas, un Stargate u otra persona. O escribe x y z.
 3. Haz clic en **Jump**. La nave se carga (3 s), se abre una ventana, vuelas a través.
-- **Save mark 1/2/3 here** guarda el lugar.
+- **Marca 1/2/3 aquí** guarda el lugar.
 - Necesita 30 % de power del hiperimpulsor. 8 s de pausa entre saltos.
 # Armas
 - [E] en la **consola de armas**: radar desde arriba y una lista de objetivos.
@@ -191,14 +191,14 @@ pages = {
 - Ratón: dirigir.
 - [1]: vista de cabina activada / desactivada.
 - Sin tecla: se queda en su sitio en el aire.
-- [Mouse1]: disparar los dos cañones de bastón.
+- [Mouse1]: disparar los dos cañones de báculo.
 - Rueda del ratón: girar sobre sí. [Mouse3]: volver a nivelar.
 - Teclas de flecha: distancia y altura de la cámara.
 - [Backspace]: autodestrucción.
 # Vuelo libre (ajuste del servidor)
 - Con **agp_glider_free_flight 1**: [S] atrás, [A] / [D] a los lados, [Space] subir, [Ctrl] bajar.
 # HUD
-- Abajo a la izquierda: casco, velocidad, cañones de bastón, las teclas.
+- Abajo a la izquierda: casco, velocidad, cañones de báculo, las teclas.
 - 300 de casco. A 0 explota.
 > Cambiar las teclas: {page:keys|Cambiar teclas}.
 ]] },
@@ -216,7 +216,7 @@ pages = {
 - Las mismas teclas que el Al'kesh. Además [Mouse2] seguir objetivo, [G] escudo.
 # Naves pequeñas
 - **Puddle Jumper:** [Mouse1] drones (abre las vainas solo), [Mouse2] mantener = los drones siguen tu punto de mira, [Alt] camuflaje, [2] puerta, [T] flotar, [G] escudo, [R] marcar la puerta más cercana.
-- **Tel'tak:** [Mouse2] cañones de bastón, [G] escudo, [Alt] camuflaje, mantén [R] hiperespacio, [2] puerta. Rayo de anillos: [Enter] (modo aterrizaje), luego [Mouse1].
+- **Tel'tak:** [Mouse2] cañones de báculo, [G] escudo, [Alt] camuflaje, mantén [R] hiperespacio, [2] puerta. Rayo de anillos: [Enter] (modo aterrizaje), luego [Mouse1].
 - **F-302:** [Mouse1] cañones, [Mouse2] misiles, [Alt] bengalas, [B] impulso, [2] eyectarse.
 - **Daedalus:** [Mouse1] cañones de riel, [Mouse2] rayo asgard, [1] a [8] misiles.
 - **Wraith Dart:** [C] recoger gente, [Alt] soltarla.
@@ -236,7 +236,7 @@ pages = {
 3. Apunta a donde debe ir. Ves un fantasma de ella.
 4. Clic izquierdo [Mouse1]: colocada. Clic derecho [Mouse2]: colocada girada 90 grados.
 - Apunta a una pieza y pulsa [R]: esa pieza queda elegida.
-- En una nave o prop se suelda a lo que apuntas (casilla **Weld to what I aim at**).
+- En una nave o prop se suelda a lo que apuntas (casilla **Soldar a lo que apuntas**).
 # Las piezas
 - **Celdas de energía (XS a XL):** guardan energía.
 - **Paneles solares:** producen energía mientras hay cielo abierto encima.
@@ -252,7 +252,7 @@ pages = {
 - **Manual:** herramienta **Enlace PowerGrid**: clic izquierdo en las piezas (se ponen azules), clic derecho en la pieza o nodo de energía al que se unen. [R] borra la selección; [R] en una pieza quita sus uniones.
 - **Automatic:** las piezas soldadas entre sí comparten solas.
 - **Off:** todo tiene energía libre.
-! ¿Spacebuild instalado? Entonces se usa la red de Spacebuild. Nuestros nodos de energía son entonces nodos de Spacebuild: únelos con la herramienta Enlace PowerGrid. Los admins pueden activar **Siempre PowerGrid**.
+! ¿Spacebuild instalado? Entonces se usa la red de Spacebuild. Los nodos de energía de PowerGrid funcionan entonces como nodos de Spacebuild: únelos con la herramienta Enlace PowerGrid. Los admins pueden activar **Siempre PowerGrid**.
 # Fuentes de energía
 - **ZPM:** herramienta **ZPM MK III**. Ponlo en un hub de ZPM o en un {page:goauldpower|hub de energía goa'uld}.
 - **Generador de naquadah:** herramienta en Energy.
@@ -275,7 +275,7 @@ pages = {
 - Mira el hub: una placa pequeña muestra cristales y energía.
 > Un ZPM da diez veces el power de un cristal y fuerza más el núcleo.
 # Control deslizante en la herramienta
-- **Crystal charge:** cuán llenos están los cristales nuevos (0 a 100 %).
+- **Carga del cristal:** cuán llenos están los cristales nuevos (0 a 100 %).
 ]] },
 
 { id = "lifesupport", title = "Soporte vital y espacio", icon = "icon16/heart.png", body = [[
@@ -303,20 +303,20 @@ pages = {
 = Las encuentras en [Q] > Ascension Gates > Armas. Mouse1 = uso principal, Mouse2 = segundo uso.
 # Goa'uld
 - **Zat'nik'tel:** el 1.er disparo aturde, el 2.º mata, el 3.º lo hace desaparecer.
-- **Staff weapon:** [Mouse2] prepararla, [Mouse1] disparar.
-- **Hand device:** [Mouse1] usar, [Mouse2] siguiente modo.
-- **Healing device:** mantenlo sobre una persona para curarla.
+- **Báculo:** [Mouse2] prepararla, [Mouse1] disparar.
+- **Dispositivo de mano:** [Mouse1] usar, [Mouse2] siguiente modo.
+- **Dispositivo curativo:** mantenlo sobre una persona para curarla.
 - **Mobile DHD:** ponlo en una puerta.
 # Tierra (SGC)
 - **P90 (PDW):** [Mouse1] disparar, [Mouse2] apuntar, [R] recargar.
 - **Beretta:** [Mouse1] disparar, [R] recargar.
 - **GDO:** [Mouse2] escribir código, [Mouse1] enviar.
 # Otras
-- **Ori hand weapon / staff, Wraith blaster, Ronon's gun, Asuran gun.**
+- **Arma de mano y báculo ori, aturdidor wraith, arma de Ronon, arma asurana.**
 - **Tac:** lanzar, otra vez = explotar. [Mouse2] matar / aturdir / humo.
-- **Repair tool:** mantenla sobre una nave, puerta o DHD para repararlo.
+- **Herramienta de reparación:** mantenla sobre una nave, puerta o DHD para repararlo.
 - **Silla de control (Antigua, pestaña Armas):** [E] para sentarte (necesita un ZPM cargado en su hub). [1] = lista de objetivos: fija los drones en un objetivo, o apunta libremente.
-- **Personal shield, Sodan cloak:** [Mouse1] encender, [Mouse2] apagar.
+- **Escudo personal, camuflaje sodan:** [Mouse1] encender, [Mouse2] apagar.
 - **Dispositivo de imagen mimética:** mantén [Mouse1] sobre una persona justo delante de ti para capturarla, [Mouse2] proyección sí / no, [R] borrar la imagen.
 ]] },
 
@@ -336,23 +336,23 @@ pages = {
 { id = "admin", title = "Ajustes para admins", icon = "icon16/shield.png", body = [[
 = Los admins (y tú en un solo jugador) cambian los ajustes del servidor. Los demás solo los ven. Pasa el ratón por un ajuste para ver un consejo corto.
 # Ajustes de naves: [Q] > Ascension Gates > Config > Naves AGP
-- **Hijacking:** solo tripulación / con el cristal de control / cualquiera.
-- **Weapons fire at owner and friends:** sí o no.
-- **Weapon + radar range:** hasta dónde disparan los cañones y ve el radar.
-- **Radar: most targets shown.**
-- **Power crystals strangers may pull:** 0 a 15 (por defecto 2). La tripulación no tiene límite.
-- **Ship can be destroyed:** sí (por defecto) o no (el casco se queda en 1).
-- **Hull health (new ships):** 10.000 a 1.000.000 (por defecto 100.000).
-- **Cloak allowed:** sí o no.
-- **Glider bay: lost gliders come back:** sí o no, y tras cuántos segundos (por defecto 60).
-- **Shield bubble (all ships):** solo al recibir un impacto o al encenderlo o apagarlo (por defecto), o siempre visible.
-- **Self-destruct countdown (all ships):** de 1 a 600 segundos (por defecto 5).
+- **Secuestro:** solo tripulación / con el cristal de control / cualquiera.
+- **Las armas disparan al dueño y amigos:** sí o no.
+- **Alcance de armas + radar:** hasta dónde disparan los cañones y ve el radar.
+- **Radar: máximo de objetivos.**
+- **Cristales que pueden sacar extraños:** 0 a 15 (por defecto 2). La tripulación no tiene límite.
+- **La nave puede ser destruida:** sí (por defecto) o no (el casco se queda en 1).
+- **Salud del casco (naves nuevas):** 10.000 a 1.000.000 (por defecto 100.000).
+- **Camuflaje permitido:** sí o no.
+- **Hangar de planeadores: los perdidos vuelven:** sí o no, y tras cuántos segundos (por defecto 60).
+- **Burbuja del escudo (todas las naves):** solo al recibir un impacto o al encenderlo o apagarlo (por defecto), o siempre visible.
+- **Autodestrucción: cuenta atrás (todas las naves):** de 1 a 600 segundos (por defecto 5).
 # Ajustes de energía: [Q] > PowerGrid > Ajustes > PowerGrid
-- **How parts connect:** Manual / Automatic / Mix / Off. Mira {page:spacegrid|PowerGrid}.
+- **Cómo se conectan las piezas:** Manual / Automático / Mixto / Desactivado. Mira {page:spacegrid|PowerGrid}.
 - **Siempre PowerGrid:** usar PowerGrid incluso con Spacebuild (necesita cambiar de mapa).
 - **Energía de agujero negro:** solo admins o todos.
-- **Space simulation:** solo mapas de espacio / todos los mapas / apagado. Mira {page:lifesupport|Soporte vital}.
-- **Gate destination report:** sí o no.
+- **Simulación espacial:** solo mapas de espacio / todos los mapas / apagado. Mira {page:lifesupport|Soporte vital}.
+- **Informe de destino de la puerta:** sí o no.
 # Solo para ti (cada jugador)
 - Cables, sonidos de máquinas, informe de la puerta en tu pantalla, unidades de distancia, temperatura y gravedad.
 ]] },
@@ -376,7 +376,7 @@ pages = {
 - Los umbrales de los interiores de naves no te dejan pasar si el otro lado está cerrado. Abre primero la puerta.
 - Sigue atascado: noclip ([V]) o reaparece.
 # Una herramienta muestra texto como #tool.something.name
-- Falta un texto. Dinos qué herramienta es, por favor.
+- Falta un texto. Dime qué herramienta es, por favor.
 ]] },
 
 },

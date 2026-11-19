@@ -1,9 +1,9 @@
 ring_ancient = Prstenje (Drevno)
 ring_goauld = Prstenje (Goa'uld)
 ring_ori = Prstenje (Ori)
-ring_panel_ancient = Kontrolna ploča (Drevna)
-ring_panel_goauld = Kontrolna ploča (Goa'uld)
-ring_panel_ori = Kontrolna ploča (Ori)
-ring_name = Imenuj prsten (Samo brojevi!):
-ring_dial = Upiši adresu (Samo brojevi!):
+ring_panel_ancient = Ploča prstena (Drevna)
+ring_panel_goauld = Ploča prstena (Goa'uld)
+ring_panel_ori = Ploča prstena (Ori)
+ring_name = Imenuj prsten (samo brojevi!):
+ring_dial = Upiši odredišnu adresu (samo brojevi!):
 ring_dialb = Aktiviraj

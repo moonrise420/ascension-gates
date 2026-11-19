@@ -2,34 +2,30 @@
 sg_err_title = Ascension Gates - Ошибка
 sg_err_html_t = Ascension Gates Ошибка:
 sg_err_n = Ошибка
-sg_err_01 = Найден аддон Stargate with Group System, пожалуйста удалите его.<br>Этот аддон включён в Ascension Gates и должен быть удалён.
-sg_err_02 = Ascension Gates установлен неправильно.<br>Убедитесь, что установлены все части Ascension Gates и что одновременно не установлены старые кодовые аддоны CAP / CAP Enhanced / EAP.
-sg_err_03 = Файл версии аддона повреждён.<br>Пожалуйста переустановите Ascension Gates, чтобы восстановить файл 'lua/cap_ver.lua'.
-sg_err_04 = Одновременно с Ascension Gates установлен старый пакет Stargate:%s<br><br>Ничего не сломано. Ascension Gates уже содержит всё из CAP и CAP Enhanced, с множеством исправленных ошибок. Но оба пакета используют одни и те же файлы и имена, поэтому, когда установлены оба, случайно, какая версия детали работает, и это вызывает ошибки в обоих.<br><br>Отпишитесь от старого пакета (ссылка выше) и перезапустите игру. До этого Ascension Gates ничего не создаёт. Ваши сохранения и дупы продолжат работать: детали сохранили свои имена.
-sg_err_05 = Подпишись на все необходимые предметы Мастерской, чтобы аддон работал правильно.<br><br>Отсутствующие аддоны:%s
-sg_err_06 = Ваш GMod устарел, пожалуйста обновите его.
-sg_err_07 = Wiremod не найден или установлен не правильно.<br>Пожалуйста установите <b>wiremod</b> из <a href='http://steamcommunity.com/sharedfiles/filedetails/?id=160250458'>workshop</a> или git/svn версию.
-sg_err_08 = Извините, Garry's Mod 13 beta больше не поддерживается.<br>Пожалуйста используйте обычный Garry's Mod который уже вышел из беты и стал 13 версией.
-sg_err_09 = [[Ascension Gates установлен неправильно.<br>Убедитесь, что установлены все части Ascension Gates и что одновременно не установлены старые кодовые аддоны CAP / CAP Enhanced / EAP.
+sg_err_01 = Найден аддон Stargate with Group System, пожалуйста, удали его.<br>Этот аддон уже входит в Ascension Gates и должен быть удалён.
+sg_err_02 = Ascension Gates установлен неправильно.<br>Убедись, что установлены все части Ascension Gates и что одновременно не установлены старые кодовые аддоны CAP / CAP Enhanced / EAP.
+sg_err_03 = Файл версии аддона повреждён!<br>Пожалуйста, переустанови Ascension Gates, чтобы восстановить файл 'lua/cap_ver.lua'.
+sg_err_04 = Одновременно с Ascension Gates установлен старый пакет Stargate:%s<br><br>Ничего не сломано. Ascension Gates уже содержит всё из CAP и CAP Enhanced, с множеством исправленных ошибок. Но оба пакета используют одни и те же файлы и имена, поэтому, когда установлены оба, заранее неизвестно, какая версия детали сработает, и это вызывает ошибки в обоих.<br><br>Отпишись от старого пакета (ссылка выше) и перезапусти игру. До этого Ascension Gates ничего не создаёт. Твои сохранения и дупы продолжат работать: детали сохранили свои имена.
+sg_err_05 = Пожалуйста, подпишись на все необходимые предметы Мастерской, чтобы аддон работал правильно.<br><br>Отсутствующие аддоны:%s
+sg_err_06 = Твой Garry's Mod устарел, пожалуйста, обнови его.
+sg_err_07 = Wiremod не найден.<br>Убедись, что Wiremod установлен правильно.
+sg_err_08 = Извини, бета-версия Garry's Mod 13 больше не поддерживается.<br>Пожалуйста, используй обычный Garry's Mod, который уже вышел из беты и стал 13-й версией.
+sg_err_09 = [[Ascension Gates установлен неправильно.<br>Убедись, что установлены все части Ascension Gates и что одновременно не установлены старые кодовые аддоны CAP / CAP Enhanced / EAP.
 <br>
 <br>Отсутствующие или повреждённые элементы:
 %s]]
-sg_err_10 = У вас установлена Github версия папки cap_resources.<br>Пожалуйста удалите папку cap_resources при использовании workshop версии Ascension Gates.
-sg_err_11 =[[Ascension Gates установлен неправильно.<br>Убедитесь, что установлены все части Ascension Gates и что одновременно не установлены старые кодовые аддоны CAP / CAP Enhanced / EAP.
+sg_err_10 = Обнаружены две конфликтующие версии ресурсов Ascension Gates.<br>Пожалуйста, удали либо версию с GitHub, либо версию из Мастерской.
+sg_err_11 =[[Ascension Gates установлен неправильно.<br>Убедись, что установлены все части Ascension Gates и что одновременно не установлены старые кодовые аддоны CAP / CAP Enhanced / EAP.
 ]]
-sg_err_12 = Ресурсы Ascension Gates устарели!<br>Пожалуйста, обновите их.
-sg_err_13 = [[Найдены старые файлы workshop версии CAP'а.
-<br>Пожалуйста, удалите следующие файлы внутри папки:
+sg_err_12 = Ресурсы Ascension Gates устарели!<br>Пожалуйста, обнови их до последней версии.
+sg_err_13 = [[Найдены старые файлы из Мастерской.
+<br>Пожалуйста, удали эти файлы из папки:
 <br>"%s"
 <br>%s
 ]]
-sg_err_14 =[[Ваш Wiremod устарел, пожалуйста обновите его.
-<br>Вы используете <b>старый svn репозиторий</b>, перейдите на github или <b><a href='http://steamcommunity.com/sharedfiles/filedetails/?id=160250458'>workshop</a></b> версию wiremod'а.
+sg_err_14 =[[Твой Wiremod устарел. Пожалуйста, обнови его, чтобы Ascension Gates работал полностью.
+<br>Эта версия Wiremod старая и больше не обновляется. Пожалуйста, используй версию из Мастерской Steam или с GitHub.
 <br>
-<br>Старая svn ссылка (устаревшая): <u>https://svn.code.sf.net/p/wiremod/code/trunk/wire</u>
-<br>Новая github ссылка: <u>https://github.com/wiremod/wire</u>
-<br>Новая svn ссылка: <u>https://github.com/wiremod/wire/trunk</u>
-<br>Workshop: <a href='http://steamcommunity.com/sharedfiles/filedetails/?id=160250458'>http://steamcommunity.com/sharedfiles/filedetails/?id=160250458</a>
-<br>
-<br>Примечание: если вы откроете svn ссылку в браузере, то вы увидите ошибку, скопируйте и вставте в ваш svn клиент как url репозитория!
+<br>Мастерская Steam: <a href='https://steamcommunity.com/sharedfiles/filedetails/?id=160250458'>https://steamcommunity.com/sharedfiles/filedetails/?id=160250458</a>
+<br>GitHub: <u>https://github.com/wiremod/wire</u>
 ]]

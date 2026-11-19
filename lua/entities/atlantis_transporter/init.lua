@@ -550,7 +550,25 @@ function ENT:DoTeleport(target)
 						end
 					);
 					-- fix by AlexALX
-					v:SetPos(pos+Vector(0,0,4));
+					-- AGP 2026-11-16 (owner test: arrived "a little in the floor" and could not move): the same spot in the
+					-- target booth, but standing on its floor (found from above) with the player's whole hull free; a few
+					-- units around only when that spot is taken. Was: the same height as at the start + 4, so a player a
+					-- bit lower (noclip, a slope) ended up inside the floor.
+					local dest = pos + Vector(0, 0, 4)
+					if (v:IsPlayer()) then
+						local mins, maxs = v:GetHull()
+						local function skip(e) return IsValid(e) and e ~= v and not e:IsPlayer() end
+						local function standAt(q)
+							local down = util.TraceLine({ start = q + Vector(0, 0, 50), endpos = q - Vector(0, 0, 60), mask = MASK_PLAYERSOLID, filter = skip })
+							if (not down.Hit or down.StartSolid or down.HitNormal.z < 0.6) then return end
+							local s = down.HitPos + Vector(0, 0, 2)
+							local tr = util.TraceHull({ start = s, endpos = s, mins = mins, maxs = maxs, mask = MASK_PLAYERSOLID, filter = skip })
+							if (not (tr.Hit or tr.StartSolid)) then return s end
+						end
+						local c = self.Target:GetPos() + self.Target:GetForward() * -10 + self.Target:GetRight() * 5
+						dest = standAt(pos) or standAt(pos + (c - pos) * 0.5) or standAt(Vector(c.x, c.y, pos.z)) or dest
+					end
+					v:SetPos(dest);
 					if (not v:IsNPC()) then
 						umsg.Start("AtlantisTransporterTele", v);
 							umsg.Bool(false);

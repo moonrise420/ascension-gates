@@ -35,6 +35,7 @@ ENT.RepStride = 24
 ENT.RepSwing = 16
 ENT.RepLift = 12
 ENT.RepLegs = { "leg_l1", "leg_l2", "leg_l3", "leg_r1", "leg_r2", "leg_r3" }
+ENT.RepFeet = false   -- (not nil: that falls through to the bug's table. The bug's hips and feet are not hers: her legs keep the plain walking pose)
 ENT.RepGait = { leg_l1 = 0, leg_r2 = 0, leg_l3 = 0, leg_r1 = 1, leg_l2 = 1, leg_r3 = 1 }   -- tripod gait
 ENT.RepLeap = false
 ENT.RepClimb = false        -- too heavy for walls: she stays on the ground

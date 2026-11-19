@@ -44,7 +44,7 @@ pages = {
 - [Q] > Ascension Gates > **Zvjezdana vrata i prstenje**: vrata, DHD-ovi, prstenje i ploče prstenja.
 - Alati ([Q] > desno > Ascension Gates > Tech): Mobilni DHD, Supergate DHD, Iris, Goa'uld Iris.
 # Biranje preko DHD-a
-1. Stavi DHD blizu vrata (bliže od 1000).
+1. Stavi DHD blizu vrata (bliže od 1000 jedinica).
 2. Pogledaj simbol na DHD-u i pritisni [E]: zasvijetli.
 3. Pritisni sve simbole adrese, zatim veliku središnju tipku.
 - Središnja tipka bez pritisnutih simbola: otvara se izbornik biranja.
@@ -59,11 +59,11 @@ pages = {
 - **Računalo irise** (Zvjezdana vrata i prstenje): prisloni ga na vrata s irisom, [E] = izbornik (kodovi, automatsko zatvaranje).
 - **GDO** (oružje): desni klik = upiši svoj kod, lijevi klik = pošalji ga na otvorena vrata.
 # Prstenje
-- Platforma prstenja + ploča prstenja, blizu jedna drugoj (ploča radi za prstenje do 500).
+- Platforma prstenja + ploča prstenja, blizu jedna drugoj (ploča radi za prstenje do 500 jedinica).
 - [E] na tipki ploče pritišće je. **DIAL** bez znamenki = do najbližeg prstenja. Sa znamenkama = do prstenja s tom adresom.
 - [E] na bazi prstenja: daj mu ime (adresu).
 - **Ring Caller** (oružje): lijevi klik zove najbliže prstenje, desni klik otvara prozor biranja.
-! Prstenje te zgnječi ako mirno stojiš tamo gdje se spušta. Stani na platformu ili se makni od nje.
+! Prstenje te zgnječi ako mirno stojiš tamo gdje se spušta. Stani u sredinu platforme ili siđi s nje.
 ]] },
 
 { id = "hatak", title = "Matični brod Ha'tak", icon = "icon16/house.png", body = [[
@@ -121,7 +121,7 @@ pages = {
 1. Pritisni [R] u pilotskoj stolici (ili [E] na navigacijskoj konzoli).
 2. Odaberi cilj: spremljene oznake, Stargate ili drugog igrača. Ili upiši x y z.
 3. Klikni **Jump**. Brod se puni (3 s), otvara se prozor, preletiš kroz njega.
-- **Save mark 1/2/3 here** pamti mjesto.
+- **Oznaka 1/2/3 ovdje** pamti mjesto.
 - Treba 30 % snage hiperpogona. Pauza od 8 s između skokova.
 # Oružje
 - [E] na **konzoli oružja**: radar odozgo i popis meta.
@@ -218,7 +218,7 @@ pages = {
 - **Puddle Jumper:** [Mouse1] dronovi (sam otvara module), [Mouse2] drži = dronovi prate tvoj cilj, [Alt] maskiranje, [2] vrata, [T] lebdenje, [G] štit, [R] biraj najbliža vrata.
 - **Tel'tak:** [Mouse2] štapni topovi, [G] štit, [Alt] maskiranje, drži [R] hipersvemir, [2] vrata. Prstenasti snop: [Enter] (način slijetanja), zatim [Mouse1].
 - **F-302:** [Mouse1] topovi, [Mouse2] rakete, [Alt] mamci, [B] ubrzanje, [2] katapultiranje.
-- **Daedalus:** [Mouse1] railguni, [Mouse2] zraka Asgarda, [1] do [8] rakete.
+- **Daedalus:** [Mouse1] elektromagnetski topovi, [Mouse2] zraka Asgarda, [1] do [8] rakete.
 - **Wraith Dart:** [C] skupljaj ljude, [Alt] ispusti ih.
 > Promjena tipki: {page:keys|Promjena tipki}.
 ]] },
@@ -236,7 +236,7 @@ pages = {
 3. Ciljaj gdje treba stajati. Vidiš njegov sjenoviti prikaz.
 4. Lijevi klik [Mouse1]: postavljeno. Desni klik [Mouse2]: postavljeno zakrenuto za 90 stupnjeva.
 - Ciljaj dio i pritisni [R]: taj dio je odabran.
-- Na brodu ili propu zavari se za ono u što ciljaš (okvir **Weld to what I aim at**).
+- Na brodu ili propu zavari se za ono u što ciljaš (okvir **Zavari na ono na što ciljaš**).
 # Dijelovi
 - **Energetske ćelije (XS do XL):** pohranjuju energiju.
 - **Solarni paneli:** proizvode energiju dok je iznad njih otvoreno nebo.
@@ -252,7 +252,7 @@ pages = {
 - **Manual:** alat **PowerGrid veza**: lijevi klik na dijelove (postaju plavi), desni klik na dio ili energetski čvor s kojim se povezuju. [R] briše odabir; [R] na dijelu uklanja njegove veze.
 - **Automatic:** dijelovi zavareni zajedno sami dijele.
 - **Off:** sve ima slobodnu energiju.
-! Imaš li instaliran Spacebuild? Tada se koristi Spacebuildova mreža. Naši energetski čvorovi tada su Spacebuildovi čvorovi: povezuj alatom PowerGrid veza. Admini mogu uključiti **Uvijek PowerGrid**.
+! Imaš li instaliran Spacebuild? Tada se koristi Spacebuildova mreža. Energetski čvorovi PowerGrida tada rade kao Spacebuildovi čvorovi: povezuj alatom PowerGrid veza. Admini mogu uključiti **Uvijek PowerGrid**.
 # Izvori energije
 - **ZPM:** alat **ZPM MK III**. Stavi ga u ZPM hub ili u {page:goauldpower|Goa'uldsko energetsko čvorište}.
 - **Generator naquadaha:** alat u Energy.
@@ -275,7 +275,7 @@ pages = {
 - Pogledaj hub: mala pločica pokazuje kristale i energiju.
 > ZPM daje deset puta više energije od kristala i jače pokreće jezgru.
 # Klizač u alatu
-- **Crystal charge:** koliko su novi kristali puni (0 do 100 %).
+- **Napunjenost kristala:** koliko su novi kristali puni (0 do 100 %).
 ]] },
 
 { id = "lifesupport", title = "Održavanje života i svemir", icon = "icon16/heart.png", body = [[
@@ -336,19 +336,19 @@ pages = {
 { id = "admin", title = "Postavke za admine", icon = "icon16/shield.png", body = [[
 = Admini (i ti u singleplayeru) mijenjaju postavke servera. Svi ostali ih samo vide. Prijeđi mišem preko postavke za kratki savjet.
 # Postavke brodova: [Q] > Ascension Gates > Config > AGP brodovi
-- **Preuzimanje:** samo posada / s kristalom upravljanja / bilo tko.
+- **Otmica broda:** samo posada / s kristalom upravljanja / bilo tko.
 - **Oružje puca na vlasnika i prijatelje:** da ili ne.
-- **Domet oružja i radara:** koliko daleko topovi pucaju i radar vidi.
-- **Radar: najviše prikazanih meta.**
-- **Energetski kristali koje stranci smiju izvući:** 0 do 15 (zadano 2). Posada nema ograničenje.
+- **Domet oružja + radara:** koliko daleko topovi pucaju i radar vidi.
+- **Radar: najviše prikazanih ciljeva.**
+- **Kristali koje stranci smiju izvaditi:** 0 do 15 (zadano 2). Posada nema ograničenje.
 - **Brod se može uništiti:** da (zadano) ili ne (trup ostaje na 1).
-- **Zdravlje trupa (novi brodovi):** 10 000 do 1 000 000 (zadano 100 000).
+- **Izdržljivost trupa (novi brodovi):** 10 000 do 1 000 000 (zadano 100 000).
 - **Maskiranje dopušteno:** da ili ne.
-- **Hangar za glidere: izgubljeni glideri se vraćaju:** da ili ne, i nakon koliko sekundi (zadano 60).
-- **Shield bubble (all ships):** samo pri pogotku te pri uključivanju ili isključivanju (zadano) ili uvijek vidljiv.
-- **Self-destruct countdown (all ships):** 1 do 600 sekundi (zadano 5).
+- **Hangar jedrilica: izgubljene se vraćaju:** da ili ne, i nakon koliko sekundi (zadano 60).
+- **Mjehur štita (svi brodovi):** samo pri pogotku te pri uključivanju ili isključivanju (zadano) ili uvijek vidljiv.
+- **Samouništenje: odbrojavanje (svi brodovi):** 1 do 600 sekundi (zadano 5).
 # Postavke energije: [Q] > PowerGrid > Postavke > PowerGrid
-- **Kako se dijelovi povezuju:** Manual / Automatic / Mix / Off. Vidi {page:spacegrid|PowerGrid}.
+- **Kako se dijelovi povezuju:** Ručno / Automatski / Mješovito / Isključeno. Vidi {page:spacegrid|PowerGrid}.
 - **Uvijek PowerGrid:** koristi PowerGrid čak i sa Spacebuildom (treba promjenu karte).
 - **Energija crne rupe:** samo admini ili svi.
 - **Simulacija svemira:** samo svemirske karte / svaka karta / isključeno. Vidi {page:lifesupport|Održavanje života}.
@@ -376,7 +376,7 @@ pages = {
 - Prolazi u unutrašnjosti brodova ne propuštaju te kad je druga strana zatvorena. Prvo otvori vrata.
 - Još uvijek se zaglavljuje: noclip ([V]) ili ponovno pojavljivanje.
 # Alat pokazuje tekst poput #tool.something.name
-- Nedostaje tekst. Molimo reci nam koji je to alat.
+- Nedostaje tekst. Molim te, reci mi koji je to alat.
 ]] },
 
 },

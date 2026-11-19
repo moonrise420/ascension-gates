@@ -44,7 +44,7 @@ pages = {
 - [Q] > Ascension Gates > **Kapuk és Gyűrűk**: kapuk, DHD-k, gyűrűk és gyűrűpanelek.
 - Eszközök ([Q] > jobb oldal > Ascension Gates > Tech): Mobil tárcsázó, Szuperkapu tárcsázó, Iris, Goa'uld Iris.
 # Tárcsázás a DHD-vel
-1. Tedd a DHD-t a kapu közelébe (1000-nél közelebb).
+1. Tedd a DHD-t a kapu közelébe (1000 egységnél közelebb).
 2. Nézz egy jelre a DHD-n, és nyomd meg az [E] gombot: kigyullad.
 3. Nyomd meg a cím összes jelét, utána a nagy középső gombot.
 - Középső gomb, ha egy jel sincs megnyomva: megnyílik a tárcsázó menü.
@@ -59,11 +59,11 @@ pages = {
 - **Iris Computer** (Kapuk és Gyűrűk): érintsd egy irises kapuhoz, [E] = menü (kódok, automatikus zárás).
 - **GDO** (fegyver): jobb kattintás = írd be a kódod, bal kattintás = küldd el egy nyitott kapunak.
 # Gyűrűk
-- Gyűrűplatform + gyűrűpanel, közel egymáshoz (a panel 500-on belüli gyűrűkhöz működik).
+- Gyűrűplatform + gyűrűpanel, közel egymáshoz (a panel 500 egységen belüli gyűrűkhöz működik).
 - [E] egy panelgombon megnyomja azt. **DIAL** számjegyek nélkül = a legközelebbi gyűrűkhöz. Számjegyekkel = ahhoz a gyűrűcímhez.
 - [E] a gyűrűtalpon: adj neki nevet (címet).
 - **Ring Caller** (fegyver): bal kattintás hívja a legközelebbi gyűrűket, jobb kattintás megnyitja a tárcsázó ablakot.
-! A gyűrűk összezúznak, ha mozdulatlanul állsz ott, ahol leereszkednek. Lépj a platformra, vagy menj el onnan.
+! A gyűrűk összezúznak, ha mozdulatlanul állsz ott, ahol leereszkednek. Állj a platform közepére, vagy lépj le róla.
 ]] },
 
 { id = "hatak", title = "Ha'tak anyahajó", icon = "icon16/house.png", body = [[
@@ -121,7 +121,7 @@ pages = {
 1. Nyomd meg az [R] gombot a pilótaülésben (vagy [E] a navigációs konzolon).
 2. Válassz célt: mentett jelölők, egy Stargate vagy egy másik játékos. Vagy írd be: x y z.
 3. Kattints a **Jump** gombra. A hajó tölt (3 mp), megnyílik egy ablak, átrepülsz rajta.
-- **Save mark 1/2/3 here** megjegyzi a helyet.
+- **1/2/3. jel ide** megjegyzi a helyet.
 - 30 % hiperhajtómű energia kell. 8 mp szünet két ugrás között.
 # Fegyverek
 - [E] a **fegyverkonzolon**: radar felülről és a célpontok listája.
@@ -236,7 +236,7 @@ pages = {
 3. Célozd meg, hol álljon. Látsz egy szellemképet róla.
 4. Bal kattintás [Mouse1]: lerakva. Jobb kattintás [Mouse2]: 90 fokkal elforgatva rakja le.
 - Célozz egy elemre, és nyomd meg az [R] gombot: az az elem lesz kiválasztva.
-- Hajón vagy propon ahhoz hegeszti, amire célzol (négyzet: **Weld to what I aim at**).
+- Hajón vagy propon ahhoz hegeszti, amire célzol (négyzet: **Hegesztés ahhoz, amire célzol**).
 # Az elemek
 - **Energiacellák (XS - XL):** energiát tárolnak.
 - **Napelemek:** energiát termelnek, amíg nyílt ég van fölöttük.
@@ -252,7 +252,7 @@ pages = {
 - **Manual:** **PowerGrid összekötő** eszköz: bal kattintás az elemeken (kékek lesznek), jobb kattintás arra az elemre vagy energiacsomópontra, amelyhez kötöd őket. [R] törli a kijelölést; [R] egy elemen törli a kötéseit.
 - **Automatic:** az összehegesztett elemek maguktól megosztják.
 - **Off:** mindennek van szabad energiája.
-! Spacebuild telepítve? Akkor a Spacebuild hálózata fut. A mi energiacsomópontjaink ilyenkor Spacebuild csomópontok: kösd össze a PowerGrid összekötő eszközzel. Az adminok bekapcsolhatják az **Mindig PowerGrid** opciót.
+! Spacebuild telepítve? Akkor a Spacebuild hálózata fut. A PowerGrid energiacsomópontjai ilyenkor Spacebuild csomópontként működnek: kösd össze a PowerGrid összekötő eszközzel. Az adminok bekapcsolhatják az **Mindig PowerGrid** opciót.
 # Energiaforrások
 - **ZPM:** eszköz **ZPM MK III**. Tedd egy ZPM csomópontba vagy egy {page:goauldpower|Goa'uld energiacsomópontba}.
 - **Naquadah generátor:** eszköz az Energy alatt.
@@ -275,7 +275,7 @@ pages = {
 - Nézz a csomópontra: egy kis tábla mutatja a kristályokat és az energiát.
 > Egy ZPM tízszer annyi energiát ad, mint egy kristály, és jobban hajtja a magot.
 # Csúszka az eszközben
-- **Crystal charge:** mennyire teltek az új kristályok (0 - 100 %).
+- **Kristály töltése:** mennyire teltek az új kristályok (0 - 100 %).
 ]] },
 
 { id = "lifesupport", title = "Életfenntartás és világűr", icon = "icon16/heart.png", body = [[
@@ -336,23 +336,23 @@ pages = {
 { id = "admin", title = "Beállítások adminoknak", icon = "icon16/shield.png", body = [[
 = Az adminok (és te egyjátékos módban) változtatják a szerver beállításait. Mindenki más csak látja őket. Vidd az egeret egy beállítás fölé egy rövid tippért.
 # Hajó beállítások: [Q] > Ascension Gates > Config > AGP hajók
-- **Hijacking:** csak a legénység / a vezérlőkristállyal / bárki.
-- **Weapons fire at owner and friends:** igen vagy nem.
-- **Weapon + radar range:** milyen messze lőnek az ágyúk és lát a radar.
-- **Radar: most targets shown.**
-- **Power crystals strangers may pull:** 0 - 15 (alapértelmezett 2). A legénységnek nincs korlátja.
-- **Ship can be destroyed:** igen (alapértelmezett) vagy nem (a törzs 1-en marad).
-- **Hull health (new ships):** 10 000 - 1 000 000 (alapértelmezett 100 000).
-- **Cloak allowed:** igen vagy nem.
-- **Glider bay: lost gliders come back:** igen vagy nem, és hány másodperc után (alapértelmezett 60).
-- **Shield bubble (all ships):** csak találatkor és be- vagy kikapcsoláskor (alapértelmezett), vagy mindig látható.
-- **Self-destruct countdown (all ships):** 1 és 600 másodperc között (alapértelmezett 5).
+- **Eltérítés:** csak a legénység / a vezérlőkristállyal / bárki.
+- **A fegyverek a tulajra és barátaira is lőnek:** igen vagy nem.
+- **Fegyver + radar hatótáv:** milyen messze lőnek az ágyúk és lát a radar.
+- **Radar: max. mutatott cél.**
+- **Energiakristályok, amit idegenek kivehetnek:** 0 - 15 (alapértelmezett 2). A legénységnek nincs korlátja.
+- **A hajó elpusztítható:** igen (alapértelmezett) vagy nem (a törzs 1-en marad).
+- **Hajótest élete (új hajók):** 10 000 - 1 000 000 (alapértelmezett 100 000).
+- **Álcázás engedélyezve:** igen vagy nem.
+- **Siklóhangár: az elveszett siklók visszajönnek:** igen vagy nem, és hány másodperc után (alapértelmezett 60).
+- **Pajzsbuborék (minden hajó):** csak találatkor és be- vagy kikapcsoláskor (alapértelmezett), vagy mindig látható.
+- **Önmegsemmisítés: visszaszámlálás (minden hajó):** 1 és 600 másodperc között (alapértelmezett 5).
 # Energia beállítások: [Q] > PowerGrid > Beállítások > PowerGrid
-- **How parts connect:** Manual / Automatic / Mix / Off. Lásd {page:spacegrid|PowerGrid}.
+- **Hogyan kapcsolódnak az elemek:** Kézi / Automatikus / Vegyes / Ki. Lásd {page:spacegrid|PowerGrid}.
 - **Mindig PowerGrid:** a PowerGrid használata Spacebuild mellett is (térképváltás kell).
 - **Fekete lyuk energia:** csak adminok vagy mindenki.
-- **Space simulation:** csak űrtérképek / minden térkép / ki. Lásd {page:lifesupport|Életfenntartás}.
-- **Gate destination report:** be vagy ki.
+- **Űrszimuláció:** csak űrtérképek / minden térkép / ki. Lásd {page:lifesupport|Életfenntartás}.
+- **Kapu célállomás-jelentés:** be vagy ki.
 # Csak neked (minden játékos)
 - Kábelek, gépek hangjai, kapu jelentés a képernyődön, mértékegységek a távolsághoz, hőmérséklethez és gravitációhoz.
 ]] },
@@ -376,7 +376,7 @@ pages = {
 - A hajóbelsők ajtónyílásai nem engednek át, ha a másik oldal zárva van. Előbb nyisd ki az ajtót.
 - Még mindig beragadtál: noclip ([V]) vagy éledj újra.
 # Egy eszköz ilyen szöveget mutat: #tool.something.name
-- Hiányzó szöveg. Kérjük, told meg nekünk, melyik eszköz.
+- Hiányzó szöveg. Kérlek, mondd meg nekem, melyik eszköz.
 ]] },
 
 },

@@ -44,7 +44,7 @@ pages = {
 - [Q] > Ascension Gates > **Brány a Kruhy**: brány, DHD, kruhy a panely kruhů.
 - Nástroje ([Q] > vpravo > Ascension Gates > Tech): Přenosné DHD, DHD Superbrány, Iris, Goa'uldká Iris.
 # Vytáčení přes DHD
-1. Postav DHD blízko brány (blíž než 1000).
+1. Postav DHD blízko brány (blíž než 1000 jednotek).
 2. Podívej se na symbol na DHD a stiskni [E]: rozsvítí se.
 3. Stiskni všechny symboly adresy, potom velké střední tlačítko.
 - Střední tlačítko bez stisknutých symbolů: otevře se menu vytáčení.
@@ -59,11 +59,11 @@ pages = {
 - **Počítač clony** (Brány a Kruhy): přiložíš ho k bráně s clonou, [E] = menu (kódy, automatické zavření).
 - **GDO** (zbraň): pravý klik = napsat svůj kód, levý klik = poslat ho na otevřenou bránu.
 # Kruhy
-- Platforma kruhů + panel kruhů, blízko sebe (panel funguje pro kruhy do 500).
+- Platforma kruhů + panel kruhů, blízko sebe (panel funguje pro kruhy do 500 jednotek).
 - [E] na tlačítku panelu ho stiskne. **DIAL** bez číslic = k nejbližším kruhům. S číslicemi = ke kruhům s touto adresou.
 - [E] na základně kruhů: dej jim jméno (adresu).
 - **Ring Caller** (zbraň): levý klik zavolá nejbližší kruhy, pravý klik otevře okno vytáčení.
-! Kruhy tě rozdrtí, když stojíš na místě, kam sjíždějí. Vstup na plošinu nebo od ní odejdi.
+! Kruhy tě rozdrtí, když stojíš na místě, kam sjíždějí. Stoupni si doprostřed plošiny nebo z ní sestup.
 ]] },
 
 { id = "hatak", title = "Mateřská loď Ha'tak", icon = "icon16/house.png", body = [[
@@ -121,7 +121,7 @@ pages = {
 1. Stiskni [R] v pilotním křesle (nebo [E] na navigační konzoli).
 2. Vyber cíl: uložené značky, Stargate nebo jiného hráče. Nebo napiš x y z.
 3. Klikni na **Jump**. Loď se nabíjí (3 s), otevře se okno, proletíš jím.
-- **Save mark 1/2/3 here** si zapamatuje místo.
+- **Značka 1/2/3 zde** si zapamatuje místo.
 - Potřebuje 30 % výkonu hyperpohonu. Mezi skoky je pauza 8 s.
 # Zbraně
 - [E] na **konzoli zbraní**: radar shora a seznam cílů.
@@ -191,14 +191,14 @@ pages = {
 - Myš: řízení.
 - [1]: pohled z kokpitu zap / vyp.
 - Žádná klávesa: drží místo ve vzduchu.
-- [Mouse1]: střelba z obou hůlkových děl.
+- [Mouse1]: střelba z obou tyčových děl.
 - Kolečko myši: náklon. [Mouse3]: zpět do roviny.
 - Šipky: vzdálenost a výška kamery.
 - [Backspace]: autodestrukce.
 # Volný let (nastavení serveru)
 - S **agp_glider_free_flight 1**: [S] vzad, [A] / [D] do stran, [Space] nahoru, [Ctrl] dolů.
 # HUD
-- Vlevo dole: trup, rychlost, hůlková děla, klávesy.
+- Vlevo dole: trup, rychlost, tyčová děla, klávesy.
 - 300 trupu. Při 0 exploduje.
 > Změna kláves: {page:keys|Změna kláves}.
 ]] },
@@ -216,9 +216,9 @@ pages = {
 - Stejné klávesy jako Al'kesh. Navíc [Mouse2] sledovat cíl, [G] štít.
 # Malé lodě
 - **Puddle Jumper:** [Mouse1] drony (moduly se otevřou samy), [Mouse2] držet = drony sledují tvůj zaměřovač, [Alt] maskování, [2] dveře, [T] vznášení, [G] štít, [R] vytočit nejbližší bránu.
-- **Tel'tak:** [Mouse2] tyčové kanóny, [G] štít, [Alt] maskování, drž [R] hyperprostor, [2] dveře. Kruhový paprsek: [Enter] (režim přistání), pak [Mouse1].
+- **Tel'tak:** [Mouse2] tyčová děla, [G] štít, [Alt] maskování, drž [R] hyperprostor, [2] dveře. Kruhový paprsek: [Enter] (režim přistání), pak [Mouse1].
 - **F-302:** [Mouse1] kulomety, [Mouse2] rakety, [Alt] světlice, [B] zrychlení, [2] katapultovat.
-- **Daedalus:** [Mouse1] railguny, [Mouse2] paprsek Asgardů, [1] až [8] rakety.
+- **Daedalus:** [Mouse1] kolejnicová děla, [Mouse2] paprsek Asgardů, [1] až [8] rakety.
 - **Wraith Dart:** [C] sbírat lidi, [Alt] vypustit je.
 > Změna kláves: {page:keys|Změna kláves}.
 ]] },
@@ -236,7 +236,7 @@ pages = {
 3. Zamiř tam, kde má stát. Uvidíš její přízrak.
 4. Levý klik [Mouse1]: umístěno. Pravý klik [Mouse2]: umístěno otočené o 90 stupňů.
 - Zamiř na část a stiskni [R]: tato část je vybrána.
-- Na lodi nebo propu se přivaří k tomu, na co míříš (pole **Weld to what I aim at**).
+- Na lodi nebo propu se přivaří k tomu, na co míříš (pole **Přivařit k tomu, na co míříš**).
 # Části
 - **Energetické články (XS až XL):** ukládají energii.
 - **Solární panely:** vyrábějí energii, když nad nimi je otevřená obloha.
@@ -252,7 +252,7 @@ pages = {
 - **Manual:** nástroj **Propojení PowerGrid**: levý klik na části (zmodrají), pravý klik na část nebo energetický uzel, se kterým se spojí. [R] zruší výběr; [R] na části odebere její spojení.
 - **Automatic:** části přivařené k sobě sdílejí samy.
 - **Off:** všechno má volnou energii.
-! Máš nainstalovaný Spacebuild? Pak se používá síť Spacebuildu. Naše energetické uzly jsou pak uzly Spacebuildu: propoj je pomocí nástroje Propojení PowerGrid. Admini mohou zapnout **Vždy PowerGrid**.
+! Máš nainstalovaný Spacebuild? Pak se používá síť Spacebuildu. Energetické uzly PowerGridu pak fungují jako uzly Spacebuildu: propoj je pomocí nástroje Propojení PowerGrid. Admini mohou zapnout **Vždy PowerGrid**.
 # Zdroje energie
 - **ZPM:** nástroj **ZPM MK III**. Vlož ho do hubu ZPM nebo do {page:goauldpower|Goa'uldského energetického uzlu}.
 - **Naquadahový generátor:** nástroj v Energy.
@@ -275,7 +275,7 @@ pages = {
 - Podívej se na hub: malá tabulka ukazuje krystaly a energii.
 > ZPM dává desetkrát víc energie než krystal a pohání jádro silněji.
 # Posuvník v nástroji
-- **Crystal charge:** jak plné jsou nové krystaly (0 až 100 %).
+- **Nabití krystalu:** jak plné jsou nové krystaly (0 až 100 %).
 ]] },
 
 { id = "lifesupport", title = "Podpora života a vesmír", icon = "icon16/heart.png", body = [[
@@ -303,7 +303,7 @@ pages = {
 = Vezmi je v [Q] > Ascension Gates > Zbraně. Mouse1 = hlavní použití, Mouse2 = druhé použití.
 # Goa'uldi
 - **Zat'nik'tel:** 1. rána omráčí, 2. zabije, 3. způsobí zmizení.
-- **Hůlková zbraň:** [Mouse2] připravit, [Mouse1] střelba.
+- **Tyčová zbraň:** [Mouse2] připravit, [Mouse1] střelba.
 - **Ruční zařízení:** [Mouse1] použít, [Mouse2] další režim.
 - **Léčivé zařízení:** drž na hráči, aby se léčil.
 - **Mobilní DHD:** polož ho na bránu.
@@ -336,23 +336,23 @@ pages = {
 { id = "admin", title = "Nastavení pro adminy", icon = "icon16/shield.png", body = [[
 = Admini (a ty v singleplayeru) mění nastavení serveru. Ostatní je jen vidí. Najeď na nastavení pro krátkou radu.
 # Nastavení lodí: [Q] > Ascension Gates > Config > Lodě AGP
-- **Převzetí lodi:** jen posádka / s řídicím krystalem / kdokoli.
-- **Zbraně střílejí na majitele a přátele:** ano nebo ne.
-- **Dosah zbraní a radaru:** jak daleko děla střílejí a radar vidí.
-- **Radar: nejvíce zobrazených cílů.**
-- **Energetické krystaly, které mohou cizí vytáhnout:** 0 až 15 (výchozí 2). Posádka nemá limit.
+- **Únos lodi:** jen posádka / s řídicím krystalem / kdokoli.
+- **Zbraně střílí i na majitele a přátele:** ano nebo ne.
+- **Dosah zbraní + radaru:** jak daleko děla střílejí a radar vidí.
+- **Radar: max. počet cílů.**
+- **Krystaly, které smí cizí vytáhnout:** 0 až 15 (výchozí 2). Posádka nemá limit.
 - **Loď lze zničit:** ano (výchozí) nebo ne (trup zůstane na 1).
-- **Zdraví trupu (nové lodě):** 10 000 až 1 000 000 (výchozí 100 000).
+- **Odolnost trupu (nové lodě):** 10 000 až 1 000 000 (výchozí 100 000).
 - **Maskování povoleno:** ano nebo ne.
-- **Hangár pro glidery: ztracené glidery se vrátí:** ano nebo ne, a za kolik sekund (výchozí 60).
-- **Shield bubble (all ships):** jen při zásahu a při zapnutí nebo vypnutí (výchozí), nebo vždy viditelná.
-- **Self-destruct countdown (all ships):** 1 až 600 sekund (výchozí 5).
+- **Hangár kluzáků: ztracené kluzáky se vrátí:** ano nebo ne, a za kolik sekund (výchozí 60).
+- **Bublina štítu (všechny lodě):** jen při zásahu a při zapnutí nebo vypnutí (výchozí), nebo vždy viditelná.
+- **Autodestrukce: odpočet (všechny lodě):** 1 až 600 sekund (výchozí 5).
 # Nastavení energie: [Q] > PowerGrid > Nastavení > PowerGrid
-- **Jak se části propojují:** Manual / Automatic / Mix / Off. Viz {page:spacegrid|PowerGrid}.
+- **Jak se díly propojují:** Ručně / Automaticky / Kombinace / Vypnuto. Viz {page:spacegrid|PowerGrid}.
 - **Vždy PowerGrid:** použít PowerGrid i se Spacebuildem (potřebuje změnu mapy).
 - **Energie černé díry:** jen admini nebo všichni.
 - **Simulace vesmíru:** jen vesmírné mapy / každá mapa / vypnuto. Viz {page:lifesupport|Podpora života}.
-- **Zpráva o cíli brány:** zap nebo vyp.
+- **Hlášení o cíli brány:** zap nebo vyp.
 # Jen pro tebe (každý hráč)
 - Kabely, zvuky strojů, zpráva o bráně na tvé obrazovce, jednotky pro vzdálenost, teplotu a gravitaci.
 ]] },
@@ -376,7 +376,7 @@ pages = {
 - Průchody v interiérech lodí tě nepustí, když je druhá strana zavřená. Nejdřív otevři dveře.
 - Pořád se zasekává: noclip ([V]) nebo respawn.
 # Nástroj ukazuje text jako #tool.something.name
-- Chybí text. Prosím, napiš nám, který nástroj to je.
+- Chybí text. Prosím, napiš mi, který nástroj to je.
 ]] },
 
 },

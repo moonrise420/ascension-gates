@@ -44,7 +44,7 @@ pages = {
 - [Q] > Ascension Gates > **Stargate ve Halkalar**: kapılar, DHD'ler, halkalar ve halka panelleri.
 - Araçlar ([Q] > sağ taraf > Ascension Gates > Tech): Mobile DHD, Supergate DHD, Iris, Goa'uld Iris.
 # DHD ile çevir
-1. DHD'yi kapının yanına koy (1000'den yakın).
+1. DHD'yi kapının yanına koy (1000 birimden yakın).
 2. DHD üzerindeki bir sembole bak ve [E] tuşuna bas: yanar.
 3. Adresin tüm sembollerine bas, sonra büyük orta düğmeye bas.
 - Hiç sembol basılı değilken orta düğme: çevirme menüsü açılır.
@@ -59,11 +59,11 @@ pages = {
 - **Iris Bilgisayarı** (Stargate ve Halkalar): irisli bir kapıya dokundur, [E] = menü (kodlar, otomatik kapanma).
 - **GDO** (silah): sağ tık = kodunu yaz, sol tık = açık bir kapıya gönder.
 # Halkalar
-- Halka platformu + halka paneli, birbirine yakın (panel 500 içindeki halkalar için çalışır).
+- Halka platformu + halka paneli, birbirine yakın (panel 500 birim içindeki halkalar için çalışır).
 - Panel düğmesinde [E] onu basar. Rakamsız **DIAL** = en yakın halkalara. Rakamlı = o halka adresine.
 - Halka tabanında [E]: ona bir ad (adres) ver.
 - **Ring Caller** (silah): sol tık en yakın halkaları çağırır, sağ tık çevirme penceresini açar.
-! Halkalar, indikleri yerde kıpırdamadan durursan seni ezer. Platforma çık veya ondan uzaklaş.
+! Halkalar, indikleri yerde kıpırdamadan durursan seni ezer. Platformun ortasında dur veya platformdan in.
 ]] },
 
 { id = "hatak", title = "Ha'tak ana gemisi", icon = "icon16/house.png", body = [[
@@ -121,7 +121,7 @@ pages = {
 1. Pilot koltuğunda [R] tuşuna bas (veya seyrüsefer konsolunda [E]).
 2. Bir hedef seç: kayıtlı işaretler, bir Stargate veya başka bir oyuncu. Ya da x y z yaz.
 3. **Jump** düğmesine tıkla. Gemi dolar (3 sn), bir pencere açılır, içinden uçarsın.
-- **Save mark 1/2/3 here** yeri hatırlar.
+- **İşaret 1/2/3 buraya** yeri hatırlar.
 - %30 hipersürücü gücü gerekir. Atlayışlar arasında 8 sn bekleme.
 # Silahlar
 - **Silah konsolunda** [E]: yukarıdan radar ve hedef listesi.
@@ -218,7 +218,7 @@ pages = {
 - **Puddle Jumper:** [Mouse1] dronlar (bölmeleri kendisi açar), [Mouse2] basılı tut = dronlar nişanını izler, [Alt] gizlenme, [2] kapı, [T] havada kalma, [G] kalkan, [R] en yakın geçidi çevir.
 - **Tel'tak:** [Mouse2] asa topları, [G] kalkan, [Alt] gizlenme, [R] basılı tut: hiperuzay, [2] kapı. Halka ışını: [Enter] (iniş modu), sonra [Mouse1].
 - **F-302:** [Mouse1] toplar, [Mouse2] füzeler, [Alt] parlama fişekleri, [B] hızlanma, [2] fırlat.
-- **Daedalus:** [Mouse1] ray topları, [Mouse2] Asgard ışını, [1] ile [8] arası füzeler.
+- **Daedalus:** [Mouse1] raylı toplar, [Mouse2] Asgard ışını, [1] ile [8] arası füzeler.
 - **Wraith Dart:** [C] insanları topla, [Alt] onları bırak.
 > Tuşları değiştir: {page:keys|Tuşları değiştir}.
 ]] },
@@ -236,7 +236,7 @@ pages = {
 3. Durması gereken yere nişan al. Hayaletini görürsün.
 4. Sol tık [Mouse1]: yerleştirildi. Sağ tık [Mouse2]: 90 derece döndürülmüş yerleştirildi.
 - Bir parçaya nişan al ve [R] tuşuna bas: o parça seçilir.
-- Gemide veya proptta, nişan aldığın şeye kaynaklanır (kutu **Weld to what I aim at**).
+- Gemide veya proptta, nişan aldığın şeye kaynaklanır (kutu **Nişan aldığına kaynat**).
 # Parçalar
 - **Enerji hücreleri (XS - XL):** enerji depolar.
 - **Güneş panelleri:** üstleri açık gökyüzüyken enerji üretir.
@@ -252,7 +252,7 @@ pages = {
 - **Manual:** **PowerGrid Bağlantısı** aracı: parçalara sol tık (maviye döner), bağlanacakları parçaya veya güç düğümüne sağ tık. [R] seçimi temizler; bir parçada [R] bağlantılarını kaldırır.
 - **Automatic:** birbirine kaynaklı parçalar kendiliğinden paylaşır.
 - **Off:** her şeyin serbest enerjisi vardır.
-! Spacebuild kurulu mu? O zaman Spacebuild'in ağı kullanılır. Güç düğümlerimiz o zaman Spacebuild düğümleridir: PowerGrid Bağlantısı aracı ile bağla. Yöneticiler **Her zaman PowerGrid** seçeneğini açabilir.
+! Spacebuild kurulu mu? O zaman Spacebuild'in ağı kullanılır. PowerGrid'in güç düğümleri o zaman Spacebuild düğümü olarak çalışır: PowerGrid Bağlantısı aracı ile bağla. Yöneticiler **Her zaman PowerGrid** seçeneğini açabilir.
 # Enerji kaynakları
 - **ZPM:** **ZPM MK III** aracı. Onu bir ZPM hub'ına veya bir {page:goauldpower|Goa'uld güç merkezine} tak.
 - **Naquadah jeneratörü:** Energy içindeki araç.
@@ -275,7 +275,7 @@ pages = {
 - Hub'a bak: küçük bir levha kristalleri ve enerjiyi gösterir.
 > Bir ZPM, bir kristalin on katı güç verir ve çekirdeği daha çok zorlar.
 # Araçtaki kaydırıcı
-- **Crystal charge:** yeni kristallerin ne kadar dolu olduğu (0 ile 100 % arası).
+- **Kristal şarjı:** yeni kristallerin ne kadar dolu olduğu (0 ile 100 % arası).
 ]] },
 
 { id = "lifesupport", title = "Yaşam desteği ve uzay", icon = "icon16/heart.png", body = [[
@@ -337,22 +337,22 @@ pages = {
 = Yöneticiler (ve tek oyunculuda sen) sunucu ayarlarını değiştirir. Diğer herkes yalnızca görür. Kısa bir ipucu için fareyi ayarın üstüne getir.
 # Gemi ayarları: [Q] > Ascension Gates > Config > AGP gemileri
 - **Ele geçirme:** yalnızca mürettebat / kontrol kristali ile / herkes.
-- **Silahlar sahibine ve arkadaşlarına ateş eder:** evet veya hayır.
+- **Silahlar sahibe ve arkadaşlara ateş eder:** evet veya hayır.
 - **Silah + radar menzili:** toplar ne kadar uzağa ateş eder ve radar ne kadar uzağı görür.
-- **Radar: gösterilen en çok hedef.**
-- **Yabancıların çekebileceği güç kristalleri:** 0 ile 15 (varsayılan 2). Mürettebatın sınırı yok.
+- **Radar: en fazla hedef sayısı.**
+- **Yabancıların çıkarabileceği kristaller:** 0 ile 15 (varsayılan 2). Mürettebatın sınırı yok.
 - **Gemi yok edilebilir:** evet (varsayılan) veya hayır (gövde 1'de kalır).
-- **Gövde canı (yeni gemiler):** 10.000 ile 1.000.000 (varsayılan 100.000).
-- **Gizlenmeye izin var:** evet veya hayır.
-- **Glider bölümü: kaybolan gliderlar geri gelir:** evet veya hayır, ve kaç saniye sonra (varsayılan 60).
-- **Shield bubble (all ships):** yalnızca isabet alınca ve açılıp kapanırken (varsayılan) ya da her zaman görünür.
-- **Self-destruct countdown (all ships):** 1 ile 600 saniye arası (varsayılan 5).
+- **Gövde dayanıklılığı (yeni gemiler):** 10.000 ile 1.000.000 (varsayılan 100.000).
+- **Gizlenme izinli:** evet veya hayır.
+- **Planör hangarı: kayıp planörler geri gelir:** evet veya hayır, ve kaç saniye sonra (varsayılan 60).
+- **Kalkan balonu (tüm gemiler):** yalnızca isabet alınca ve açılıp kapanırken (varsayılan) ya da her zaman görünür.
+- **Kendini imha: geri sayım (tüm gemiler):** 1 ile 600 saniye arası (varsayılan 5).
 # Enerji ayarları: [Q] > PowerGrid > Ayarlar > PowerGrid
-- **Parçalar nasıl bağlanır:** Manual / Automatic / Mix / Off. Bak {page:spacegrid|PowerGrid}.
+- **Parçalar nasıl bağlanır:** Elle / Otomatik / Karma / Kapalı. Bak {page:spacegrid|PowerGrid}.
 - **Her zaman PowerGrid:** Spacebuild ile bile PowerGrid kullan (harita değişimi gerekir).
 - **Kara Delik Enerjisi:** yalnızca yöneticiler veya herkes.
 - **Uzay simülasyonu:** yalnızca uzay haritaları / her harita / kapalı. Bak {page:lifesupport|Yaşam desteği}.
-- **Kapı hedef raporu:** açık veya kapalı.
+- **Geçit varış raporu:** açık veya kapalı.
 # Yalnızca senin için (her oyuncu)
 - Kablolar, makine sesleri, ekranındaki kapı raporu, mesafe, sıcaklık ve yerçekimi birimleri.
 ]] },
@@ -376,7 +376,7 @@ pages = {
 - Gemi iç mekanlarının kapı aralıkları, diğer taraf kapalıyken seni geçirmez. Önce kapıyı aç.
 - Hâlâ takılıyorsa: noclip ([V]) veya yeniden doğ.
 # Bir araç #tool.something.name gibi bir yazı gösteriyor
-- Bir yazı eksik. Lütfen hangi araç olduğunu bize söyle.
+- Bir yazı eksik. Lütfen hangi araç olduğunu bana söyle.
 ]] },
 
 },

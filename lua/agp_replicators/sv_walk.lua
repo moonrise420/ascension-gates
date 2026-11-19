@@ -221,6 +221,50 @@ end
 --  * on a wall and the goal lies behind it: up and over the top (projected onto the wall it pointed sideways)
 --  * on the ground right under the goal (on top of something): to the nearest wall, and up that
 -- (not while it builds or crosses a bridge of bodies: there the way is along the edge)
+-- its goal straight through the surface it is on - on top of the slab it hangs under, under the floor it stands on:
+-- near along the surface is not there (owner 2026-11-18: "it sees its goal through the ceiling"; freespace13's roof
+-- slab: the planned way ended under it 16 below the goal and the bug hung there for the rest of the test). Where to go
+-- instead: the nearest edge of that surface (8 ways along it, every 24 up to 240), the one with the least way left to
+-- the goal round it - a little past it, so its legs go round. Or nil: the goal is not behind it, or no edge near.
+-- (worked out once a second and a half: only for a bug in that spot, up to 80 rays)
+function R.EdgeAim(b, pos, up, goal)
+	-- (under a ceiling or on a floor only: on a wall with the goal behind it R.WalkDir takes it up and over the top - here
+	-- it was sent at a point past the sign's top edge and its body went into the board's top, 2 of 3 sign tests 2026-11-18)
+	if math.abs(up.z) < 0.5 then return nil end
+	local to = goal - pos
+	local along = to:Dot(up)
+	if along > -4 then return nil end
+	local flat = to - up * along
+	if flat:LengthSqr() > 60 * 60 then return nil end
+	local now = CurTime()
+	if b.EdgeAimT and now < b.EdgeAimT and b.EdgeAimGoal and b.EdgeAimGoal:DistToSqr(goal) < 16 * 16 then return b.EdgeAim end
+	if R.Reached and R.Reached(b, pos, goal) then return nil end
+	local f = (b.RepFwd or b:GetForward())
+	f = f - up * f:Dot(up)
+	if f:LengthSqr() < 1e-4 then f = up:Angle():Up() end
+	f:Normalize()
+	local rt = f:Cross(up)
+	local best, bs
+	for a = 0, 315, 45 do
+		local rad = math.rad(a)
+		local d = f * math.cos(rad) + rt * math.sin(rad)
+		for s = 24, 240, 24 do
+			local q = pos + d * s
+			if surf(b, pos + up * 6, q + up * 6).Hit then break end   -- (a wall that way: not an edge)
+			local t = surf(b, q + up * 10, q - up * 16)
+			if not t.Hit then
+				local e = q + d * 6
+				local score = s + e:Distance(goal)
+				if not bs or score < bs then best, bs = e, score end
+				break
+			end
+		end
+	end
+	b.EdgeAim, b.EdgeAimT, b.EdgeAimGoal = best, now + 1.5, Vector(goal)
+	if best then R.Stat("goal behind its surface: to the nearest edge") end
+	return best
+end
+
 function R.WalkDir(b, pos, up, goalPos)
 	if not goalPos or b.Crossing or b.BridgeJob or b.InBridge or b.InTower then return end
 	-- on a wall and the goal lies out in front of it and lower (on the floor beyond, a waypoint down there): straight down
@@ -239,10 +283,14 @@ function R.WalkDir(b, pos, up, goalPos)
 			if fl.Hit and not fl.StartSolid and fl.HitNormal.z > 0.7 and w:LengthSqr() > 0.01 then return w:GetNormalized() end
 		end
 	end
-	-- (on a way across the map (sv_nav.lua) its next waypoint says where: "up and over" sent one far up a taller wall
-	-- past the roof the way led to, 2026-11-06)
-	if b.Route and b.Route == b.NavRoute then return end
+	b.WalkDirCeil = nil
 	local to = goalPos - pos
+	-- (on a way across the map (sv_nav.lua) its next waypoint says where: "up and over" sent one far up a taller wall
+	-- past the roof the way led to, 2026-11-06. Except under a ceiling with the waypoint hidden above it - it went
+	-- straight at it, into the wall, up the wall, onto the ceiling again: wall, ceiling, wall for 20 s under a window's
+	-- lintel, repfs13 the roof corner, 2026-11-17 - then the ceiling's nearest edge below)
+	local onRoute = b.Route and b.Route == b.NavRoute
+	if onRoute and not (up.z < -0.5 and to:Dot(up) < -20 and surf(b, pos + up * 4, goalPos).Hit) then return end
 	if math.abs(up.z) < 0.5 and to:Dot(up) < -20 then
 		local w = Vector(0, 0, 1) - up * up.z
 		if w:LengthSqr() > 0.01 then return w:GetNormalized() end
@@ -250,6 +298,7 @@ function R.WalkDir(b, pos, up, goalPos)
 	-- under a ceiling and the goal lies above it (on top of the shelf, the roof): to the nearest edge of the ceiling
 	-- (the side towards the goal counts a little nearer), round it and up
 	if up.z < -0.5 and to:Dot(up) < -20 then
+		b.WalkDirCeil = true
 		if b.EdgeDirT and CurTime() < b.EdgeDirT then return b.EdgeDir end
 		local fl = Vector(to.x, to.y, 0)
 		fl = fl:LengthSqr() > 1 and fl:GetNormalized() or Vector(1, 0, 0)
@@ -260,8 +309,15 @@ function R.WalkDir(b, pos, up, goalPos)
 				local q = pos + d * dist
 				local tr = surf(b, q + up * 12, q - up * 30)   -- (from below the ceiling up into it)
 				if not tr.Hit then
-					local score = dist - 60 * d:Dot(fl)
-					if not bs or score < bs then best, bs = d, score end
+					-- (on a way across the map: only an edge it can walk to under the ceiling - inside a room the "edge" was
+					-- the open sky beyond the room's wall, and it went into the wall; repfs13, bugs inside, 2026-11-17. Looked for
+					-- 40 under the ceiling: a room's wall goes down to the floor, a lintel at the ceiling's edge does not - looked
+					-- for just under it, the lintel turned the edge it was under away and it crawled off deeper under the
+					-- overhang, the roof corner 3 of 6 runs worse)
+					if not onRoute or not surf(b, pos + up * 40, q + up * 40).Hit then
+						local score = dist - 60 * d:Dot(fl)
+						if not bs or score < bs then best, bs = d, score end
+					end
 					break
 				end
 			end
@@ -405,6 +461,26 @@ function R.Walk(b, pos, up, fwd, step, moving, goalPos, dt)
 			return Vector(th.top), th.tn, th.tf
 		end
 	end
+	-- over a lip (rule 1 below), in two moves: first out to the lip's front face while still under it, then up onto that
+	-- face. Straight at its top in one go - from 40 below, as soon as a feeler touched the lip - the body ran into the
+	-- lip's corner on the way, was knocked off the wall and lay across it sideways, 18 off it (owner 2026-11-18, the lip
+	-- test's film: "did you not see the flip over???")
+	local lo = b.LipOver
+	if lo then
+		-- (and stopped as soon as the body leans off the surface it reaches over from: it is not going as planned)
+		if now - lo.t > 0.5 or b:GetUp():Dot(lo.n) < 0.85 then b.LipOver = nil
+		else
+			if not lo.up2 and (b:GetPos():DistToSqr(lo.out) < 5 * 5 or now - lo.t > 0.25) then lo.up2 = true end
+			b.RepWrapT = now
+			if lo.up2 then
+				if b:GetPos():DistToSqr(lo.top) < 8 * 8 then b.LipOver = nil end
+				b.WalkWhy = "over a lip"
+				return Vector(lo.top), lo.n, lo.f
+			end
+			b.WalkWhy = "out under a lip"
+			return Vector(lo.out), lo.n, lo.f
+		end
+	end
 	-- its legs on one side of something solid and its body on the other: the legs had gone on over a board's top onto
 	-- its far side while the body stuck against the near side, and the rays of its feet - from 32 out, through the board
 	-- 16 thick - kept finding the far side, so the legs walked on there for seconds, the body pressed against the near
@@ -452,7 +528,9 @@ function R.Walk(b, pos, up, fwd, step, moving, goalPos, dt)
 	-- feeler along the body never touched it).
 	if moving then
 		local dirs = { dir }
-		if goalPos then
+		-- (not towards the goal while it heads for a ceiling's edge: the goal lies behind the wall it came down from, and
+		-- that feeler put it straight back onto that wall)
+		if goalPos and not (wd and b.WalkDirCeil) then
 			local g = goalPos - pos
 			g = g - up * g:Dot(up)
 			if g:LengthSqr() > 100 then g:Normalize() if g:Dot(dir) < 0.95 then dirs[2] = g end end
@@ -484,20 +562,33 @@ function R.Walk(b, pos, up, fwd, step, moving, goalPos, dt)
 				-- stands out from the wall by a little. A spider reaches over it straight onto that face. (The lip was
 				-- passed till now only because its target ran on ahead of its body after the corner below and pulled it
 				-- past - the same run-ahead that shot bugs up walls like rockets and off narrow faces; owner 2026-11-06)
-				if up.z < 0.7 and n0:Dot(d) < -0.5 then
+				local lipFar = false
+				-- (only with its body flat on the surface it is on, on 3 feet at least, and the lip's underside square across
+				-- its way: half turned onto another surface - at a wall's foot, eating a gate - it took a floor's edge for a
+				-- lip and leaned 56-125 deg off, flatgrass 2026-11-18)
+				-- (and only an overhang - its underside facing down: on the way down a wall a ledge sticking out below looked the
+				-- same from above, it reached out and over it downwards instead of onto its top, and fell; flatgrass's cliff 2026-11-18)
+				if up.z < 0.7 and n0.z < -0.5 and n0:Dot(d) < -0.8 and b:GetUp():Dot(up) > 0.9 and (b.RepHits or 0) >= 3 then
 					local q = w.HitPos + d * 8
 					local lf = surf(b, q + up * 60, q + up * 2)
 					if lf.Hit and not lf.StartSolid and lf.HitNormal:Dot(up) > 0.9 then
 						local depth = (lf.HitPos - w.HitPos):Dot(up)
 						if depth > 6 and depth < 56 then
-							b.RepWrapT = now
-							b.WalkWhy = "over a lip"
-							R.Stat("reached over a lip")
-							return lf.HitPos + up * 1 + d * (r * 0.5), up, d
+							-- (only once its front is at the lip; further below it walks on up the wall towards it - not onto the
+							-- lip's underside as onto a wall ahead, where it hung, 2026-11-06)
+							lipFar = true
+							if (w.HitPos - pos):Dot(d) < r + 4 then
+								local out = pos + up * ((lf.HitPos - pos):Dot(up) + 6)   -- (+3: the body still touched the corner, 15-26 deg tilt)
+								b.LipOver = { t = now, out = out, top = lf.HitPos + up * 1 + d * (r * 0.5), n = up, f = d }
+								b.RepWrapT = now
+								b.WalkWhy = "out under a lip"
+								R.Stat("reached over a lip")
+								return out, up, d
+							end
 						end
 					end
 				end
-				if not stepUp and not goalBelow and (hi.Hit or climbStep) then
+				if not lipFar and not stepUp and not goalBelow and (hi.Hit or climbStep) then
 					local n = w.HitNormal
 					local f = up - n * up:Dot(n)
 					f = f:LengthSqr() > 1e-4 and f:GetNormalized() or (fwd - n * fwd:Dot(n)):GetNormalized()
@@ -667,7 +758,7 @@ function R.Walk(b, pos, up, fwd, step, moving, goalPos, dt)
 					local h = b.WrapHist
 					if h and h.n2 and h.n2:Dot(n) > 0.95 and now - h.t2 < 1.5 then b.CircleT = now + 2 end
 					b.WrapHist = { n2 = h and h.n1, t2 = h and h.t1, n1 = n, t1 = now }
-					b.RepWrapT = now
+					b.RepWrapT, b.WrapFromUp = now, Vector(up)
 					-- it rolls over the edge, body and all (transit): the corner where the surface it is on meets that face
 					local out = n - up * n:Dot(up)
 					if out:LengthSqr() > 1e-4 then
@@ -729,7 +820,11 @@ function R.Walk(b, pos, up, fwd, step, moving, goalPos, dt)
 		-- the body, a little below the surface it was on, back towards it - the face it just slipped past (or one rising
 		-- beside it). The nearest one it grabs and turns onto - never the underside of the slab it stood on (it went
 		-- round under it and then let go from the ceiling: 81 drops in one run)
-		local best, bd
+		-- (right after going round an edge, the surface it came from only when there is no other: round from a ceiling onto
+		-- a thin lintel's face no foot held, the legs grabbed the ceiling again, it waited at the edge, went round again -
+		-- ceiling, face, ceiling for 20 s under the roof corner's overhang, repfs13 2026-11-17. The lintel's top is the way on)
+		local from = b.WrapFromUp and now - (b.RepWrapT or 0) < 1 and not (R.TestOff and R.TestOff.wrapFrom) and b.WrapFromUp or nil   -- (TestOff: test runs only)
+		local best, bd, back, bk
 		for a = 0, 315, 45 do
 			local rad = math.rad(a)
 			local d = fwd * math.cos(rad) + right * math.sin(rad)
@@ -737,10 +832,13 @@ function R.Walk(b, pos, up, fwd, step, moving, goalPos, dt)
 				local tr = surf(b, ray[1], ray[2])
 				if tr.Hit and not tr.StartSolid and tr.HitNormal:Dot(up) < 0.9 and tr.HitNormal:Dot(up) > -0.5 then
 					local dist = tr.HitPos:DistToSqr(pos)
-					if not bd or dist < bd then best, bd = tr, dist end
+					if from and tr.HitNormal:Dot(from) > 0.9 then
+						if not bk or dist < bk then back, bk = tr, dist end
+					elseif not bd or dist < bd then best, bd = tr, dist end
 				end
 			end
 		end
+		best = best or back
 		if best then
 			local n = best.HitNormal
 			local f = fwd - n * fwd:Dot(n)
@@ -748,13 +846,34 @@ function R.Walk(b, pos, up, fwd, step, moving, goalPos, dt)
 			-- sent it back up the face it had come over, past the top and off: the sign test, 2026-11-07)
 			if f:LengthSqr() < 1e-4 then f = -up - n * (-up):Dot(n) end
 			if f:LengthSqr() > 1e-4 then
-				b.RepWrapT = now
+				b.RepWrapT, b.WrapFromUp = now, Vector(up)
 				R.Stat("legs reached round an edge")
 				b.WalkWhy = "legs reached"
 				return best.HitPos + n * 1, n, f:GetNormalized()
 			end
 		end
 		if b.WalkOffT and now - b.WalkOffT < 0.6 then b.RepFallWhy = "lets itself down" return nil end
+		-- (up a wall past its top - a planned way that thought the wall went higher, a step that overshot: the wall's top
+		-- lies behind and below its body, where none of the rays above look (they run along the wall's face). The building
+		-- wall on freespace13: every first climb ended in the air 6 above a lower wall's top and fell 350, 2026-11-17.
+		-- Its legs reach back down onto that top - from a little inside the wall's line, down the way it came - and it goes
+		-- over it. Only here, where it would let go)
+		do
+			for _, depth in ipairs({ 10, 18, 26 }) do
+				local s0 = pos - up * depth + fwd * 8
+				local tr = surf(b, s0, s0 - fwd * 70)
+				if tr.Hit and not tr.StartSolid and tr.HitNormal:Dot(fwd) > 0.7 then
+					local n = tr.HitNormal
+					local f = -up - n * (-up):Dot(n)
+					if f:LengthSqr() > 1e-4 then
+						b.RepWrapT, b.WrapFromUp = now, Vector(up)
+						R.Stat("legs reached back onto the top it overshot")
+						b.WalkWhy = "legs reached (top)"
+						return tr.HitPos + n * 1, n, f:GetNormalized()
+					end
+				end
+			end
+		end
 		b.RepFallWhy = "no surface under its feet (surfnav " .. tostring(b.SurfPath ~= nil) .. ", here " .. tostring(here.Hit) .. "/" .. tostring(here.StartSolid) .. ", moving " .. tostring(moving) .. ", last corner " .. string.format("%.1f", now - (b.RepWrapT or 0)) .. " s ago, step " .. math.Round(step:Length()) .. ")"
 		return nil
 	end
@@ -773,6 +892,24 @@ function R.Walk(b, pos, up, fwd, step, moving, goalPos, dt)
 	if frontTop and up.z > 0.7 and nu.z > 0.7 then
 		local rise = frontTop - p:Dot(up)
 		if rise > 0.5 and rise < 34 then target = target + nu * (rise + 1) end
+	end
+	-- (owner 2026-11-17: "they have big problems with steps", "grinding along a step"): lifted only once its front feet
+	-- stood on the step, its body's front still ran into the step's edge and scraped up it. It feels the floor ahead along
+	-- its way - one and two body radii on - and glides up before it gets there: at two radii a third of the step's
+	-- height, at one nearly all of it; over a staircase that is one smooth slope. (Walls - higher than 34 - as always.)
+	if moving and up.z > 0.7 and nu.z > 0.7 and not (R.TestOff and R.TestOff.glide) then
+		local base = p:Dot(nu)
+		local have = (target - p):Dot(nu)
+		local want = 0
+		for _, k in ipairs({ 1.0, 1.9 }) do
+			local q = nxt + dir * (r * k)
+			local tr = surf(b, q + nu * 36, q - nu * 6)
+			if tr.Hit and not tr.StartSolid and tr.HitNormal:Dot(nu) > 0.9 then
+				local rise = tr.HitPos:Dot(nu) - base
+				if rise > 2 and rise < 34 then want = math.max(want, (rise + 1) * math.Clamp(1 - (k - 0.7) / 1.8, 0, 1)) end
+			end
+		end
+		if want > have then target = target + nu * (want - have) R.Stat("glided up towards a step") end
 	end
 	-- keep forward in the new surface
 	local f = fwd - nu * fwd:Dot(nu)

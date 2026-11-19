@@ -376,6 +376,26 @@ function N.Clear(plan)
 	plan.clear = ok
 	return ok
 end
+-- a fresh way over real surfaces? (owner 2026-11-18, freespace13: "crawling up in the air as if there was a pillar but
+-- there was none" - every first climb at the building was a way 340 straight up through the air in front of it, then
+-- the fall. Ways are made of surface points, so each point mid-face must have its surface under it. Checked once, when
+-- the way is taken - nothing while walking, so no jump, gap or bridge can be taken for air. Points where the way turns
+-- round an edge are left out (there a ray can graze past the corner), and only 2 misses in a row count)
+function N.OnSurfaces(plan)
+	local pts, ups, miss = plan.pts, plan.ups, 0
+	for k = 2, #pts - 1, 2 do
+		local u = ups[k]
+		if ups[k - 1]:Dot(u) > 0.99 and ups[k + 1]:Dot(u) > 0.99 then
+			local p = pts[k]
+			local tr = util.TraceLine({ start = p + u * 10, endpos = p - u * 14, mask = MASKW, filter = function(e) return walkable(e) end })
+			if tr.Hit then miss = 0 else
+				miss = miss + 1
+				if miss >= 2 then return false, p end
+			end
+		end
+	end
+	return true
+end
 local function still(plan)
 	for k = 1, #plan.pts, 4 do
 		local p, u = plan.pts[k], plan.ups[k]
@@ -668,6 +688,16 @@ function N.Step(b, pos, up, fwd, goal, moving, dt)
 				prev = q
 			end
 		end
+		if not plan.surfOk then
+			local ok, at = N.OnSurfaces(plan)
+			if not ok then
+				b.SurfPlanT = now + 2.5
+				if known and N.known then for k2, r in pairs(N.known) do if r.plan == plan then N.known[k2] = nil end end end
+				R.Dbg(b, "way over nothing at", tostring(at))
+				N.Drop(b, "the way runs over nothing") return
+			end
+			plan.surfOk = true
+		end
 		P = { plan = plan, s = 0, goal = plan.goal, t0 = now }
 		b.SurfWayKey, b.SurfKnownKey = dk(pos, goal), qk(plan.pts[1]) .. ">" .. qk(plan.goal)
 		-- (start where on its body's way it is nearest)
@@ -723,7 +753,9 @@ function N.Step(b, pos, up, fwd, goal, moving, dt)
 	-- wall", owner 2026-11-07, were the tilt and the place worked out apart)
 	if P.s >= B.len then
 		-- at the goal: it stays there (it does not wander on over the edge) until it has a new goal
-		if L.pts[#L.pts]:DistToSqr(P.goal) < 48 * 48 then
+		-- (near the goal but on the far side of the surface - under the slab the goal stands on - is not at the goal: it
+		-- ends short, and goes round the edge with its legs (R.EdgeAim); it hung there for good, owner 2026-11-18)
+		if L.pts[#L.pts]:DistToSqr(P.goal) < 48 * 48 and not ((P.goal - L.pts[#L.pts]):Dot(L.ups[#L.ups]) < -4 and R.Reached and not R.Reached(b, pos, P.goal)) then
 			P.s = B.len
 			if not P.kept and pos:DistToSqr(L.pts[#L.pts]) < 40 * 40 then
 				P.kept = true

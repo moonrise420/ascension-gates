@@ -34,6 +34,7 @@ R.cv = {
 	queenHide = CreateConVar("agp_rep_queen_hide", "1", FL, "Replicators: the Queen goes with her guards to a hidden place far from the players (1) or stays where she was built (0)"),
 	lagguard = CreateConVar("agp_rep_lagguard", "1", FL, "Replicators: when the game lags (its frame rate or game time falls), the swarm stops growing and far bugs rest until it runs smoothly again (1) or not (0)"),
 	lagfps = CreateConVar("agp_rep_lagguard_fps", "30", FL, "Replicators: the lag guard steps in under this frame rate of the host (single player / listen server; 0 = only when the server itself falls behind)"),
+	navscan = CreateConVar("agp_rep_navscan", "1", FL, "Replicators: live area scan - learn the ways around each Replicator in the background and keep them in a file per map, a few MB on big maps (1), or only as ways are needed (0)"),
 }
 
 function R.IsReplicator(e)
@@ -1164,7 +1165,7 @@ end)
 util.AddNetworkString("agp_rep_set")
 local LIMITS = { agp_rep_enabled = { 0, 1 }, agp_rep_max_bugs = { 0, 1e6 }, agp_rep_max_blocks = { 12, 1e6 }, agp_rep_max_queens = { 0, 1e6 },
 	agp_rep_attack = { 0, 3 }, agp_rep_eat = { 0, 2 }, agp_rep_rebuild = { 0, 1 }, agp_rep_survive = { 0, 1 }, agp_rep_lone_grow = { 0, 1 }, agp_rep_gates = { 0, 1 }, agp_rep_gate_swarm = { 2, 1e6 },
-	agp_rep_lagguard = { 0, 1 }, agp_rep_lagguard_fps = { 0, 1000 } }
+	agp_rep_lagguard = { 0, 1 }, agp_rep_lagguard_fps = { 0, 1000 }, agp_rep_navscan = { 0, 1 } }
 net.Receive("agp_rep_set", function(_, p)
 	local name, value = net.ReadString(), net.ReadInt(32)
 	local lim = LIMITS[name]
@@ -1206,3 +1207,4 @@ include("agp_replicators/sv_surfnav.lua")
 include("agp_replicators/sv_surfgraph.lua")
 include("agp_replicators/sv_nav.lua")
 include("agp_replicators/sv_walk.lua")
+include("agp_replicators/sv_field.lua")   -- (the felt map, prototype 2026-11-17: agp_rep_fieldwalk)
