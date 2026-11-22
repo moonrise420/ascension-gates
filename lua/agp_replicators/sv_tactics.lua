@@ -1,14 +1,14 @@
--- Replicators: the Queen's plans (owner 2026-11-02). Every plan is checked before it starts (enough bugs, a known way, a
--- target that is really there); a plan runs until something clearly better comes; what failed is avoided for a while,
--- never for ever. The bugs carry the plan out with their own small decisions (agp_replicator.lua Look / Brain).
---   strength  count before you fight: own bugs (health, size) against the enemies (health, weapon, ship); outnumbered,
---             they hold back out of sight, eat and grow, and strike together when strong enough
---   danger    a shooter's spot becomes a danger zone (routes avoid it); they come from the side he is not looking at
---   nests     a big swarm sends settlers to metal far away: they build a new Queen there - one nest lost, the others go on
---   power     eaten power sources (ZPM, generators, drained shields) make the Queens build faster
---   sabotage  near threatening players: their own DHDs are eaten (no escape); guards at the map's gate
---   ambush    on walls above the paths players walk most, still and silent, then they drop on them
---   bridges   a chain of bodies over a deep gap (roof to roof); the others run over it
+-- Replicators: the Queen's plans. Every plan is checked before it starts (enough bugs, a known way, a target that is
+-- really there); a plan runs until something clearly better comes; what failed is avoided for a while, never for
+-- ever. The bugs carry the plan out with their own small decisions (agp_replicator.lua Look / Brain). strength
+--   count before you fight: own bugs (health, size) against the enemies (health, weapon, ship); outnumbered, they hold
+--             back out of sight, eat and grow, and strike together when strong enough danger a
+--   shooter's spot becomes a danger zone (routes avoid it); they come from the side he is not looking at nests a big
+--   swarm sends settlers to metal far away: they build a new Queen there - one nest lost, the others go on power eaten
+--   power sources (ZPM, generators, drained shields) make the Queens build faster sabotage near
+--   threatening players: their own DHDs are eaten (no escape); guards at the map's gate ambush on
+--   walls above the paths players walk most, still and silent, then they drop on them bridges a
+--   chain of bodies over a deep gap (roof to roof); the others run over it
 local R = AGP.Rep
 local M = R.Map
 
@@ -103,10 +103,10 @@ function R.AmbushSpot(pos, taken)
 	if taken then taken[best] = true end
 end
 
--- ---------- doors (owner 2026-11-04): an ambush on the wall over a door ----------
--- They know a door: a map door, or a narrow opening players walk through (walls close on both sides, a lintel above).
--- A drop from there that got someone is remembered (map memory "amb"), so that door is used again; whether doors or
--- open paths pay off more, the swarm learns (R.AmbushJudge).
+-- ---------- doors: an ambush on the wall over a door ---------- They know a door:
+-- a map door, or a narrow opening players walk through (walls close on both sides, a lintel above). A drop from there
+-- that got someone is remembered (map memory "amb"), so that door is used again; whether doors or open paths pay
+-- off more, the swarm learns (R.AmbushJudge).
 local function isDoor(e)
 	local cl = e:GetClass()
 	return cl == "func_door" or cl == "func_door_rotating" or cl == "prop_door_rotating" or (cl:find("door", 1, true) ~= nil and not e:IsPlayer() and not e:IsWeapon())
@@ -182,8 +182,8 @@ function R.DoorSpot(pos, taken)
 	end
 	return best, bk, bf
 end
--- a spot on a ceiling over a much-walked place indoors (owner 2026-11-05: "it also could jump from the ceiling on the
--- player"): 90-260 units over the floor, room under it to drop; the floor under it is where it lands
+-- a spot on a ceiling over a much-walked place indoors: 90-260 units over the floor, room under it to drop; the floor
+-- under it is where it lands
 function R.CeilingSpot(pos, taken)
 	local best, bs, bf
 	for _, c in ipairs(M.Near(pos, 2500)) do
@@ -384,9 +384,9 @@ function R.Plan(h, owner, list, queens, now)
 	-- 3. ambushes: when holding back (or with nothing to do), a few hunters wait on walls above the players' paths
 	local amb = 0
 	for _, b in ipairs(list) do if b.State == "ambush" then amb = amb + 1 end end
-	-- (owner 2026-11-05: the drop from over a door or from the ceiling "should be some form of attack they can decide
-	-- on": also while they attack, when the prey is inside a building - there a drop from above is a real chance - up to
-	-- two bugs go and wait on its ways, the rest hunt it)
+	-- (the drop from over a door or from the ceiling "should be some form of attack they can decide on": also while
+	-- they attack, when the prey is inside a building - there a drop from above is a real chance - up to two bugs go and
+	-- wait on its ways, the rest hunt it)
 	local indoor
 	if R.cv.attack:GetInt() >= 2 and h.mode ~= "hold" then
 		for _, p in ipairs(player.GetAll()) do

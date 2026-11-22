@@ -47,8 +47,8 @@ if SERVER then
 		local w, h = unpack(self.SetupSize or { 128, 128 })
 		self:SetFieldWidth(w); self:SetFieldHeight(h)
 		local frozen = IsValid(self:GetPhysicsObject()) and not self:GetPhysicsObject():IsMotionEnabled()
-		-- a real model with box collision where one exists for this size (notes/hatak/mkfield.py): a physics box made
-		-- here stays behind when the parent ship moves, and players walked through the field
+		-- a real model with box collision where one exists for this size: a physics box made here stays behind when
+		-- the parent ship moves, and players walked through the field
 		local mdl = string.format("models/agp/hatak/props/field_%dx%dx4.mdl", math.Round(w), math.Round(h))
 		if (file.Exists(mdl, "GAME")) then
 			self:SetModel(mdl)

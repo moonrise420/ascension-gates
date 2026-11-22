@@ -136,7 +136,7 @@ end
 --################# OnRemove Handler @aVoN
 function ENT:OnRemove()
 	if(self.Action) then self.Action:Remove() end;
-	if(self.IdleSound) then self.IdleSound:Stop() end;   -- (2026-11-12: the shield iris' hum is a looping sound - it has to end with the iris)
+	if(self.IdleSound) then self.IdleSound:Stop() end;   -- (the shield iris' hum is a looping sound - it has to end with the iris)
 	timer.Remove("StarGateIrisCheck"..self:EntIndex());
 	timer.Remove("StarGateIrisProtCheck"..self:EntIndex());
 end

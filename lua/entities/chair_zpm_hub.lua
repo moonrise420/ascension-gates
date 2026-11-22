@@ -60,7 +60,7 @@ if SERVER then
         self.rateOfChange = 0
         self.Overload = 0
         self.MaxTransferRate = 120000
-        self:SetWire("Max transfer rate", self.MaxTransferRate) -- AGP 2026-11-08: declared but never set (zpmhub.lua had the same fix)
+        self:SetWire("Max transfer rate", self.MaxTransferRate) -- AGP: declared but never set (zpmhub.lua had the same fix)
         self.CurrentOverload = 1
         self.OverloadFactor = 0
         self.ZapTime = 0

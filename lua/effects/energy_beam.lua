@@ -30,7 +30,7 @@ function EFFECT:Init(data)
 		self.Line = self.LineB;
 	end
 
-	-- AGP 2026-11-08: the beam entity can reach this client after its effect (or be gone already): Think then ends it
+	-- AGP: the beam entity can reach this client after its effect (or be gone already): Think then ends it
 	self.StartTime = (IsValid(self.Parent) and self.Parent:GetNetworkedInt("StartTime", 1) or 1) + CurTime();
 
 	self:SetRenderBounds(-10000000*Vector(1,1,1), 10000000*Vector(1,1,1)	)

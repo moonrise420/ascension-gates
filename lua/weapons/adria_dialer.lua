@@ -1,5 +1,5 @@
--- AGP 2026-11-12: the loader's own SWEP table (a local one registered by a 0.1 s timer came after the spawn menu was
--- built: the weapon had no class name there yet and was left out of the weapons tab)
+-- AGP: the loader's own SWEP table (a local one registered by a 0.1 s timer came after the spawn menu was built: the
+-- weapon had no class name there yet and was left out of the weapons tab)
 
 if (StarGate == nil or StarGate.CheckModule == nil or not StarGate.CheckModule("weapon")) then return end
 
@@ -24,7 +24,7 @@ SWEP.Primary.Automatic = true
 SWEP.Secondary.Ammo = "none"
 SWEP.Secondary.Automatic = true
 
--- AGP 2026-11-08: first person on Garry's Mod's hands, like the hand device (weapon_hand_device.lua): CAP's
+-- AGP: first person on Garry's Mod's hands, like the hand device (weapon_hand_device.lua): CAP's
 -- v_hdevice.mdl holds only the device and a glove, no arm bones - no hands could show. GMod's bug bait animations carry
 -- the hand, the pod is hidden and the device (w_hdevice) is drawn on the right hand by AGP.SGCWeapon below.
 SWEP.ViewModel = "models/weapons/c_bugbait.mdl"
@@ -101,7 +101,7 @@ function SWEP:StopDial()
         self.tent.ButtonsMode = false
         self.tent:SetNWBool("ButtonsMode",false)
 
-        if(not self.tent.GetWire or self.tent:GetWire("Disable DHD") <1) then -- AGP 2026-11-12: a target without Wire inputs (script error when the dialer was taken away while aimed at a player) 
+        if(not self.tent.GetWire or self.tent:GetWire("Disable DHD") <1) then -- AGP: a target without Wire inputs (script error when the dialer was taken away while aimed at a player)
             self.tent.Disabled = false
         else
             self.tent:SetNWBool("Disabled",true)
@@ -120,9 +120,9 @@ if SERVER then
 
             if(IsValid(ent) and self.Owner:GetShootPos():Distance(tr.HitPos) < 50 and ent.IsDHD) then
                 local gate = ent:FindGate()
-                -- AGP 2026-11-08: a gate that never opened has Active = nil (set only by its first SetStatus) - it is
-                -- not active either; the click did nothing and said nothing there. Nothing dialled before: say so
-                -- instead of running the dial show for an empty address.
+                -- AGP: a gate that never opened has Active = nil (set only by its first SetStatus) - it is not active
+                -- either; the click did nothing and said nothing there. Nothing dialled before: say so instead of
+                -- running the dial show for an empty address.
                 local prev = IsValid(gate) and gate.OldDialedAddress
                 if (IsValid(gate) and not gate.Active and (not prev or #prev == 0)) then
                     AGP.SayAs(self:GetOwner(), "info", "agp_adria_nolast", "This gate has not dialled anywhere yet - no address to repeat")
@@ -182,7 +182,7 @@ if SERVER then
             self.tent.ButtonsMode = false
             self.tent:SetNWBool("ButtonsMode",false)
 
-            if(not self.tent.GetWire or self.tent:GetWire("Disable DHD") <1) then -- AGP 2026-11-12: a target without Wire inputs (script error when the dialer was taken away while aimed at a player) 
+            if(not self.tent.GetWire or self.tent:GetWire("Disable DHD") <1) then -- AGP: a target without Wire inputs (script error when the dialer was taken away while aimed at a player)
                 self.tent.Disabled = false
             else
                 self.tent:SetNWBool("Disabled",true)
@@ -191,9 +191,9 @@ if SERVER then
     end
 end
 
--- AGP 2026-11-12 (owner: "not really in the hand"): third person - CAP's world model is one rigid piece on one bone and
--- stood off the back of the hand on every body; the holder wears a copy whose pieces hang on the hand's and the
--- fingers' own bones (notes/models/agp_hdevice_build.py). The dropped weapon is CAP's model as before.
+-- AGP: third person - CAP's world model is one rigid piece on one bone and stood off the back of the hand on every
+-- body; the holder wears a copy whose pieces hang on the hand's and the fingers' own bones. The dropped weapon
+-- is CAP's model as before.
 if (AGP and AGP.WorldMerged) then
     AGP.WorldMerged(SWEP, { model = "models/agp/w_hdevice_fit.mdl", convar = "agp_hdev_fix", stand_in = AGP.HandDeviceStandIn })
 end

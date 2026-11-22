@@ -1,8 +1,8 @@
 --[[
-	Ascension Gates (2026-11-08): a few CAP parts use models that only Wiremod brings (the numpad of the Dakara
-	building, the Dakara button and the ship hangar's panels, the flat thruster of the Jumper and Tel'tak buttons, the
-	hangar's LED). Without Wiremod they were ERROR models. AGP.ModelOr(model, fallback) keeps the Wiremod model when it
-	is there and otherwise uses a model from the base game. Wiremod is not required by our addon.
+	Ascension Gates: a few CAP parts use models that only Wiremod brings (the numpad of the Dakara building, the
+	Dakara button and the ship hangar's panels, the flat thruster of the Jumper and Tel'tak buttons, the hangar's LED).
+	Without Wiremod they were ERROR models. AGP.ModelOr(model, fallback) keeps the Wiremod model when it is there and
+	otherwise uses a model from the base game. (Wiremod itself is still required: capcheck.lua error 07 blocks spawning without it.)
 ]]
 AddCSLuaFile()
 AGP = AGP or {}

@@ -1,12 +1,12 @@
 --[[
-	Goa'uld Pain Stick - Ascension Gates' own code and model (2026-11-06), designed after the series; no Evolution
-	Addon Pack content left (the class name stays for saves). The Goa'uld torture rod: on contact it sends a jolt
-	through the victim, whose eyes and mouth flare with light ("The Serpent's Venom", "The Other Guys").
-	Left click: a jolt. Hold right click: keep it on the victim, pain every quarter second.
-	First person: GMod's hands on the stun stick animations, our model in the hand (agp_sgc_weapons.lua).
+	Goa'uld Pain Stick - Ascension Gates' own code and model, designed after the series; no Evolution Addon Pack
+	content left (the class name stays for saves). The Goa'uld torture rod: on contact it sends a jolt through the
+	victim, whose eyes and mouth flare with light ("The Serpent's Venom", "The Other Guys"). Left click: a
+	jolt. Hold right click: keep it on the victim, pain every quarter second. First person:
+	GMod's hands on the stun stick animations, our model in the hand (agp_sgc_weapons.lua).
 ]]
 SWEP.PrintName = "Goa'uld Pain Stick"
-SWEP.Category = (SGLanguage and SGLanguage.GetMessage) and SGLanguage.GetMessage("weapon_cat") or "Player Weapons"   -- AGP 2026-11-10: one of our two weapon folders (was "Weapons": a folder of its own)
+SWEP.Category = (SGLanguage and SGLanguage.GetMessage) and SGLanguage.GetMessage("weapon_cat") or "Player Weapons"   -- AGP: one of our two weapon folders (was "Weapons": a folder of its own)
 if (SGLanguage ~= nil and SGLanguage.GetMessage ~= nil) then
     SWEP.PrintName = SGLanguage.GetMessage("wp_goauld_stick")
     SWEP.Category = SGLanguage.GetMessage("weapon_cat")
@@ -22,10 +22,10 @@ SWEP.SlotPos = 5
 SWEP.DrawAmmo = false
 SWEP.DrawCrosshair = true
 SWEP.ViewModel = "models/weapons/c_stunstick.mdl"   -- GMod's stun stick animations (our model is drawn in the hand)
--- AGP 2026-11-14 (owner: "goauld schmierzstab when using the right hand the sleeve is glitched/seethrew"): at 70 the sleeve's
--- loose end (the open back of the DoD arms' sleeve, which is meant to stay below the screen) swung into view during the
--- attack as a torn, see-through wedge (pictures wppain_before_*). 60 keeps the hand in view and the loose end below the edge
--- (pictures wppainfix2_b60_*; $nocull on the sleeve materials only made the hidden upper-arm bags visible: tried, removed)
+-- AGP: at 70 the sleeve's loose end (the open back of the DoD arms' sleeve, which is meant to stay below the screen) swung
+-- into view during the attack as a torn, see-through wedge (pictures wppain_before_*). 60 keeps the hand in view and the
+-- loose end below the edge (pictures wppainfix2_b60_*; $nocull on the sleeve materials only made the hidden upper-arm bags
+-- visible: tried, removed)
 SWEP.ViewModelFOV = 60   -- (GMod's stun stick keeps the hand below the screen edge; see GetViewModelPosition)
 SWEP.WorldModel = "models/agp_weapons/w_goauld_pain_stick.mdl"
 SWEP.HoldType = "melee"
@@ -166,8 +166,8 @@ AGP.SGCWeapon(SWEP, {
     end or nil,
 })
 
--- AGP 2026-11-10: the hand on the stick in view - a little higher and tilted up (chosen from pictures of several
--- positions, suite vmoff)
+-- AGP: the hand on the stick in view - a little higher and tilted up (chosen from pictures of several positions,
+-- suite vmoff)
 if (CLIENT) then
     function SWEP:GetViewModelPosition(p, a)
         local b = Angle(a.p, a.y, a.r)

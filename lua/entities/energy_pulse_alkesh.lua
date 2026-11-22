@@ -1,5 +1,5 @@
 --[[
-	Goa'uld energy bolt (Al'kesh / glider torpedo) - Ascension Gates' own code (2026-11-09): CAP's energy pulse
+	Goa'uld energy bolt (Al'kesh / glider torpedo) - Ascension Gates' own code: CAP's energy pulse
 	(energy_pulse: aVoN, Madman07) in the Goa'uld's golden orange, a little different from bolt to bolt. Fired by the
 	gate glider's torpedo. The class name stays (EAP had a colour variant of the same name), so the kill feed and saves
 	keep working.

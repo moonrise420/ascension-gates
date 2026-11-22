@@ -7,7 +7,7 @@ E2Lib.RegisterExtension("stargate", true)
 
 if EGP and EGP.ValidFonts then
 	table.insert(EGP.ValidFonts,"AGP Glyphs SG1");
-	table.insert(EGP.ValidFonts,"AGP Glyphs Concept"); -- AGP 2026-11-08: Earth's point of origin at '#' (CAP's concept font; AGP Glyphs SG1 has only the Abydos one)
+	table.insert(EGP.ValidFonts,"AGP Glyphs Concept"); -- AGP: Earth's point of origin at '#' (CAP's concept font; AGP Glyphs SG1 has only the Abydos one)
 	table.insert(EGP.ValidFonts,"AGP Glyphs Universe");
 	table.insert(EGP.ValidFonts,"AGP Glyphs Atlantis");
 	table.insert(EGP.ValidFonts,"AGP Ancient");

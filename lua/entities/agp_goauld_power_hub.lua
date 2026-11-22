@@ -57,7 +57,7 @@ if SERVER then
 
 	function ENT:MakeCore()
 		local c = ents.Create("agp_goauld_power_core")
-		if (IsValid(c)) then c.DoNotDuplicate = true end   -- (2026-11-12: built by its parent, which builds it again after a save or a paste - copied as well it was there twice)
+		if (IsValid(c)) then c.DoNotDuplicate = true end   -- (built by its parent, which builds it again after a save or a paste - copied as well it was there twice)
 		if (not IsValid(c)) then return end
 		c:SetPos(self:LocalToWorld(Vector(0, 0, self.CoreHeight))); c:SetAngles(self:GetAngles())
 		c:Spawn(); c:Activate()

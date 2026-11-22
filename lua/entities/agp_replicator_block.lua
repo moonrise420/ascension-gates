@@ -27,7 +27,7 @@ if SERVER then
 
 	function ENT:SpawnFunction(ply, tr)
 		if (not tr.Hit) then return end
-		-- one click = one block (owner 2026-11-02)
+		-- one click = one block
 		local first = AGP.Rep.SpawnBlock(tr.HitPos + tr.HitNormal * 8, nil, ply, 3)
 		if (not first) then AGP.Hint(ply, "agp_rep_full", "Too many Replicator blocks on the server (setting agp_rep_max_blocks).") end
 		if (first) then
@@ -56,7 +56,10 @@ if SERVER then
 		if (self.RepGlideTo and now < (self.RepGlideUntil or 0) and not self.RepClaimed and not self.RepDead and R.Awake()) then
 			self:NextThink(now + 0.1)
 			local ph = self:GetPhysicsObject()
-			local d = self.RepGlideTo - self:GetPos(); d.z = 0
+			-- (the point lies on something that moves - a flying ship's deck: it moves with it)
+			local to = self.RepGlideTo
+			if (self.RepGlideL and IsValid(self.RepGlideOn)) then to = self.RepGlideOn:LocalToWorld(self.RepGlideL) end
+			local d = to - self:GetPos(); d.z = 0
 			local dist = d:Length()
 			if (IsValid(ph) and ph:IsMotionEnabled() and dist > 18) then
 				-- floating a hand's breadth above the ground (no friction, no hopping), drawn on smoothly
@@ -102,7 +105,7 @@ if SERVER then
 		food.RepLeft = food.RepLeft - 0.25   -- 8 steps = 2 blocks' worth: one barrel is enough for a small Replicator
 		local fx = EffectData(); fx:SetOrigin(food:NearestPoint(self:GetPos())); fx:SetNormal(VectorRand()); fx:SetMagnitude(1); fx:SetScale(1); fx:SetRadius(2)
 		util.Effect("MetalSpark", fx, true, true)
-		if (food.RepLeft <= 0 and not food.AGPShip and not R.IsShip(food)) then R.AteMapItem(food); food:Remove() end
+		if (food.RepLeft <= 0 and not food.AGPShip and not R.IsShip(food) and not R.ShipCore(food)) then R.AteMapItem(food); food:Remove() end
 		local g = self:GetNWInt("RepGrow", 0) + 1
 		self:SetNWInt("RepGrow", g)
 		self.GrowT = CurTime() + 5
@@ -147,9 +150,9 @@ if SERVER then
 
 	function ENT:OnTakeDamage(dmg)
 		if (dmg:IsDamageType(DMG_DISSOLVE)) then self:AGPDisrupt() return end
-		-- (owner 2026-11-14, a Destiny shot into a heap: a blast of 830 damage threw every 3-mass block hundreds of metres
-		-- through the physics engine, 480 of them at once, and they were far apart when they had to find each other again.
-		-- A strong hit now pushes it a clamped amount away from the blast instead)
+		-- (a Destiny shot into a heap: a blast of 830 damage threw every 3-mass block hundreds of metres through the
+		-- physics engine, 480 of them at once, and they were far apart when they had to find each other again. A strong
+		-- hit now pushes it a clamped amount away from the blast instead)
 		if (dmg:GetDamage() > 40) then
 			local ph = self:GetPhysicsObject()
 			if (IsValid(ph)) then

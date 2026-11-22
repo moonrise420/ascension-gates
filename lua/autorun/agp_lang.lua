@@ -72,8 +72,8 @@ else
     end)
 end
 
--- 2026-11-10: names of the HL2 ammo types our weapons use (the HUD showed "#GaussEnergy_ammo"), in the player's
--- language - again when the Stargate language changes
+-- names of the HL2 ammo types our weapons use (the HUD showed "#GaussEnergy_ammo"), in the player's language -
+-- again when the Stargate language changes
 if CLIENT then
     local AMMO = {
         HelicopterGun = { "agp_ammo_energy", "Energy charge" },   -- Ori staff, Asuran weapon, Ronon's gun, Wraith blaster

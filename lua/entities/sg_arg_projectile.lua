@@ -23,7 +23,7 @@ if SERVER then
 	function ENT:DeleteReplicator(ent)
 		if(ent.AGPReplicator and ent.AGPDisrupt) then ent:AGPDisrupt(self.ARGFreq, self, self:GetOwner()) return end -- AGP: our Replicators fall into dead blocks (unless adapted to the frequency)
 
-		local SegmentCount -- AGP 2026-11-13: local (was a leaked global)
+		local SegmentCount -- AGP: local (was a leaked global)
 		if(ent:GetClass() == "replicator_queen" or ent:GetClass() == "replicator_queen_hive") then
 			SegmentCount = 40
 		elseif(ent:GetClass() == "replicator_worker") then
@@ -67,9 +67,9 @@ if SERVER then
 		ent:Remove()
 	end
 
-	-- AGP 2026-11-13: the wave is made by the gun with ents.Create + (pos, angles, owner, frequency) + ent:Spawn(): Initialize
-	-- runs once, at the place the shot starts from (the gun used to call Initialize itself before it had set the position,
-	-- so the first instant sweep looked around the world's origin).
+	-- AGP: the wave is made by the gun with ents.Create + (pos, angles, frequency) + ent:Spawn(): Initialize runs once, at the
+	-- place the shot starts from (the gun used to call Initialize itself before it had set the position, so the first
+	-- instant sweep looked around the world's origin).
 	function ENT:Initialize()
 		self.Entity:SetModel("models/hunter/blocks/cube025x025x025.mdl")
 
@@ -154,7 +154,7 @@ if SERVER then
 		end
 	end
 
-	-- AGP 2026-11-13: removed by anything else (cleanup, the map): the repeating timers must not outlive the wave
+	-- AGP: removed by anything else (cleanup, the map): the repeating timers must not outlive the wave
 	function ENT:OnRemove()
 		timer.Remove("rep_finder"..self:EntIndex())
 		timer.Remove("arg_effect"..self:EntIndex())

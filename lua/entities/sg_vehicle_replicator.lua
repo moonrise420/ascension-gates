@@ -1,8 +1,8 @@
 --[[
 	Replicator cruiser ("Replicator Mothership", the series' Replicator cruiser of "New Order" and "Reckoning") -
-	Ascension Gates' own code and model (2026-11-07), designed after the series (notes/models/agp_repship_*.py).
-	EAP's model and code are gone; the class name stays "sg_vehicle_replicator", so saves and dupes keep working (same
-	keyboard layout "ReplicatorMS"). Built on:
+	Ascension Gates' own code and model, designed after the series. EAP's model and code are gone; the class name
+	stays "sg_vehicle_replicator", so saves and dupes keep working (same keyboard layout "ReplicatorMS"). Built on:
+
 	  * the ship base sg_vehicle_base (CAP, RononDex): flying, getting in / out, the camera
 	  * CAP's energy_pulse for its bolts
 	  * our own ship systems (lua/autorun/agp_ship_shield.lua, agp_ship_hyperdrive.lua): shield, hull damage,
@@ -26,16 +26,16 @@ ENT.AGPSupergateDHD = true      -- R: dial menu of the nearest Supergate (or Sta
 ENT.AGPHyperRange = 30000       -- hyperdrive (H): longest jump
 list.Set("CAP.Entity", ENT.PrintName, ENT)
 
--- our own models, designed after the series (notes/models/agp_repship_models.py): the ship and its inner column
+-- our own models, designed after the series: the ship and its inner column
 local MODEL = "models/agp/repship/agp_repship.mdl"
 local COLUMN = "models/agp/repship/agp_repship_core.mdl"
 function ENT:AGPModel() return MODEL end
 
--- the shield bubble round the head, the spikes and the column (fitted round every point, 2026-11-07); cold blue
+-- the shield bubble round the head, the spikes and the column (fitted round every point); cold blue
 ENT.AGPShield = { model = "models/iziraider/shields/4x4x3.mdl", yaw = 0, offset = Vector(-84, 0, -27), scale = Vector(1.42, 0.471, 0.68), color = { 0.55, 0.62, 1 } }
--- (2026-11-07 balance, the series' order: Ori > O'Neill > Aurora > Replicator cruiser > Daedalus > Destiny > Prometheus >
--- Al'kesh > Tel'tak)
--- the shield holds 26000 damage (a beam: 26 s)
+-- (balance, the series' order: Ori > O'Neill > Aurora > Replicator cruiser > Daedalus > Destiny > Prometheus > Al'kesh >
+-- Tel'tak) the shield holds 26000 damage
+-- (a beam: 26 s)
 ENT.AGPShieldHP, ENT.AGPShieldBeamTime = 26000, 26
 
 local HULL = 28000
@@ -128,7 +128,7 @@ if SERVER then
 	end
 
 	-- three bolts from the launcher, one after the other, at the target (or straight ahead); 3 x 270 every 0.7 s
-	-- (2026-11-07 balance)
+	-- (balance)
 	function ENT:FireBlasts(target)
 		if (CurTime() < self.NextBlast) then return end
 		self.NextBlast = CurTime() + 0.7
@@ -244,9 +244,9 @@ if CLIENT then
 
 	local GLOW = Material("sprites/light_glow02_add")
 	local INSIDE = Color(110, 90, 255, 70)
-	-- the ring of light: one smooth band all round (owner: "no dots, just lilac light glowing") - a soft halo, the band
-	-- (a little brighter where it turns along with the column) and its bright middle; each a beam round the ring that
-	-- takes the glow's middle line across its width, so it is soft at its edges and even along it
+	-- the ring of light: one smooth band all round - a soft halo, the band (a little brighter where it turns along with
+	-- the column) and its bright middle; each a beam round the ring that takes the glow's middle line across its
+	-- width, so it is soft at its edges and even along it
 	local RING_N = 48
 	local HALO, BAND, CORE = Color(120, 80, 255, 55), Color(160, 110, 255, 150), Color(215, 185, 255, 170)
 	local ringPts, bandCol = {}, Color(0, 0, 0)

@@ -42,8 +42,8 @@ ENT.KawooshTypes = {
 	["supergate"] = {
 		ID = 3,
 		KawooshDmg = {0.6,36,4.4},
-		-- AGP 2026-11-13: where the three killing spheres sit, in sphere radii in front of the horizon (default 1, 3, 5 = reach
-		-- 6 radii, about 8000 units here - the visible vortex ends at about 5700: it killed where nothing was to be seen)
+		-- AGP: where the three killing spheres sit, in sphere radii in front of the horizon (default 1, 3, 5 = reach 6 radii,
+		-- about 8000 units here - the visible vortex ends at about 5700: it killed where nothing was to be seen)
 		KawooshReach = {1,2.2,3.3},
 		KawooshData = {
 			Time=4.6, -- Time to draw the vortex

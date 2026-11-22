@@ -187,5 +187,5 @@ function SWEP:Holster(wep)
 	return false
 end
 
--- AGP 2026-11-12: its buttons are heard (agp_weapon_hands.lua)
+-- AGP: its buttons are heard (agp_weapon_hands.lua)
 if (AGP and AGP.ClickSounds) then AGP.ClickSounds(SWEP, { primary = "button/button_press3.wav", gap = 0.8 }) end

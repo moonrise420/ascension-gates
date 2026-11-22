@@ -1,21 +1,21 @@
 --[[
-	Gate Seeder (the Ancients' seed ship of Stargate Universe) - Ascension Gates' own code and model (2026-11-09),
-	designed after the series (notes/models/agp_seeder_ship_*.py); it wears our Destiny's materials.
-	EAP's model and code are gone; the class name stays "sg_vehicle_gateseeder", so saves and dupes keep working (the old
-	Wire names "Health" and "Hyperspace" stay, the keyboard layout is still "Gateseeder"). Built on:
+	Gate Seeder (the Ancients' seed ship of Stargate Universe) - Ascension Gates' own code and model, designed
+	after the series; it wears our Destiny's materials. EAP's model and code are gone; the class name
+	stays "sg_vehicle_gateseeder", so saves and dupes keep working (the old Wire names "Health" and "Hyperspace" stay, the
+	keyboard layout is still "Gateseeder"). Built on:
 	  * the ship base sg_vehicle_base (CAP, RononDex): flying, getting in / out, the camera
 	  * CAP's energy_pulse (aVoN, Madman07) for the shots, in Destiny's orange (energy_pulse_destiny)
 	  * CAP's Universe Stargate (stargate_universe) for the gates it builds
 	  * our own ship systems (lua/autorun/agp_ship_shield.lua, agp_ship_hyperdrive.lua, agp_ship_aim.lua): shield, hull
 	    damage, aiming, the Mouse2 volley, hyperdrive, the Supergate / Stargate dial menu
 	As in the series: seed ships build Stargates in a gate factory on board and set them down on planets ahead of
-	Destiny (owner 2026-11-09: "can it get that function?", then "could you do the gate seeding like in the series?"):
-	the factory builds one Universe gate every GATE_BUILD s and keeps up to GATE_STORE on board; B (or Wire "Seed Gate")
-	while the ship hovers still over the ground brings one out of the belly into the cradle and an energy field lowers
-	it to the ground. The gate belongs to the pilot like a spawned one (undo, cleanup, the server's spawn rules and
-	limits) and gets a free address.
-	Keys: Mouse1 the two turrets at the crosshair, Mouse2 a point-defence burst, B build a Stargate below, G shield,
-	H hyperdrive (hold), R dial menu, 1 view.
+	Destiny (then "could you do the gate seeding like in the series?"): the factory builds one Universe gate every
+	GATE_BUILD s and keeps up to GATE_STORE on board; B (or Wire "Seed Gate") while the ship hovers still over the ground
+	brings one out of the belly into the cradle and an energy field lowers it to the ground. The gate belongs to the
+	pilot like a spawned one (undo, cleanup, the server's spawn rules and limits) and gets a free address. Keys:
+	Mouse1 the two turrets at the crosshair,
+	Mouse2 a point-defence burst, B build a Stargate below, G shield, H hyperdrive (hold), R dial menu, 1 view.
+
 ]]
 ENT.Type = "vehicle"
 ENT.Base = "sg_vehicle_base"
@@ -31,12 +31,12 @@ ENT.AGPSupergateDHD = true      -- R: dial menu of the nearest Supergate (or Sta
 ENT.AGPHyperRange = 30000       -- hyperdrive (H): longest jump
 list.Set("CAP.Entity", ENT.PrintName, ENT)
 
--- our own model, designed after the series (notes/models/agp_seeder_ship_models.py); +X = the bow, the fan at the stern
+-- our own model, designed after the series; +X = the bow, the fan at the stern
 local MODEL = "models/agp/gateseeder/agp_gateseeder.mdl"
 function ENT:AGPModel() return MODEL end
 
--- the shield bubble round every point of the hull (fitted on the model 2026-11-09: centre (-160, 0, 40), radii
--- 666 x 652 x 106 with a margin), Ancient white
+-- the shield bubble round every point of the hull (fitted on the model: centre (-160, 0, 40), radii 666 x 652
+-- x 106 with a margin), Ancient white
 ENT.AGPShield = { model = "models/iziraider/shields/4x4x3.mdl", yaw = 0, offset = Vector(-160, 0, 40), scale = Vector(0.666, 0.653, 0.141), color = { 1, 0.98, 0.94 } }
 ENT.AGPShieldHP, ENT.AGPShieldBeamTime = 15000, 15
 
@@ -208,9 +208,9 @@ if SERVER then
 	-- the ground under the belly: the trace, or nil and why not
 	function ENT:AGPSeedGround()
 		local from = self:LocalToWorld(BELLY)
-		-- all the way down (2026-11-09 test: a trace only SEED_MAX deep said "no ground" to a ship hovering too high)
-		-- (2026-11-10) props and ships are seen too: a gate is set on the ground only, not into a prop or a parked ship
-		-- below, and not onto anyone standing there. Under water is fine (owner): on the bottom, as on dry ground.
+		-- all the way down (test: a trace only SEED_MAX deep said "no ground" to a ship hovering too high) props and
+		-- ships are seen too: a gate is set on the ground only, not into a prop or a parked ship below, and not onto
+		-- anyone standing there. Under water is fine: on the bottom, as on dry ground.
 		local filter = { self }
 		for _, c in ipairs(self:GetChildren()) do filter[#filter + 1] = c end
 		local tr = util.TraceLine({ start = from, endpos = from - Vector(0, 0, 32768), mask = MASK_SOLID, filter = filter })
@@ -370,7 +370,7 @@ if SERVER then
 	if (StarGate and StarGate.CAP_GmodDuplicator) then
 		duplicator.RegisterEntityClass("sg_vehicle_gateseeder", StarGate.CAP_GmodDuplicator, "Data")
 	end
-	-- (2026-11-10) dupes and saves keep the factory: gates on board, gates seeded, the build time left
+	-- dupes and saves keep the factory: gates on board, gates seeded, the build time left
 	function ENT:PreEntityCopy()
 		duplicator.StoreEntityModifier(self, "AGPSeederState", { stored = self.AGPGatesStored or 0, seeded = self.AGPGatesSeeded or 0,
 			left = ((self.AGPGateBuildAt or 0) > 0) and math.max(0, self.AGPGateBuildAt - CurTime()) or 0 })

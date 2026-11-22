@@ -106,7 +106,7 @@ function ENT:ChangeSystemType(groupsystem,reload)
 end
 
 function ENT:GateWireInputs(groupsystem)
-	-- AGP 2026-11-08: "Activate chevron numbers" as on the other gates (was "...number": TriggerInput below never matched)
+	-- AGP: "Activate chevron numbers" as on the other gates (was "...number": TriggerInput below never matched)
 	self:CreateWireInputs("Dial Address","Dial String [STRING]","Dial Mode","Start String Dial","Close","Disable Autoclose","Transmit [STRING]","Activate chevron numbers [STRING]","Set Point of Origin","Disable Menu","Event Horizon Type [STRING]","Event Horizon Color [VECTOR]","TargetGate [ENTITY]","Switch Gate");
 end
 
@@ -229,7 +229,7 @@ function ENT:TriggerInput(k,v,mobile,mdhd)
 	-- elseif(k == "Pause Routing" and self.Active and IsValid(self.EventHorizon)) then
 	-- elseif(k == "Resume Routing" and self.Active and IsValid(self.EventHorizon)) then
 	elseif (k == "Switch Gate") then
-		if (v >= 1) then -- AGP 2026-11-08: any value >= 1, as on the SG-1 gate (was only 42; 42 still works)
+		if (v >= 1) then -- AGP: any value >= 1, as on the SG-1 gate (was only 42; 42 still works)
 			if (IsValid(self.TargetGate)) then
 				self:ControlledJump(self.TargetGate)
 			end

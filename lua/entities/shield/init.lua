@@ -187,7 +187,11 @@ end
 -- may a shot of this shooter pass? Shots from inside go out; shots from outside do not get in, also not the owner's
 -- or those of someone who was inside when the shield went up (immunity on: the owner's shots get in from outside too)
 function ENT:AGPShotMayPass(own)
-	if (not (isentity(own) and IsValid(own)) or own == self.Entity or not self.nocollide[own]) then return false end
+	if (not (isentity(own) and IsValid(own)) or own == self.Entity) then return false end
+	-- AGP: a ship weapon of the generator's own ship (StarCore core, SpaceGrid hull, same parent) always shoots
+	-- through, also from outside the bubble
+	if (StarGate.IsShipWeapon and StarGate.IsShipWeapon(own) and StarGate.SameShip(own, self.Parent)) then return true end
+	if (not self.nocollide[own]) then return false end
 	if (self.Parent.ImmuneOwner and own:IsPlayer()) then
 		local owner = self:AGPOwner();
 		if (own == owner) then return true end
@@ -483,7 +487,7 @@ function ENT:HitShield(e,pos,phys,class,normal,fireFrequency,softsound)
 		self:HitEffect(e,pos,strength,softsound);
 		-- Drain energy
 		if(not (e:IsNPC() or e:IsPlayer() or class=="rpg_missile")) then
-			self.Parent:Hit(strength,normal,pos,fireFrequency or 0);
+			self.Parent:Hit(strength,normal,pos,fireFrequency or 0,StarGate.ShieldFactor and StarGate.ShieldFactor(e,self.Parent) or 1); -- AGP: agp_weapon_balance
 		end
 	end
 end
@@ -582,7 +586,7 @@ function ENT:Hit(e,pos,dmg,normal,fireFrequency)
 			normal = normal or Vector(0,0,0);
 			self:HitEffect(e,pos,dmg);
 			if(dmg and dmg ~= 0) then
-				self.Parent:Hit(dmg,normal,pos,fireFrequency or 0);
+				self.Parent:Hit(dmg,normal,pos,fireFrequency or 0,StarGate.ShieldFactor and StarGate.ShieldFactor(e,self.Parent) or 1); -- AGP: agp_weapon_balance
 			end
 			return true;
 		else
@@ -607,13 +611,15 @@ hook.Add("EntityTakeDamage", "AGP.ShieldBlocksBlasts", function(target, dmg)
 	if (src == vector_origin and IsValid(inflictor)) then src = inflictor:GetPos() end
 	if (src == vector_origin) then return end
 	local tpos = target:WorldSpaceCenter();
+	-- AGP: blasts of a ship weapon's shots pass the shields of its own ship (and do not drain them)
+	local from = StarGate.ShotFrom and (StarGate.ShotFrom(inflictor) or StarGate.ShotFrom(dmg:GetAttacker()));
 	for _, sh in ipairs(ents.FindByClass("shield")) do
 		local gen = sh.Parent;
-		if (IsValid(gen) and not gen.Depleted and not gen.Containment and sh.Size) then
+		if (IsValid(gen) and not gen.Depleted and not gen.Containment and sh.Size and not (from and StarGate.SameShip(from, gen))) then
 			local c, r = sh:GetPos(), sh.Size;
 			if (tpos:Distance(c) < r and src:Distance(c) > r - 30) then -- target inside, explosion outside
 				local key = IsValid(inflictor) and inflictor or sh;
-				if (sh.Hit and (blastHits[key] or 0) < CurTime()) then
+				if (sh.Hit and (blastHits[key] or 0) < CurTime() and (sh.AGPBlastCounted or 0) < CurTime()) then
 					blastHits[key] = CurTime() + 0.1;
 					sh:Hit(inflictor, c + (src - c):GetNormalized() * r, math.max(1, dmg:GetDamage() / 10));
 				end
@@ -708,6 +714,14 @@ local function stopAt(sh, gen, e, k, outpos, c, r)
 		local pos = c + dir * (r + 16)
 		e:SetPos(pos)
 		sh:HitEffect(e, hitpos, 10)
+		-- AGP: the shield takes the hit (once). Before, only the blast drained it, and only when the blast reached
+		-- something inside: drones and missiles at a big ship's bubble never brought it down.
+		if (not e.AGPShieldDrained and sh.Hit) then
+			e.AGPShieldDrained = true
+			sh.AGPBlastCounted = CurTime() + 0.2   -- (not again from its blast: AGP.ShieldBlocksBlasts)
+			local knownX = KNOWN[class]
+			sh:Hit(e, hitpos, math.Clamp((tonumber(knownX and knownX[2] or e.Damage) or 100) / 20, 1, 20), dir)
+		end
 		if (isfunction(e.Blast) and class ~= "rpg_missile") then
 			pcall(e.Blast, e, pos) -- drones and other Lua explosives use their own blast
 		else

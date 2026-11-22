@@ -1,8 +1,8 @@
 --[[
-	Ori mothership (the Ori warship of the series) - Ascension Gates' own code and model (2026-11-07),
-	designed after the series (notes/models/agp_ori_ship_*.py).
-	EAP's model and code are gone; the class name stays "sg_vehicle_orims", so saves and dupes keep working (same Wire
-	names, same keyboard layout "OriMs"). Built on:
+	Ori mothership (the Ori warship of the series) - Ascension Gates' own code and model, designed
+	after the series. EAP's model and code are gone; the class
+	name stays "sg_vehicle_orims", so saves and dupes keep working (same Wire names, same keyboard layout "OriMs").
+	Built on:
 	  * the ship base sg_vehicle_base (CAP, RononDex): flying, getting in / out, the camera
 	  * CAP's energy_beam2 for the main beam, CAP's energy_pulse for the volley
 	  * our own ship systems (lua/autorun/agp_ship_shield.lua, agp_ship_hyperdrive.lua): shield, hull damage,
@@ -25,20 +25,20 @@ ENT.AGPSupergateDHD = true      -- R: dial menu of the nearest Supergate (or Sta
 ENT.AGPHyperRange = 30000       -- hyperdrive (H): longest jump
 list.Set("CAP.Entity", ENT.PrintName, ENT)
 
--- our own model, designed after the series (notes/models/agp_ori_ship_models.py)
+-- our own model, designed after the series
 local MODEL = "models/agp/orims/agp_orims.mdl"
 function ENT:AGPModel() return MODEL end
 
 -- the shield bubble: a flat ellipsoid round the hull and the core, Ori gold
--- (fitted round every point of the hull, 2026-11-07; on the 4x4x3 bubble the O'Neill uses - the 6x6x6 one did not show)
+-- (fitted round every point of the hull; on the 4x4x3 bubble the O'Neill uses - the 6x6x6 one did not show)
 ENT.AGPShield = { model = "models/iziraider/shields/4x4x3.mdl", yaw = 0, offset = Vector(293, 0, -268), scale = Vector(1.924, 1.231, 0.802), color = { 1, 0.95, 0.75 } }
--- (2026-11-07 balance, the series' order: Ori > O'Neill > Aurora > Daedalus > Destiny > Prometheus > Al'kesh > Tel'tak)
--- the shield holds 40000 damage (a beam: 40 s)
+-- (balance, the series' order: Ori > O'Neill > Aurora > Daedalus > Destiny > Prometheus > Al'kesh > Tel'tak) the shield
+-- holds 40000 damage (a beam: 40 s)
 ENT.AGPShieldHP, ENT.AGPShieldBeamTime = 40000, 40
 
 local HULL = 32000
--- (2026-11-08 balance) the main beam burns 2.5 s, 2400 damage a second, and fires again 4.6 s after it started:
--- ~1300 a second, the strongest ship
+-- (balance) the main beam burns 2.5 s, 2400 damage a second, and fires again 4.6 s after it started: ~1300 a
+-- second, the strongest ship
 local BEAM_DELAY, BEAM_TIME = 4.6, 2.5
 -- model space (+X = bow; measured on agp_orims.mdl): the main beam's emitter low on the bow
 local BEAM_AT = Vector(1684, 0, -500)
@@ -143,8 +143,8 @@ if SERVER then
 		e:Spawn()
 		e:Activate()
 		e:SetOwner(self)
-		e.AGPDamageScale = 4   -- (2026-11-07 balance) the Ori's main beam: four times a normal beam
-		e.AGPOriBeam = true   -- AGP 2026-11-08: a Ha'tak's shield fails within one burn, as in the series (agp_hatak.lua)
+		e.AGPDamageScale = 4   -- (balance) the Ori's main beam: four times a normal beam
+		e.AGPOriBeam = true   -- AGP: a Ha'tak's shield fails within one burn, as in the series (agp_hatak.lua)
 		e:Setup(from, dir, 1200, BEAM_TIME, "Ori")
 		self:EmitSound("weapons/ori_beam.wav", 90, math.random(90, 110))
 		self:AGPSetWire("Shooting", 1)
@@ -174,8 +174,8 @@ if SERVER then
 				if (self.AGPNextVolley ~= before) then self.AGPShotsFired = (self.AGPShotsFired or 0) + 6 end
 			end
 			if (p:KeyDown(self.Vehicle, "FIRE")) then
-				-- AGP 2026-11-08: at the crosshair (from the pilot's camera, lua/autorun/agp_ship_aim.lua); it went straight
-				-- ahead unless Mouse2 was held
+				-- AGP: at the crosshair (from the pilot's camera, lua/autorun/agp_ship_aim.lua); it went straight ahead
+				-- unless Mouse2 was held
 				self:FireBeam(AGP and AGP.ShipCrosshair and AGP.ShipCrosshair(self) or (self:GetPos() + self:GetForward() * 30000))
 			end
 		end
@@ -240,8 +240,8 @@ if CLIENT then
 		return IsValid(ship) and ship == self
 	end
 
-	-- the core always glows: a soft warm-white halo round the sphere, the same whether it flies or not (owner
-	-- 2026-11-07); the sphere itself hides the halo's middle, so it shows as light round its edge
+	-- the core always glows: a soft warm-white halo round the sphere, the same whether it flies or not; the
+	-- sphere itself hides the halo's middle, so it shows as light round its edge
 	local CORE, CORE_GLOW = Vector(740, 0, -215), Material("sprites/light_glow02_add")
 	local HALO_WIDE, HALO_NEAR = Color(255, 236, 200, 90), Color(255, 244, 222, 160)
 

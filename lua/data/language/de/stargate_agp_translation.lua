@@ -1,4 +1,4 @@
-// Ascension Gates: German texts CAP never translated (2026-10-19)
+// Ascension Gates: German texts CAP never translated
 
 // ===== aus stargate.lua =====
 // Werkzeugmenü am Gate (C gedrückt halten)

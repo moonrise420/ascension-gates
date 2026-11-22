@@ -24,7 +24,7 @@ if SERVER then
             self:Bullets()
             self:EmitSound(self.Railgunsound, 100, 100)
         end
-        -- AGP 2026-10-30: 10 bursts a second (it had no NextThink and fired 3 x 60 damage every tick)
+        -- AGP: 10 bursts a second (it had no NextThink and fired 3 x 60 damage every tick)
         self:NextThink(CurTime() + 0.1)
         return true
     end

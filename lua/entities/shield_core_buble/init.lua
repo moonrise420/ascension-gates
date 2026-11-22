@@ -408,7 +408,7 @@ function ENT:AGPGuard()
 						-- left the bubble: no way back in (unless the owner, or his friends with immunity)
 						if (SC.Metric(self, ctr, bodyPad(e) + 8) > 1) then allowed[e] = nil; dirty = true end
 					elseif (SC.OwnerPass(self, e)) then
-						-- the owner walked in: his shots from in here go out (from outside they do not get in)
+						-- a player walked in: his shots from in here go out (from outside they do not get in)
 						if (SC.Metric(self, ctr, 0) < 1) then allowed[e] = true; dirty = true end
 					elseif (not SC.Allowed(self, e) and SC.Metric(self, ctr, 0) < 1) then
 						self:AGPPushOut(e, ctr) -- got in somehow (noclip, teleport, gate, immunity switched off): out
@@ -643,6 +643,11 @@ local function drain(b, key, src, dmg)
 	local hp = SC.SurfacePoint(b, src)
 	b:Hit(key, hp, math.max(1, dmg:GetDamage() / 10), SC.Normal(b, src, 0))
 end
+-- AGP: the damage comes from a shot (or beam, or the weapon itself) of a weapon of this bubble's own ship
+local function ownShot(b, inflictor)
+	local from = StarGate.ShotFrom and StarGate.ShotFrom(inflictor)
+	return from ~= nil and StarGate.SameShip(from, b.Parent)
+end
 hook.Add("EntityTakeDamage", "AGP.ShieldCoreBlocksDamage", function(target, dmg)
 	if (not IsValid(target)) then return end
 	local L = SC.List()
@@ -654,7 +659,8 @@ hook.Add("EntityTakeDamage", "AGP.ShieldCoreBlocksDamage", function(target, dmg)
 		if (IsValid(b) and SC.Active(b)) then
 			if (target == b) then
 				if (not srcDone) then src, srcDone = source(dmg, inflictor, attacker), true end
-				if (inflictor ~= b and src and SC.Metric(b, src, 0) >= 1 and not SC.Allowed(b, attacker)) then
+				-- AGP: hits of the own ship's weapons (StarGate.ShotFrom) do not drain it
+				if (inflictor ~= b and src and SC.Metric(b, src, 0) >= 1 and not SC.Allowed(b, attacker) and not ownShot(b, inflictor)) then
 					drain(b, IsValid(inflictor) and inflictor or attacker, src, dmg)
 				end
 				return true -- the bubble itself never takes damage
@@ -663,9 +669,18 @@ hook.Add("EntityTakeDamage", "AGP.ShieldCoreBlocksDamage", function(target, dmg)
 			local r = SC.Reach(b)
 			if (tc:DistToSqr(b:GetPos()) < r * r and SC.Metric(b, tc, 0) < 1) then
 				if (not srcDone) then src, srcDone = source(dmg, inflictor, attacker), true end
-				if (src and SC.Metric(b, src, 0) >= 1) then
+				-- AGP: a shot from outside explodes on the bubble's physics shell, which lies a few units inside the shape
+				-- measured here - its blast then counted as "from inside" and hurt what the shield protects (staff
+				-- pulses killed the NPC inside, rockets hurt it). A shot that was outside a moment ago came from
+				-- outside: pulses keep their last position (AGPPulseLast, AGP.ShieldCoreCatchPulses below), rockets and
+				-- other fast things the bubble's guard saw outside (AGPSeen / AGPOut, ENT:AGPGuard).
+				local last = IsValid(inflictor) and inflictor.AGPPulseLast
+				if (not last and IsValid(inflictor) and b.AGPSeen and b.AGPSeen[inflictor] and b.AGPSeen[inflictor] + 0.5 > CurTime()) then
+					last = b.AGPOut and b.AGPOut[inflictor]
+				end
+				if (src and (SC.Metric(b, src, 0) >= 1 or (last and SC.Metric(b, last, 0) >= 1))) then
 					if (inflictor == b) then return true end -- our own blast at the surface (a stopped rocket)
-					if (not (SC.Allowed(b, attacker) or SC.Allowed(b, inflictor))) then
+					if (not (SC.Allowed(b, attacker) or SC.Allowed(b, inflictor) or ownShot(b, inflictor))) then -- AGP: ownShot
 						drain(b, IsValid(inflictor) and inflictor or attacker, src, dmg)
 						return true
 					end

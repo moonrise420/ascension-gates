@@ -70,7 +70,7 @@ if SERVER then
         self.Stand = self.Entity
         self.EntHealth = 3500
         self.MaxHealth = self.EntHealth
-        -- AGP 2026-11-08: "Health" output (HealthRepair already wrote it, but the port did not exist); the parts update it on damage
+        -- AGP: "Health" output (HealthRepair already wrote it, but the port did not exist); the parts update it on damage
         self:CreateWireOutputs("Health")
         self:SetWire("Health", self.EntHealth)
         local phys = self.Stand:GetPhysicsObject()
@@ -188,10 +188,8 @@ if SERVER then
 
     -----------------------------------SHOOT----------------------------------
     function ENT:Shoot()
-        local energy = self:GetResource("energy", self.energy_drain)
-
-        if (energy > self.energy_drain or not self.HasResourceDistribution) then
-            self:ConsumeResource("energy", self.energy_drain)
+        -- AGP: energy by agp_weapon_energy (StarGate.WeaponEnergy)
+        if (StarGate.WeaponEnergy(self, self.energy_drain)) then
             self.CanFire = false
             self.Cann:DoAnim(1, "Fire")
             self.Cann:EmitSound(self.Sounds.Shoot, 100, math.random(90, 110))
@@ -214,6 +212,7 @@ if SERVER then
                     local data = self.Cann:GetAttachment(self.Cann:LookupAttachment(attach[i]))
                     if (not (data and data.Pos)) then return end
                     local e = ents.Create("energy_pulse")
+                    StarGate.MarkShot(e, self)
 
                     e:PrepareBullet(self:AimDirFrom(data.Pos), 10, 12000, 30, {self.Cann, self.Turn, self.Stand})   -- AGP: muzzle -> aim point, not barrel forward
 
@@ -226,7 +225,7 @@ if SERVER then
                 end
             end)
 
-            timer.Simple(math.Rand(1.2, 1.8), function()   -- AGP 2026-10-26: was 2-4 s between volleys, too slow (owner)
+            timer.Simple(math.Rand(1.2, 1.8), function()   -- AGP: was 2-4 s between volleys, too slow
                 self.CanFire = true
             end)
         end

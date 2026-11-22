@@ -130,6 +130,10 @@ end
 
 --################# Think @aVoN
 function ENT:Think()
+	-- AGP: real movement since the last think (ENT:Hit)
+	local now, pos = CurTime(), self:GetPos();
+	if (self.AGPLastPos) then self.AGPSpeed = pos:Distance(self.AGPLastPos) / math.max(now - self.AGPLastTime, 0.01) end
+	self.AGPLastPos, self.AGPLastTime = pos, now;
 	local enabled = self:Enabled();
 	self:Regenerate(enabled);
 	if(self.Depleted) then
@@ -168,10 +172,10 @@ function ENT:SetMultiplier(n)
 	self.StrengthMultiplier[3] = n;
 end
 
---################# AGP 2026-10-30: ship shields hold damage points. The old rule took a fixed 2*clamp(s,1,20) % per hit
--- with the ships' multiplier 0.1: every hit at least 20 %, a normal pulse 200-400 %, a beam tick 60 % - shields were
--- gone at once. Now 1 "strength" unit = 50 damage, and a ship's shield holds AGPCapacity damage (ship.AGPShieldHP,
--- else 80 % of its hull, at least 3000). Recharge: 2.5 %/s while up or down, 6 %/s while switched off.
+--################# AGP: ship shields hold damage points. The old rule took a fixed 2*clamp(s,1,20) % per hit with the
+-- ships' multiplier 0.1: every hit at least 20 %, a normal pulse 200-400 %, a beam tick 60 % - shields were gone at
+-- once. Now 1 "strength" unit = 50 damage, and a ship's shield holds AGPCapacity damage (ship.AGPShieldHP, else 80
+-- % of its hull, at least 3000). Recharge: 2.5 %/s while up or down, 6 %/s while switched off.
 function ENT:AGPCap()
 	if (self.AGPCapacity) then return self.AGPCapacity end
 	local ship = self.Owner
@@ -184,19 +188,22 @@ function ENT:AGPCap()
 end
 
 --################# Shield got hit - Take strength @aVoN
-function ENT:Hit(strength,normal,pos)
+-- factor: agp_weapon_balance, by what fired the shot (StarGate.ShieldFactor; 1 = AGP sandbox)
+function ENT:Hit(strength,normal,pos,factor)
 	local cap = self:AGPCap()
 	if (cap) then
-		self.Strength = math.Clamp(self.Strength - (tonumber(strength) or 0) * 50 / cap * 100, 0, 100)
+		self.Strength = math.Clamp(self.Strength - (tonumber(strength) or 0) * (factor or 1) * 50 / cap * 100, 0, 100)
 		return
 	end
 	-- Calculate strenght-taking multiplier: Are we a shield, which is not moving? If so, we are many times stronger than a shield of a ship which is moving.
 	local divisor = 1;
-	if(self.Entity:GetVelocity():Length() < 5) then
+	-- AGP: real movement (Think), as shield_generator: on a SpaceGrid ship the generator is welded to a frozen hull that
+	-- its keel carries - GetVelocity() is 0 there, a flying ship's shield counted as standing (5 times stronger)
+	if((self.AGPSpeed or 0) < 5) then
 		divisor = StarGate.CFG:Get("shield","stationary_shield_multiplier",5);
 	end
 	-- Take strength
-	self.Strength = math.Clamp(self.Strength-2*math.Clamp(strength,1,20)/(self.StrengthMultiplier[1]*self.StrengthConfigMultiplier*divisor),0,100);
+	self.Strength = math.Clamp(self.Strength-2*math.Clamp(strength,1,20)*(factor or 1)/(self.StrengthMultiplier[1]*self.StrengthConfigMultiplier*divisor),0,100);
 	-- AGP: removed an empty `if(StarGate.CFG:Get("shield","apply_force",false)) then end` (only a config read, no effect).
 	-- The old disabled bounce code is kept here as a note:
 	-- Make us bounce around
@@ -205,6 +212,10 @@ end
 --################# Reset it's strength @aVoN
 function ENT:Regenerate(enabled)
 	if(type(self.Strength) ~= "number") then self.Strength = 0 end; -- Somewhere the duplicator is setting self.Strength to a fucking bool. I dont know why. But it came with my new "save strength in adv dupe" system
+	-- AGP: Series power (agp_weapon_balance) - no recharge for a moment after a ship weapon's hit
+	-- (StarGate.ShieldFactor): a shield under fire falls by the weapons' damage alone, never 50x slower because the
+	-- weapons only just out-drain the recharge
+	if ((self.AGPRechargePause or 0) > CurTime()) then return end
 	if (self:AGPCap()) then -- AGP: ship shield (see ENT:AGPCap); Think runs every 0.5 s
 		if (self.Strength < 100) then
 			self.Strength = math.Clamp(self.Strength + ((enabled or self.Depleted) and 2.5 or 6) * 0.5, 0, 100)

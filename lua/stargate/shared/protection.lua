@@ -27,8 +27,8 @@ StarGate.AGPMayEditProtected = agpMayEdit
 
 function StarGate.Hook.PhysgunPickup(p, e)
     if (IsValid(e) and e.Untouchable and not DEBUG) then return false end
-    -- AGP 2026-10-25 (owner): nobody lifts spawner gates, ramps or DHDs with the physgun / gravgun, admins neither
-    -- (they place and remove them with the gate spawner editor)
+    -- AGP: nobody lifts spawner gates, ramps or DHDs with the physgun / gravgun, admins neither (they place and
+    -- remove them with the gate spawner editor)
     if (IsValid(e) and e:GetNWBool("GateSpawnerProtected", false) and not DEBUG) then return false end
 end
 

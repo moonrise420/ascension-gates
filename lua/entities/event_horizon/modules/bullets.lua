@@ -125,9 +125,9 @@ hook.Add("StarGate.Bullet","StarGate.EHBullet",
 						bullet.Src = pos+2*dir;
 						if (not IsValid(FakeBulletEntity)) then FakeBulletEntity = ents.Create("info_null"); end -- fix
 
-						-- AGP 2026-11-08: was "not e:GetParent():GetClass() == ..." = "(not class) == ...", always false: no
-						-- bullet ever came out of the far horizon, every gate swallowed them like a shield (CAP fired it here).
-						-- Meant: none out of a mobile gate's horizon.
+						-- AGP: was "not e:GetParent():GetClass() == ..." = "(not class) == ...", always false: no bullet ever
+						-- came out of the far horizon, every gate swallowed them like a shield (CAP fired it here). Meant: none
+						-- out of a mobile gate's horizon.
 						local src = e:GetParent();
 						if (not IsValid(src) or src:GetClass() ~= "mobile_gate") then
 							FakeBulletEntity:FireBullets(bullet); -- FIRE ZEH MISSLES!

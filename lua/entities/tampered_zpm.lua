@@ -342,7 +342,7 @@ function ENT:Draw()
                 color = Color(255,0,0,255);
             end
             if(tonumber(perc)>0)then
-                perc = string.format("%4.2f", tonumber(perc) or 0)   -- AGP 2026-11-10: two decimals like the other info boxes (it showed 100.000000%);
+                perc = string.format("%4.2f", tonumber(perc) or 0)   -- AGP: two decimals like the other info boxes (it showed 100.000000%);
 	        end
 
 	        draw.SimpleText(AGP.L("hud_sts_" .. string.lower(add), add), "center", ScrW() / 2 + 40 + w, ScrH() / 2 +85 - h, color,0)   -- the server sends the English state name; the status words exist in every language file

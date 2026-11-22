@@ -30,7 +30,7 @@ ENT.Sounds = {
 	Activate=Sound("stargate/universe/Stargate Begin Roll.mp3"),
 	GateRoll=Sound("stargate/universe/Long_Gate_Roll.wav"),
 	StopRoll=Sound("stargate/universe/Chevron2.mp3"),
-    EndRoll=Sound("stargate/universe/chevron2.mp3"), -- AGP 2026-11-08: endroll.mp3 never existed (not played anywhere yet; the roll-stop sound)
+    EndRoll=Sound("stargate/universe/chevron2.mp3"), -- AGP: endroll.mp3 never existed (not played anywhere yet; the roll-stop sound)
 }
 
 ENT.Mats = {
@@ -40,7 +40,7 @@ ENT.Mats = {
 
 ENT.MatsSymb = {
   Off="the_sniper_9/universe/stargate/symbols.vmt",
-  On="the_sniper_9/universe/stargate/symbolon.vmt", -- AGP 2026-11-13: was "symbolson.vmt" (no such file; the engine silently ignored the override and showed the model's own material, which is symbolon)
+  On="the_sniper_9/universe/stargate/symbolon.vmt", -- AGP: was "symbolson.vmt" (no such file; the engine silently ignored the override and showed the model's own material, which is symbolon)
   ColOff=Color(70,70,70),
 }
 
@@ -923,7 +923,7 @@ function ENT:TriggerInput(k,v,mobile,mdhd,ignore)
 				self.TargetGate = nil
 			end
 	elseif (k == "Switch Gate") then
-		if (v >= 1) then -- AGP 2026-11-08: any value >= 1, as on the SG-1 gate (was only 42; 42 still works)
+		if (v >= 1) then -- AGP: any value >= 1, as on the SG-1 gate (was only 42; 42 still works)
 			if (IsValid(self.TargetGate)) then
 				self:ControlledJump(self.TargetGate)
 			end

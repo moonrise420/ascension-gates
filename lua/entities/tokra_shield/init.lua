@@ -55,8 +55,8 @@ end)
 function ENT:CreateCollision(Gen1, Gen2)
 	if not IsValid(Gen1) then return end
 	if not IsValid(Gen2) then return end
-	-- AGP 2026-10-30: the wall was a SOLID_BBOX, i.e. a box along the world axes sized by the model, not turned with
-	-- the doorway: bullets stopped in front of the door and shots at an angle went past it. Now a thin slab exactly
+	-- AGP: the wall was a SOLID_BBOX, i.e. a box along the world axes sized by the model, not turned with the
+	-- doorway: bullets stopped in front of the door and shots at an angle went past it. Now a thin slab exactly
 	-- between the two emitters, turned with them, and traces use it (custom collisions).
 	local length = Gen1:GetPos():Distance(Gen2:GetPos());
 	if (length < 2) then return end -- AGP: emitters on the same spot: no zero-size physics box (crash)
@@ -188,9 +188,9 @@ function ENT:Hit(e,pos,dmg,normal)
 end
 
 -----------------------------------NOTHING GETS THROUGH----------------------------------
--- AGP 2026-10-30: like the normal shields (AGP.ShieldStopsEverything in entities/shield/init.lua): anything moving
--- that crosses the wall inside the doorway is stopped there - explosives blow up on the wall, physics things bounce
--- off, other shots (bolts, arrows, plasma, addon projectiles) are destroyed. Bullets and players hit the solid slab.
+-- AGP: like the normal shields (AGP.ShieldStopsEverything in entities/shield/init.lua): anything moving that
+-- crosses the wall inside the doorway is stopped there - explosives blow up on the wall, physics things bounce off,
+-- other shots (bolts, arrows, plasma, addon projectiles) are destroyed. Bullets and players hit the solid slab.
 local function stopAtWall(sh, e, k, side)
 	local guard = AGP and AGP.ShieldGuard
 	local n = sh:GetRight() * side -- points to the side it came from

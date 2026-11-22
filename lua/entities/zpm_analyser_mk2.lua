@@ -238,14 +238,14 @@ if SERVER then
 				if(self.ZPM.Ent.ZPMType == "tampered") then
 					self.Entity:SetNWInt("Result",1)
 					self:SetWire("Tainted",1)
-					-- AGP 2026-11-08: sg/scanner/deactivate2.wav does not exist (scan result was silent): a tainted ZPM warns
+					-- AGP: sg/scanner/deactivate2.wav does not exist (scan result was silent): a tainted ZPM warns
 					self:EmitSound("jumper/failbeep.mp3")
 
 					self.ZPM.Ent:SetNWInt("ZPMScannedTainted",1)
 				else
 					self.Entity:SetNWInt("Result",2)
 					self:SetWire("Tainted",0)
-					self:EmitSound("button/ancient_button1.wav") -- AGP 2026-11-08: was the missing sg/scanner/deactivate2.wav
+					self:EmitSound("button/ancient_button1.wav") -- AGP: was the missing sg/scanner/deactivate2.wav
 				end
 			end
 		end

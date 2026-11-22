@@ -23,7 +23,8 @@ function ENT:Allowed(e,allow_parented)
 	if(
 		-- Must have a valid physics object and has to be unfrozen (except on crossbow_bolt or rpg_missile)
 		(
-			phys and phys:IsValid() and phys:IsMoveable() and
+			-- (SpaceGrid chat: a SpaceGrid ship's hull is a frozen body that its keel carries - it travels too)
+			phys and phys:IsValid() and (phys:IsMoveable() or e.SpaceGridHull) and
 			-- Do not teleport parente stuff or it may crash the server
 			(allow_parented or not e:GetParent():IsValid()) and
 			(
@@ -271,6 +272,21 @@ function ENT:GetEntitiesForTeleport(e)
 				return false;
 			end
 		end
+		-- (SpaceGrid chat) what goes along although nothing holds it to the contraption: a ship docked in its hangar
+		-- (StarCore, sv_dock.lua, names its parts). It was left out of the ride and met the far gate on its own as the
+		-- carrier came out - an incoming gate removed it. Only what may travel; it never stops the rest.
+		local along = {};
+		hook.Run("StarGate.TeleportAlong", e, entities, along);
+		if (#along > 0) then
+			local have = {[e] = true};
+			for _,v in ipairs(entities) do have[v] = true end
+			for _,v in ipairs(along) do
+				if (IsValid(v) and not have[v] and v ~= self:GetParent() and not IsValid(v:GetParent()) and self:Allowed(v,true)) then
+					have[v] = true;
+					table.insert(entities,v);
+				end
+			end
+		end
 		return {Entity=e,Attached=entities};
 	end
 	return false;
@@ -370,9 +386,9 @@ function ENT:TeleportEntity(t,base,basedata)
 		if(e:IsNPC()) then ang.Delta.p = 0 ang.Delta.r = 0 end -- Remove roll and pitch from NPCs
 		e:SetAngles(ang.Old + ang.Delta + Angle(0,180,0));
 
-		-- AGP 2026-11-08: Half-Life 2's shots and thrown things (grenades, bolts, combine balls...) leave the far horizon with
-		-- exactly their speed, turned to that gate. Below, a physics grenade kept its old speed and got the new one added
-		-- 0.05 s later: with both gates facing the same way the two cancelled out and it dropped in the far horizon.
+		-- AGP: Half-Life 2's shots and thrown things (grenades, bolts, combine balls...) leave the far horizon with exactly
+		-- their speed, turned to that gate. Below, a physics grenade kept its old speed and got the new one added 0.05 s
+		-- later: with both gates facing the same way the two cancelled out and it dropped in the far horizon.
 		-- (rpg_missile is re-created by its own teleport rule and steers by its angles: not here.)
 		if (self.AGPShots and self.AGPShots[class] and not StarGate.Teleport.Class[class]) then
 			if (e:GetMoveType() == MOVETYPE_VPHYSICS and phys:IsValid()) then

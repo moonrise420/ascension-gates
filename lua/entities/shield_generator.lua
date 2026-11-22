@@ -56,6 +56,8 @@ function ENT:Initialize()
 	self.BubbleDesign = "Version2"
 	self.RestoreThresold = StarGate.CFG:Get("shield","restore_thresold",15); -- Which powerlevel has the shield to reach again until it works again?
 	self:AddResource("energy",1);
+	-- AGP: on a StarCore ship and not linked itself, the shield takes the ship's energy (ship_weapons.lua)
+	if (StarGate.ShipPowered) then StarGate.ShipPowered(self) end
 	self:CreateWireInputs("Activate","Strength","Size","Atlantis Mode","Disable Use","Disable Sound","Allowed Players [ARRAY]","Frequency","Fire Frequency");
 	self:CreateWireOutputs("Active","Strength","Size","Players Allowed [ARRAY]");
 	self:SetWire("Strength",self.Strength);
@@ -279,7 +281,9 @@ function ENT:SetMultiplier(n)
 end
 
 --################# Shield got hit - Take strength @aVoN
-function ENT:Hit(strength,normal,pos,fireFrequency)
+-- factor: agp_weapon_balance, by what fired the shot (StarGate.ShieldFactor; 1 = AGP sandbox). It counts after the
+-- 1..20 limit a hit, so a hand weapon's 5 % really is 5 %.
+function ENT:Hit(strength,normal,pos,fireFrequency,factor)
 	-- Calculate strenght-taking multiplier: Are we a shield, which is not moving? If so, we are many times stronger than a shield of a ship which is moving.
 	local divisor = 1;
 	if((self.AGPSpeed or 0) < 5) then
@@ -298,10 +302,10 @@ function ENT:Hit(strength,normal,pos,fireFrequency)
 	if self.Atlantis then
 		local energy = self:GetResource("energy");
 		
-		local take_energy = 200*strength/(self.StrengthMultiplier[1]*self.StrengthConfigMultiplier*divisor)*StarGate.CFG:Get("shield_core","atlantis_hit",50);
+		local take_energy = 200*strength*(factor or 1)/(self.StrengthMultiplier[1]*self.StrengthConfigMultiplier*divisor)*StarGate.CFG:Get("shield_core","atlantis_hit",50);
 		self:ConsumeResource("energy",math.Clamp(take_energy,1,energy));
 	else
-		self.Strength = math.Clamp(self.Strength-2*math.Clamp(strength,1,20)/(self.StrengthMultiplier[1]*self.StrengthConfigMultiplier*divisor),0,100);
+		self.Strength = math.Clamp(self.Strength-2*math.Clamp(strength,1,20)*(factor or 1)/(self.StrengthMultiplier[1]*self.StrengthConfigMultiplier*divisor),0,100);
 	end
 	
 	if(StarGate.CFG:Get("shield","apply_force",false)) then
@@ -313,6 +317,10 @@ end
 --################# Reset it's strength @aVoN
 function ENT:Regenerate(enabled)
 	if(type(self.Strength) ~= "number") then self.Strength = 0 end; -- Somewhere the duplicator is setting self.Strength to a fucking bool. I dont know why. But it came with my new "save strength in adv dupe" system
+	-- AGP: Series power (agp_weapon_balance) - no recharge for a moment after a ship weapon's hit
+	-- (StarGate.ShieldFactor): a shield under fire falls by the weapons' damage alone, never 50x slower because the
+	-- weapons only just out-drain the recharge
+	if ((self.AGPRechargePause or 0) > CurTime()) then return end
 	if(self.Strength < 100) then
 		local multiplier = 1;
 		-- Disabled shields can regenrate 2 times faster!

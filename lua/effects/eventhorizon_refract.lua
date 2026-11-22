@@ -22,8 +22,8 @@
 -- And the othere reason, why this is in effect form is, the SENT needs to have ENT.RenderGroup = RENDERGROUP_OPAQUE enabled, or it will also do a clipping bug.
 -- Now, the effect is the only thing which can start clipping but not the event horizon. Further more, you can turn off the event horizon's refract so nobody is losing anything
 
--- AGP 2026-11-08: zup/stargate/effect_03 never existed (Material() gave ___error, so Init bailed and the refraction
--- never drew), and sgorlin/effect_03 is no refraction (an UnlitGeneric with the Atlantis shield texture). A refract
+-- AGP: zup/stargate/effect_03 never existed (Material() gave ___error, so Init bailed and the refraction never
+-- drew), and sgorlin/effect_03 is no refraction (an UnlitGeneric with the Atlantis shield texture). A refract
 -- material on the horizon's own ripple normal map (sgs/horizon_normal, 29 frames at the horizon's 15 fps); the
 -- strength ($refractamount) is set every frame in Render as before.
 EFFECT.Material = CreateMaterial("AGPEventHorizonRefract", "Refract", {

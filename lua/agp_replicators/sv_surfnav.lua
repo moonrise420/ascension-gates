@@ -1,26 +1,26 @@
--- Replicators: seeing the way before going it (owner 2026-11-05: "the idea and goal: knowing the exact shape, a short
--- smooth move round the edge instead of stepping blindly - like a real spider"). When the goal lies up on something,
--- behind a wall or under a lip, the bug looks at the side view of what lies between: the shapes the game hands over
--- (sv_shape.lua) cut by the upright plane through it and its goal, plus a sweep of rays in that plane (a radar for
--- whatever the shapes miss: clip walls, a prop just thrown). In that view a fine grid: solid where a surface runs, free
--- air reached from where the bug is, and the cells of air touching a surface are where its feet can be. The shortest way
--- over those cells to the goal is its path - up a wall, along a ceiling, round an edge - with the surface's own "up" at
--- every point; round an outside edge that "up" turns smoothly about the corner, so it rolls over the edge.
--- The same plan is used by every bug that starts near it for the same goal (the swarm shares what it saw).
--- agp_rep_surfnav 0 turns it off (the leg-ray walker alone, sv_walk.lua).
+-- Replicators: seeing the way before going it. When the goal lies up on something, behind a wall or under a lip, the
+-- bug looks at the side view of what lies between: the shapes the game hands over (sv_shape.lua) cut by the upright
+-- plane through it and its goal, plus a sweep of rays in that plane (a radar for whatever the shapes miss: clip
+-- walls, a prop just thrown). In that view a fine grid: solid where a surface runs, free air reached from where
+-- the bug is, and the cells of air touching a surface are where its feet can be. The shortest way over those cells to
+-- the goal is its path - up a wall, along a ceiling, round an edge - with the surface's own "up" at every point; round
+-- an outside edge that "up" turns smoothly about the corner, so it rolls over the edge. The same plan is used by every
+-- bug that starts near it for the same goal (the swarm shares what it saw). agp_rep_surfnav 0 turns it off
+-- (the leg-ray walker alone, sv_walk.lua).
+--
 local R = AGP.Rep
 local N = R.SurfNav or {}
 R.SurfNav = N
 R.cv.surfnav = R.cv.surfnav or CreateConVar("agp_rep_surfnav", "1", FCVAR_ARCHIVE, "Replicators: plan climbs from the shape of the world")
--- (owner 2026-11-07, watching the course: "the bug is running threw your wall" - on rails, its collisions off, the body
--- follows the way's straight lines through outside corners, thin boards and the course's prop walls, 15-38 times a run.
--- Solid instead (planrails 0) it went into walls half as often but looked far worse: tilted off the surface 21-47
--- times a run instead of 0-6, its body flipping 10-32 times instead of 0-1, hanging 9 times on the course - the owner:
--- "it gets worse and worse how they walk on walls". So rails stayed, until the way round corners was done properly.)
--- Done (2026-11-08, its body round corners from one stance, sv_walk.lua R.Stance): solid now went through no wall at
--- all, the sign, the wall and the roof scenes clean (on rails: 18-25 passes, those three unclean) - owner: "go solid".
--- Rails only with agp_rep_solidways 0. (A new name again: server.vdf keeps every archived setting's value, the old
--- agp_rep_planrails 1 would have kept the rails on.)
+-- (watching the course: "the bug is running threw your wall" - on rails, its collisions off, the body follows the way's
+-- straight lines through outside corners, thin boards and the course's prop walls, 15-38 times a run. Solid instead
+-- (planrails 0) it went into walls half as often but looked far worse: tilted off the surface 21-47 times a run
+-- instead of 0-6, its body flipping 10-32 times instead of 0-1, hanging 9 times on the course -. So rails stayed,
+-- until the way round corners was done properly.) Done (its body round corners from one stance, sv_walk.lua
+-- R.Stance): solid now went through no wall at all, the sign, the wall and the roof scenes clean (on rails: 18-25
+-- passes, those three unclean) -. Rails only with agp_rep_solidways 0. (A new name again: server.vdf keeps every
+-- archived setting's value, the old agp_rep_planrails 1 would have kept the rails on.)
+--
 R.cv.solid = R.cv.solid or CreateConVar("agp_rep_solidways", "1", FCVAR_ARCHIVE, "Replicators: 1 = a bug on a planned way stays solid (it cannot go through walls); 0 = it does not collide with the world on it (the old rails)")
 
 local C = 6   -- grid cell (units)
@@ -342,22 +342,22 @@ function N.Drop(b, why)
 	R.Dbg(b, "path dropped:", why)
 end
 
--- the swarm remembers its climbs (owner 2026-11-05: "the swarm memory is gold... really saved... pretrain a lot of maps
--- ... differ from map and player built things, so no player built thing is saved unless it's 3 times"). A way that took
--- a bug to its goal is kept: over the map's own shapes at once, over props (a player's build, which may be gone
--- tomorrow) only once it worked there 3 times. Kept per map in data/agp_replicators/<map>_climbs.txt. A bug starting
--- near a known start for a known goal goes that way without planning - after a look that every few points the surface
--- is still under it (a wall knocked down, a crate moved: forgotten, planned anew).
+-- the swarm remembers its climbs. A way that took a bug to its goal is kept: over the map's own shapes at once, over
+-- props (a player's build, which may be gone tomorrow) only once it worked there 3 times. Kept per map in
+-- data/agp_replicators/<map>_climbs.txt. A bug starting near a known start for a known goal goes that way
+-- without planning - after a look that every few points the surface is still under it (a wall knocked down, a crate
+-- moved: forgotten, planned anew).
+--
 N.known = N.known or {}
 local KQ = 48
 local floor = math.floor
 local function qk(p) return floor(p.x / KQ) .. ":" .. floor(p.y / KQ) .. ":" .. floor(p.z / KQ) end
 -- its body's way along a plan free of the world and props, all the way (not only at its points): a way kept from
 -- another shape went straight through the course's wall, the whole way along the floor - a capped wall and a low wall
--- with the same start and goal, its points every 50 units, each of them on the floor (2026-11-08: 9 of 9 passes
--- through walls on the course were that). Worked out once per plan, for kept ways when they are recalled (a fresh plan
--- is made from the shape it goes over - checked too, good ones over the course's low wall were thrown away and the bug
--- stood at its foot)
+-- with the same start and goal, its points every 50 units, each of them on the floor (9 of 9 passes through
+-- walls on the course were that). Worked out once per plan, for kept ways when they are recalled (a fresh plan is made
+-- from the shape it goes over - checked too, good ones over the course's low wall were thrown away and the bug stood
+-- at its foot)
 function N.Clear(plan)
 	if plan.clear ~= nil then return plan.clear end
 	local B = N.Body(plan, {})
@@ -376,11 +376,11 @@ function N.Clear(plan)
 	plan.clear = ok
 	return ok
 end
--- a fresh way over real surfaces? (owner 2026-11-18, freespace13: "crawling up in the air as if there was a pillar but
--- there was none" - every first climb at the building was a way 340 straight up through the air in front of it, then
--- the fall. Ways are made of surface points, so each point mid-face must have its surface under it. Checked once, when
--- the way is taken - nothing while walking, so no jump, gap or bridge can be taken for air. Points where the way turns
--- round an edge are left out (there a ray can graze past the corner), and only 2 misses in a row count)
+-- a fresh way over real surfaces? (freespace13: "crawling up in the air as if there was a pillar but there was none" -
+-- every first climb at the building was a way 340 straight up through the air in front of it, then the fall. Ways
+-- are made of surface points, so each point mid-face must have its surface under it. Checked once, when the way is
+-- taken - nothing while walking, so no jump, gap or bridge can be taken for air. Points where the way turns round an
+-- edge are left out (there a ray can graze past the corner), and only 2 misses in a row count)
 function N.OnSurfaces(plan)
 	local pts, ups, miss = plan.pts, plan.ups, 0
 	for k = 2, #pts - 1, 2 do
@@ -422,12 +422,12 @@ function N.Recall(pos, goal)
 		end
 	end end end
 end
--- slow ways (owner 2026-11-05: "more like ways they get slowed down a lot" - only Dakara, the ARG and a kawoosh
--- really kill them; a fall only costs the ~16 s to build itself again): a bug that falls apart within 8 s of being on
--- a way, or one that took more than three times as long as walking it should, counts a slow trip for it (from about
--- there to about that goal). After 2 that way is not planned any more and a kept one is forgotten - the gap is left
--- to the bridge builders, a jump, another way. Forgotten again after 10 minutes (the bridge may be gone, the map
--- changed). Saved with the climbs. (Killed for good - the ARG, Dakara - is not the way's fault: not counted.)
+-- slow ways (only Dakara, the ARG and a kawoosh really kill them; a fall only costs the ~16 s to build itself
+-- again): a bug that falls apart within 8 s of being on a way, or one that took more than three times as long as
+-- walking it should, counts a slow trip for it (from about there to about that goal). After 2 that way is not
+-- planned any more and a kept one is forgotten - the gap is left to the bridge builders, a jump, another way.
+-- Forgotten again after 10 minutes (the bridge may be gone, the map changed). Saved with the climbs. (Killed for
+-- good - the ARG, Dakara - is not the way's fault: not counted.)
 N.slow = N.slow or {}
 N.slowT = N.slowT or {}
 local function dk(p, g) return floor(p.x / 128) .. ":" .. floor(p.y / 128) .. ":" .. floor(p.z / 128) .. ">" .. floor(g.x / 128) .. ":" .. floor(g.y / 128) .. ":" .. floor(g.z / 128) end   -- (coarse: the swarm learns, not each bug)
@@ -599,6 +599,9 @@ function N.Step(b, pos, up, fwd, goal, moving, dt)
 	-- (its real goal - the steering's detour point in front of it moves all the time and threw every plan away)
 	goal = b.MoveTo or goal
 	local P = b.SurfPath
+	-- (a plan to its real goal goes on when a way across the map to that goal comes in and moves its next waypoint: thrown
+	-- away for "goal moved", at gm_construct's shelf it ran to and fro, course 4.1)
+	if P and b.Goal and P.goal:DistToSqr(b.Goal) < 48 * 48 then goal = b.Goal end
 	-- (a goal that moves a little - the swarm's gathering point - keeps the plan while it moves less than a quarter of the
 	-- way: at the bottom of a gap the climbs were thrown away 40 times and none was finished)
 	local moved = P and goal and goal:DistToSqr(P.goal) > math.max(60, 0.25 * pos:Distance(P.goal)) ^ 2
@@ -627,8 +630,10 @@ function N.Step(b, pos, up, fwd, goal, moving, dt)
 		-- (after a player or an NPC it goes as before: it jumps at them and climbs up them - that takes touching them)
 		local t = b.Target
 		if IsValid(t) and (t:IsPlayer() or t:IsNPC()) then return end
-		if goal:DistToSqr(pos) > 1400 * 1400 then no("too far") return end
-		if not needs(b, pos, up, goal) then no("not needed") return end
+		-- (not needed or too far: asked again in a quarter of a second, not every tick - the felt map asks every tick,
+		-- and these checks' rays were 15 % of the swarm's time in the lag test)
+		if goal:DistToSqr(pos) > 1400 * 1400 then b.SurfPlanT = now + 0.25 no("too far") return end
+		if not needs(b, pos, up, goal) then b.SurfPlanT = now + 0.25 no("not needed") return end
 		if b.SurfShort and now < b.SurfShortT and b.SurfShort:DistToSqr(goal) < 48 * 48 then no("the last one ended short") return end
 		if N.Slow(pos, goal) then b.SurfPlanT = now + 3 no("that way was slow") return end   -- (that way was slow: other ways - a bridge, a jump)
 		-- (a way it knows: no planning, and not one of the swarm's one plan a tick)
@@ -678,9 +683,9 @@ function N.Step(b, pos, up, fwd, goal, moving, dt)
 		if not plan then b.SurfPlanT = now + 2.5 N.fails = (N.fails or 0) + 1 R.Dbg(b, "no plan", N.why) return end
 		local B = N.Body(plan, b)
 		if not B then b.SurfPlanT = now + 2.5 N.Drop(b, "no way for its body") return end
-		-- (owner 2026-11-14: an open incoming gate's horizon kills - and its ring is climbable, its foot walkable: no planned
-		-- way may run through the dead zone round it; the rephorz test saw bugs follow such ways across the horizon)
-		-- (only steps that go INTO it count: a bug on the ring of a gate that turned inbound may leave by any way out)
+		-- (an open incoming gate's horizon kills - and its ring is climbable, its foot walkable: no planned way may run
+		-- through the dead zone round it; the rephorz test saw bugs follow such ways across the horizon) (only steps
+		-- that go INTO it count: a bug on the ring of a gate that turned inbound may leave by any way out)
 		if R.DeadStep and #R.deadGates > 0 then
 			local prev = pos
 			for _, q in ipairs(plan.pts) do
@@ -748,13 +753,23 @@ function N.Step(b, pos, up, fwd, goal, moving, dt)
 	elseif moving then
 		P.lift = math.min(10, (P.lift or 0) + dt * 20)   -- (held up by an edge: a little off the surface, over it)
 	end
+	-- (no further along its way for 2.5 s: the plan is let go for that goal, 8 s - the legs go out under the lip and over
+	-- it. Under a plate standing out 24 over a cube 47 high the way pressed it into the plate's underside for 18 s, the plate
+	-- test) (not at the way's end, where it
+	-- waits on purpose till it has a new goal)
+	if not P.sT or P.s > (P.sBest or -1) + 4 or P.s >= B.len - 1 then P.sBest, P.sT = P.s, now
+	elseif now - P.sT > 2.5 then
+		b.SurfPath = nil b.SurfPlanT = now + 4 b.SurfShort, b.SurfShortT = Vector(P.goal), now + 8
+		R.Stat("planned way: no further for 2.5 s - the legs")
+		N.Drop(b, "no further along the way for 2.5 s") return
+	end
 	-- (no skipping ahead round a lip or an inside corner any more - its body goes over a small lip and into a corner on the
-	-- way itself: the head glitch at the top of gm_flatgrass's platform, owner 2026-11-06, and "sliding on the back on the
-	-- wall", owner 2026-11-07, were the tilt and the place worked out apart)
+	-- way itself: the head glitch at the top of gm_flatgrass's platform, and "sliding on the back on the wall", were the
+	-- tilt and the place worked out apart)
 	if P.s >= B.len then
 		-- at the goal: it stays there (it does not wander on over the edge) until it has a new goal
 		-- (near the goal but on the far side of the surface - under the slab the goal stands on - is not at the goal: it
-		-- ends short, and goes round the edge with its legs (R.EdgeAim); it hung there for good, owner 2026-11-18)
+		-- ends short, and goes round the edge with its legs (R.EdgeAim); it hung there for good)
 		if L.pts[#L.pts]:DistToSqr(P.goal) < 48 * 48 and not ((P.goal - L.pts[#L.pts]):Dot(L.ups[#L.ups]) < -4 and R.Reached and not R.Reached(b, pos, P.goal)) then
 			P.s = B.len
 			if not P.kept and pos:DistToSqr(L.pts[#L.pts]) < 40 * 40 then

@@ -66,7 +66,7 @@ end
 function SWEP:Effects()
     if (not IsValid(self.Owner) or (self.Owner:IsPlayer() and self.Owner:GetAmmoCount(self.Primary.Ammo) <= 0)) then return end
     self.Weapon:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
-    -- AGP 2026-11-14: a player's glow sits on the gun's muzzle as he sees it, same colour and size (lua/autorun/agp_muzzle.lua)
+    -- AGP: a player's glow sits on the gun's muzzle as he sees it, same colour and size (lua/autorun/agp_muzzle.lua)
     if (self.Owner:IsPlayer() and AGP and AGP.MuzzleFx) then
         AGP.MuzzleFx(self, "flash", nil, "asuran")
         self.Weapon:SetNextPrimaryFire(CurTime() + 0.2)
@@ -114,8 +114,8 @@ function SWEP:PrimaryAttack()
             local max = util.QuickTrace(shootpos, right * 100, filter).Fraction * 100 - 10
             local trans = right:DotProduct(vel) * right / 25
 
-            -- AGP 2026-11-14: the pulse starts at the muzzle as the shooter sees it (the owner's client reports it, third person: the hand plus the
-            -- weapon's reach; lua/autorun/agp_muzzle.lua), not on a fixed spot 23 right / 15 down from the eye
+            -- AGP: the pulse starts at the muzzle as the shooter sees it (the owner's client reports it, third person: the hand plus the weapon's
+            -- reach; lua/autorun/agp_muzzle.lua), not on a fixed spot 23 right / 15 down from the eye
             local muzzle = AGP and AGP.MuzzleWorld and AGP.MuzzleWorld(self)
             if (muzzle) then
                 shootpos = muzzle
@@ -166,11 +166,11 @@ function SWEP:SecondaryAttack()
     if self.Weapon:GetNextPrimaryFire() > CurTime() then return end
     if (not IsValid(self.Owner) or (self.Owner:IsPlayer() and self.Owner:GetAmmoCount(self.Primary.Ammo) <= 0)) then return end
 end
--- AGP 2026-11-10: the player's own hands (GMod's hands of the player model) instead of the arms built into the old view model
+-- AGP: the player's own hands (GMod's hands of the player model) instead of the arms built into the old view model
 if (AGP and AGP.OwnHands) then AGP.OwnHands(SWEP, { "v_hand_sheet" }) end
 
--- AGP 2026-11-14: where the shot leaves the weapon (lua/autorun/agp_muzzle.lua): the old view model's own muzzle in first person,
--- the hand plus 12 along the aim in third person
+-- AGP: where the shot leaves the weapon (lua/autorun/agp_muzzle.lua): the old view model's own muzzle in first person, the hand
+-- plus 12 along the aim in third person
 if (AGP and AGP.MuzzleTrack) then
     SWEP.AGPMuzzleSync = true
     AGP.MuzzleTrack(SWEP, { vm = true, fmt = true, reach = 12 })

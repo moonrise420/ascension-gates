@@ -1,6 +1,6 @@
 --[[
-	Ascension Gates: the names and descriptions of the Stargate tools follow a language switch (2026-11-13).
-	About 40 tool files (weapons/gmod_tool/stools) read their texts ONCE when they load:
+	Ascension Gates: the names and descriptions of the Stargate tools follow a language switch. About 40 tool
+	files (weapons/gmod_tool/stools) read their texts ONCE when they load:
 	TOOL.Name = SGLanguage.GetMessage("stool_cloak"), language.Add("Tool.<mode>.name", ...) through the base tool, a few
 	language.Add(...) of their own. After a switch of sg_language (SGLanguage.ReloadSGLanguages) the old texts stayed until
 	the next game start.

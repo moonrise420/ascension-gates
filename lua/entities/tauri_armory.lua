@@ -1,7 +1,7 @@
 --[[
-	Tau'ri Armory - Ascension Gates' own code (2026-11-06), no Evolution Addon Pack code left; the class name stays.
-	An SGC ammo crate (Half-Life 2's ammo crate model): press USE to take a Zat, P90, GDO, Beretta and adrenaline,
-	and the ammo is topped up. Works like the Goa'uld armory (goauld_armory.lua), only the contents differ.
+	Tau'ri Armory - Ascension Gates' own code, no Evolution Addon Pack code left; the class name stays. An SGC ammo
+	crate (Half-Life 2's ammo crate model): press USE to take a Zat, P90, GDO, Beretta and adrenaline, and the ammo
+	is topped up. Works like the Goa'uld armory (goauld_armory.lua), only the contents differ.
 ]]
 ENT.Type = "anim"
 ENT.Base = "goauld_armory"

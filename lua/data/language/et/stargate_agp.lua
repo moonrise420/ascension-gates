@@ -1,4 +1,4 @@
-// Ascension Gates: Estonian texts (2026-10-19)
+// Ascension Gates: Estonian texts
 cat_capital_ship = Suured laevad
 cat_small_ship = Laevad
 cat_others = Muu
@@ -50,7 +50,7 @@ wp_m9_berreta = SGC Sidearm
 wp_ori_hand = Ori käsirelv
 wp_goauld_zatarc = Goa'uldi Zatarc
 
-// EAP funktsioonide ühendamine (2026-10-19)
+// EAP funktsioonide ühendamine
 key_malp_control = Lõpeta juhtimine
 vis_wormhole = Ussiaugu reisi animatsioon
 vis_wormhole_desc = Näitab ussiaugu tunnelit, kui reisid läbi värava (ainult kui server kasutab ussiaugu jada). Väljas = kohene reis.
@@ -91,7 +91,7 @@ agp_info_btn_close = Lähme!
 agp_info_dontshow = Ära näita seda enam käivitamisel
 agp_gtsp_saved = Väravate tekitaja salvestatud kaardile %s. See laaditakse automaatselt selle kaardi igal käivitusel.
 agp_credits_about = Teave
-// gate spawner, Grid Power, life support, units (2026-10-21)
+// gate spawner, Grid Power, life support, units
 agp_gs_title = Väravate tekitaja
 agp_gs_help = Pane väravad, DHD-d, rõngad ja kaldteed tavapäraselt üles ja vajuta "Salvesta kaart": need ilmuvad selle kaardi igal käivitusel. Topeltklõps osal = mine sinna, paremklõps = eemalda.
 agp_gs_status = Kaart: %s\nTekitaja: %s\nKasutusel: %s\nOsi: %d
@@ -149,7 +149,7 @@ agp_unit_temp = Temperatuur
 agp_unit_gravity = Gravitatsioon
 agp_unit_auto = Automaatne (sinu riik)
 agp_unit_auto_g = Automaatne (g)
-// our parts: names, suit HUD, gate report, screens, link tool, chat, resources (2026-10-21)
+// our parts: names, suit HUD, gate report, screens, link tool, chat, resources
 agp_ent_cell_xs = Energiaelement (XS)
 agp_ent_cell_small = Energiaelement (S)
 agp_ent_cell_medium = Energiaelement (M)
@@ -751,7 +751,7 @@ agp_hkm_c_reps_core = Replikaatorid energiatuuma juures!
 agp_arg_name = Antireplikaatorrelv
 agp_arg_purpose = Hävita need putukad
 agp_arg_instr = Vasak klõps - tulista antireplikaatorlaine, hoia R all - otsi uus sagedus
-// window texts (2026-11-10)
+// window texts
 agp_ui_hyperspace = Hüperruum
 agp_ui_target = Siht
 agp_ui_jump_target = Hüppa valitud sihtmärgini
@@ -834,7 +834,7 @@ agp_ui_autolink = Ühenda automaatselt ressursisõlmega
 agp_ui_add_velocity = Lasule lisandub kahuri enda kiirus
 agp_ui_autoweld = Kinnita automaatselt
 agp_ui_empty = (tühi)
-// Ha'tak consoles (2026-11-10)
+// Ha'tak consoles
 agp_hk_weapons = RELVAD
 agp_hk_staff_cannons = KEPIKAHURID
 agp_hk_charging = LAEB
@@ -958,7 +958,7 @@ agp_hk_nearest_ring = Lähim rõngas väljaspool laeva
 agp_hk_glyph_pad = Goa'uldi glüüfipaneel
 agp_hk_t_mark = Märk %s
 agp_hk_t_player = Mängija %s
-// Ha'tak messages, crew announcements and ship log (2026-11-10)
+// Ha'tak messages, crew announcements and ship log
 agp_hkm_w_ship = Ha'tak
 agp_hkm_w_engine = Ha'tak masinaruum
 agp_hkm_w_computer = Ha'tak arvuti tuum
@@ -1312,6 +1312,16 @@ agp_ship_title_all = Kõik laevad
 agp_ship_shieldvis = Kilbi mull
 agp_ship_shieldvis0 = Ainult tabamusel või sisse/välja lülitamisel
 agp_ship_shieldvis1 = Alati nähtav
+agp_ship_wenergy = Relvad kasutavad energiat
+agp_ship_wenergy0 = Mitte kunagi (tasuta)
+agp_ship_wenergy1 = Kui ühendatud
+agp_ship_wenergy2 = Alati
+agp_ship_spower = Relvad kasutavad laeva energiat
+agp_ship_tip_spower = Jah: StarCore'i laeval olev relv võtab laeva energiat - kõigepealt selle ZPM-idest, generaatoritest ja akudest, muidu laeva enda energiat.
+agp_ship_wbalance = Relvad laevade vastu
+agp_ship_wbalance0 = AGP liivakast
+agp_ship_wbalance1 = Sarja võimsus
+agp_ship_tip_wbalance = Sarja võimsus: relvad tabavad laevu sama tugevalt kui sarjas, käsirelvad vaevu kriimustavad kere. AGP liivakast: iga relva enda kahju.
 agp_ship_destructtime = Enesehävitus: loendus (sekundid)
 agp_ship_tip_shieldvis = Alati: iga laeva kilbi mull helendab nõrgalt, kuni kilp on sees. Muidu on see näha ainult tabamusel ning sisse- või väljalülitamisel.
 agp_ship_tip_destructtime = Sekundid enesehävitusklahvi vajutamisest plahvatuseni. Teine vajutus õhib laeva kohe.

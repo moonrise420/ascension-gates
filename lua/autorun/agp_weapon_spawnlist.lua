@@ -1,6 +1,6 @@
--- Ascension Gates (2026-11-08): every weapon of our own spawn tab (list "CAP.Weapon") is also in Garry's Mod's own
--- Weapons tab, all in one category, "Ascension Gates" (like our entities in GMod's Entities tab), each under the
--- heading of its group in our tab (Player Weapons, Misc Weapons, ...). Before, only the newer ones were there
+-- Ascension Gates: every weapon of our own spawn tab (list "CAP.Weapon") is also in Garry's Mod's own Weapons tab,
+-- all in one category, "Ascension Gates" (like our entities in GMod's Entities tab), each under the heading of
+-- its group in our tab (Player Weapons, Misc Weapons, ...). Before, only the newer ones were there
 -- (Spawnable), spread over GMod's generic "Player Weapons" / "Misc Weapons"; the other ~30 only in our tab.
 -- Only GMod's list entry gets the category: SWEP.Category stays, our tab still groups by it (nothing twice, nothing
 -- moved there). A Spawnable = false in a weapon file of our tab no longer hides it from GMod's tab.

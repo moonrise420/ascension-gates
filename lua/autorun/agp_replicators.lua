@@ -1,6 +1,6 @@
 --[[
-	Replicators (Ascension Gates, own code and models, 2026-11-01)
-	Like in SG-1, everything is made of small grey blocks:
+	Replicators (Ascension Gates, own code and models) Like in
+	SG-1, everything is made of small grey blocks:
 	- agp_replicator_block: one block. Free blocks crawl towards each other; 12 of them close together form a Replicator.
 	- agp_replicator: the bug. Walks, eats loose metal props (the metal becomes new blocks -> more Replicators), brings
 	  metal to its Queen, attacks. Shot apart it falls into blocks that build it again after a while.
@@ -56,8 +56,8 @@ function R.Resting(b) return R.lag ~= nil and (R.lag.dormant or (b.RepFar and R.
 if CLIENT then
 	-- the lag guard's eyes (single player / listen server): this computer's own frame rate, once a second. The server
 	-- and the picture share one computer - when the swarm costs the server too much the frame rate falls first
-	-- (2026-11-09: 100 bugs, the server still kept up, the picture 1.5 frames a second). A window out of focus is held
-	-- at fps_max_nofocus (20 by default): its frame rate says nothing then, unless that cap is high.
+	-- (100 bugs, the server still kept up, the picture 1.5 frames a second). A window out of focus is held at
+	-- fps_max_nofocus (20 by default): its frame rate says nothing then, unless that cap is high.
 	local frames, since = 0, SysTime()
 	hook.Add("PostRender", "AGPRepFps", function() frames = frames + 1 end)
 	timer.Create("AGPRepFps", 1, 0, function()
@@ -77,17 +77,17 @@ function R.RoomForBlocks(n)
 	return R.Count("blocks") + n <= R.cv.blocks:GetInt()
 end
 
--- ---------- the lag guard (owner 2026-11-08: "its not allowed to lag"). Once a second the swarm checks whether the game
--- keeps up: game time against real time (a busy-world test: 100 bugs needed 17 ms for a tick of 15 - game time ran
--- at 74 %, the picture stood still). Under 90 % for 2 s running it is "behind": the swarm stops growing (no new
--- metal turned into blocks by the Queen or a bug - eating and collecting go on; blocks still come together into bugs:
--- 12 bodies become 1), bugs far from every player
--- rest with their bodies asleep (they cost the physics nothing) and the walking budget halves. Keeping up again for 8 s:
--- all goes on. A paused game or a changed game speed (host_timescale) does not count, nor a game with fewer than 20
--- bugs (they are not what makes it lag; a short hitch at a map start froze 3 test bugs mid-step, 2026-11-08).
--- And the frame rate of the host's own game (single player / listen server, sent once a second): under
--- agp_rep_lagguard_fps (30) for 3 s it is behind too, and it lets go only at 30 % above that (2026-11-09: game time
--- alone missed it - 100 bugs, the server kept up, the picture 1.5 frames a second).
+-- ---------- the lag guard. Once a second the swarm checks whether the game keeps up: game time against real time (a
+-- busy-world test: 100 bugs needed 17 ms for a tick of 15 - game time ran at 74 %, the picture stood still). Under
+-- 90 % for 2 s running it is "behind": the swarm stops growing (no new metal turned into blocks by the Queen or
+-- a bug - eating and collecting go on; blocks still come together into bugs: 12 bodies become 1), bugs far from every
+-- player rest with their bodies asleep (they cost
+-- the physics nothing) and the walking budget halves. Keeping up again for 8 s: all goes on. A paused game or a changed
+-- game speed (host_timescale) does not count, nor a game with fewer than 20 bugs (they are not what makes it lag; a
+-- short hitch at a map start froze 3 test bugs mid-step). And the frame rate of the host's own game (single
+-- player / listen server, sent once a second): under agp_rep_lagguard_fps (30) for 3 s it is behind
+-- too, and it lets go only at 30 % above that (game time alone missed it - 100 bugs, the server kept up, the
+-- picture 1.5 frames a second).
 R.lag = R.lag or { behind = false, ratio = 1 }
 util.AddNetworkString("agp_rep_fps")
 net.Receive("agp_rep_fps", function(_, p)
@@ -104,7 +104,7 @@ timer.Create("AGPRepLagGuard", 1, 0, function()
 		local ratio = (now - L.c) / math.max(real - L.s, 0.001) / ts
 		L.ratio = ratio
 		-- (behind under 88 % for 3 s; keeping up again only at 97 % or more for 8 s running - let go at 88 %, the swarm
-		-- grew again until it was behind again and settled where the game always lagged a little, 2026-11-08)
+		-- grew again until it was behind again and settled where the game always lagged a little)
 		local lim = R.cv.lagfps:GetFloat()
 		local seen = lim > 0 and L.fpsT ~= nil and real - L.fpsT < 3 and L.fpsOk
 		local fpsLow = seen and L.fps < lim
@@ -121,9 +121,9 @@ timer.Create("AGPRepLagGuard", 1, 0, function()
 			R.Stat("lag guard: it keeps up again")
 		end
 		-- the emergency brake: behind and still nearly frozen - under a third of the guard's frame rate (10) or game time
-		-- under half - for 5 s running: the whole swarm goes dormant (owner 2026-11-09: "an emergency replicator sleep
-		-- shutdown when we have only 5 fps so the player can remove replicators" - 100 bugs round the player: 3 frames
-		-- a second, the guard alone could not help, its resting is for far bugs)
+		-- under half - for 5 s running: the whole swarm goes dormant (100 bugs round the player: 3 frames a second,
+		-- the guard alone could not help, its resting is for far bugs)
+		--
 		local worst = (seen and L.fps < math.max(5, lim / 3)) or ratio < 0.5
 		L.worst = (L.behind and worst and R.cv.lagguard:GetBool()) and (L.worst or 0) + 1 or 0
 		if not L.dormant and L.worst >= 5 then R.Brake(true, seen and L.fps or nil, ratio) end
@@ -175,8 +175,8 @@ concommand.Add("agp_rep_wake", function(p)
 	R.Brake(false)
 end)
 -- a player coming near wakes the bugs resting there at once - walking, in noclip or unseen, any player: while the game
--- is behind a far bug looks round only every 3 s (owner 2026-11-09: noclipping towards them; the busy-world test found
--- 6 of 31 still standing still after 3 s, the slowest woke after 2.98 s)
+-- is behind a far bug looks round only every 3 s (noclipping towards them; the busy-world test found 6 of 31 still
+-- standing still after 3 s, the slowest woke after 2.98 s)
 timer.Create("AGPRepLagWake", 0.5, 0, function()
 	if not R.lag.behind or R.lag.dormant then return end
 	local ps = player.GetAll()
@@ -196,6 +196,18 @@ timer.Create("AGPRepLagWake", 0.5, 0, function()
 					break
 				end
 			end
+		end
+	end
+end)
+-- what resting bugs stood on is removed (a ship blown up or eaten, a prop): they fall at once - asleep, they would not
+-- notice it before their next think (the author's play test: bugs and Queen hung in the air where the ship had been)
+hook.Add("EntityRemoved", "AGPRepRestGround", function(e)
+	if not e.AGPRepRestOn then return end
+	for _, kind in ipairs({ "bugs", "queens" }) do
+		for b in pairs(R[kind]) do
+			if IsValid(b) and b.RestOn == e and b.RestLost then b.RestOn = NULL; timer.Simple(0, function() if IsValid(b) and b.RestAt then b:RestLost() end end) end
+			-- (holding on to it, parented: off it before it goes - a removed parent would take them along)
+			if IsValid(b) and b.Boarded == e and b.LetGo then b:LetGo() end
 		end
 	end
 end)
@@ -221,11 +233,11 @@ function R.SpawnBlock(pos, vel, owner, rest)
 end
 
 -- a bug falls apart / a queen breaks: blocks fly out of it.
--- (owner 2026-11-14: "the biggest nearly game crashing lag when firing with destiny on a haufen of replicators": a Destiny
--- shot kills the whole heap in one tick - 40 bugs x 12 blocks = 480 entities created in one frame, 40 sounds, and the
--- swarm timer then compared all those blocks with each other.) The blocks of a burst are made at most R.BURST_PER_TICK
--- in a tick over the whole server; the rest are queued and made in the next ticks (at the place the bug was), and only a
--- few break sounds play in a short time. setup(block) is called for every block as it is made (the caller's fields).
+-- (a Destiny shot kills the whole heap in one tick - 40 bugs x 12 blocks = 480 entities created in one frame, 40 sounds,
+-- and the swarm timer then compared all those blocks with each other.) The blocks of a burst are made at most
+-- R.BURST_PER_TICK in a tick over the whole server; the rest are queued and made in the next ticks (at the place the
+-- bug was), and only a few break sounds play in a short time. setup(block) is called for every block as it is made (the
+-- caller's fields).
 R.BURST_PER_TICK = 40
 R.burstQ = R.burstQ or {}
 local burstTick, burstUsed, soundT, soundN = -1, 0, 0, 0
@@ -260,7 +272,7 @@ function R.Burst(ent, n, owner, rest, speed, setup)
 	return job.made
 end
 -- (a map cleanup - also the one between the self-test's suites - takes the waiting blocks with it: made after it, they
--- lay at the old places in the next test; 2026-11-14 review)
+-- lay at the old places in the next test)
 hook.Add("PreCleanupMap", "AGPRepBurstQueue", function() R.burstQ = {} end)
 hook.Add("Tick", "AGPRepBurstQueue", function()
 	local q = R.burstQ
@@ -309,7 +321,7 @@ hook.Add("SetupMove", "AGPRepCling", function(p, mv)
 	end
 end)
 
--- the swarm's intelligence (one swarm per owner: the player who spawned them, or nobody)
+-- the swarm's intelligence (one swarm per the player who spawned them, or nobody)
 local function key(owner) return IsValid(owner) and owner or game.GetWorld() end
 
 -- shared memory of metal: what one bug smells, every bug of the swarm can go for (forgotten after 2 minutes)
@@ -439,9 +451,9 @@ function R.KnownList(owner)
 	for p, untilT in pairs(R.metal[key(owner)] or {}) do if IsValid(p) and untilT > CurTime() then out[#out + 1] = p end end
 	return out
 end
--- the map's own gate, DHD, pedestal (owner 2026-11-05: "ok to eat once, or until they are 2"): a start for a new swarm,
--- not its meal - it went on eating the gate past a rocket built for it on a roof. Once it is 2 or more and metal of the
--- players' is anywhere near (6000), the map's things are left alone: they go for that (further than they smell)
+-- the map's own gate, DHD, pedestal: a start for a new swarm, not its meal - it went on eating the gate past a rocket
+-- built for it on a roof. Once it is 2 or more and metal of the players' is anywhere near (6000), the map's things are
+-- left alone: they go for that (further than they smell)
 local playerMetal, playerMetalT = {}, 0
 function R.PlayerMetal()
 	if CurTime() < playerMetalT then return playerMetal end
@@ -452,9 +464,9 @@ function R.PlayerMetal()
 	end
 	return playerMetal
 end
--- the players' metal the swarm may eat, worked out once a second for every bug (owner 2026-11-08, the busy-world test:
--- every bug went through every prop and every ship part itself, up to twice a look - 670,000 checks in 15 s with 100
--- bugs, and the game fell behind): where each thing is and how many may eat it at once; a bug only measures distances
+-- the players' metal the swarm may eat, worked out once a second for every bug (the busy-world test: every bug went
+-- through every prop and every ship part itself, up to twice a look - 670,000 checks in 15 s with 100 bugs, and the
+-- game fell behind): where each thing is and how many may eat it at once; a bug only measures distances
 local foodList, foodListT = {}, 0
 local function sharedFood()
 	if CurTime() < foodListT then return foodList end
@@ -778,6 +790,13 @@ function R.IsShip(p)
 	local cls = p:GetClass()
 	return p.IsSGVehicle or cls:find("^sg_vehicle_") ~= nil or cls == "agp_hatak" or cls == "puddle_jumper"
 end
+-- the StarCore ship a part belongs to (a SpaceGrid hull, a welded prop ship), or nil: its hull is one pool for the whole
+-- ship, kept by the core - bites go there, and a part of it is never simply removed when its metal is used up
+function R.ShipCore(p)
+	local pc = StarCore and StarCore.PartCore
+	local c = pc and IsValid(p) and pc[p]
+	return IsValid(c) and c or nil
+end
 -- map items (the gate spawner's gates and DHDs, the map's own physics props) respawn: they may be eaten ONCE per place;
 -- what comes back there is left alone for the rest of the game. Players' props: no limit. Other map parts (doors ...): never.
 R.eatenOnce = R.eatenOnce or {}
@@ -810,7 +829,7 @@ edibleRaw = function(p)
 	if mode == 0 or not IsValid(p) or p.RepEaten or p.AGPReplicator then return false end
 	local cls = p:GetClass()
 	if NEVER[cls] or p:IsPlayer() or p:IsNPC() or p:IsWeapon() or p:IsPlayerHolding() then return false end
-	if p.IsStargate and R.GateInbound and R.GateInbound(p) then return false end   -- (owner 2026-11-14: the receiving gate's horizon kills; not food while it is open)
+	if p.IsStargate and R.GateInbound and R.GateInbound(p) then return false end   -- (the receiving gate's horizon kills; not food while it is open)
 	if R.MapItem(p) then
 		if R.eatenOnce[slot(p)] then return false end
 	elseif p:CreatedByMap() then
@@ -895,6 +914,10 @@ end
 local bigMemo = setmetatable({}, { __mode = "k" })
 local function isBigRaw(p)
 	if R.ShipFitting(p) then return false end
+	-- every part of a StarCore ship, its core too: the bites go to the ship's one hull, the part stays. (The author's play
+	-- test: a SpaceGrid ship's hidden core - small, power that draws them - was eaten whole and removed: the HUD went out,
+	-- the ship fell, a new core started at 100 %; small parts eaten whole cost the hull nothing - "stopped at 99 %")
+	if R.ShipCore(p) then return true end
 	local ph = p:GetPhysicsObject()
 	return R.IsShip(p) or IsValid(p.AGPShip) or p:BoundingRadius() > 150 or (IsValid(ph) and ph:GetMass() > 1500)
 end
@@ -914,15 +937,29 @@ local function assemble(group, owner)
 	local c = Vector()
 	for _, b in ipairs(group) do c:Add(b:GetPos()) end
 	c:Div(#group)
-	local tr = util.TraceLine({ start = c + Vector(0, 0, 40), endpos = c - Vector(0, 0, 200), mask = MASK_SOLID_BRUSHONLY })
-	local ground = tr.Hit and tr.HitPos or c
+	-- the floor they lie on: the map, a prop, a ship's deck. (a Replicator eating his flying SpaceGrid ship: "the made
+	-- replicators parts fly threw the ship outside". The floor was looked for in the map only - through the deck to the
+	-- ground under the ship - and the frozen blocks were moved in the world while the ship flew on, so they went out
+	-- through its walls and the new bug was made behind it. Now all of it is worked out on what they lie on, and moves
+	-- with it.)
+	local tr = util.TraceLine({ start = c + Vector(0, 0, 40), endpos = c - Vector(0, 0, 200), mask = MASK_SOLID,
+		filter = function(e) return not e.AGPReplicator and not e:IsPlayer() and not e:IsNPC() and not e.SpaceGridKeel end })
+	local on = (tr.Hit and IsValid(tr.Entity) and not tr.Entity:IsWorld()) and tr.Entity or nil
+	local function toW(lp) if IsValid(on) then return on:LocalToWorld(lp) end return lp end
+	local function toL(wp) if IsValid(on) then return on:WorldToLocal(wp) end return wp end
+	local function angW(la) if IsValid(on) then return on:LocalToWorldAngles(la) end return la end
+	local function angL(wa) if IsValid(on) then return on:WorldToLocalAngles(wa) end return wa end
+	local function dirL(wv) if IsValid(on) then return on:WorldToLocal(on:GetPos() + wv) end return wv end   -- (a world offset, in its frame)
+	local groundL = toL(tr.Hit and tr.HitPos or c)
+	local upL = dirL(Vector(0, 0, 1))
+	local hadOn = on ~= nil
 	for i, b in ipairs(group) do
 		b.RepClaimed = true
 		b:SetNotSolid(true)
 		local ph = b:GetPhysicsObject()
 		if IsValid(ph) then ph:EnableMotion(false) end
-		b.RepFrom, b.RepFromAng = b:GetPos(), b:GetAngles()
-		b.RepTo = ground + Vector(math.Rand(-6, 6), math.Rand(-9, 9), 4 + (i % 3) * 2)
+		b.RepFrom, b.RepFromAng = toL(b:GetPos()), angL(b:GetAngles())
+		b.RepTo = groundL + dirL(Vector(math.Rand(-6, 6), math.Rand(-9, 9), 4 + (i % 3) * 2))
 		b:SetNWEntity("RepLink", i > 1 and group[1] or group[2])   -- electric arcs while they are drawn together
 	end
 	local t0, dur = CurTime(), 1.6
@@ -936,11 +973,12 @@ local function assemble(group, owner)
 				alive = alive + 1
 				-- drawn together like by a magnet: a smooth glide, lifting a little off the ground
 				local lift = math.sin(e * math.pi) * 5
-				b:SetPos(LerpVector(e, b.RepFrom, b.RepTo) + Vector(0, 0, lift))
-				b:SetAngles(LerpAngle(e, b.RepFromAng, Angle(0, b.RepFromAng.y, 0)))
+				b:SetPos(toW(LerpVector(e, b.RepFrom, b.RepTo) + upL * lift))
+				b:SetAngles(angW(LerpAngle(e, b.RepFromAng, Angle(0, b.RepFromAng.y, 0))))
 			end
 		end
-		if alive < #group * 0.75 then   -- blocks were taken away meanwhile: give up, the rest falls down
+		-- blocks were taken away meanwhile, or what they lay on is gone: give up, the rest falls down
+		if alive < #group * 0.75 or (hadOn and not IsValid(on)) then
 			timer.Remove(id)
 			for _, b in ipairs(group) do
 				if IsValid(b) then
@@ -956,6 +994,7 @@ local function assemble(group, owner)
 		if R.Count("bugs") >= R.cv.bugs:GetInt() then return end
 		local bug = ents.Create("agp_replicator")
 		if not IsValid(bug) then return end
+		local ground = toW(groundL)
 		bug:SetPos(ground + Vector(0, 0, 2))
 		bug:SetAngles(Angle(0, math.random(0, 359), 0))
 		bug.RepOwner = owner
@@ -968,7 +1007,7 @@ local function assemble(group, owner)
 		local fx = EffectData(); fx:SetOrigin(ground + Vector(0, 0, 6)); fx:SetMagnitude(2); fx:SetScale(1); fx:SetRadius(4)
 		util.Effect("Sparks", fx, true, true)
 	end)
-	sound.Play("agp_replicator/rep_assemble.wav", ground, 72, math.random(95, 108))
+	sound.Play("agp_replicator/rep_assemble.wav", toW(groundL), 72, math.random(95, 108))
 end
 
 -- playing dead (blocks of a bug shot apart, agp_replicator.lua), or a stuck bug that waits to fall apart (ENT:BreakFree):
@@ -1004,8 +1043,8 @@ timer.Create("AGPRepSwarm", 1, 0, function()
 	end
 	local need = R.BLOCKS_PER_BUG
 	local room = R.Count("bugs") < R.cv.bugs:GetInt()   -- (also while the game is behind: 12 blocks becoming 1 bug is no growth)
-	-- rebuilt in time (owner 2026-11-04: at most 20 s, sometimes 15): the blocks of a bug shot apart that have not found
-	-- each other by then are drawn together where most of them lie (one that flew far off stays behind)
+	-- rebuilt in time (at most 20 s, sometimes 15): the blocks of a bug shot apart that have not found each other by
+	-- then are drawn together where most of them lie (one that flew far off stays behind)
 	local due, forced = {}, false
 	for b in pairs(R.blocks) do   -- (also those still playing dead: the time is up)
 		local g = IsValid(b) and not b.RepClaimed and not b.RepDead and b.RepGroup
@@ -1035,10 +1074,10 @@ timer.Create("AGPRepSwarm", 1, 0, function()
 		free = rest
 		if #free == 0 then return end
 	end
-	-- neighbours of every free block, found through a grid (owner 2026-11-14, after a Destiny shot at a heap of 40 bugs:
-	-- 480 free blocks compared with each other, several times each, made this timer take a good part of a second; the
-	-- cost grew with the square of the blocks). Close ones are counted in cells of 110 (3 x 3 x 3 cells), only up to the
-	-- 12 a bug needs; the pull towards the others is worked out from sums per cell of 350.
+	-- neighbours of every free block, found through a grid (after a Destiny shot at a heap of 40 bugs: 480 free blocks
+	-- compared with each other, several times each, made this timer take a good part of a second; the cost grew with
+	-- the square of the blocks). Close ones are counted in cells of 110 (3 x 3 x 3 cells), only up to the 12 a bug
+	-- needs; the pull towards the others is worked out from sums per cell of 350.
 	local CELL, COARSE = 110, 350
 	local fine, coarse = {}, {}
 	local pos, nearN = {}, {}
@@ -1128,10 +1167,15 @@ timer.Create("AGPRepSwarm", 1, 0, function()
 				end
 				w = w - nearN[i]   -- (not itself)
 				local c = (best and w > 0) and Vector((sx - p.x * nearN[i]) / w, (sy - p.y * nearN[i]) / w, (sz - p.z * nearN[i]) / w) or nil
-				-- (not across an incoming gate's horizon: blocks are Replicators too, it kills them - 2026-11-14)
+				-- (not across an incoming gate's horizon: blocks are Replicators too)
 				if c and R.SegDead and #R.deadGates > 0 and R.SegDead(p, c, 10) then c = nil end
 				if c then
 					b.RepGlideTo, b.RepGlideUntil = c, now + 1.6
+					-- (on a moving thing - a flying ship's deck: the point is kept on it, it moves with it; the block's Think)
+					local gt = util.TraceLine({ start = p + Vector(0, 0, 4), endpos = p - Vector(0, 0, 40), mask = MASK_SOLID,
+						filter = function(e) return not e.AGPReplicator and not e:IsPlayer() and not e:IsNPC() and not e.SpaceGridKeel end })
+					local on = gt.Hit and IsValid(gt.Entity) and not gt.Entity:IsWorld() and gt.Entity or nil
+					b.RepGlideOn, b.RepGlideL = on, on and on:WorldToLocal(c) or nil
 					b:SetNWEntity("RepLink", free[best])
 				else
 					b.RepGlideTo = nil
@@ -1149,7 +1193,7 @@ timer.Create("AGPRepSwarm", 1, 0, function()
 							if nb then nb.RepMind = b.RepMind; nb:SetNWEntity("RepLink", b) end
 							local fx = EffectData(); fx:SetOrigin(at); fx:SetNormal(VectorRand()); fx:SetMagnitude(1); fx:SetScale(1); fx:SetRadius(2)
 							util.Effect("MetalSpark", fx, true, true)
-							if e.RepLeft <= 0 and not e.AGPShip and not R.IsShip(e) then R.AteMapItem(e); e:Remove() end
+							if e.RepLeft <= 0 and not e.AGPShip and not R.IsShip(e) and not R.ShipCore(e) then R.AteMapItem(e); e:Remove() end
 							fed = fed + 1
 							for j = 1, #free do if pos[i]:DistToSqr(pos[j]) < 110 * 110 then fedNear[j] = true end end
 							break
@@ -1207,4 +1251,8 @@ include("agp_replicators/sv_surfnav.lua")
 include("agp_replicators/sv_surfgraph.lua")
 include("agp_replicators/sv_nav.lua")
 include("agp_replicators/sv_walk.lua")
-include("agp_replicators/sv_field.lua")   -- (the felt map, prototype 2026-11-17: agp_rep_fieldwalk)
+include("agp_replicators/sv_mover.lua")   -- (one mover; agp_rep_onemover, on by default)
+include("agp_replicators/sv_ceiling.lua")   -- (their own walk under ceilings; agp_rep_seamwalk, off by default)
+include("agp_replicators/sv_field.lua")   -- (the felt map: the normal walk; agp_rep_legwalk 1 = legs only)
+include("agp_replicators/sv_fieldprops.lua")   -- (the felt map's live layer: the players' frozen things; agp_rep_propfelt)
+include("agp_replicators/sv_feltnav.lua")   -- (the way across the map on the felt map; sv_nav.lua asks it first)

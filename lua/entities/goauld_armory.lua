@@ -1,7 +1,7 @@
 --[[
-	Goa'uld Armory - Ascension Gates' own code (2026-11-06), no Evolution Addon Pack code left; the class name stays.
-	A Goa'uld weapons chest (our Zat chest model by Ska-Ara, see CREDITS): press USE to take a Zat'nik'tel and a staff
-	weapon, and the ammo is topped up. Other armories derive from it and set their own ENT.ArmoryModel,
+	Goa'uld Armory - Ascension Gates' own code, no Evolution Addon Pack code left; the class name stays. A Goa'uld
+	weapons chest (our Zat chest model by Ska-Ara, see CREDITS): press USE to take a Zat'nik'tel and a staff weapon,
+	and the ammo is topped up. Other armories derive from it and set their own ENT.ArmoryModel,
 	ENT.Weapons and ENT.Ammo ({ ammo type, top up while below, amount }).
 ]]
 ENT.Type = "anim"

@@ -65,8 +65,8 @@ if SERVER then
     end
 
     function ENT:Initialize()
-        -- AGP: our own Asgard reactor model (Code/notes/models/agp_destiny_asgard_models.py): stepped platform, glass
-        -- column with the ion core, three rings that turn while it runs (bones ring_low / ring_mid / ring_top)
+        -- AGP: our own Asgard reactor model (Code/): stepped platform, glass column with the ion core, three rings
+        -- that turn while it runs (bones ring_low / ring_mid / ring_top)
         self:SetModel(self.AGPModel)
         self:PhysicsInit(SOLID_VPHYSICS)
         self:SetMoveType(MOVETYPE_VPHYSICS)

@@ -50,7 +50,7 @@ function EFFECT:Init(data)
 	local startsize = self.Data.Size*((self.Data.GrowCoefficient^1.5 - 1)*self.Data.Density/self.Data.Density + 1);
 	local forward = e:GetForward()*(-1);
 	local mul = 2/self.Data.Time; -- Multiplies the velocity and gravity of the particles if we change the speed
-	-- AGP 2026-11-13: starts flat in the horizon, swells, sinks back and shrinks - see effects/stargate_kawoosh.lua
+	-- AGP: starts flat in the horizon, swells, sinks back and shrinks - see effects/stargate_kawoosh.lua
 	local born, die = CurTime(), self.Data.Time-0.05;
 	local IN, OUT = 0.07, 0.86;
 	--################### Add out particles

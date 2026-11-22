@@ -492,7 +492,7 @@ if SERVER then
 
     function ENT:StopSpectate(p)
         self.Controler:SetMoveType(MOVETYPE_VPHYSICS)
-        if (AGP and AGP.ShipRespawnPilot) then AGP.ShipRespawnPilot(self.Controler) else self.Controler:Spawn() end -- AGP 2026-11-08: keeps armour and ammo, no Ha'tak bunk move (agp_ship_shield.lua)
+        if (AGP and AGP.ShipRespawnPilot) then AGP.ShipRespawnPilot(self.Controler) else self.Controler:Spawn() end -- AGP: keeps armour and ammo, no Ha'tak bunk move (agp_ship_shield.lua)
         self.Controler:SetPos(self.OriginPos)
         self.Controler:SetFOV(self.FOV, 0.3)
         self.Controler:SetNWBool("FirstPerson", false)
@@ -640,7 +640,7 @@ if SERVER then
     end
 
     function ENT:PreEntityCopy()
-    	if (StarGate.WireRD) then StarGate.WireRD.PreEntityCopy(self) end   -- AGP 2026-11-10: keep the Wire links in dupes
+    	if (StarGate.WireRD) then StarGate.WireRD.PreEntityCopy(self) end   -- AGP: keep the Wire links in dupes
         local dupeInfo = {}
         dupeInfo.MalpWheels = {}
 
@@ -666,7 +666,7 @@ if SERVER then
     end
 
     function ENT:PostEntityPaste(ply, Ent, CreatedEntities)
-    	if (StarGate.WireRD) then StarGate.WireRD.PostEntityPaste(self, ply, Ent, CreatedEntities) end   -- AGP 2026-11-10: the Wire links back
+    	if (StarGate.WireRD) then StarGate.WireRD.PostEntityPaste(self, ply, Ent, CreatedEntities) end   -- AGP: the Wire links back
         local dupeInfo = Ent.EntityMods.MALPDupeInfo
 
         if (dupeInfo.MalpWheels) then

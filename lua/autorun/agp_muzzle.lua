@@ -1,12 +1,12 @@
--- Ascension Gates (2026-11-14): where a hand weapon's visible shot leaves the weapon.
--- Owner (O2 P90, O3 SGC sidearm, O5 Ronon's gun): "its not accurate were the bullets come out when shooting".
--- Cause: our guns are the HL2 view model's gun hidden and OUR model drawn on its gun bone (agp_sgc_weapons.lua), but the
+-- Ascension Gates: where a hand weapon's visible shot leaves the weapon.. Cause: our
+-- guns are the HL2 view model's gun hidden and OUR model drawn on its gun bone (agp_sgc_weapons.lua), but the
 -- engine starts every first-person tracer and the muzzle flash on the HL2 gun's own muzzle attachment (somewhere else
--- than the barrel tip of our model), and Ronon's pulse was spawned on a fixed offset from the eye.
--- What this file does, for a player's weapon:
+-- than the barrel tip of our model), and Ronon's pulse was spawned on a fixed offset from the eye. What this file
+-- does, for a player's weapon:
+--
 --   * first person: the muzzle is the "muzzle" attachment of the model that is DRAWN in the hand (wep.AGPModel); it is
---     seen through the view model's field of view (fov 54 ..), the world through the player's (fov_desired, owner: 100),
---     so the point is carried over to the world projection: the same place on the screen (AGP.MuzzlePos)
+--     seen through the view model's field of view (fov 54 ..), the world through the player's (fov_desired 100), so the
+--     point is carried over to the world projection: the same place on the screen (AGP.MuzzlePos)
 --   * third person (also other players): the "muzzle" attachment of the world model
 --   * a tracer / flash of ours starts there and ends on the hit point of the bullet (which is still traced from the eye)
 -- AGP.MuzzleTrack(SWEP)               after AGP.SGCWeapon(...): remembers where the muzzle was drawn (first person)
@@ -33,11 +33,11 @@ AGP.MuzzleProfiles.asuran = { mat = "sprites/light_glow02_add", size = 64, color
 local MAXREACH = 130   -- a muzzle further than this from the eye is no muzzle (the longest: a staff's head)
 
 -- Ronon's gun: CAP's "muzzle" attachment of models/w_dexgun.mdl lies 2.7 units beside the mesh and half way along it (measured
--- from the model's vertices, 2026-11-14: the glow and the pulse came out beside / above the gun); the barrel tip is at
--- (2.82, 10.4, -0.74) in model space = this offset on the hand bone (the model's first bone)
+-- from the model's vertices,: the glow and the pulse came out beside / above the gun); the barrel tip is at (2.82,
+-- 10.4, -0.74) in model space = this offset on the hand bone (the model's first bone)
 AGP.MuzzleTips = AGP.MuzzleTips or {}
--- 2026-11-14: the gun in the hand is now the ORIGINAL one (models/weapons/v_dexgun.mdl laid on the hand bone, weapon_dexgun.lua):
--- its barrel tip (the "barreltip" mesh, Python-bone space (0.46, -0.12, 7.27)) in the same hand bone space, barrel along +x
+-- the gun in the hand is now the ORIGINAL one (models/weapons/v_dexgun.mdl laid on the hand bone, weapon_dexgun.lua): its barrel
+-- tip (the "barreltip" mesh, Python-bone space (0.46, -0.12, 7.27)) in the same hand bone space, barrel along +x
 AGP.MuzzleTips["models/w_dexgun.mdl"] = { bone = "ValveBiped.Bip01_R_Hand", pos = Vector(14.74, -1.49, -3.92), dir = Vector(1, 0, 0) }
 -- the Ori staff's first-person model has no attachment: its staff is one mesh on the bone Sphere002, the head at the +y end
 -- (local y 7.0 = the last vertex; measured from the model's vertices)
@@ -47,9 +47,9 @@ AGP.MuzzleTips["models/zup/staff/w_staff.mdl"] = { bone = "ValveBiped.Bip01_R_Ha
 AGP.MuzzleTips["models/boba_fett/ori_staff/w_ori_staff.mdl"] = { bone = "ValveBiped.Bip01_R_Hand", pos = Vector(29, 0.9, -7.8), dir = Vector(1, 0, -0.2) }
 AGP.MuzzleTips["models/boba_fett/ori_staff/v_ori_staff.mdl"] = { bone = "Sphere002", pos = Vector(-0.2, 6.5, 0.03), dir = Vector(0, 1, 0) }
 
--- 2026-11-14 (staffs, Wraith / Asuran guns, Ori staff): a world model with no muzzle attachment of its own (or one on the hand):
--- the hand plus the weapon's reach along the aim - the same spot AGP.NPCMuzzle gives an NPC (agp_npcs.lua: staff 50, Wraith
--- stunner 20, Asuran 12, Ori staff 48). `o` = the owner (a player).
+-- (staffs, Wraith / Asuran guns, Ori staff): a world model with no muzzle attachment of its own (or one on the hand): the hand
+-- plus the weapon's reach along the aim - the same spot AGP.NPCMuzzle gives an NPC (agp_npcs.lua: staff 50, Wraith stunner
+-- 20, Asuran 12, Ori staff 48). `o` = the owner (a player).
 function AGP.HandMuzzle(o, reach)
     local b = o:LookupBone("ValveBiped.Bip01_R_Hand")
     local hand = b and o:GetBonePosition(b)

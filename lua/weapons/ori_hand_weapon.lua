@@ -1,12 +1,12 @@
 --[[
-	Ori Hand Weapon - Ascension Gates' own code (2026-11-06); no Evolution Addon Pack content left (the class name stays
-	for saves). The power the Ori give their chosen, out of the bare hand: a white-gold light burns in the palm.
-	Left click: a blast of Ori fire (CAP's energy pulse, the Ori staff's sound). Right click: a telekinetic shove that
-	throws whoever and whatever is in front of you back, the way Adria and the Priors do in the series.
-	First person: GMod's own hands with the fists animations; no model of its own.
+	Ori Hand Weapon - Ascension Gates' own code; no Evolution Addon Pack content left (the class name stays for saves).
+	The power the Ori give their chosen, out of the bare hand: a white-gold light burns in the palm. Left click:
+	a blast of Ori fire (CAP's energy pulse, the Ori staff's sound). Right click: a telekinetic shove that throws
+	whoever and whatever is in front of you back, the way Adria and the Priors do in the series. First
+	person: GMod's own hands with the fists animations; no model of its own.
 ]]
 SWEP.PrintName = "Ori Hand Weapon"
-SWEP.Category = (SGLanguage and SGLanguage.GetMessage) and SGLanguage.GetMessage("weapon_cat") or "Player Weapons"   -- AGP 2026-11-10: one of our two weapon folders (was "Player Weapons": a folder of its own)
+SWEP.Category = (SGLanguage and SGLanguage.GetMessage) and SGLanguage.GetMessage("weapon_cat") or "Player Weapons"   -- AGP: one of our two weapon folders (was "Player Weapons": a folder of its own)
 if (SGLanguage ~= nil and SGLanguage.GetMessage ~= nil) then
     SWEP.PrintName = SGLanguage.GetMessage("wp_ori_hand")
     SWEP.Category = SGLanguage.GetMessage("weapon_cat")
@@ -56,8 +56,8 @@ function SWEP:Initialize()
     self:SetHoldType(self.HoldType)
 end
 
--- AGP 2026-11-08: never left lying around - without a world model a dropped one was an invisible pick-up (on death
--- or dropped); GMod's fists do the same
+-- AGP: never left lying around - without a world model a dropped one was an invisible pick-up (on death or
+-- dropped); GMod's fists do the same
 function SWEP:ShouldDropOnDie() return false end
 if SERVER then
     function SWEP:OnDrop() self:Remove() end
@@ -160,8 +160,8 @@ if CLIENT then
         local hands = IsValid(ply) and ply:GetHands()
         palm(IsValid(hands) and hands or vm, flare(self))
     end
-    -- AGP 2026-11-08: third person: drawn after the player model. With an empty WorldModel GMod never draws the weapon
-    -- itself, so this was SWEP:DrawWorldModel, never called, and nobody else saw the light in the palm
+    -- AGP: third person: drawn after the player model. With an empty WorldModel GMod never draws the weapon itself, so
+    -- this was SWEP:DrawWorldModel, never called, and nobody else saw the light in the palm
     local function worldPalm(self, o)
         local f = flare(self)
         local pos = palm(o, f)

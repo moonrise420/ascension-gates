@@ -121,7 +121,7 @@ if SERVER then
     end
 
     function ENT:PreEntityCopy()
-    	if (StarGate.WireRD) then StarGate.WireRD.PreEntityCopy(self) end   -- AGP 2026-11-10: keep the Wire links in dupes
+    	if (StarGate.WireRD) then StarGate.WireRD.PreEntityCopy(self) end   -- AGP: keep the Wire links in dupes
         local dupeInfo = {}
 
         if IsValid(self.Entity) then
@@ -134,7 +134,7 @@ if SERVER then
     duplicator.RegisterEntityModifier("DestConDupeInfo", function() end)
 
     function ENT:PostEntityPaste(ply, Ent, CreatedEntities)
-    	if (StarGate.WireRD) then StarGate.WireRD.PostEntityPaste(self, ply, Ent, CreatedEntities) end   -- AGP 2026-11-10: the Wire links back
+    	if (StarGate.WireRD) then StarGate.WireRD.PostEntityPaste(self, ply, Ent, CreatedEntities) end   -- AGP: the Wire links back
         if (StarGate.NotSpawnable(Ent:GetClass(), ply)) then
             self.Entity:Remove()
 

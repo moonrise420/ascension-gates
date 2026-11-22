@@ -1,4 +1,4 @@
-// Ascension Gates: Turkish texts CAP never translated (2026-10-19)
+// Ascension Gates: Turkish texts CAP never translated
 
 // ===== stargate.lua dosyasından =====
 // Geçit araç menüsü (C basılı tut)

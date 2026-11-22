@@ -26,8 +26,8 @@ include("shared.lua")
 -- than the hull (5800 long): bow and stern stick out of the bubble, but the shot box (bounds) covers the whole ship.
 -- the hull (~5800 long) is longer than the biggest bubble: stretched 1.85x along the ship so bow and stern are inside
 ENT.AGPShield = { model = "models/iziraider/shields/8x8x7.mdl", yaw = 0, offset = Vector(90, 8, 53), bounds = Vector(3800, 3200, 950), color = { 0.6, 0.8, 1 }, scale = Vector(1.872, 1.579, 0.513) }
--- (2026-11-07 balance, the series' order: Ori > O'Neill > Aurora > Daedalus > Destiny > Prometheus > Al'kesh > Tel'tak)
--- the shield holds 28000 damage (a beam: 28 s)
+-- (balance, the series' order: Ori > O'Neill > Aurora > Daedalus > Destiny > Prometheus > Al'kesh > Tel'tak) the shield
+-- holds 28000 damage (a beam: 28 s)
 ENT.AGPShieldHP, ENT.AGPShieldBeamTime = 28000, 28
 
 -- AGP: hyperdrive on H (hold to charge, release to jump), lua/autorun/agp_ship_hyperdrive.lua
@@ -85,7 +85,7 @@ function ENT:Initialize()
     self.RailgunShoot = false
     self:CreateWireInputs("Hyperspace [VECTOR]") -- AGP: Wire jump target for the hyperdrive (H)
     self:CreateWireOutputs("Health")
-    self.EntHealth = 28000   -- (2026-11-07 balance: a plain hull, every hit counts in full)
+    self.EntHealth = 28000   -- (balance: a plain hull, every hit counts in full)
     self.MaxHealth = self.EntHealth
     self:SetWire("Health", self.EntHealth)
     -- AGP: networked hull for the HUD ("clmaxhealth" was set before MaxHealth existed, "Hull" never)
@@ -160,13 +160,13 @@ function ENT:SpawnRailguns(p)
         local data = self:GetAttachment(self:LookupAttachment(att[i]))
         if not (data and data.Pos) then return end
         ent = ents.Create("sg_turret_daedalus")
-        if (IsValid(ent)) then ent.DoNotDuplicate = true end   -- (2026-11-12: built by its parent, which builds it again after a save or a paste - copied as well it was there twice)
+        if (IsValid(ent)) then ent.DoNotDuplicate = true end   -- (built by its parent, which builds it again after a save or a paste - copied as well it was there twice)
         ent:SetModel("models/Madman07/daedalus/turret.mdl")
         ent:SetPos(data.Pos)
         ent:SetAngles(ang)
         ent.Parent = self
-        -- AGP 2026-11-08 balance: 8 turrets x 2 muzzles x 10 shots a second did 1400 a second on their own (more
-        -- than the Ori's beam); a third of that, with the Asgard beam and the missiles ~1100 like the plan
+        -- AGP balance: 8 turrets x 2 muzzles x 10 shots a second did 1400 a second on their own (more than the
+        -- Ori's beam); a third of that, with the Asgard beam and the missiles ~1100 like the plan
         ent.AGPDamageScale = 0.3
         ent:Spawn()
         ent:Activate()
@@ -200,8 +200,8 @@ function ENT:AimRailgun(target)
     end
 end
 
--- AGP 2026-10-31: damaged systems really go offline (the flags were set, but nothing read them): under 4000 hull the
--- rail guns and missiles, under 2000 the Asgard beam. They come back when the hull is repaired or regenerates.
+-- AGP: damaged systems really go offline (the flags were set, but nothing read them): under 4000 hull the rail guns
+-- and missiles, under 2000 the Asgard beam. They come back when the hull is repaired or regenerates.
 local SYSTEMS = {
     { flag = "RailgunEnable", below = 4000, key = "agp_msg_dd_rails", name = "Rail guns" },
     { flag = "RocketEnable", below = 4000, key = "agp_msg_dd_rockets", name = "Missiles" },
@@ -236,8 +236,8 @@ function ENT:FireAsgard(target)
     if (self.AsgardBeamEnable == false) then return end
     local att = {"ALB", "ALF", "ALT", "ARB", "ARF", "ART"}
 
-    -- AGP 2026-11-08: from the first emitter (in random order) that sees the target; one random emitter was often
-    -- behind the hull or a rail gun turret, and then no beam came at all (balance test: no beam in 12 s)
+    -- AGP: from the first emitter (in random order) that sees the target; one random emitter was often behind the
+    -- hull or a rail gun turret, and then no beam came at all (balance test: no beam in 12 s)
     local first, data, tr = math.random(1, 6)
     for k = 0, 5 do
         data = self:GetAttachment(self:LookupAttachment(att[(first + k - 1) % 6 + 1]))
@@ -279,7 +279,7 @@ function ENT:FireRocket(num)
     ent:SetVelocity(Vector(0, 0, 1) * self.MissileMaxVel)
     ent:SetCollisionGroup(COLLISION_GROUP_PROJECTILE)
     ent:SetOwner(self.Entity)
-    ent.AGPSweep = true -- AGP 2026-11-08: it hits whatever lies on its path (fast, it flew through hulls)
+    ent.AGPSweep = true -- AGP: it hits whatever lies on its path (fast, it flew through hulls)
     local data = self:GetAttachment(self:LookupAttachment(Latt[num]))
     if not (data and data.Pos and data.Ang) then return end
     ent = ents.Create("302missile")
@@ -291,14 +291,14 @@ function ENT:FireRocket(num)
     ent:SetVelocity(Vector(0, 0, 1) * self.MissileMaxVel)
     ent:SetCollisionGroup(COLLISION_GROUP_PROJECTILE)
     ent:SetOwner(self.Entity)
-    ent.AGPSweep = true -- AGP 2026-11-08: it hits whatever lies on its path (fast, it flew through hulls)
+    ent.AGPSweep = true -- AGP: it hits whatever lies on its path (fast, it flew through hulls)
 end
 
 -----------------------------------THINK----------------------------------
 function ENT:Think(ply)
     if (AGP.ShipHyperdriveThink) then AGP.ShipHyperdriveThink(self) end -- AGP: hyperdrive (H)
-    -- AGP 2026-10-30: the missiles (302missile, base "drone") fly to Target while Track is set; nothing set them, so they
-    -- only flew straight up out of the launch tubes. Now they climb out and then go where the pilot aims.
+    -- AGP: the missiles (302missile, base "drone") fly to Target while Track is set; nothing set them, so they only flew
+    -- straight up out of the launch tubes. Now they climb out and then go where the pilot aims.
     if (self.Active and IsValid(self.Driver)) then
         -- from the camera of the current view along the view: the aim point is the screen centre
         local aim = self.Driver:GetAimVector()
@@ -306,8 +306,8 @@ function ENT:Think(ply)
         if (self.TargetMode == 1) then start = self:GetPos() - self:GetUp() * 500 elseif (self.TargetMode == 2) then start = self:GetPos() + self:GetUp() * 1000 end
         local tr = util.TraceLine({ start = start, endpos = start + aim * 60000,
             filter = function(e) return e ~= self and e ~= self.Driver and e:GetClass() ~= "302missile" and not (AGP.ShipPart and AGP.ShipPart(self, e)) end })
-        -- AGP 2026-11-08: the point the pilot's own camera sees under the crosshair when the client sent one (exact in every
-        -- view, lua/autorun/agp_ship_aim.lua); the line above rebuilds the camera only roughly
+        -- AGP: the point the pilot's own camera sees under the crosshair when the client sent one (exact in every view,
+        -- lua/autorun/agp_ship_aim.lua); the line above rebuilds the camera only roughly
         tr.HitPos = AGP.ShipClientAim and AGP.ShipClientAim(self.Driver, self) or tr.HitPos
         self.Target = tr.HitPos
         self.Track = true
@@ -363,8 +363,8 @@ function ENT:Think(ply)
             self.Driver:SetPos(self.Entity:GetPos())
         end
 
-        -- AGP 2026-10-30: rail guns (FIRE) and Asgard beam (FIRE2) in every mode, aimed at the crosshair (self.Target,
-        -- set above). They fired only in the two gun views, and aimed at AimVector*10^14 (a point from the map centre).
+        -- AGP: rail guns (FIRE) and Asgard beam (FIRE2) in every mode, aimed at the crosshair (self.Target, set above).
+        -- They fired only in the two gun views, and aimed at AimVector*10^14 (a point from the map centre).
         if self.Driver:KeyDown(self.Vehicle, "FIRE2") and CurTime() >= (self.AGPNextBeam or 0) then
             self.AGPNextBeam = CurTime() + 3 -- AGP balance: one Asgard beam per 3 s, like the O'Neill (was one per 0.1 s)
             self:FireAsgard(self.Target)
@@ -489,8 +489,8 @@ function ENT:AGPHullDestroyed()
     self:Detonate()
 end
 
--- AGP 2026-11-08: Wire input "Hyperspace" [VECTOR] = the hyperdrive's jump target (it was declared, but nothing
--- read it: base_anim has no TriggerInput)
+-- AGP: Wire input "Hyperspace" [VECTOR] = the hyperdrive's jump target (it was declared, but nothing read it:
+-- base_anim has no TriggerInput)
 function ENT:TriggerInput(k, v)
     if (AGP and AGP.ShipHyperdriveInput) then AGP.ShipHyperdriveInput(self, k, v) end
 end
@@ -549,8 +549,8 @@ function ENT:Exit()
     self.Driver:UnSpectate()
     self.Driver:DrawViewModel(true)
     self.Driver:DrawWorldModel(true)
-    -- AGP 2026-10-30: on the ground under the ship, or next to it when it is landed (it was 400 units under the centre:
-    -- inside the hull or the ground, and the game threw the player into the air)
+    -- AGP: on the ground under the ship, or next to it when it is landed (it was 400 units under the centre: inside the
+    -- hull or the ground, and the game threw the player into the air)
     self.Driver:SetPos(AGP.ShipExitSpot(self, self.Driver, nil))
     self.Driver:SetVelocity(-self.Driver:GetVelocity())
     self.Driver:SetMoveType(MOVETYPE_WALK);

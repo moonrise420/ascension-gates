@@ -786,9 +786,9 @@ end
 --################# Wire ouput - Relay to a mobile DHD @aVoN
 function ENT:WireOutput(k,v)
 	if (not IsValid(self.Entity)) then return end
-	-- AGP 2026-11-08: a supergate's outputs go to the Supergate DHD that dials it (its Active, Open, Inbound, Dialing
-	-- Address and Dialing Mode stayed 0: only mobile DHDs got them, and those never dial a supergate). Before the
-	-- DHDRange check: a supergate has none (in game test the outputs stayed 0)
+	-- AGP: a supergate's outputs go to the Supergate DHD that dials it (its Active, Open, Inbound, Dialing Address and
+	-- Dialing Mode stayed 0: only mobile DHDs got them, and those never dial a supergate). Before the DHDRange
+	-- check: a supergate has none (in game test the outputs stayed 0)
 	if (self.IsSupergate) then
 		for _,e in pairs(ents.FindByClass("supergate_dhd")) do
 			if (IsValid(e) and e.FindGate and e.SetWire and e:FindGate() == self) then
@@ -935,11 +935,11 @@ end
 
 function ENT:FakeDelay() return true end;
 
--- AGP 2026-11-08: CAP's "StarGateExtraDupeInfo" is back (already missing in the CAP Enhanced import): copies, Adv. Dupe
--- and game saves lost the SGC type, 9-chevron mode, chevron light, classic mode, Atlantis type, destroyed chevrons and
--- a custom event horizon colour/type. Same modifier name and fields as CAP (old CAP dupes paste right), plus the
--- Atlantis "Alternative Slow Dial". Each setting is restored through the gate's own Wire input, which also sets the
--- network bool (right-click menu) and the Wire output; a gate without that input ignores it.
+-- AGP: CAP's "StarGateExtraDupeInfo" is back (already missing in the CAP Enhanced import): copies, Adv. Dupe and game
+-- saves lost the SGC type, 9-chevron mode, chevron light, classic mode, Atlantis type, destroyed chevrons and a custom
+-- event horizon colour/type. Same modifier name and fields as CAP (old CAP dupes paste right), plus the Atlantis
+-- "Alternative Slow Dial". Each setting is restored through the gate's own Wire input, which also sets the network
+-- bool (right-click menu) and the Wire output; a gate without that input ignores it.
 local AGPDupeVars = {
 	{"RingInbound", "SGC Type"},
 	{"ChevLight", "Chevron Light"},
@@ -985,7 +985,7 @@ end
 
 function ENT:PostEntityPaste(ply, Ent, CreatedEntities)
 	if (StarGate.NotSpawnable(Ent:GetClass(),ply)) then self.Entity:Remove(); return end
-	-- AGP 2026-11-08: CAP's extra dupe info (see ENT:PreEntityCopy)
+	-- AGP: CAP's extra dupe info (see ENT:PreEntityCopy)
 	local dupeInfo = Ent.EntityMods and Ent.EntityMods.StarGateExtraDupeInfo;
 	if (istable(dupeInfo)) then
 		if (self.IsGroupStargate and dupeInfo.ChevDestroyed) then

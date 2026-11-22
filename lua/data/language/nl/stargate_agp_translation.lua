@@ -1,4 +1,4 @@
-// Ascension Gates: Dutch texts CAP never translated (2026-10-19)
+// Ascension Gates: Dutch texts CAP never translated
 
 // ===== uit stargate.lua =====
 // Gereedschapsmenu bij de gate (C ingedrukt houden)

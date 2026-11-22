@@ -52,8 +52,8 @@ if SERVER then
             self.HaveRD3 = true
         end
 
-        -- AGP 2026-11-08: the Wire inputs always (they steer the linked weapons); they were made only together with
-        -- CAF's Resource Distribution, so without it weapons linked with the Weapon Link Tool could never be fired
+        -- AGP: the Wire inputs always (they steer the linked weapons); they were made only together with CAF's
+        -- Resource Distribution, so without it weapons linked with the Weapon Link Tool could never be fired
         if (WireAddon) then
             self.Inputs = WireLib.CreateInputs(self.Entity, {"Fire", "Active", "Vector [VECTOR]", "Entity [ENTITY]"})
         end
@@ -97,8 +97,8 @@ if SERVER then
         constraint.Weld(ent, self, 0, 0, 0, true)
     end
 
-    -- AGP 2026-11-08: removed weapons are skipped (writing to a removed entity is a Lua error, so one removed weapon
-    -- stopped all the others)
+    -- AGP: removed weapons are skipped (writing to a removed entity is a Lua error, so one removed weapon stopped
+    -- all the others)
     function ENT:TriggerInput(variable, value)
         if (variable == "Active") then
             self.WireActive = value
@@ -273,7 +273,7 @@ if SERVER then
         end
 
         for k,v in pairs(self.Weapons or {}) do
-            if IsValid(v) then -- AGP 2026-11-08: skip removed weapons
+            if IsValid(v) then -- AGP: skip removed weapons
                 v.WireActive = 0
                 v.WireShoot = 0
                 v.WireVec = nil
@@ -292,7 +292,7 @@ if SERVER then
             CAF.GetAddon("Resource Distribution").RemoveRDEntity(self)
         end
 
-        -- AGP 2026-11-08: Wire clean-up whenever it has ports (they exist without RD now)
+        -- AGP: Wire clean-up whenever it has ports (they exist without RD now)
         if not (WireAddon == nil) and (self.Inputs or self.Outputs) then
             Wire_Remove(self.Entity)
         end

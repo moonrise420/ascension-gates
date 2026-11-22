@@ -741,7 +741,7 @@ else -- CLIENT
             draw.RoundedBox(bor, 415, 97, 165, 45, col2)
         end
 
-        -- AGP 2026-10-30: the "energy support" notice is gone: Grid Power is built into the pack, energy always works
+        -- AGP: the "energy support" notice is gone: Grid Power is built into the pack, energy always works
         local frame = vgui.Create("DPanel", GroupConvarFrame)
 
         frame.Paint = function(self)
@@ -828,7 +828,7 @@ else -- CLIENT
 
             if ((k == 2 or k == 3 or k == 4) and not has_energy) then
                 box:SetDisabled(true)
-                box:SetTextColor((AGP and AGP.Colors and AGP.Colors.textDim) or Color(128, 128, 128)) -- AGP 2026-11-08: dimmed but readable on our dark box (grey 128 was 4:1)
+                box:SetTextColor((AGP and AGP.Colors and AGP.Colors.textDim) or Color(128, 128, 128)) -- AGP: dimmed but readable on our dark box (grey 128 was 4:1)
                 box:SetValue(0)
             elseif ((k == 3 or k == 6 or k == 9 or k == 11) and not boxes[k - 1]:GetChecked()) then
                 box:SetDisabled(true)
@@ -928,7 +928,7 @@ else -- CLIENT
 
             if (k == 3 and not has_energy) then
                 box:SetDisabled(true)
-                box:SetTextColor((AGP and AGP.Colors and AGP.Colors.textDim) or Color(128, 128, 128)) -- AGP 2026-11-08: dimmed but readable on our dark box
+                box:SetTextColor((AGP and AGP.Colors and AGP.Colors.textDim) or Color(128, 128, 128)) -- AGP: dimmed but readable on our dark box
                 box:SetValue(0)
             elseif (k == 2 and not boxes[k - 1]:GetChecked()) then
                 box:SetDisabled(true)

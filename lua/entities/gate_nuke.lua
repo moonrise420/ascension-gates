@@ -82,7 +82,7 @@ if SERVER then
                         local allow = hook.Call("StarGate.GateNuke.KillPlayer", nil, v)
 
                         if (allow == nil or allow) then
-                            FindMetaTable("Entity").SetModel(v, "models/player/charple.mdl") -- AGP 2026-11-08: Entity meta, a playermodel enforcer on the Player meta kept the normal look
+                            FindMetaTable("Entity").SetModel(v, "models/player/charple.mdl") -- AGP: Entity meta, a playermodel enforcer on the Player meta kept the normal look
                             v:Kill()
                         end
                     end
@@ -172,7 +172,7 @@ if SERVER then
                     --if we've hit a Player
                     if v:IsPlayer() then
                         if (not v:HasGodMode()) then
-                            FindMetaTable("Entity").SetModel(v, "models/player/charple.mdl") -- AGP 2026-11-08: Entity meta, a playermodel enforcer on the Player meta kept the normal look --burn it
+                            FindMetaTable("Entity").SetModel(v, "models/player/charple.mdl") -- AGP: Entity meta, a playermodel enforcer on the Player meta kept the normal look --burn it
                             v:SetHealth(1)
                         end
                     elseif v.IsStargate then

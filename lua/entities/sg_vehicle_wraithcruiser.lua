@@ -1,16 +1,16 @@
 --[[
-	Wraith cruiser (the Wraith escort ship of Stargate Atlantis) - Ascension Gates' own code and model (2026-11-09),
-	designed after the series (notes/models/agp_wraith_ship_*.py).
-	EAP's model and code are gone; the class name stays "sg_vehicle_wraithcruiser", so saves and dupes keep working (the
-	old Wire names "Health" and "Hyperspace" stay, the keyboard layout is still "WraithCruiser"). Built on:
+	Wraith cruiser (the Wraith escort ship of Stargate Atlantis) - Ascension Gates' own code and model, designed
+	after the series. EAP's model and code are gone; the class name
+	stays "sg_vehicle_wraithcruiser", so saves and dupes keep working (the old Wire names "Health" and "Hyperspace" stay,
+	the keyboard layout is still "WraithCruiser"). Built on:
 	  * the ship base sg_vehicle_base (CAP, RononDex): flying, getting in / out, the camera
 	  * CAP's energy_pulse (aVoN, Madman07) for the shots, in the Wraith's pale blue (energy_pulse_wraith)
 	  * our own ship systems (lua/autorun/agp_ship_shield.lua, agp_ship_hyperdrive.lua, agp_ship_aim.lua): hull damage,
 	    aiming, the Mouse2 volley, hyperdrive, the Supergate / Stargate dial menu
 	As in the series: a grown ship that flies spear point first, two plasma cannons under the bow, hyperdrive - and no
-	shield: its hull grows back (slowly while it is being hit, faster once it has been left alone; owner 2026-11-09).
-	Keys: Mouse1 the two cannons at the crosshair (a pair a second), Mouse2 a volley at the crosshair, H hyperdrive
-	(hold), R dial menu, 1 view.
+	shield: its hull grows back (slowly while it is being hit, faster once it has been left alone). Keys: Mouse1 the
+	two cannons at the crosshair (a pair a second), Mouse2 a volley at the crosshair, H hyperdrive (hold), R dial
+	menu, 1 view.
 ]]
 ENT.Type = "vehicle"
 ENT.Base = "sg_vehicle_base"
@@ -26,7 +26,7 @@ ENT.AGPSupergateDHD = true      -- R: dial menu of the nearest Supergate (or Sta
 ENT.AGPHyperRange = 25000       -- hyperdrive (H): longest jump
 list.Set("CAP.Entity", ENT.PrintName, ENT)
 
--- our own model, designed after the series (notes/models/agp_wraith_ship_models.py); +X = the spear point (the bow)
+-- our own model, designed after the series; +X = the spear point (the bow)
 local MODEL = "models/agp/wraithcruiser/agp_wraithcruiser.mdl"
 function ENT:AGPModel() return MODEL end
 
@@ -34,8 +34,8 @@ function ENT:AGPModel() return MODEL end
 -- big ships (lua/autorun/agp_ship_shield.lua)
 ENT.AGPSharedHull = true
 
--- (2026-11-09 balance) the hull alone holds what hull and shield held before (18000 + the default shield 14400 =
--- 32400): between the Al'kesh and the Prometheus, as before
+-- (balance) the hull alone holds what hull and shield held before (18000 + the default shield 14400 = 32400):
+-- between the Al'kesh and the Prometheus, as before
 local HULL = 32000
 -- the regrowth: a share of the hull per second - 0.5 % (160) while it is being hit (the old shield recharged 360 a
 -- second while it held), 1.5 % (480) once REGROW_WAIT s have passed since the last hit (from empty to whole in about a
@@ -240,7 +240,7 @@ if CLIENT then
 		return IsValid(ship) and ship == self
 	end
 
-	-- no engine glow: the series' cruiser shows none that fits (owner 2026-11-09: no engine lights)
+	-- no engine glow: the series' cruiser shows none that fits (no engine lights)
 	function ENT:Think()
 		self.BaseClass.Think(self)
 		local mine = piloting(self)

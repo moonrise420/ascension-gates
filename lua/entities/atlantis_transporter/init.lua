@@ -319,8 +319,8 @@ function ENT:TriggerInput(k,v)
 	elseif k == "Destination" then
 		self.Destination = v;
 	elseif k == "Group" then
-		-- AGP 2026-11-08: the input was declared but never handled; sets the group the way the edit menu does (an empty
-		-- name leaves the name as it is)
+		-- AGP: the input was declared but never handled; sets the group the way the edit menu does (an empty name leaves
+		-- the name as it is)
 		self:SetAtlNameGrp("",v,nil,true);
 	elseif k == "Toggle Doors" and v>0 then
 		self:ToggleDoors();
@@ -550,10 +550,10 @@ function ENT:DoTeleport(target)
 						end
 					);
 					-- fix by AlexALX
-					-- AGP 2026-11-16 (owner test: arrived "a little in the floor" and could not move): the same spot in the
-					-- target booth, but standing on its floor (found from above) with the player's whole hull free; a few
-					-- units around only when that spot is taken. Was: the same height as at the start + 4, so a player a
-					-- bit lower (noclip, a slope) ended up inside the floor.
+					-- AGP (test: arrived "a little in the floor" and could not move): the same spot in the target booth, but
+					-- standing on its floor (found from above) with the player's whole hull free; a few units around only
+					-- when that spot is taken. Was: the same height as at the start + 4, so a player a bit lower (noclip,
+					-- a slope) ended up inside the floor.
 					local dest = pos + Vector(0, 0, 4)
 					if (v:IsPlayer()) then
 						local mins, maxs = v:GetHull()

@@ -73,7 +73,7 @@ if SERVER then
         self.EntHealth = 1500
         self.MaxHealth = self.EntHealth
         self.Destroyed = false
-        -- AGP 2026-11-08: "Health" output (HealthRepair already wrote it, but the port did not exist); the parts update it on damage
+        -- AGP: "Health" output (HealthRepair already wrote it, but the port did not exist); the parts update it on damage
         self:CreateWireOutputs("Health")
         self:SetWire("Health", self.EntHealth)
         local phys = self.Stand:GetPhysicsObject()
@@ -434,11 +434,9 @@ if SERVER then
 
     -----------------------------------SHOOT----------------------------------
     function ENT:Shoot()
-        local energy = self:GetResource("energy", self.energy_drain)
-
-        if (energy > self.energy_drain or not self.HasResourceDistribution) then
-            self:ConsumeResource("energy", self.energy_drain)
-
+        -- AGP: energy by agp_weapon_energy (StarGate.WeaponEnergy), taken only once the barrel can fire (a missing
+        -- barrel or muzzle took the energy for nothing)
+        if (StarGate.WeaponEnergy(self, self.energy_drain, true)) then
             local cannons = {self.Cann1, self.Cann2, self.Cann3}
 
             local cann = cannons[self.ShootingCann]
@@ -447,6 +445,7 @@ if SERVER then
             cann:DoAnim(1, "fire")
             local data = cann:GetAttachment(cann:LookupAttachment("FIRE"))
             if (not (data and data.Pos)) then self.CanFire = true return end   -- no muzzle attachment: do not lock the turret
+            StarGate.WeaponEnergy(self, self.energy_drain)
             -- AGP: shoot from the muzzle at the aim point (barrels point along -forward); keep the barrel axis if it is far off
             local dir = -1 * cann:GetForward()
             if self.AimPos then
@@ -459,6 +458,7 @@ if SERVER then
             fx:SetOrigin(data.Pos)
             util.Effect("Destiny_launch", fx)
             local e = ents.Create("energy_pulse")
+            StarGate.MarkShot(e, self)
 
             e:PrepareBullet(dir, 10, 16000, 15, {self.Cann1, self.Cann2, self.Cann3, self.Turn, self.Stand})
 

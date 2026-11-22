@@ -1,4 +1,4 @@
-// Ascension Gates: Czech texts (2026-10-19)
+// Ascension Gates: Czech texts
 cat_capital_ship = Velké lodě
 cat_small_ship = Lodě
 cat_others = Ostatní
@@ -50,7 +50,7 @@ wp_m9_berreta = SGC Sidearm
 wp_ori_hand = Orájská ruční zbraň
 wp_goauld_zatarc = Goa'uldský Zatarc
 
-// Sloučení funkcí EAP (2026-10-19)
+// Sloučení funkcí EAP
 key_malp_control = Ukončit ovládání
 vis_wormhole = Animace cesty červí dírou
 vis_wormhole_desc = Zobrazí tunel červí díry při cestě branou (jen pokud server používá sekvenci červí díry). Vypnuto = okamžitá cesta.
@@ -91,7 +91,7 @@ agp_info_btn_close = Jdeme na to!
 agp_info_dontshow = Při startu už nezobrazovat
 agp_gtsp_saved = Spawner bran uložen pro %s. Načte se automaticky při každém spuštění této mapy.
 agp_credits_about = O balíčku
-// gate spawner, Grid Power, life support, units (2026-10-21)
+// gate spawner, Grid Power, life support, units
 agp_gs_title = Spawner bran
 agp_gs_help = Postav brány, DHD, prsteny a rampy jako obvykle a stiskni "Uložit mapu": objeví se při každém spuštění této mapy. Dvojklik na díl = přesun k němu, pravý klik = odebrat.
 agp_gs_status = Mapa: %s\nSpawner: %s\nPoužívá: %s\nDílů: %d
@@ -149,7 +149,7 @@ agp_unit_temp = Teplota
 agp_unit_gravity = Gravitace
 agp_unit_auto = Automaticky (tvá země)
 agp_unit_auto_g = Automaticky (g)
-// our parts: names, suit HUD, gate report, screens, link tool, chat, resources (2026-10-21)
+// our parts: names, suit HUD, gate report, screens, link tool, chat, resources
 agp_ent_cell_xs = Energetický článek (XS)
 agp_ent_cell_small = Energetický článek (S)
 agp_ent_cell_medium = Energetický článek (M)
@@ -751,7 +751,7 @@ agp_hkm_c_reps_core = Replikátoři u energetického jádra!
 agp_arg_name = Antireplikátorová zbraň
 agp_arg_purpose = Znič ty brouky
 agp_arg_instr = LTM - vystřelit antireplikátorovou vlnu, podrž R - hledat novou frekvenci
-// window texts (2026-11-10)
+// window texts
 agp_ui_hyperspace = Hyperprostor
 agp_ui_target = Cíl
 agp_ui_jump_target = Skočit na vybraný cíl
@@ -834,7 +834,7 @@ agp_ui_autolink = Automaticky připojit k uzlu zdrojů
 agp_ui_add_velocity = Ke střele se přičte rychlost děla
 agp_ui_autoweld = Automaticky přivařit
 agp_ui_empty = (prázdné)
-// Ha'tak consoles (2026-11-10)
+// Ha'tak consoles
 agp_hk_weapons = ZBRANĚ
 agp_hk_staff_cannons = TYČOVÁ DĚLA
 agp_hk_charging = NABÍJÍ
@@ -958,7 +958,7 @@ agp_hk_nearest_ring = Nejbližší prstenec mimo loď
 agp_hk_glyph_pad = Goa'uldská glyfová deska
 agp_hk_t_mark = Značka %s
 agp_hk_t_player = Hráč %s
-// Ha'tak messages, crew announcements and ship log (2026-11-10)
+// Ha'tak messages, crew announcements and ship log
 agp_hkm_w_ship = Ha'tak
 agp_hkm_w_engine = Ha'tak strojovna
 agp_hkm_w_computer = Ha'tak jádro počítače
@@ -1312,6 +1312,16 @@ agp_ship_title_all = Všechny lodě
 agp_ship_shieldvis = Bublina štítu
 agp_ship_shieldvis0 = Jen při zásahu nebo přepnutí
 agp_ship_shieldvis1 = Vždy viditelná
+agp_ship_wenergy = Zbraně spotřebují energii
+agp_ship_wenergy0 = Nikdy (zdarma)
+agp_ship_wenergy1 = Když jsou připojené
+agp_ship_wenergy2 = Vždy
+agp_ship_spower = Zbraně berou energii lodi
+agp_ship_tip_spower = Ano: zbraň na lodi StarCore bere energii lodi - nejdřív z jejích ZPM, generátorů a baterií, jinak vlastní energii lodi.
+agp_ship_wbalance = Zbraně proti lodím
+agp_ship_wbalance0 = AGP sandbox
+agp_ship_wbalance1 = Síla ze seriálu
+agp_ship_tip_wbalance = Síla ze seriálu: zbraně zasahují lodě tak silně jako v seriálu, ruční zbraně trup sotva poškrábou. AGP sandbox: vlastní poškození každé zbraně.
 agp_ship_destructtime = Autodestrukce: odpočet (sekundy)
 agp_ship_tip_shieldvis = Vždy: bublina štítu každé lodi slabě září, dokud je štít zapnutý. Jinak je vidět jen při zásahu a při zapnutí nebo vypnutí.
 agp_ship_tip_destructtime = Sekundy od stisku klávesy autodestrukce do výbuchu. Druhý stisk odpálí loď okamžitě.

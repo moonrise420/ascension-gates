@@ -69,7 +69,7 @@ if SERVER then
         self.EntHealth = 100
         self.MaxHealth = self.EntHealth
         self.Destroyed = false
-        -- AGP 2026-11-08: "Health" output (HealthRepair already wrote it, but the port did not exist); follows damage too
+        -- AGP: "Health" output (HealthRepair already wrote it, but the port did not exist); follows damage too
         self:CreateWireOutputs("Health")
         self:SetWire("Health", self.EntHealth)
         self:AddResource("energy", 2000)
@@ -112,7 +112,7 @@ if SERVER then
         if not self.Destroyed then
             health = health - dmginfo:GetDamage()
             self.EntHealth = health
-            self:SetWire("Health", math.max(0, health)) -- AGP 2026-11-08: Health output follows damage
+            self:SetWire("Health", math.max(0, health)) -- AGP: Health output follows damage
 
             if (health < 1) then
                 self.Destroyed = true
@@ -209,7 +209,7 @@ if SERVER then
 
         if self.Destroyed then
             self.Entity:SetModel("models/Madman07/ashen_defence/ashen_defence_gib.mdl")
-            -- AGP 2026-11-08: a pasted wreck has 0 health (was full: Health output read 100 and the repair tool skipped it)
+            -- AGP: a pasted wreck has 0 health (was full: Health output read 100 and the repair tool skipped it)
             self.EntHealth = 0
             self:SetWire("Health", 0)
         end

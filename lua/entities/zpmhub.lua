@@ -197,6 +197,16 @@ if SERVER then
     end
 
 
+    -- (SpaceGrid) the ZPMs in this hub go with it on a SpaceGrid ship, also while their weld is made anew every step
+    -- of a slide (sv_keel.lua riders: SGRideAlong)
+    function ENT:SGRideAlong()
+        local t = {}
+        for _, v in ipairs(self.ZPMs or {}) do
+            if (v.IsValid and IsValid(v.Ent)) then t[#t + 1] = v.Ent end
+        end
+        return t
+    end
+
     function ENT:UseZPM(num)
         if (self.ZPMs[num].Dist == 1) then
             self.ZPMs[num].Eject = self.ZPMs[num].Eject + 1

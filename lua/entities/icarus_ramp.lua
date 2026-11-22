@@ -279,12 +279,12 @@ if SERVER then
         end
     end
 
-    function ENT:PreEntityCopy()   -- AGP 2026-11-10: its Wire links are kept in dupes
+    function ENT:PreEntityCopy()   -- AGP: its Wire links are kept in dupes
     	if (StarGate.WireRD) then StarGate.WireRD.PreEntityCopy(self) end
     end
 
     function ENT:PostEntityPaste(ply, Ent, CreatedEntities)
-    	if (StarGate.WireRD) then StarGate.WireRD.PostEntityPaste(self, ply, Ent, CreatedEntities) end   -- AGP 2026-11-10: the Wire links back
+    	if (StarGate.WireRD) then StarGate.WireRD.PostEntityPaste(self, ply, Ent, CreatedEntities) end   -- AGP: the Wire links back
         if (StarGate.NotSpawnable("anim_ramps", ply, "tool")) then
             self.Entity:Remove()
 

@@ -42,12 +42,12 @@ function EFFECT:Init(data)
 	local startsize = self.Data.Size*((self.Data.GrowCoefficient^1.5 - 1)*self.Data.Density/self.Data.Density + 1);
 	local forward = e:GetForward();
 	local mul = 2/self.Data.Time; -- Multiplies the velocity and gravity of the particles if we change the speed
-	-- AGP 2026-11-13 (owner on the Supergate: "when its going back to the eventhorizon it vanishes to early ... the kawoosh is
-	-- not shown in one animation go"): filmed frame by frame the vortex appeared in ONE frame as a ring-sized cone and was cut
-	-- off in ONE frame while still a cone a quarter of its size (all particles die together; the refracting smoke cannot fade).
-	-- Every gate type had this, the Supergate only showed it most (owner: "is this bad? than fix please"). Now, unless a type
-	-- says KawooshData.Smooth = false, the vortex starts flat IN the horizon, swells out of it, and at the end sinks back into it and
-	-- shrinks before it is gone: the cone's depth becomes part of the flight instead of where the particles start and end.
+	-- AGP: filmed frame by frame the vortex appeared in ONE frame as a ring-sized cone and was cut off in ONE frame while still
+	-- a cone a quarter of its size (all particles die together; the refracting smoke cannot fade). Every gate type had this,
+	-- the Supergate only showed it most. Now, unless a type says KawooshData.Smooth = false, the vortex starts flat IN the
+	-- horizon, swells out of it, and at the end sinks back into it and shrinks before it is gone: the cone's depth becomes
+	-- part of the flight instead of where the particles start and end.
+	--
 	local smooth = self.Data.Smooth ~= false;
 	local born, die = CurTime(), self.Data.Time+0.05;
 	local IN, OUT = 0.07, 0.86; -- share of the life: swelling up to here, shrinking from here

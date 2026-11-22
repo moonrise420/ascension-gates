@@ -157,10 +157,8 @@ if SERVER then
 
     -----------------------------------SHOOT----------------------------------
     function ENT:Shoot()
-        local energy = self:GetResource("energy", self.energy_drain)
-
-        if (energy > self.energy_drain or not self.HasResourceDistribution) then
-            self:ConsumeResource("energy", self.energy_drain)
+        -- AGP: energy by agp_weapon_energy (StarGate.WeaponEnergy)
+        if (StarGate.WeaponEnergy(self, self.energy_drain)) then
             self.CanFire = false
             local seq = self.Cann:LookupSequence("Fire")
             self.Cann:ResetSequence(seq)
@@ -197,6 +195,14 @@ if SERVER then
             bullet.Damage = damage
             bullet.Force = damage
             bullet.Tracer = 0
+            -- AGP: a bullet that hits the own ship does no damage there
+            local weapon = self
+            bullet.Callback = function(_, tr, dmginfo)
+                if (IsValid(weapon) and IsValid(tr.Entity) and StarGate.SameShip(weapon, tr.Entity)) then
+                    dmginfo:SetDamage(0)
+                    return { damage = false }
+                end
+            end
             self.Cann:FireBullets(bullet)
             self:EmitSound(self.Sounds.Shoot, 100, math.random(98, 102))
             util.ScreenShake(data.Pos, 1, 2.5, 0.5, 500)

@@ -184,7 +184,7 @@ if SERVER then
         self.Pilot:UnSpectate()
         self.Pilot:DrawViewModel(true)
         self.Pilot:DrawWorldModel(true)
-        if (AGP and AGP.ShipRespawnPilot) then AGP.ShipRespawnPilot(self.Pilot) else self.Pilot:Spawn() end -- AGP 2026-11-08: keeps armour and ammo, no Ha'tak bunk move (agp_ship_shield.lua)
+        if (AGP and AGP.ShipRespawnPilot) then AGP.ShipRespawnPilot(self.Pilot) else self.Pilot:Spawn() end -- AGP: keeps armour and ammo, no Ha'tak bunk move (agp_ship_shield.lua)
         local want = self:GetPos() + self:GetForward() * 15 + self:GetUp() * -40
         self.Pilot:SetPos(AGP and AGP.ShipExitSpot and AGP.ShipExitSpot(self, self.Pilot, want) or want) -- AGP: a free spot
         self.Pilot:SetMoveType(MOVETYPE_WALK)
@@ -229,8 +229,8 @@ if SERVER then
             self:SetWire("Shield Strength", self.Shields.Strength)
         end
 
-        -- AGP 2026-10-30: the guns cool down by themselves after a burst (before only while FIRE was held, with nothing
-        -- coming out); and no errors when the pilot is gone
+        -- AGP: the guns cool down by themselves after a burst (before only while FIRE was held, with nothing coming
+        -- out); and no errors when the pilot is gone
         if (not (self.Inflight and IsValid(self.Pilot) and self.Pilot:KeyDown(self.Vehicle, "FIRE"))) then
             self.BlastCount = math.Approach(self.BlastCount or 0, 0, 1)
             if (self.BlastCount == 0) then self.CanFire = true end
@@ -340,7 +340,7 @@ if CLIENT then
     KBD:SetDefaultKey("A+", "LEFTARROW")
     KBD:SetDefaultKey("A-", "RIGHTARROW")
     --Special Actions
-    KBD:SetDefaultKey("SHIELD", "G") -- AGP 2026-10-31: G like the other ships (ALT is free look now)
+    KBD:SetDefaultKey("SHIELD", "G") -- AGP: G like the other ships (ALT is free look now)
     KBD:SetDefaultKey("BOOM", "BACKSPACE")
     KBD:SetDefaultKey("EXIT", StarGate.KeyBoard.BINDS["+use"] or "E")
 

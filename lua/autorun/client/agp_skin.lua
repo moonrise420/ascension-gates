@@ -13,12 +13,12 @@ AGP.Colors = {
 	textDim = Color(150, 165, 185, 255),
 	field = Color(10, 14, 22, 255),
 	tabbar = Color(10, 15, 24, 250),
-	select = Color(36, 98, 168, 255),   -- AGP 2026-11-08: selected rows, pressed buttons (white text on accent was only 3:1)
-	textOnBright = Color(20, 24, 30, 255), -- AGP 2026-11-08: text on bright ground (Garry's Mod's own white tool pages)
+	select = Color(36, 98, 168, 255),   -- AGP: selected rows, pressed buttons (white text on accent was only 3:1)
+	textOnBright = Color(20, 24, 30, 255), -- AGP: text on bright ground (Garry's Mod's own white tool pages)
 }
 
--- AGP 2026-11-08: readable text everywhere (owner: "dark background - white text, bright background - black text").
--- Relative luminance, 0 = black .. 1 = white (the WCAG contrast formula).
+-- AGP: readable text everywhere. Relative luminance, 0 = black .. 1 = white (the WCAG contrast formula).
+--
 local function lum(c)
 	local function ch(v) v = (v or 0) / 255 return v <= 0.03928 and v / 12.92 or ((v + 0.055) / 1.055) ^ 2.4 end
 	return 0.2126 * ch(c.r) + 0.7152 * ch(c.g) + 0.0722 * ch(c.b)
@@ -70,21 +70,21 @@ local function makeSkin()
 	SKIN.Colours = table.Copy(base.Colours or {})
 	local col = SKIN.Colours
 	col.Label = col.Label or {}
-	-- AGP 2026-11-08: "Dark" labels light too (list rows, form labels, colour mixer): every ground in our skin is dark
+	-- AGP: "Dark" labels light too (list rows, form labels, colour mixer): every ground in our skin is dark
 	col.Label.Default, col.Label.Bright, col.Label.Dark, col.Label.Highlight = C.text, Color(255, 255, 255), C.text, C.accent2
 	col.Button = col.Button or {}
 	col.Button.Normal, col.Button.Hover, col.Button.Down, col.Button.Disabled = C.text, Color(255, 255, 255), Color(255, 255, 255), C.textDim
 	col.Tab = col.Tab or {}
 	col.Tab.Active = { Normal = C.text, Hover = Color(255, 255, 255), Down = Color(255, 255, 255), Disabled = C.textDim }
 	col.Tab.Inactive = { Normal = C.textDim, Hover = C.text, Down = C.text, Disabled = C.textDim }
-	-- AGP 2026-11-08: window titles (an unfocused one was 36 % white) and category lists (grey text) light on our boxes
+	-- AGP: window titles (an unfocused one was 36 % white) and category lists (grey text) light on our boxes
 	col.Window = { TitleActive = C.text, TitleInactive = C.textDim }
 	local function catLine(alt)
 		return { Text = C.text, Text_Hover = Color(255, 255, 255), Text_Selected = Color(255, 255, 255), Text_Disabled = C.textDim,
 			Button = alt and Color(255, 255, 255, 6) or Color(0, 0, 0, 0), Button_Hover = C.hover, Button_Selected = C.select, Button_Disabled = Color(0, 0, 0, 0) }
 	end
 	col.Category = { Header = C.text, Header_Closed = C.text, Line = catLine(false), LineAlt = catLine(true) }
-	-- AGP 2026-11-08: text fields: code that asks the skin for their colours gets ours (the default was dark grey text)
+	-- AGP: text fields: code that asks the skin for their colours gets ours (the default was dark grey text)
 	SKIN.colTextEntryText, SKIN.colTextEntryTextHighlight, SKIN.colTextEntryTextCursor, SKIN.colTextEntryTextPlaceholder = C.text, C.select, C.text, C.textDim
 	-- property lists (the config editor): dark rows, light text, like the rest of the window
 	col.Properties = {
@@ -112,7 +112,7 @@ local function makeSkin()
 	function SKIN:PaintButton(p, w, h)
 		if not p.m_bBackground then return end
 		local c = C.button
-		-- AGP 2026-11-08: pressed / selected / switched on in the deeper blue: white text read 3:1 on the light accent
+		-- AGP: pressed / selected / switched on in the deeper blue: white text read 3:1 on the light accent
 		if p:GetDisabled() then c = Color(30, 36, 46) elseif p.Depressed or p:IsSelected() or p:GetToggle() then c = C.select elseif p.Hovered then c = C.hover end
 		draw.RoundedBox(6, 0, 0, w, h, c)
 	end
@@ -128,9 +128,9 @@ local function makeSkin()
 			surface.SetDrawColor(p:HasFocus() and C.accent or C.edge)
 			surface.DrawOutlinedRect(0, 0, w, h)
 		end
-		-- AGP 2026-11-08: a field's own text colour is kept when it reads on our dark field (a dark one is lifted: the colour
-		-- mixer's red/green/blue numbers), an empty field shows its hint, multi-line fields keep their lines (the one-line
-		-- draw below put a whole config file on one line)
+		-- AGP: a field's own text colour is kept when it reads on our dark field (a dark one is lifted: the colour mixer's
+		-- red/green/blue numbers), an empty field shows its hint, multi-line fields keep their lines (the one-line draw
+		-- below put a whole config file on one line)
 		local txtCol = p:IsEnabled() and AGP.ReadableText(p.m_colText or C.text, true) or C.textDim
 		local font = p:GetFont() or "DermaDefault"
 		local text = p:GetText() or ""
@@ -158,8 +158,8 @@ local function makeSkin()
 		if p.Hovered or p.Highlight then draw.RoundedBox(4, 2, 0, w - 4, h, C.hover) end
 	end
 	function SKIN:PaintListView(p, w, h) draw.RoundedBox(6, 0, 0, w, h, C.field) end
-	-- AGP 2026-11-08: list rows: every column's text reads on our dark rows, not only under the mouse. A colour the code set
-	-- itself (the dial menu drew its addresses black for CAP's white list) is lifted to a light one of the same hue; a
+	-- AGP: list rows: every column's text reads on our dark rows, not only under the mouse. A colour the code set itself
+	-- (the dial menu drew its addresses black for CAP's white list) is lifted to a light one of the same hue; a
 	-- selected row is white on the selection blue. Hover and selection are dark enough for light text.
 	local WHITE = Color(255, 255, 255)
 	local function lineLabelColour(lbl)
@@ -237,9 +237,9 @@ function AGP.StyleCombo(cb)
 	end
 end
 
--- No text outside its box, in every language (owner 2026-10-25): after a page is built, every one-line text that is
--- wider than its room wraps onto more lines and its row grows. Slider labels go on their own line above the slider,
--- checkbox and button texts wrap. Runs on all pages of our tool tabs (Stargate, SpaceGrid) and on our windows.
+-- No text outside its box, in every language: after a page is built, every one-line text that is wider than its
+-- room wraps onto more lines and its row grows. Slider labels go on their own line above the slider, checkbox and
+-- button texts wrap. Runs on all pages of our tool tabs (Stargate, SpaceGrid) and on our windows.
 local function textWidth(p, t)
     surface.SetFont(p:GetFont() or "DermaDefault")
     local w, h = surface.GetTextSize(t)
@@ -262,8 +262,8 @@ function AGP.FitTexts(root)
     if not IsValid(root) then return end
     local rootX = root:LocalToScreen(0, 0)
     local rootR = rootX + root:GetWide()
-    -- AGP 2026-11-08: is the page dark (our windows, dark menu skins) or bright (Garry's Mod's own white tool pages)? A box
-    -- that paints its own ground says so with p.AGPDark = true / false (for everything inside it)
+    -- AGP: is the page dark (our windows, dark menu skins) or bright (Garry's Mod's own white tool pages)? A box that
+    -- paints its own ground says so with p.AGPDark = true / false (for everything inside it)
     local function visit(p, onDark)
         if not IsValid(p) or not p:IsVisible() then return end
         if p.AGPDark ~= nil then onDark = p.AGPDark end
@@ -315,8 +315,8 @@ function AGP.FitTexts(root)
                 end
             end
         end
-        -- readable fields everywhere (owner 2026-10-25: white drop-downs with white text on some pages)
-        -- by what they can do, not by class name (old Stargate pages use CtrlListBox and other DComboBox copies)
+        -- readable fields everywhere (white drop-downs with white text on some pages) by what they can
+        -- do, not by class name (old Stargate pages use CtrlListBox and other DComboBox copies)
         local isCombo = p.AddChoice and p.ChooseOption and p.OpenMenu
         if isCombo and not p.AGPStyled then p.AGPStyled = true; AGP.StyleCombo(p)
         elseif p.SetUpdateOnType and not isCombo and not p.AGPStyled then
@@ -327,8 +327,8 @@ function AGP.FitTexts(root)
                 surface.SetDrawColor(self2:HasFocus() and C.accent or C.edge); surface.DrawOutlinedRect(0, 0, w, h)
                 self2:DrawTextEntryText(self2:IsEnabled() and C.text or C.textDim, C.accent, C.text)
             end
-        -- AGP 2026-11-08: slider labels and texts with their own colour follow the page's ground: light on dark pages, dark
-        -- on bright ones (the forced light slider label and the orange / green hints were bright on bright there)
+        -- AGP: slider labels and texts with their own colour follow the page's ground: light on dark pages, dark on bright
+        -- ones (the forced light slider label and the orange / green hints were bright on bright there)
         elseif cls == "DNumSlider" and IsValid(p.Label) then p.Label:SetTextColor(onDark and AGP.Colors.text or (AGP.Colors.textOnBright or Color(20, 24, 30)))
         elseif cls == "DLabel" and p.m_colText then p:SetTextColor(AGP.ReadableText(p.m_colText, onDark)) end
         for _, c in ipairs(p:GetChildren()) do visit(c, onDark) end

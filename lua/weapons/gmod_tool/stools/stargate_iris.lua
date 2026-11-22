@@ -106,8 +106,8 @@ function TOOL:LeftClick(t)
 	end
 	--]]
 	--######## Weld things?
-	local c = self:Weld(e,t.Entity,true); -- AGP 2026-11-08: always, the iris needs it (see ControlsPanel)
-	--######## Cleanup and undo register
+	local c = self:Weld(e,t.Entity,true); -- AGP: always, the iris needs it (see ControlsPanel) ########
+	--Cleanup and undo register
 	self:AddUndo(p,e,c);
 	self:AddCleanup(p,c,e);
 	return true;
@@ -150,8 +150,8 @@ function TOOL:ControlsPanel(Panel)
 		Command2="stargate_iris_deactivate",
 	});
 	Panel:AddControl("PropSelect",{Label=SGLanguage.GetMessage("stool_model"),ConVar="stargate_iris_model",Category="",Models=self.Models});
-	-- AGP 2026-11-08: the Autoweld box is gone: its setting never existed and the iris is always welded to its gate (LeftClick).
-	-- It has to be: an unwelded iris unfreezes when it closes (falls through the gate) and removes itself within 10 s
+	-- AGP: the Autoweld box is gone: its setting never existed and the iris is always welded to its gate (LeftClick). It has to
+	-- be: an unwelded iris unfreezes when it closes (falls through the gate) and removes itself within 10 s
 	-- (entities/stargate_iris/init.lua, StarGateIrisCheck: no constraint to its gate = removed). CAP had the setting off too.
 	--Panel:CheckBox(SGLanguage.GetMessage("stool_autoweld"),"stargate_iris_autoweld");
 	--[[

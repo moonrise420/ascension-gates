@@ -1,4 +1,4 @@
-// Ascension Gates: Spanish texts (2026-10-19)
+// Ascension Gates: Spanish texts
 cat_capital_ship = Naves capitales
 cat_small_ship = Naves
 cat_others = Otros
@@ -50,7 +50,7 @@ wp_m9_berreta = SGC Sidearm
 wp_ori_hand = Arma de mano Ori
 wp_goauld_zatarc = Zatarc Goa'uld
 
-// Fusión de funciones de EAP (2026-10-19)
+// Fusión de funciones de EAP
 key_malp_control = Dejar de controlar
 vis_wormhole = Animación del viaje por el agujero de gusano
 vis_wormhole_desc = Muestra el túnel del agujero de gusano al viajar por una puerta (solo si el servidor usa la secuencia del agujero de gusano). Desactivado = viaje instantáneo.
@@ -91,7 +91,7 @@ agp_info_btn_close = ¡Vamos!
 agp_info_dontshow = No mostrar esto al iniciar
 agp_gtsp_saved = Generador de puertas guardado para %s. Se carga automáticamente cada vez que se inicia este mapa.
 agp_credits_about = Acerca de
-// gate spawner, Grid Power, life support, units (2026-10-21)
+// gate spawner, Grid Power, life support, units
 agp_gs_title = Generador de puertas
 agp_gs_help = Coloca puertas, DHD, anillos y rampas como siempre y pulsa "Guardar mapa": aparecerán en este mapa cada vez que se inicie. Doble clic en una pieza para ir allí, clic derecho para quitarla.
 agp_gs_status = Mapa: %s\nGenerador: %s\nUsando: %s\nPiezas: %d
@@ -149,7 +149,7 @@ agp_unit_temp = Temperatura
 agp_unit_gravity = Gravedad
 agp_unit_auto = Auto (tu país)
 agp_unit_auto_g = Auto (g)
-// our parts: names, suit HUD, gate report, screens, link tool, chat, resources (2026-10-21)
+// our parts: names, suit HUD, gate report, screens, link tool, chat, resources
 agp_ent_cell_xs = Célula de energía (XS)
 agp_ent_cell_small = Célula de energía (S)
 agp_ent_cell_medium = Célula de energía (M)
@@ -751,7 +751,7 @@ agp_hkm_c_reps_core = ¡Replicantes en el núcleo de energía!
 agp_arg_name = Arma antirreplicantes
 agp_arg_purpose = Destruye a esos bichos
 agp_arg_instr = Clic izquierdo - disparar la onda antirreplicantes, mantén R - buscar una nueva frecuencia
-// window texts (2026-11-10)
+// window texts
 agp_ui_hyperspace = Hiperespacio
 agp_ui_target = Objetivo
 agp_ui_jump_target = Saltar al objetivo elegido
@@ -834,7 +834,7 @@ agp_ui_autolink = Conectar automáticamente a un nodo de recursos
 agp_ui_add_velocity = El disparo suma la velocidad del cañón
 agp_ui_autoweld = Soldar automáticamente
 agp_ui_empty = (vacío)
-// Ha'tak consoles (2026-11-10)
+// Ha'tak consoles
 agp_hk_weapons = ARMAS
 agp_hk_staff_cannons = CAÑONES DE BÁCULO
 agp_hk_charging = CARGANDO
@@ -958,7 +958,7 @@ agp_hk_nearest_ring = Anillo más cercano fuera de la nave
 agp_hk_glyph_pad = Teclado de glifos goa'uld
 agp_hk_t_mark = Marca %s
 agp_hk_t_player = Jugador %s
-// Ha'tak messages, crew announcements and ship log (2026-11-10)
+// Ha'tak messages, crew announcements and ship log
 agp_hkm_w_ship = Ha'tak
 agp_hkm_w_engine = Ha'tak sala de máquinas
 agp_hkm_w_computer = Ha'tak núcleo informático
@@ -1312,6 +1312,16 @@ agp_ship_title_all = Todas las naves
 agp_ship_shieldvis = Burbuja del escudo
 agp_ship_shieldvis0 = Solo al recibir impacto o al encender/apagar
 agp_ship_shieldvis1 = Siempre visible
+agp_ship_wenergy = Las armas usan energía
+agp_ship_wenergy0 = Nunca (gratis)
+agp_ship_wenergy1 = Si están conectadas
+agp_ship_wenergy2 = Siempre
+agp_ship_spower = Las armas usan la energía de la nave
+agp_ship_tip_spower = Sí: un arma en una nave StarCore toma la energía de la nave: primero de sus ZPM, generadores y baterías; si no, la energía propia de la nave.
+agp_ship_wbalance = Armas contra naves
+agp_ship_wbalance0 = Sandbox de AGP
+agp_ship_wbalance1 = Poder de la serie
+agp_ship_tip_wbalance = Poder de la serie: las armas dañan las naves como en la serie; las armas de mano apenas rayan un casco. Sandbox de AGP: el daño propio de cada arma.
 agp_ship_destructtime = Autodestrucción: cuenta atrás (segundos)
 agp_ship_tip_shieldvis = Siempre: la burbuja del escudo de cada nave brilla débilmente mientras el escudo está activo. Si no, solo se ve al recibir un impacto o al encenderlo o apagarlo.
 agp_ship_tip_destructtime = Segundos desde que se pulsa la tecla de autodestrucción hasta la explosión. Una segunda pulsación hace estallar la nave al instante.

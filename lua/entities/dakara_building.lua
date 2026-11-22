@@ -244,7 +244,7 @@ if SERVER then
 
         constraint.Weld(self, ent, 0, 0, 0, true)
         self.SecretDoor = ent
-        util.PrecacheModel(AGP.ModelOr("models/beer/wiremod/numpad.mdl")) -- AGP 2026-11-08: base-game model without Wiremod (lua/autorun/agp_fallback_models.lua)
+        util.PrecacheModel(AGP.ModelOr("models/beer/wiremod/numpad.mdl")) -- AGP: base-game model without Wiremod (lua/autorun/agp_fallback_models.lua)
         ent = ents.Create("dakara_button")
         ent:SetAngles(ang + Angle(90, -270, 180))
         ent:SetPos(self:LocalToWorld(Vector(608, 105, 277)))

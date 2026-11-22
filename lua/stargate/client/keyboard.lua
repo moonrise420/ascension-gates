@@ -143,9 +143,9 @@ function StarGate.KeyBoard:SetKey(name, key)
     file.Write("moonwatcher/keyboard/" .. self.Name:lower() .. ".txt", util.TableToKeyValues(self.__Keys or {}))
 end
 
---################### AGP: move a key once to a new default (2026-10-30). SetDefaultKey only binds a key that was never
--- bound, and the defaults are saved on the first load - so changed defaults never reached existing players.
--- tag: once per tag and action; a key the player sets later in the Keybinder stays.
+--################### AGP: move a key once to a new default. SetDefaultKey only binds a key that was never bound, and
+-- the defaults are saved on the first load - so changed defaults never reached existing players. tag: once
+-- per tag and action; a key the player sets later in the Keybinder stays.
 function StarGate.KeyBoard:AGPUpdateKey(name, key, tag)
     local path = "moonwatcher/keyboard/agp_updates.txt"
     StarGate.KeyBoard.AGPDone = StarGate.KeyBoard.AGPDone or util.KeyValuesToTable(file.Read(path, "DATA") or "") or {}
@@ -217,9 +217,9 @@ function StarGate.KeyBoard.Think(GetKeyIsDown)
     local p = LocalPlayer()
 
     for name, scheme in pairs(StarGate.KeyBoard.Schemes) do
-        -- AGP 2026-11-08: a layout that just switched on (the player got into a ship) ignores the keys that are already
-        -- held until they are let go: the E that got the player in was sent as the ship's EXIT press and threw them out
-        -- again a second later. A layout that switched off lets go of its pressed keys (they stayed "down" on the server).
+        -- AGP: a layout that just switched on (the player got into a ship) ignores the keys that are already held until
+        -- they are let go: the E that got the player in was sent as the ship's EXIT press and threw them out again a
+        -- second later. A layout that switched off lets go of its pressed keys (they stayed "down" on the server).
         local active = scheme:GetActive() and true or false
         if (not GetKeyIsDown and active ~= (scheme.AGPWasActive or false)) then
             scheme.AGPWasActive = active

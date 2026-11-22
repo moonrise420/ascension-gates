@@ -38,7 +38,7 @@ ENT.Sounds = {
     Startup = Sound("f302/f302_startup.wav"),
     Fly = Sound("f302/f302_Engine.wav"),
     Missile = Sound("f302/Missile_Shoot_Small.wav"),
-    Stop = Sound("vehicles/apc/apc_shutdown.wav") -- AGP 2026-11-08: JetStop.wav never existed (base-game engine shutdown)
+    Stop = Sound("vehicles/apc/apc_shutdown.wav") -- AGP: JetStop.wav never existed (base-game engine shutdown)
 }
 
 --######## Pretty useless unless we can spawn it @RononDex
@@ -124,7 +124,7 @@ function ENT:Initialize()
     self.Accel.UP = 0
     self.ForwardSpeed = 1500
     self.BackwardSpeed = 0
-    self.UpSpeed = 500 -- AGP 2026-10-30: Space up / Ctrl down like the other ships (it could only climb by flying fast)
+    self.UpSpeed = 500 -- AGP: Space up / Ctrl down like the other ships (it could only climb by flying fast)
     self.MaxSpeed = 2500
     self.RightSpeed = 0
     self.Accel.SpeedForward = 7
@@ -575,13 +575,13 @@ function ENT:ToggleWheels()
         self.WheelsOpen = false
         self.WheelPhys:EnableCollisions(false)
         self.WheelPhys:SetMass(1)
-        self.Phys:SetMass(400) -- AGP 2026-10-30: gear up/down no longer changes the flying weight (was 10000 / 400)
+        self.Phys:SetMass(400) -- AGP: gear up/down no longer changes the flying weight (was 10000 / 400)
         self.Wheels:SetParent(self)
     else
         self.WheelsAnim:Fire("setanimation", "open", "0")
         self.WheelsOpen = true
         self.WheelPhys:EnableCollisions(true)
-        self.WheelPhys:SetMass(40) -- AGP 2026-10-30: was 10000 welded to a 400 ship - the gear hung on it like an anchor, Space barely lifted it
+        self.WheelPhys:SetMass(40) -- AGP: was 10000 welded to a 400 ship - the gear hung on it like an anchor, Space barely lifted it
         self.Phys:SetMass(400)
         self.Roll = 0
         self.Wheels:SetParent()
@@ -601,7 +601,7 @@ function ENT:EjectorSeat()
             e:SetColor(Color(255, 255, 255, 0))
             e:SetRenderMode(RENDERMODE_TRANSALPHA)
             e.IsF302Seat = true
-            e.AGPEjectorSeat = true -- AGP 2026-11-08: only this seat goes when its pilot gets out (see the hook below)
+            e.AGPEjectorSeat = true -- AGP: only this seat goes when its pilot gets out (see the hook below)
             local p = ents.Create("prop_physics")
             p:SetModel(self.GibTable.Seat1)
             p:SetPos(e:GetPos() + e:GetForward() * -95 + e:GetUp() * -17.5)
@@ -630,7 +630,7 @@ end
 --################## Removes the ejector seat when you get out. @RononDex
 hook.Add("PlayerLeaveVehicle", "F302EjecterSeatExit", function(p, v)
     if (IsValid(p and v)) then
-        -- AGP 2026-11-08: only the ejector seat; the passenger seat (also IsF302Seat) was removed when its passenger got out
+        -- AGP: only the ejector seat; the passenger seat (also IsF302Seat) was removed when its passenger got out
         if (v.AGPEjectorSeat) then
             v:Remove()
         end
@@ -907,8 +907,8 @@ function ENT:PhysicsSimulate(phys, deltatime)
     self.BaseClass.PhysicsSimulate(self, phys, deltatime)
 
     if IsValid(self and self.Pilot) then
-        -- AGP 2026-10-30: Q = air-brake turn: the engines cut, the F-302 swings round 180 degrees and brakes hard for
-        -- a moment. Was only checked once a second (most presses did nothing) and never really braked.
+        -- AGP: Q = air-brake turn: the engines cut, the F-302 swings round 180 degrees and brakes hard for a moment.
+        -- Was only checked once a second (most presses did nothing) and never really braked.
         if (self.Inflight and self.NextUse.Brake < CurTime() and AGP.KeyPress(self, self.Pilot, self.Vehicle, "BRAKE")) then
             local ea = self.Pilot:EyeAngles()
             self.Pilot:SetEyeAngles(Angle(ea.p, ea.y + 180, ea.r))
@@ -930,7 +930,7 @@ function ENT:PhysicsSimulate(phys, deltatime)
 end
 
 function ENT:PreEntityCopy()
-	if (StarGate.WireRD) then StarGate.WireRD.PreEntityCopy(self) end   -- AGP 2026-11-10: keep the Wire links in dupes
+	if (StarGate.WireRD) then StarGate.WireRD.PreEntityCopy(self) end   -- AGP: keep the Wire links in dupes
     local dupeInfo = {}
 
     if (IsValid(self.Wheels)) then
@@ -945,7 +945,7 @@ function ENT:PreEntityCopy()
 end
 
 function ENT:PostEntityPaste(ply, Ent, CreatedEntities)
-	if (StarGate.WireRD) then StarGate.WireRD.PostEntityPaste(self, ply, Ent, CreatedEntities) end   -- AGP 2026-11-10: the Wire links back
+	if (StarGate.WireRD) then StarGate.WireRD.PostEntityPaste(self, ply, Ent, CreatedEntities) end   -- AGP: the Wire links back
     local dupeInfo = Ent.EntityMods.F302DupeInfo
 
     if (dupeInfo.Wheels) then

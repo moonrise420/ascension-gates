@@ -19,7 +19,8 @@
 ENT.RenderGroup = RENDERGROUP_BOTH
 ENT.Type = "vehicle"
 ENT.Base = "sg_vehicle_base"
-ENT.PrintName = "TelTak"
+ENT.PrintName = "Tel'tak"
+if (SGLanguage ~= nil and SGLanguage.GetMessage ~= nil) then ENT.PrintName = SGLanguage.GetMessage("entity_teltak") end -- AGP: was "TelTak", search for Tel'tak found nothing
 ENT.Author = "RononDex, Madman07, James, Rafael De Jongh"
 ENT.Category = "Ships"
 if (SGLanguage!=nil and SGLanguage.GetMessage!=nil) then
@@ -39,9 +40,9 @@ if SERVER then
     -- x -530..650, y +-450, z -100..300). Before it was CAP's generator with the default 200-unit bubble: it sat inside
     -- the hull and was never seen, and the hull took every hit as if no shield was up.
     ENT.AGPCabinExit = true -- AGP: hollow: the pilot gets out in the cockpit (AGP.ShipExitSpot)
-    ENT.AGPShield = { model = "models/iziraider/shields/3x4x3.mdl", yaw = 0, offset = Vector(60, 0, 194), color = { 1, 0.85, 0.5 }, scale = Vector(0.87, 0.73, 0.58) }   -- fitted round every point of the hull (2026-11-07)
-    -- (2026-11-07 balance, the series' order: Ori > O'Neill > Aurora > Daedalus > Destiny > Prometheus > Al'kesh > Tel'tak)
-    -- the shield holds 7000 damage (a beam: 7 s)
+    ENT.AGPShield = { model = "models/iziraider/shields/3x4x3.mdl", yaw = 0, offset = Vector(60, 0, 194), color = { 1, 0.85, 0.5 }, scale = Vector(0.87, 0.73, 0.58) }   -- fitted round every point of the hull (balance, the
+    -- series' order: Ori > O'Neill > Aurora > Daedalus > Destiny > Prometheus > Al'kesh > Tel'tak) the shield holds 7000
+    -- damage (a beam: 7 s)
     ENT.AGPShieldHP, ENT.AGPShieldBeamTime = 7000, 7
     ENT.AGPHullInEntHealth = true -- the hull is self.EntHealth (sg_vehicle_base ENT:AGPHullDamage)
 
@@ -140,7 +141,7 @@ if SERVER then
         self.RingBusy = false
         self.HoverPos = self:GetPos()
         self.HoverAlways = true -- let me hover always :)
-        self.EntHealth = 9000   -- (2026-11-07 balance: a cargo ship; it had 20000)
+        self.EntHealth = 9000   -- (balance: a cargo ship; it had 20000)
         self.MaxHealth = self.EntHealth
         self:CreateWireOutputs("Health")
         self:SetNWInt("maxhealth", self.MaxHealth)
@@ -263,8 +264,8 @@ if SERVER then
             end
         end
 
-        -- AGP 2026-10-31: landing mode holds still in PhysicsSimulate below (zeroing the speed here, 5 times a second, while
-        -- the flight code sped up again every tick made it creep in jerks when W was held)
+        -- AGP: landing mode holds still in PhysicsSimulate below (zeroing the speed here, 5 times a second, while the flight
+        -- code sped up again every tick made it creep in jerks when W was held)
 
         if (self.Inflight) then
             if (IsValid(self.Pilot)) then
@@ -694,8 +695,8 @@ if SERVER then
     end
 
     function ENT:HyperSpace()
-        -- AGP 2026-10-30: the window opens ahead (it pointed at the map origin without a Wire target), the jump stops
-        -- before walls, and the people in the cargo room come along (AGP.ShipMove, lua/autorun/agp_ship_hyperdrive.lua)
+        -- AGP: the window opens ahead (it pointed at the map origin without a Wire target), the jump stops before
+        -- walls, and the people in the cargo room come along (AGP.ShipMove, lua/autorun/agp_ship_hyperdrive.lua)
         local dest
         if (self.DestSet and isvector(self.HyperspaceVector)) then
             local d = self.HyperspaceVector - self:GetPos()
@@ -716,9 +717,9 @@ if SERVER then
         util.Effect("propspawn", fx)
         self:EmitSound("ambient/levels/citadel/weapon_disintegrate2.wav", 500)
         self:EmitSound("npc/turret_floor/die.wav", 450, 70)
-        -- AGP 2026-11-08: the same hyperspace windows as the other ships (agp_hyperwindow): one opens ahead and takes the
-        -- ship in, the one at the target stays behind it, where it came out (owner: the arrival window belongs behind the
-        -- ship). jump_in / jump_out came from an old workshop addon (both were placed at the start).
+        -- AGP: the same hyperspace windows as the other ships (agp_hyperwindow): one opens ahead and takes the ship in,
+        -- the one at the target stays behind it, where it came out (the arrival window belongs behind the ship). jump_in /
+        -- jump_out came from an old workshop addon (both were placed at the start).
         local dir = Ofs:GetNormalized()
         local radius = math.Clamp(self:BoundingRadius() * 0.7, 200, 3000)
         if (AGP.ShipHyperWindow) then AGP.ShipHyperWindow(self:LocalToWorld(self:OBBCenter()) + dir * radius * 1.4, -dir, radius, 1.2) end
@@ -894,7 +895,7 @@ if CLIENT then
     --Special Actions
     KBD:SetDefaultKey("RROLL", "MOUSE3") -- Reset roll
     KBD:SetDefaultKey("BOOM", "BACKSPACE")
-    KBD:SetDefaultKey("CLOAK", "C") -- AGP 2026-10-31: was ALT, ALT is free look now
+    KBD:SetDefaultKey("CLOAK", "C") -- AGP: was ALT, ALT is free look now
     KBD:SetDefaultKey("DOOR", "2")
     KBD:SetDefaultKey("HYPERSPACE", "R")
     KBD:SetDefaultKey("SHIELD", "G") -- AGP: shield

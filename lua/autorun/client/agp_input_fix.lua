@@ -1,8 +1,8 @@
 --[[
-	Ascension Gates: spawn icons turned pink instead of spawning (owner 2026-10-25).
-	GMod selects an icon (pink) instead of clicking it when it thinks Shift or Ctrl is held. After alt-tab the game can
-	keep such a key "down" (its key-up happened in another window). From the moment the game gets the focus back until
-	Shift and Ctrl are seen up once, a click on a spawn icon is a normal click.
+	Ascension Gates: spawn icons turned pink instead of spawning. GMod selects an
+	icon (pink) instead of clicking it when it thinks Shift or Ctrl is held. After alt-tab the game can keep such a key
+	"down" (its key-up happened in another window). From the moment the game gets the focus back until Shift and Ctrl
+	are seen up once, a click on a spawn icon is a normal click.
 ]]
 local lost, stuck = false, false
 

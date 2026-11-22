@@ -9,8 +9,8 @@ TOOL.Name = "Powercell"
 TOOL.ClientConVar["autolink"] = 1
 TOOL.ClientConVar["autoweld"] = 1
 TOOL.ClientConVar["capacity"] = 100
--- AGP 2026-11-08: our own model, PowerGrid's smallest cell (Half-Life 2's car battery only when PowerGrid's models
--- are missing; same rule as the entity). The old one, models/props_phx/life_support/battery_small.mdl, came only with
+-- AGP: our own model, PowerGrid's smallest cell (Half-Life 2's car battery only when PowerGrid's models are
+-- missing; same rule as the entity). The old one, models/props_phx/life_support/battery_small.mdl, came only with
 -- Spacebuild: without it every click just said "Spacebuild is required". Always this model (players may still have
 -- the old path saved in powercell_small_model).
 local function cellModel()
@@ -35,7 +35,7 @@ function TOOL:LeftClick(t)
     if (t.Entity and t.Entity:GetClass() == self.Entity.Class) then return false end
     if (CLIENT) then return true end
 
-    -- AGP 2026-11-08: no Spacebuild check any more (see cellModel above)
+    -- AGP: no Spacebuild check any more (see cellModel above)
     if (not self:CheckLimit()) then return false end
 
     local e = self:SpawnSENT(p, t, cellModel())
@@ -59,10 +59,10 @@ function TOOL:LeftClick(t)
 end
 
 function TOOL:PreEntitySpawn(p, e, model)
-    e:SetModel(cellModel()) -- AGP 2026-11-08: old dupes still carry Spacebuild's model path
+    e:SetModel(cellModel()) -- AGP: old dupes still carry Spacebuild's model path
 end
 
--- AGP 2026-11-08: the ghost always shows the real model, not a path saved in the player's convar
+-- AGP: the ghost always shows the real model, not a path saved in the player's convar
 function TOOL:DrawGhostEntity()
     if (not IsValid(self.GhostEntity) or self.GhostEntity:GetModel() ~= cellModel()) then
         self:MakeGhostEntity(cellModel(), Vector(0, 0, 0), Angle(0, 0, 0))
@@ -74,7 +74,7 @@ function TOOL:ControlsPanel(Panel)
     Panel:NumSlider(AGP.L("agp_ui_powercell_capacity", "Powercell Capacity"), "powercell_small_capacity", 0, 100, 4)
 
     if (StarGate.HasResourceDistribution) then
-        -- AGP 2026-11-08: was bound to zpm_mk3_autolink (changed the ZPM tool, not this one); own setting now
+        -- AGP: was bound to zpm_mk3_autolink (changed the ZPM tool, not this one); own setting now
         Panel:CheckBox(AGP.L("agp_ui_autolink_short", "Autolink"), "powercell_small_autolink"):SetToolTip(AGP.L("agp_ui_autolink", "Link to a resource node automatically"))
     end
 end

@@ -303,8 +303,8 @@ local function evaluate(ground, floating, walked)
         best.open = openness(center)
         best.water = bit.band(util.PointContents(center), CONTENTS_WATER) ~= 0
         best.score = best.score + math.min(best.open, 2000) / 1000
-        -- (2026-11-12, owner: "there are cool far away places left - the underground pool, the big pedestal with ramps -
-        -- and no gate there") what kind of place this is: the picks are spread over the kinds, not only over the map
+        -- what kind of place this is: the picks are spread over the kinds, not only over the map
+        --
         if floating then
             best.kind = "air"
         else

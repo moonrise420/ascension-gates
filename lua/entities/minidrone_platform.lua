@@ -39,7 +39,7 @@ if SERVER then
         self.SoundPlayed = false
         self.Wiremode = false
         self.Wire_Fire = false
-        self.Drones = {} -- AGP 2026-11-08: the drones it fired, for the "Drones In the Air" output
+        self.Drones = {} -- AGP: the drones it fired, for the "Drones In the Air" output
         if(self.HasWire) then
             self:CreateWireInputs("Activate","Fire","Target [VECTOR]")
             self:CreateWireOutputs("Active","Drones In the Air")
@@ -142,9 +142,9 @@ if SERVER then
             self:SetSkin(0)
         end
 
-        -- AGP 2026-11-08: both outputs were declared but never set. Active = the platform is on (lit: Wire mode, or its
-        -- controller is near); Drones In the Air = its drones still flying (out of fuel = falling, Fuel 0; hit something =
-        -- hidden until it is removed, mini_drone.lua StartRemoving).
+        -- AGP: both outputs were declared but never set. Active = the platform is on (lit: Wire mode, or its controller
+        -- is near); Drones In the Air = its drones still flying (out of fuel = falling, Fuel 0; hit something = hidden
+        -- until it is removed, mini_drone.lua StartRemoving).
         local flying = 0
         self.Drones = self.Drones or {}
         for d in pairs(self.Drones) do
@@ -175,11 +175,11 @@ if SERVER then
         e:Spawn()
         e:SetVelocity(aimvector * 800 + VectorRand() * multiply) -- Velocity and "randomness"
         e:SetOwner(self)
-        if (IsValid(e)) then self.Drones = self.Drones or {}; self.Drones[e] = true end -- AGP 2026-11-08: counted in Think ("Drones In the Air")
+        if (IsValid(e)) then self.Drones = self.Drones or {}; self.Drones[e] = true end -- AGP: counted in Think ("Drones In the Air")
     end
 
     function ENT:PreEntityCopy()
-    	if (StarGate.WireRD) then StarGate.WireRD.PreEntityCopy(self) end   -- AGP 2026-11-10: keep the Wire links in dupes
+    	if (StarGate.WireRD) then StarGate.WireRD.PreEntityCopy(self) end   -- AGP: keep the Wire links in dupes
         local dupeInfo = {}
         if self.HaveCore then return end -- dupe it by clicking on apple core u dumb
 
@@ -193,7 +193,7 @@ if SERVER then
     duplicator.RegisterEntityModifier("MiniDroneDupeInfo", function() end)
 
     function ENT:PostEntityPaste(ply, Ent, CreatedEntities)
-    	if (StarGate.WireRD) then StarGate.WireRD.PostEntityPaste(self, ply, Ent, CreatedEntities) end   -- AGP 2026-11-10: the Wire links back
+    	if (StarGate.WireRD) then StarGate.WireRD.PostEntityPaste(self, ply, Ent, CreatedEntities) end   -- AGP: the Wire links back
         if (StarGate.NotSpawnable(Ent:GetClass(), ply)) then
             self.Entity:Remove()
 

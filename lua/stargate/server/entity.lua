@@ -94,7 +94,7 @@ function StarGate.BlastDamage(attacker, owner, pos, rad, dmg)
 
         
     -- The real blast damage
-    -- AGP 2026-11-08: the big ships' hulls take it by the distance to the hull, not to their middle (AGP.ShipBlastBegin)
+    -- AGP: the big ships' hulls take it by the distance to the hull, not to their middle (AGP.ShipBlastBegin)
     local agpBlast = AGP and AGP.ShipBlastBegin and AGP.ShipBlastBegin(pos, rad, dmg)
 
     util.BlastDamage(attacker, owner, pos, rad, dmg)

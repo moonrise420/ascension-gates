@@ -26,8 +26,8 @@ local function checkTrace(tr)
 	return (tr.Entity and tr.Entity:IsValid() and not (tr.Entity:IsPlayer() or tr.Entity:IsNPC() or tr.Entity:IsVehicle() or tr.HitWorld));
 end
 
--- AGP 2026-11-08: own names for the dupe modifier, numpad functions, message, undo and remove hook. The Janus and the
--- Shield door tool (and the common Workshop "Fading Door" tool) all used "Fading Door", "Fading Doors onUp/onDown",
+-- AGP: own names for the dupe modifier, numpad functions, message, undo and remove hook. The Janus and the Shield
+-- door tool (and the common Workshop "Fading Door" tool) all used "Fading Door", "Fading Doors onUp/onDown",
 -- "FadingDoorHurrah!": this file loads last and won, so a duped Janus door came back as a Shield door (invisible prop,
 -- black bubble) and a new Janus door said "Shield door has been created!".
 local MODIFIER = "AGP Shield Door";
@@ -86,8 +86,8 @@ if (CLIENT) then
 		});
 	end
 
-	-- AGP 2026-11-08: was "TOOL.LeftClick = checkTrace": called as self:LeftClick(tr), checkTrace got the tool as its
-	-- trace and returned nil, so the client never drew the tool-gun beam. Same check as the server now.
+	-- AGP: was "TOOL.LeftClick = checkTrace": called as self:LeftClick(tr), checkTrace got the tool as its trace and
+	-- returned nil, so the client never drew the tool-gun beam. Same check as the server now.
 	function TOOL:LeftClick(tr)
 		return checkTrace(tr) and true or false;
 	end
@@ -249,7 +249,7 @@ local function dooEet(ply, ent, stuff)
 		ent.fadeActivate = fadeActivate;
 		ent.fadeDeactivate = fadeDeactivate;
 		ent.fadeToggleActive = fadeToggleActive;
-		ent:CallOnRemove(MODIFIER, onRemove); -- AGP 2026-11-08: own name (was "Fading Doors")
+		ent:CallOnRemove(MODIFIER, onRemove); -- AGP: own name (was "Fading Doors")
 		if (WireLib) then
 			doWireInputs(ent);
 			doWireOutputs(ent);
@@ -266,7 +266,7 @@ local function dooEet(ply, ent, stuff)
 	ent.fadeUpNum = numpad.OnUp(ply, stuff.key, NUM_UP, ent);
 	ent.fadeDownNum = numpad.OnDown(ply, stuff.key, NUM_DOWN, ent);
 	ent.fadeToggle = stuff.toggle;
-	-- AGP 2026-11-08: white when no colour came along (nil made a black bubble)
+	-- AGP: white when no colour came along (nil made a black bubble)
 	ent.r = stuff.r or 1;
 	ent.g = stuff.g or 1;
 	ent.b = stuff.b or 1;
@@ -281,7 +281,7 @@ end
 
 duplicator.RegisterEntityModifier(MODIFIER, dooEet);
 
--- AGP 2026-11-08: old saves/dupes. Both our door tools stored their doors as "Fading Door" (and read Conna's older
+-- AGP: old saves/dupes. Both our door tools stored their doors as "Fading Door" (and read Conna's older
 -- "FadingDoor"). The stored data tells which door it was: only the Shield door stored a colour (r, g, b); no colour =
 -- a Janus door. Exception: if another addon (the Workshop Fading Door tool) had registered the name before us, doors
 -- without a colour go back to it (its data looks just like a Janus door's). The same block is in janus_door.lua:
@@ -365,7 +365,7 @@ function TOOL:LeftClick(tr)
 		g = self:GetClientNumber("g")/255;
 		b = self:GetClientNumber("b")/255;
 	});
-	undo.Create("shield_door"); -- AGP 2026-11-08: own names (were fading_door / FadingDoorHurrah!); "Undone_shield_door" is above
+	undo.Create("shield_door"); -- AGP: own names (were fading_door / FadingDoorHurrah!); "Undone_shield_door" is above
 		undo.AddFunction(doUndo, ent);
 		undo.SetPlayer(ply);
 	undo.Finish();

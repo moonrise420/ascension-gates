@@ -63,8 +63,8 @@ end
 
 hook.Add("PlayerBindPress", "StarGate.Hook.ResetDynamicLights", StarGate.Hook.ResetDynamicLights)
 
--- AGP 2026-11-09: the horizon's refraction ("Draw ripple on the Eventhorizon") became on by default. A config saved
--- before keeps CAP's old 0, so it is switched on once; a player who turns it off afterwards keeps it off.
+-- AGP: the horizon's refraction ("Draw ripple on the Eventhorizon") became on by default. A config saved before
+-- keeps CAP's old 0, so it is switched on once; a player who turns it off afterwards keeps it off.
 local RippleDefaultOn = CreateClientConVar("agp_ripple_default_on", 0, true, false)
 hook.Add("InitPostEntity", "AGP.RippleDefaultOn", function()
     if (RippleDefaultOn:GetBool()) then return end
@@ -288,17 +288,17 @@ end
 local AGP_CLASS_GROUP = {
     control_chair = "weapons",            -- the Ancient drone chair is a weapon, not a ship
     agp_goauld_power_hub = "power", agp_goauld_power_crystal = "power",
-    -- 2026-10-25 (owner): two ship categories - "capital" = walk-in motherships with a TARDIS interior (bigger inside),
-    -- everything else that flies (big or small, really hollow or not) is "ships"
+    -- two ship categories - "capital" = walk-in motherships with a TARDIS interior (bigger inside), everything else
+    -- that flies (big or small, really hollow or not) is "ships"
     agp_hatak = "capital",
     sg_vehicle_prometheus = "ships",
-    -- 2026-10-25 (owner): "Misc devices" was one long list - split up; our energy devices go to SpaceGrid
+    -- "Misc devices" was one long list - split up; our energy devices go to SpaceGrid
     black_hole_power = "power", powercell_small = "power", zpm_analyser = "power", zpm_analyser_mk2 = "power",
     ancient_obelisk = "tech", sodan_obelisk = "tech", apple_core = "tech", arthur_mantle = "tech", lantean_holo = "tech",
     telchak = "tech", sarcophagus = "tech", comstones_stone = "tech", comstones_tablet = "tech", anti_prior = "tech",
     molecular_construction_device = "tech", industrial_molecular_construction_device = "tech", shield_core = "tech",
     destiny_console = "tech", destiny_timer = "tech",
-    destiny_node = "power",   -- 2026-10-31 (owner): the Destiny Power Node is a network part of PowerGrid
+    destiny_node = "power",   -- the Destiny Power Node is a network part of PowerGrid
     atlantis_transporter = "transport", transporter = "transport", malp = "transport", kino_dispenser = "transport",
     ship_hangar = "transport",
     call_forwarding_device = "gates", iris_computer = "gates",
@@ -310,7 +310,7 @@ local AGP_NAME_GROUP = {
     ["ascension gates: ships"] = "ships", ["ships"] = "ships",
     ["capital ships"] = "ships",   -- old CAP/EAP big ships are no walk-in motherships
     ["agp power"] = "power", ["grid power"] = "power", ["powergrid"] = "power",   -- PowerGrid's parts (own addon)
-    ["replicators"] = "replicators",   -- 2026-11-01: our own Replicators (block, bug, queen)
+    ["replicators"] = "replicators",   -- our own Replicators (block, bug, queen)
 }
 local AGP_GROUP_NAME = {
     gates = function() return msg("stargate_category", "StarGates and Rings") end,
@@ -338,9 +338,9 @@ function StarGate.TabCategory(ent)
     return AGP_GROUP_NAME[g or "misc"]()
 end
 
--- 2026-10-31 (owner): the PowerGrid list sorted by role, inside a role by size, not by name.
--- 1xx sources (small to large, the endless ones last), 2xx storage, 3xx network, 4xx life support, 5xx tools.
--- Classes not listed here come after these, by name.
+-- the PowerGrid list sorted by role, inside a role by size, not by name. 1xx sources (small
+-- to large, the endless ones last), 2xx storage, 3xx network, 4xx life support, 5xx tools. Classes not listed
+-- here come after these, by name.
 local AGP_POWER_ORDER = {}
 for i, cls in ipairs({
     "agp_solar_small", "agp_solar_large", "agp_wind_turbine", "ion_generator", "agp_goauld_power_hub",
@@ -383,8 +383,8 @@ local function StargateAddTab(Categorised, pnlContent, tree, node)
     --
     -- Add a tree node for each category
     --
-    -- AGP 2026-10-31 (owner): groups by name as before, but PowerGrid as the last group of the entities, so it sits
-    -- right above the player weapons (they follow in their own pass)
+    -- AGP: groups by name as before, but PowerGrid as the last group of the entities, so it sits right above the
+    -- player weapons (they follow in their own pass)
     local powerName = AGP_GROUP_NAME.power()
     local order = {}
     for CategoryName in SortedPairs(Categorised) do
@@ -398,7 +398,7 @@ local function StargateAddTab(Categorised, pnlContent, tree, node)
         local icon = "icon16/bricks.png"
         local enttype = v[1].__enttype
         local adminonly, disabled = "ent_groups_only", "cap_disabled_ent"
-        if (CategoryName == powerName and enttype == "cap_entity") then icon = "icon16/lightning.png" end   -- owner 2026-10-31: thunderbolt
+        if (CategoryName == powerName and enttype == "cap_entity") then icon = "icon16/lightning.png" end   -- thunderbolt
         if (CategoryName == AGP_GROUP_NAME.replicators() and enttype == "cap_entity") then icon = "agp/icon16_replicator.png" end
 
         if (enttype == "cap_weapon") then
@@ -510,7 +510,7 @@ hook.Add("StargateTab", "AddEntityContent", function(pnlContent, tree, node)
             table.insert(Categorised[cat], v)
         end
     end
-    -- AGP 2026-11-01 (owner): the Replicators get their own group right above the NPCs (after the weapons)
+    -- AGP: the Replicators get their own group right above the NPCs (after the weapons)
     local repName = AGP_GROUP_NAME.replicators()
     local Replicators = Categorised[repName]
     Categorised[repName] = nil
@@ -630,13 +630,13 @@ function StarGate.Hook.AddToolTab()
         ctrl:CallPopulateHook("StargateTab")
 
         return ctrl
-    end, "gui/agp_logo.png", 60.01)   -- (2026-11-17: Ascension Gates 60.01, SpaceGrid 60.02, PowerGrid 60.03 - right after the Vehicles tab, and after other addons' 60 such as VJ Base and Pills, so ours stay side by side)
+    end, "gui/agp_logo.png", 60.01)   -- (Ascension Gates 60.01, SpaceGrid 60.02, PowerGrid 60.03 - right after the Vehicles tab, and after other addons' 60 such as VJ Base and Pills, so ours stay side by side)
 
     spawnmenu.AddToolTab(cat_name, "Ascension Gates", "gui/agp_logo.png")
     -- AGP: SpaceGrid, our own tab for everything energy and life support (like Spacebuild's tabs): the Grid Power parts,
     -- the energy tools (ZPMs, hubs, naquadah, Goa'uld power, power link) and the power settings
-    spawnmenu.AddToolTab("SpaceGrid", "PowerGrid", "icon16/lightning.png") -- owner 2026-10-30: shown as "PowerGrid" (the id stays SpaceGrid for the tools)
-    spawnmenu.AddToolCategory("SpaceGrid", "Connector", " " .. msg("agp_cat_connector", "Connect Power"))   -- the Grid Power Connector on its own, first (owner 2026-10-25)
+    spawnmenu.AddToolTab("SpaceGrid", "PowerGrid", "icon16/lightning.png") -- shown as "PowerGrid" (the id stays SpaceGrid for the tools)
+    spawnmenu.AddToolCategory("SpaceGrid", "Connector", " " .. msg("agp_cat_connector", "Connect Power"))   -- the Grid Power Connector on its own, first
     spawnmenu.AddToolCategory("SpaceGrid", "Grid Power", " " .. msg("agp_cat_power", "PowerGrid"))
     spawnmenu.AddToolCategory("SpaceGrid", "Energy", " " .. msg("stool_cat_energy", "Energy"))
     spawnmenu.AddToolCategory("SpaceGrid", "Settings", " " .. msg("agp_cat_settings", "Settings"))
@@ -722,8 +722,8 @@ function StarGate.Hook.AddToolTab()
                 end
 
                 spawnmenu.AddToolMenuOption(cat_name, v.Category or "", k, v.Name or "#" .. k, v.Command or "gmod_tool " .. k, v.ConfigName or k, v.BuildCPanel)
-                -- AGP: energy tools (ZPM hubs, naquadah, power cells) also in SpaceGrid - in both tabs (owner 2026-10-25);
-                -- an own item name there, so each tab gets its own settings panel
+                -- AGP: energy tools (ZPM hubs, naquadah, power cells) also in SpaceGrid - in both tabs; an own item name
+                -- there, so each tab gets its own settings panel
                 if (v.Category == "Energy") then
                     spawnmenu.AddToolMenuOption("SpaceGrid", "Energy", k .. "_spacegrid", v.Name or "#" .. k, v.Command or "gmod_tool " .. k, v.ConfigName or k, v.BuildCPanel)
                 end
@@ -734,11 +734,11 @@ end
 
 hook.Add("AddToolMenuTabs", "StarGate.Hook.AddToolTab", StarGate.Hook.AddToolTab)
 
--- 2026-11-17 (owner: "first AGP, than SpaceGrid and than Powergrid so they nebeneinander"): our tool tabs side by side.
--- GMod sorts tool tabs by their inner names (Stargate, SpaceGrid = PowerGrid's, SpaceGridKit = SpaceGrid's), other
--- addons' tabs came between them. When the tool menu is built, our tabs are moved together in this order, at the place
--- of the first of them. Only the shown tabs move: GMod's own list (tab numbers) stays as it is. The same code is in
--- Ascension Gates, PowerGrid and SpaceGrid (each works alone); the first one loaded does it, once.
+-- our tool tabs side by side. GMod sorts tool tabs by their inner names (Stargate, SpaceGrid = PowerGrid's,
+-- SpaceGridKit = SpaceGrid's), other addons' tabs came between them. When the tool menu is built, our tabs are
+-- moved together in this order, at the place of the first of them. Only the shown tabs move: GMod's own list (tab
+-- numbers) stays as it is. The same code is in Ascension Gates, PowerGrid and SpaceGrid (each works alone); the
+-- first one loaded does it, once.
 hook.Add("PopulateToolMenu", "AGP.OurTabOrder", function()
     local tm = vgui.GetControlTable("ToolMenu")
     if not tm or tm.AGPTabOrder then return end
@@ -826,7 +826,7 @@ function StarGate.Update_Check(Panel)
             btn:SetText(it[1])
             btn.DoClick = it[2]
         end
-        -- AGP 2026-11-10: each button as wide as its text needs (equal thirds cut "Beretta 92 (romunql)")
+        -- AGP: each button as wide as its text needs (equal thirds cut "Beretta 92 (romunql)")
         r.PerformLayout = function(self, w)
             local kids = self:GetChildren()
             local need, sum = {}, 0
@@ -894,8 +894,8 @@ function StarGate.MiscVisualSettings(Panel)
     table.insert(disable, Panel:CheckBox(SGLanguage.GetMessage("vis_dyn_light"), "cl_stargate_dynlights"))
     table.GetLastValue(disable):SetToolTip(high)
 
-    -- AGP 2026-11-09: shown always; it waited for zup/stargate/effect_03.vmt, which never existed (the refraction has
-    -- its own material now, effects/eventhorizon_refract.lua), so the box was never in the menu
+    -- AGP: shown always; it waited for zup/stargate/effect_03.vmt, which never existed (the refraction has its own
+    -- material now, effects/eventhorizon_refract.lua), so the box was never in the menu
     table.insert(disable, Panel:CheckBox(SGLanguage.GetMessage("vis_ripple"), "cl_stargate_ripple"))
     table.GetLastValue(disable):SetToolTip(medium)
 
@@ -1096,7 +1096,7 @@ function StarGate_Settings(Panel)
     local RED = Color(255, 0, 0, 255)
     local DGREEN = Color(0, 182, 0, 255)
 
-    -- AGP 2026-10-25: only the language here (the server settings button is on About & Credits)
+    -- AGP: only the language here (the server settings button is on About & Credits)
     Panel:Help(SGLanguage.GetMessage("stargate_settings_06")):SetTextColor(DGREEN)
     local clientlang = vgui.Create("DMultiChoice", Panel)
     clientlang:SetSize(50, 20)
@@ -1168,7 +1168,7 @@ function StarGate_Settings(Panel)
     Panel:Help(SGLanguage.GetMessage("stargate_settings_07"))
     Panel:Help(SGLanguage.GetMessage("stargate_settings_03")):SetTextColor(DGREEN)
     local VGUI = vgui.Create("DPanel")
-    -- AGP 2026-11-08: the language list on our dark box with lighter percentage colours (red / orange on the grey box were
+    -- AGP: the language list on our dark box with lighter percentage colours (red / orange on the grey box were
     -- unreadable); AGPDark tells the text fitting pass that its texts sit on dark ground
     VGUI.AGPDark = true
     VGUI.Paint = function(_, w, h) draw.RoundedBox(4, 0, 0, w, h, (AGP and AGP.Colors and AGP.Colors.panel) or Color(24, 32, 46)) end

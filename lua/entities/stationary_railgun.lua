@@ -355,7 +355,7 @@ if SERVER then
         self.Driver:DrawViewModel(true)
         self.Driver:DrawWorldModel(true)
         self.Driver:SetMoveType(MOVETYPE_VPHYSICS)
-        -- AGP 2026-11-08: the same life goes on (Mimetisor disguise, armour and ammo stay), not a new one: AGP.ShipRespawnPilot
+        -- AGP: the same life goes on (Mimetisor disguise, armour and ammo stay), not a new one: AGP.ShipRespawnPilot
         if (AGP and AGP.ShipRespawnPilot) then AGP.ShipRespawnPilot(self.Driver) else self.Driver:Spawn() end
 
         for k, v in pairs(self.weps) do

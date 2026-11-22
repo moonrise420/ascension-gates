@@ -109,7 +109,7 @@ if (StarGate.CheckModule("npc")) then
     list.Set("PlayerOptionsModel", "#pm_wraith", "models/pg_props/pg_charaktere/pg_wraith_player.mdl")
     list.Set("PlayerOptionsModel", "#pm_prior", "models/tiny/Playermodels/Prior_PM.mdl")
     list.Set("PlayerOptionsModel", "#pm_goauld", "models/ViktorK/player/anubis.mdl")
-    -- AGP 2026-11-12 (owner: "work with CAP's"): CAP's fourth player model is back, ViktorK's SG soldier
+    -- AGP: CAP's fourth player model is back, ViktorK's SG soldier
     list.Set("PlayerOptionsModel", "#pm_sg_soldier", "models/ViktorK/player/scout_tau.mdl")
     player_manager.AddValidModel("#pm_wraith", "models/pg_props/pg_charaktere/pg_wraith_player.mdl")
     player_manager.AddValidModel("#pm_prior", "models/tiny/Playermodels/Prior_PM.mdl")

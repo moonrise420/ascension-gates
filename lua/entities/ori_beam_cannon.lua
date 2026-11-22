@@ -116,9 +116,10 @@ if SERVER then
 
     -----------------------------------THINK----------------------------------
     function ENT:Think(ply)
-        self.Power = math.Clamp(self.Power + 25 / self.ChargingTime, 0, 100)
-        if (self.Power < 100) then
-            self:ConsumeResource("energy", 14000)
+        -- AGP: charging takes energy only when the weapon uses energy (agp_weapon_energy); then a network that
+        -- cannot give it stops the charging (it drained a network that had nothing and charged anyway)
+        if (self.Power >= 100 or StarGate.WeaponCharge(self)) then -- AGP: per second (StarGate.ChargeRate)
+            self.Power = math.Clamp(self.Power + 25 / self.ChargingTime, 0, 100)
         end
         Wire_TriggerOutput(self.Entity, "Charged %", self.Power)
 
@@ -147,23 +148,25 @@ if SERVER then
     end
 
     function ENT:Shoot()
-        local energy = self:GetResource("energy")
-
-        if (energy > self.energy_drain or not self.HasRD) then
+        -- AGP: energy by agp_weapon_energy (StarGate.WeaponEnergy)
+        if (StarGate.WeaponEnergy(self, 0, true)) then -- (the shot is paid with the charge)
             local FiringPos = self.Entity:GetPos() + self.Entity:GetUp() * 30
             local ShootDir = (self.Target - FiringPos):GetNormal()
 
+            -- AGP: through the own ship's shield; any part of the own ship in the way stops the shot
             local trace = util.TraceLine({
                 start = FiringPos,
                 endpos = self.Target,
-                ignoreworld = true
+                ignoreworld = true,
+                filter = function(e) return not StarGate.OwnShield(self, e) end
             })
 
-            if (IsValid(trace.Entity) and trace.Entity == self) then return end
-            self:ConsumeResource("energy", self.energy_drain)
+            if (IsValid(trace.Entity) and StarGate.SameShip(self, trace.Entity)) then return end
+            -- (no extra cost for the shot: the charge paid for it, StarGate.ChargeRate)
             self.Power = 0
             self.Entity:EmitSound(self.Sounds.Shoot, 100, math.random(98, 102))
             local ent = ents.Create("energy_beam2")
+            StarGate.MarkShot(ent, self)
             ent.Owner = self.Entity
             ent:SetPos(FiringPos)
             ent:Spawn()

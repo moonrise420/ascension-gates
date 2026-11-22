@@ -95,8 +95,8 @@ if SERVER then
     end
 
     function ENT:Think()
-        -- AGP 2026-10-30: the right code unlocks it once (and is then used up). In auto mode a new random code is made
-        -- each time the device is switched on, not every 0.5 s (the code could never be matched before).
+        -- AGP: the right code unlocks it once (and is then used up). In auto mode a new random code is made each time
+        -- the device is switched on, not every 0.5 s (the code could never be matched before).
         if (self.Unlock ~= nil and self.Unlock == self.UnlockCode) then
             self.Activated = false
             self.Unlock = nil

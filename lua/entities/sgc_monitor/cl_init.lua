@@ -68,7 +68,7 @@ end
 
 -------------------------------------
 surface.CreateFont("SGC_SG1", {
-    font = "AGP Glyphs Concept", -- AGP 2026-11-08: the SGC is on Earth: Earth's point of origin at '#'
+    font = "AGP Glyphs Concept", -- AGP: the SGC is on Earth: Earth's point of origin at '#'
     size = 35,
     weight = 400,
     antialias = true,

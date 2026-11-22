@@ -1,14 +1,14 @@
 --[[
-	Goa'uld Larva - Ascension Gates' own code and model (2026-11-06), designed after the series; no Evolution Addon
-	Pack content left (the class name stays for saves). A young symbiote (prim'ta) held in the hand: it wriggles all
-	the time, and snaps its four-pronged jaw at whatever is in front of you.
-	Left click: a bite. Right click: on a person in reach the symbiote takes them as its host (agp_goauld_host.lua);
-	elsewhere a squeeze - it shrieks and lunges further and harder.
-	First person: GMod's hands on the bug bait animations (the pod in the hand), our larva in the hand
+	Goa'uld Larva - Ascension Gates' own code and model, designed after the series; no Evolution Addon Pack content
+	left (the class name stays for saves). A young symbiote (prim'ta) held in the hand: it wriggles all the time, and
+	snaps its four-pronged jaw at whatever is in front of you. Left click: a
+	bite. Right click: on a person in reach the symbiote takes them as its host (agp_goauld_host.lua); elsewhere a
+	squeeze - it shrieks and lunges further and harder. First
+	person: GMod's hands on the bug bait animations (the pod in the hand), our larva in the hand
 	(agp_sgc_weapons.lua). The shriek is the series' sound the old larva used too.
 ]]
 SWEP.PrintName = "Goa'uld Larva"
-SWEP.Category = (SGLanguage and SGLanguage.GetMessage) and SGLanguage.GetMessage("weapon_misc_cat") or "Misc Weapons"   -- AGP 2026-11-10: one of our two weapon folders (was "Weapons": a folder of its own)
+SWEP.Category = (SGLanguage and SGLanguage.GetMessage) and SGLanguage.GetMessage("weapon_misc_cat") or "Misc Weapons"   -- AGP: one of our two weapon folders (was "Weapons": a folder of its own)
 if (SGLanguage ~= nil and SGLanguage.GetMessage ~= nil) then
     SWEP.PrintName = SGLanguage.GetMessage("wp_goa_symb")
     SWEP.Category = SGLanguage.GetMessage("weapon_cat")
@@ -39,8 +39,8 @@ SWEP.Secondary.DefaultClip = -1
 SWEP.Secondary.Automatic = true
 SWEP.Secondary.Ammo = "none"
 
--- AGP 2026-11-08: reach 64 / 84 from the eyes was shorter than any melee weapon (crowbar and EAP's larva: 75), so an
--- NPC an arm's length away or a small one at your feet was never reached (owner: "nothing happens"); now 80 / 110
+-- AGP: reach 64 / 84 from the eyes was shorter than any melee weapon (crowbar and EAP's larva: 75), so an NPC an
+-- arm's length away or a small one at your feet was never reached; now 80 / 110
 local BITE, BITE_REACH, BITE_DELAY = 10, 80, 0.7     -- left click
 local LUNGE, LUNGE_REACH, LUNGE_DELAY = 24, 110, 1.5 -- right click
 local SHRIEK = Sound("eap/weapons/larve.wav")         -- from the series
@@ -61,7 +61,7 @@ function SWEP:Initialize()
 end
 
 function SWEP:Deploy()
-    self:EmitSound(SHRIEK, 72, 100)   -- (2026-11-12, owner: the series' sound - at its own pitch and a little louder; it was pitched up and quiet)
+    self:EmitSound(SHRIEK, 72, 100)   -- (the series' sound - at its own pitch and a little louder; it was pitched up and quiet)
     return true
 end
 
@@ -72,8 +72,8 @@ function SWEP:Strike(dmg, reach, len, stretch)
     self:SendWeaponAnim(ACT_VM_SECONDARYATTACK)    -- the hand squeezes, the larva shoots forward
     if (o:IsPlayer()) then o:LagCompensation(true) end
     local src, aim = o:GetShootPos(), o:GetAimVector()
-    -- AGP 2026-11-08: first exactly where you aim, then a wider sweep (10 units, like GMod's fists) so a bite
-    -- near the crosshair counts too (the 5 unit hull alone missed thin or small targets)
+    -- AGP: first exactly where you aim, then a wider sweep (10 units, like GMod's fists) so a bite near the
+    -- crosshair counts too (the 5 unit hull alone missed thin or small targets)
     local tr = util.TraceLine({ start = src, endpos = src + aim * reach, filter = o, mask = MASK_SHOT_HULL })
     if (not IsValid(tr.Entity)) then
         local tr2 = util.TraceHull({ start = src, endpos = src + aim * reach, filter = o,
@@ -88,8 +88,8 @@ function SWEP:Strike(dmg, reach, len, stretch)
         d:SetDamage(dmg); d:SetDamageType(DMG_SLASH); d:SetAttacker(o); d:SetInflictor(self)
         d:SetDamagePosition(tr.HitPos); d:SetDamageForce(aim * 300)
         e:TakeDamageInfo(d)
-        -- AGP 2026-11-08: a bite you can see: blood where it bit (TakeDamageInfo alone shows nothing), the victim's
-        -- view jerks
+        -- AGP: a bite you can see: blood where it bit (TakeDamageInfo alone shows nothing), the victim's view jerks
+        --
         if (living) then
             local blood = e.GetBloodColor and e:GetBloodColor() or BLOOD_COLOR_RED
             if (blood ~= DONT_BLEED) then
@@ -116,7 +116,7 @@ function SWEP:PrimaryAttack()
     self:Strike(BITE, BITE_REACH, 0.45, 2.5)
 end
 
--- (2026-11-12, the owner's wish) right click on a person in reach: the symbiote takes him as its host
+-- (the author's wish) right click on a person in reach: the symbiote takes him as its host
 -- (lua/autorun/agp_goauld_host.lua) - the larva is gone from the hand, it is in the host now. Nobody in reach (or one
 -- who is a Goa'uld already): the old shriek and lunge.
 function SWEP:HostInReach()

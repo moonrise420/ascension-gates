@@ -126,7 +126,7 @@ if SERVER then
         end
 
         self.DroneCount = 0
-        self:ShowOutput() -- AGP 2026-11-08: was SetWire("Drones In Air", 0) only
+        self:ShowOutput() -- AGP: was SetWire("Drones In Air", 0) only
     end
 
     function ENT:StartTouch(ent)
@@ -154,8 +154,8 @@ if SERVER then
         end
     end
 
-    -- AGP 2026-11-08: was an empty dummy and "Active" / "Drones In Air" were never set (only reset by Kill). The drones
-    -- call this when they are gone (drone.lua OnRemove); the launcher after every launch, Launch input and Kill.
+    -- AGP: was an empty dummy and "Active" / "Drones In Air" were never set (only reset by Kill). The drones call this
+    -- when they are gone (drone.lua OnRemove); the launcher after every launch, Launch input and Kill.
     -- Active = 1 while launching (as the Drone Launcher), Drones In Air = drones of this launcher still flying.
     function ENT:ShowOutput()
         self:SetWire("Active", self.Launched and 1 or 0)
@@ -187,7 +187,7 @@ if SERVER then
             else
                 self.Launched = false
             end
-            self:ShowOutput() -- AGP 2026-11-08: Active follows the Launch input
+            self:ShowOutput() -- AGP: Active follows the Launch input
         elseif (k == "Lock") then
             if (v > 0) then
                 self.Track = true
@@ -323,14 +323,14 @@ if SERVER then
         if (self.Launched) then
             if (self.DroneCount >= (game.SinglePlayer() and StarGate.CFG:Get("drone", "max_drones_sp", 50) or self.MaxDrones)) then return end -- AGP: single player has its own, bigger limit (Stargate settings > Drone launcher); unlimited could freeze the game
 
-            if (energy < self.energy_drain) then
+            -- AGP: energy per drone by agp_weapon_energy (StarGate.WeaponEnergy)
+            if (not StarGate.WeaponEnergy(self, self.energy_drain)) then
                 self.Launched = false
-                self:ShowOutput() -- AGP 2026-11-08: out of energy = not launching any more
+                self:ShowOutput() -- AGP: out of energy = not launching any more
 
                 return
             end
 
-            self:ConsumeResource("energy", self.energy_drain)
             local vel = self.Entity:GetVelocity()
             local up = self.Entity:GetUp()
             local pos = self.Entity:GetPos()
@@ -343,6 +343,7 @@ if SERVER then
             })
 
             local e = ents.Create("drone")
+            StarGate.MarkShot(e, self)
             e.Parent = self.Entity
             local rand = VectorRand() * 30
             rand.Z = 0
@@ -365,7 +366,7 @@ if SERVER then
 
         self.DronesLeft = math.Clamp(self.MaxDrones - self.DroneCount, 0, math.floor((energy / self.energy_drain)))
         self:SetWire("Drones Remaining", self.DronesLeft)
-        self:ShowOutput() -- AGP 2026-11-08: Active and Drones In Air (also set while the chair controls it)
+        self:ShowOutput() -- AGP: Active and Drones In Air (also set while the chair controls it)
 
         if self.Anim then
             next_think = 0
@@ -380,7 +381,7 @@ end
 if CLIENT then
     ENT.RenderGroup = RENDERGROUP_OPAQUE -- This FUCKING THING avoids the clipping bug I have had for ages since stargate BETA 1.0. DAMN!
 
-    -- Kill Icon (AGP 2026-11-08: the icon is in VGUI/weapons/, the old path never existed - killfeed showed the default)
+    -- Kill Icon (AGP: the icon is in VGUI/weapons/, the old path never existed - killfeed showed the default)
     if (file.Exists("materials/VGUI/weapons/drone_killicon.vmt", "GAME")) then
         killicon.Add("launcher_drones", "VGUI/weapons/drone_killicon", Color(255, 255, 255))
         killicon.Add("drone", "VGUI/weapons/drone_killicon", Color(255, 255, 255))

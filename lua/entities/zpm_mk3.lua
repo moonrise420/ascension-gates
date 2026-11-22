@@ -405,7 +405,7 @@ end
 
 
 function ENT:PreEntityCopy()
-	if (StarGate.WireRD) then StarGate.WireRD.PreEntityCopy(self) end   -- AGP 2026-11-10: keep the Wire links in dupes
+	if (StarGate.WireRD) then StarGate.WireRD.PreEntityCopy(self) end   -- AGP: keep the Wire links in dupes
 	local dupeInfo = {}
 
 	dupeInfo.Type = self.ZPMType
@@ -415,7 +415,7 @@ function ENT:PreEntityCopy()
 end
 
 function ENT:PostEntityPaste(ply, Ent, CreatedEntities)
-	if (StarGate.WireRD) then StarGate.WireRD.PostEntityPaste(self, ply, Ent, CreatedEntities) end   -- AGP 2026-11-10: the Wire links back
+	if (StarGate.WireRD) then StarGate.WireRD.PostEntityPaste(self, ply, Ent, CreatedEntities) end   -- AGP: the Wire links back
 	local dupeInfo = Ent.EntityMods and Ent.EntityMods.DupeInfo
 	if (not dupeInfo) then return end -- fix: older dupes have no DupeInfo (nil index)
 
@@ -527,7 +527,7 @@ if CLIENT then
                 end
 
                 if (perc > 0) then
-                    perc = string.format("%4.2f", tonumber(perc) or 0)   -- AGP 2026-11-10: two decimals like the other info boxes (it showed 100.000000%)
+                    perc = string.format("%4.2f", tonumber(perc) or 0)   -- AGP: two decimals like the other info boxes (it showed 100.000000%)
                 end
 
                 -- from CAP: translated status text (the server sends the English state name)

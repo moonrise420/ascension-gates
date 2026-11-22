@@ -1,8 +1,8 @@
 --[[
-	O'Neill (the Asgard warship of the series, O'Neill-class) - Ascension Gates' own code and model (2026-11-07),
-	designed after the series (notes/models/agp_oneill_ship_*.py).
-	EAP's model and code are gone; the class name stays "sg_vehicle_oneill", so saves and dupes keep working (same Wire
-	names, same keyboard layout "Oneill"). Built on:
+	O'Neill (the Asgard warship of the series, O'Neill-class) - Ascension Gates' own code and model, designed after
+	the series. EAP's model and code are gone; the class name stays
+	"sg_vehicle_oneill", so saves and dupes keep working (same Wire names, same keyboard layout "Oneill"). Built on:
+
 	  * the ship base sg_vehicle_base (CAP, RononDex): flying, getting in / out, the camera
 	  * CAP's energy_pulse (aVoN, Madman07) for the ion guns' shots, CAP's energy_beam2 for the Asgard beam
 	  * our own ship systems (lua/autorun/agp_ship_shield.lua, agp_ship_hyperdrive.lua): shield, hull damage,
@@ -25,14 +25,14 @@ ENT.AGPSupergateDHD = true      -- R: dial menu of the nearest Supergate (or Sta
 ENT.AGPHyperRange = 30000       -- hyperdrive (H): longest jump
 list.Set("CAP.Entity", ENT.PrintName, ENT)
 
--- our own model, designed after the series (notes/models/agp_oneill_ship_models.py)
+-- our own model, designed after the series
 local MODEL = "models/agp/oneill/agp_oneill.mdl"
 function ENT:AGPModel() return MODEL end
 
 -- the shield bubble: a flat ellipsoid round the hull and the fins, Asgard blue
-ENT.AGPShield = { model = "models/iziraider/shields/4x4x3.mdl", yaw = 0, offset = Vector(32, 0, 98), scale = Vector(0.73, 0.94, 0.4), color = { 0.6, 0.8, 1 } }   -- fitted round every point of the hull (2026-11-07)
--- (2026-11-07 balance, the series' order: Ori > O'Neill > Aurora > Daedalus > Destiny > Prometheus > Al'kesh > Tel'tak)
--- the shield holds 34000 damage (a beam: 34 s)
+ENT.AGPShield = { model = "models/iziraider/shields/4x4x3.mdl", yaw = 0, offset = Vector(32, 0, 98), scale = Vector(0.73, 0.94, 0.4), color = { 0.6, 0.8, 1 } }   -- fitted round every point of the hull (balance, the
+-- series' order: Ori > O'Neill > Aurora > Daedalus > Destiny > Prometheus > Al'kesh > Tel'tak) the shield holds 34000
+-- damage (a beam: 34 s)
 ENT.AGPShieldHP, ENT.AGPShieldBeamTime = 34000, 34
 
 local HULL = 30000
@@ -144,7 +144,7 @@ if SERVER then
 				e:Spawn()
 				e:Activate()
 				e:SetColor(ION)
-				e.Damage = 350   -- (2026-11-07 balance)
+				e.Damage = 350   -- (balance)
 				self:EmitSound("eap/ship/armes/asgardflak.mp3", 90, math.random(95, 110))
 			end)
 		end

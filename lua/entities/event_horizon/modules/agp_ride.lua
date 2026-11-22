@@ -1,8 +1,8 @@
 --[[
-	Ascension Gates: the wormhole ride (2026-11-10, our own code; replaces the Evolution Addon Pack's DoWormHole /
-	MoveToTarget by Elanis and its usermessages). What goes into a gate (with the ride on, config "doWormholeSequence")
-	is held out of the world for AGP_RIDE_TIME seconds - invisible, not solid, not moving; a player frozen and unhurt -
-	while the player (or a ship's pilot) sees the tunnel; then it comes out of the far gate. The tunnel picture
+	Ascension Gates: the wormhole ride (our own code; replaces the Evolution Addon Pack's DoWormHole / MoveToTarget
+	by Elanis and its usermessages). What goes into a gate (with the ride on, config "doWormholeSequence") is held out
+	of the world for AGP_RIDE_TIME seconds - invisible, not solid, not moving; a player frozen and unhurt - while the
+	player (or a ship's pilot) sees the tunnel; then it comes out of the far gate. The tunnel picture
 	(williamdefly/wormhole) and the travel sound (stargate/travelnew.mp3) are the series' (MGM).
 
 	Kept for the rest of the pack:
@@ -50,12 +50,12 @@ if (SERVER) then
 		if (isShip(e) and IsValid(e.Pilot) and e.Pilot:IsPlayer()) then return e.Pilot end
 	end
 
-	-- AGP 2026-11-18 (owner test: a seat with a StarCore welded behind it rode the wormhole twice - every welded part
-	-- started its own ride once it was through, and the second ride moved the whole ship again from the source gate: it
-	-- came out far off, under the map; the pilot in the seat saw no tunnel, only a frozen picture): a contraption rides
-	-- as one. The part that is through first starts the ride; every other part of it (and what is parented to them) is
-	-- held where it is - frozen, unseen, not solid - and comes along; the players in its seats are unhurt and see the
-	-- tunnel. The far gate gets the whole contraption once, as without the ride.
+	-- AGP (test: a seat with a StarCore welded behind it rode the wormhole twice - every welded part started its own
+	-- ride once it was through, and the second ride moved the whole ship again from the source gate: it came out far
+	-- off, under the map; the pilot in the seat saw no tunnel, only a frozen picture): a contraption rides as one. The
+	-- part that is through first starts the ride; every other part of it (and what is parented to them) is held where
+	-- it is - frozen, unseen, not solid - and comes along; the players in its seats are unhurt and see the tunnel.
+	-- The far gate gets the whole contraption once, as without the ride.
 	local function heldState(v)
 		local p = v:GetPhysicsObject()
 		local st = { Ent = v, Flags = v:GetSolidFlags(), Color = v:GetColor(), RenderMode = v:GetRenderMode(), Vel = v:GetVelocity() }
@@ -417,9 +417,9 @@ if (SERVER) then
 				end)
 			end
 			if (IsValid(k) and not k:IsPlayer()) then gravityBack(k, r) end
-			-- AGP 2026-11-16 (owner test: the Gate Glider stayed in the far event horizon, only its tip out, until the gate
-			-- threw it out): a ship comes out at the depth it went in, and a ship without throttle then just hovers there.
-			-- Every sg_vehicle_ ship comes out wholly in front of the far gate (its centre a bounding radius out).
+			-- AGP (test: the Gate Glider stayed in the far event horizon, only its tip out, until the gate threw it out): a
+			-- ship comes out at the depth it went in, and a ship without throttle then just hovers there. Every
+			-- sg_vehicle_ ship comes out wholly in front of the far gate (its centre a bounding radius out).
 			if (IsValid(k) and k:GetClass():sub(1, 11) == "sg_vehicle_") then
 				local g = (cfd and self or self.Target):GetParent()
 				if (IsValid(g)) then

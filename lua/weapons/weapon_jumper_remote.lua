@@ -40,7 +40,7 @@ function SWEP:Initialize()
 end
 
 --########## Toggle Cloak @RononDex
--- AGP 2026-11-10: with no Jumper of yours nothing happened at all - it says so now
+-- AGP: with no Jumper of yours nothing happened at all - it says so now
 local function AGPNoJumper(self)
 	if (CLIENT or not IsValid(self.Owner)) then return false end
 	for _, v in pairs(ents.FindByClass("puddle_jumper")) do
@@ -133,12 +133,12 @@ function SWEP:Think()
 	end
 end
 
--- AGP 2026-11-12 (owner: "CAP's is way better held in the hand - why can't we have it exactly the same way"): CAP's own
--- first-person model again - the remote, the grip and the button presses exactly as they were - with the player's own
--- hands laid onto its arm skeleton (lua/autorun/agp_blueprint_arms.lua). (2026-11-10's GMod pistol grip never fitted.)
+-- AGP: CAP's own first-person model again - the remote, the grip and the button presses exactly as they were - with the
+-- player's own hands laid onto its arm skeleton (lua/autorun/agp_blueprint_arms.lua). (GMod pistol grip never
+-- fitted.)
 if (AGP and AGP.BlueprintArms) then
     AGP.BlueprintArms(SWEP, { vm = "models/Iziraider/remote/v_remote.mdl", hide = { "v_hands" }, arms = AGP.BlueprintRigs.izi, fov = 62 })
 end
 
--- AGP 2026-11-12: its buttons are heard (agp_weapon_hands.lua)
+-- AGP: its buttons are heard (agp_weapon_hands.lua)
 if (AGP and AGP.ClickSounds) then AGP.ClickSounds(SWEP, { primary = "button/ring_button1.mp3", secondary = "button/ring_button2.mp3", reload = "button/ring_button1.mp3" }) end

@@ -66,7 +66,7 @@ function ENT:OnTakeDamage(DamageInfo)
 	if (self.Parent.Destroyed == true) then return end
 	self.Parent.EntHealth = math.Clamp(self.Parent.EntHealth - DamageInfo:GetDamage(), 0, self.Parent.MaxHealth)
 	-- AGP: the Health output also follows damage (only turrets that have the output, e.g. the Destiny main turret)
-	-- AGP 2026-11-08: all turrets that use these parts have the output now (base, Destiny small/medium, ship rail, Tollan)
+	-- AGP: all turrets that use these parts have the output now (base, Destiny small/medium, ship rail, Tollan)
 	if (self.Parent.Outputs and self.Parent.Outputs.Health and self.Parent.SetWire) then self.Parent:SetWire("Health", self.Parent.EntHealth) end
 	if (self.Parent.EntHealth < 1) then
 		self.Parent.Destroyed = true

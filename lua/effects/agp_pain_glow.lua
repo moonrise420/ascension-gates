@@ -1,6 +1,6 @@
 --[[
-	Ascension Gates (own code, 2026-11-06): the pain stick's light in a victim - eyes and mouth flare with a bright
-	amber glow while the jolt lasts, as in the series. EffectData: Entity = the victim, Magnitude = seconds.
+	Ascension Gates (own code): the pain stick's light in a victim - eyes and mouth flare with a bright amber glow
+	while the jolt lasts, as in the series. EffectData: Entity = the victim, Magnitude = seconds.
 ]]
 local GLOW = Material("sprites/light_glow02_add")
 

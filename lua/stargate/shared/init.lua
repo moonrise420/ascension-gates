@@ -48,6 +48,11 @@ function StarGate.Init()
     if (not ConVarExists("agp_allow_infinite_power")) then
         CreateConVar("agp_allow_infinite_power", "1", { FCVAR_ARCHIVE, FCVAR_NOTIFY, FCVAR_REPLICATED }, "Ascension Gates: 1 = endless power sources (Asgard ion generator) may be spawned and give energy (default), 0 = not", 0, 1)
     end
+    -- AGP: the ship weapons' energy (StarGate.WeaponEnergy, stargate/server/ship_weapons.lua). With a network running,
+    -- an unlinked weapon had 0 energy and never fired; now it fires free unless set to 2
+    if (not ConVarExists("agp_weapon_energy")) then
+        CreateConVar("agp_weapon_energy", "1", { FCVAR_ARCHIVE, FCVAR_NOTIFY, FCVAR_REPLICATED }, "Ascension Gates: weapons' energy - 0 = free, 1 = use energy when connected to a network (unconnected fire free), 2 = always need energy", 0, 2)
+    end
 
     -- Wire?
     if (WireAddon or file.Exists("weapons/gmod_tool/stools/wire_adv.lua", "LUA")) then
@@ -73,7 +78,7 @@ StarGate.Init() -- Call the Init
 
 -- Add some usefull sounds to Wire Soundemitter
 local snd = {
-    -- AGP 2026-11-08: the alarms are in sound/alarm/ (lower-case names), not in sound/: these six played nothing
+    -- AGP: the alarms are in sound/alarm/ (lower-case names), not in sound/: these six played nothing
     ["SGC Alarm"] = "alarm/sgc_alarm.wav",
     ["SGC Offworld Alarm"] = "alarm/sgc_offworld-alarm.wav",
     ["SGA Offworld Alarm"] = "alarm/sga_offworld-alarm.wav",
@@ -416,8 +421,8 @@ if (SERVER) then
     end)
 
     --################# Speeds the weapons change and give back
-    -- AGP 2026-11-08: CAP gave back fixed numbers (run 500, jump 200, armour 0, after a zat / hand device hit walk 250
-    -- run 500 - sandbox is walk 200 run 400) instead of what the player had, and the zat and hand device shared ONE timer
+    -- AGP: CAP gave back fixed numbers (run 500, jump 200, armour 0, after a zat / hand device hit walk 250 run 500 -
+    -- sandbox is walk 200 run 400) instead of what the player had, and the zat and hand device shared ONE timer
     -- "StarGate.UnParalyze" for every victim (a second victim within 4 s cancelled the first one's restore).
 
     -- The run speed a player has when no zat / hand device slow-down is on. During one it is kept aside and comes back
@@ -495,14 +500,14 @@ if (SERVER) then
     -- Instead of loading every second, this can be like hook when player changed weapon
     -- and this should be also server-side only or we have LAGS in mp.
     hook.Add("PlayerSwitchWeapon", "StarGate.WeaponCheck.Changed", function(ply, weapon1, weapon2)
-        -- AGP 2026-11-08: also when nothing was in the hand before (weapon1 NULL); the armband through
+        -- AGP: also when nothing was in the hand before (weapon1 NULL); the armband through
         -- StarGate.AtanikOn / AtanikOff (gives back what the player had)
         if (not ply or not IsValid(ply) or not ply:IsPlayer()) then return end
 
         -- if we changed to weapon atanik_armband
         if (IsValid(weapon2) and weapon2:GetClass() == "atanik_armband") then
-            -- AGP 2026-11-08: one tick later - this hook runs before the old weapon's Holster, and that may still give its
-            -- own speeds back (wraith hands), which overwrote the armband's
+            -- AGP: one tick later - this hook runs before the old weapon's Holster, and that may still give its own speeds
+            -- back (wraith hands), which overwrote the armband's
             timer.Simple(0, function()
                 if (IsValid(ply) and IsValid(weapon2) and ply:GetActiveWeapon() == weapon2) then
                     StarGate.AtanikOn(ply)

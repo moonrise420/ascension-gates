@@ -4,9 +4,9 @@
 	outputs Active, Energy, Health). Everything but the look comes from asgard_ion_generator.
 	Model: "Reactor Core" by Daniel Aucar Felipe (@danielaucar), CC BY 4.0,
 	https://sketchfab.com/3d-models/reactor-core-b982332df0374966bec4132a7fd89b66 - rescaled, glass split from the frame,
-	rotors on bones, glow masks and box collision added by us (Code/notes/models/agp_reactor_core_models.py + _build.py).
-	A glass case about 99 x 40 x 37 units lying flat; inside a big turbine wheel (bone rotor_big) and a capsule rotor
-	with three claws (bone rotor_small) turn in opposite directions around the long axis while it runs, with a blue pulse.
+	rotors on bones, glow masks and box collision added by us (Code/). A glass case about 99 x 40 x 37 units lying flat;
+	inside a big turbine wheel (bone rotor_big) and a capsule rotor with three claws (bone rotor_small) turn in
+	opposite directions around the long axis while it runs, with a blue pulse.
 ]]
 local function L(key, fallback, ...)
     if (AGP and AGP.L) then return AGP.L(key, fallback, ...) end

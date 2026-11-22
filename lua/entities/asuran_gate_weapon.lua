@@ -340,7 +340,7 @@ if SERVER then
 
         if (self.HasRD and self.isActive and self.isFiring) then -- AGP: energy only while it fires
             local energyAvailable = self:GetResource("energy")
-            self:ConsumeResource("energy", self.energyPerCycle) -- AGP 2026-10-31: was * 100 (200000/s): the network was empty at once and the gate shut (same bug as the Gate Overloader)
+            self:ConsumeResource("energy", self.energyPerCycle) -- AGP: was * 100 (200000/s): the network was empty at once and the gate shut (same bug as the Gate Overloader)
 
             -- If there isn't enough energy left to power the beam for another second, stop firing
             if (energyAvailable < self.energyPerSecond) then
@@ -578,7 +578,7 @@ if SERVER then
         end
 
         -- Attempt to un-jam gates individually incase one of them has been destroyed
-        -- AGP 2026-10-31: the wormhole stays open when the beam stops (the DHD closes it as usual)
+        -- AGP: the wormhole stays open when the beam stops (the DHD closes it as usual)
         if (self.remoteGate and self.remoteGate:IsValid()) then
             StarGate.UnJamGate(self.remoteGate)
             self.remoteGate.asuranweapon = nil

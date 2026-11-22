@@ -20,4 +20,4 @@ ENT.RenderGroup = RENDERGROUP_BOTH
 ENT.AutomaticFrameAdvance = true
 
 ENT.TFont = "AGP Ancient"
-ENT.GFont = "AGP Glyphs Concept" -- AGP 2026-11-08: as in CAP (concept font: Earth's point of origin at '#')
+ENT.GFont = "AGP Glyphs Concept" -- AGP: as in CAP (concept font: Earth's point of origin at '#')

@@ -1,7 +1,7 @@
 --[[
-	Ascension Gates: ship explosion (owner 2026-10-30: the old one was one grey puff for every ship).
-	Flash, fireball, shock ring, burning debris and a rising smoke cloud, all scaled to the ship's size.
-	data: Origin, Magnitude = radius of the ship, Scale = 1 main blast / < 1 secondary blast along the hull.
+	Ascension Gates: ship explosion (the old one was one grey puff for every ship). Flash, fireball,
+	shock ring, burning debris and a rising smoke cloud, all scaled to the ship's size. data: Origin,
+	Magnitude = radius of the ship, Scale = 1 main blast / < 1 secondary blast along the hull.
 ]]
 local FIRE = { "effects/fire_cloud1", "effects/fire_cloud2" }
 

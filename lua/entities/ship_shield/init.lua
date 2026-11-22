@@ -91,10 +91,10 @@ function ENT:Initialize()
 	self.Entity:SetMoveType(MOVETYPE_NONE);
 	self.Entity:SetSolid(SOLID_VPHYSICS);
 	self.Entity:PhysicsInit(SOLID_VPHYSICS);
-	-- AGP 2026-11-12 (owner: "the shield's hit effect is nearly in front of my weapon instead of on the shield"): a
-	-- bubble stretched to its ship (AGPShieldScale) was only DRAWN stretched - its physics stayed the model's own, a
-	-- far bigger solid ellipsoid. Shots were stopped at that invisible shell, or right at the muzzle when the shooter
-	-- stood inside it. The physics is rebuilt from the model's own shape, stretched like the drawn bubble.
+	-- AGP: a bubble stretched to its ship (AGPShieldScale) was only DRAWN stretched - its physics stayed the model's
+	-- own, a far bigger solid ellipsoid. Shots were stopped at that invisible shell, or right at the muzzle when the
+	-- shooter stood inside it. The physics is rebuilt from the model's own shape, stretched like the drawn bubble.
+	--
 	if (agpModel and agpScale ~= Vector(1, 1, 1) and not agpScale:IsZero()) then
 		local ph = self.Entity:GetPhysicsObject();
 		local cvx = IsValid(ph) and ph:GetMeshConvexes();
@@ -275,8 +275,8 @@ function ENT:EndTouch(e)
 end
 
 --################# The most important part - Recognizes entering props and reflects them @aVoN
--- AGP 2026-10-30: the ship's own parts (ring base, rings, doors - parented or welded to it) and things that just came
--- in by rings or beaming are never pushed out: the Tel'tak shield kicked its own rings, the ship and the arriving player
+-- AGP: the ship's own parts (ring base, rings, doors - parented or welded to it) and things that just came in by rings
+-- or beaming are never pushed out: the Tel'tak shield kicked its own rings, the ship and the arriving player
 function ENT:AGPOwnPart(e)
 	local ship = IsValid(self.Parent) and self.Parent.Owner;
 	if (not IsValid(ship)) then return false end
@@ -462,7 +462,7 @@ function ENT:HitShield(e,pos,phys,class,normal)
 		self:HitEffect(e,pos,strength);
 		-- Drain energy
 		if(not (e:IsNPC() or e:IsPlayer() or class=="rpg_missile")) then
-			self.Parent:Hit(strength,normal,pos);
+			self.Parent:Hit(strength,normal,pos,StarGate.ShieldFactor and StarGate.ShieldFactor(e,self.Parent) or 1); -- AGP: agp_weapon_balance
 		end
 	end
 end
@@ -575,7 +575,7 @@ function ENT:Hit(e,pos,dmg,normal)
 			normal = normal or Vector(0,0,0);
 			self:HitEffect(e,pos,dmg);
 			if(dmg and dmg ~= 0) then
-				self.Parent:Hit(dmg,normal,pos);
+				self.Parent:Hit(dmg,normal,pos,StarGate.ShieldFactor and StarGate.ShieldFactor(e,self.Parent) or 1); -- AGP: agp_weapon_balance
 			end
 			return true;
 		else

@@ -12,7 +12,7 @@ ENT.PrintName = SGLanguage.GetMessage("entity_arthurs_mantle");
 end
 
  ENT.AFont = "AGP Ancient"
- ENT.SFont = "AGP Glyphs Concept" -- AGP 2026-11-08: as in CAP (concept font: Earth's point of origin at '#')
+ ENT.SFont = "AGP Glyphs Concept" -- AGP: as in CAP (concept font: Earth's point of origin at '#')
 
 
  function ReInitFontsAthur()
@@ -211,9 +211,9 @@ local function checkfont(self)
     local w = surface.GetTextSize("SoMe TeXt HerE 12-12 %$")
     surface.SetFont("GlyphsC")
     local w2 = surface.GetTextSize("SOMETEXTHERE0123#*xyz")
-    -- AGP 2026-11-08: our own fonts (AGP Ancient, AGP Glyphs Concept) have other text widths than CAP's (321 and
-    -- 716 / 733), so the mantle showed FONT ERROR. Both draw every letter the same width; a system font that stands in
-    -- for a missing one does not ("i" is narrower than "W").
+    -- AGP: our own fonts (AGP Ancient, AGP Glyphs Concept) have other text widths than CAP's (321 and 716 / 733),
+    -- so the mantle showed FONT ERROR. Both draw every letter the same width; a system font that stands in for a
+    -- missing one does not ("i" is narrower than "W").
     local function evenWidth(f)
         surface.SetFont(f)
         local wi, ww = surface.GetTextSize("i"), surface.GetTextSize("W")

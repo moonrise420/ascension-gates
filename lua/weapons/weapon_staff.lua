@@ -75,8 +75,8 @@ end
 function SWEP:Muzzle()
     if (not IsValid(self.Owner)) then return end
     if (not self.IsEngaged) then return end
-    -- AGP 2026-11-14: a player's glow sits on the staff's head as he sees it (the old effect used the view model's attachment, and in
-    -- third person the world model has none: the glow hung beside the player), same colour and size: lua/autorun/agp_muzzle.lua
+    -- AGP: a player's glow sits on the staff's head as he sees it (the old effect used the view model's attachment, and in third
+    -- person the world model has none: the glow hung beside the player), same colour and size: lua/autorun/agp_muzzle.lua
     if (self.Owner:IsPlayer() and AGP and AGP.MuzzleFx) then AGP.MuzzleFx(self, "flash", nil, "staff") return end
     -- Muzzle
     local fx = EffectData()
@@ -215,8 +215,8 @@ if SERVER then
             local max = util.QuickTrace(shootpos, right * 100, filter).Fraction * 100 - 10
             local trans = right:DotProduct(vel) * right / 25
 
-            -- AGP 2026-11-14: the pulse starts at the muzzle as the shooter sees it (the owner's client reports it, third person: the hand plus the
-            -- weapon's reach; lua/autorun/agp_muzzle.lua), not on a fixed spot 23 right / 15 down from the eye
+            -- AGP: the pulse starts at the muzzle as the shooter sees it (the owner's client reports it, third person: the hand plus the weapon's
+            -- reach; lua/autorun/agp_muzzle.lua), not on a fixed spot 23 right / 15 down from the eye
             local muzzle = AGP and AGP.MuzzleWorld and AGP.MuzzleWorld(self)
             if (muzzle) then
                 shootpos = muzzle
@@ -285,15 +285,15 @@ if CLIENT then
     end
 end
 
--- AGP 2026-11-12 (owner: "CAP's is way better held in the hand - why can't we have it exactly the same way"): CAP's own
--- first-person model and animations, with the player's own hands laid onto its arm skeleton
--- (lua/autorun/agp_blueprint_arms.lua). 2026-11-10's GMod hand animations never fitted this item.
+-- AGP: CAP's own first-person model and animations, with the player's own hands laid onto its arm skeleton
+-- (lua/autorun/agp_blueprint_arms.lua). GMod hand animations never fitted this item.
+--
 if (AGP and AGP.BlueprintArms) then
     AGP.BlueprintArms(SWEP, { vm = "models/zup/staff/v_staff.mdl", hide = { "v_hand_sheet" }, arms = AGP.BlueprintRigs.valveL })
 end
 
--- AGP 2026-11-14: where the shot leaves the weapon (lua/autorun/agp_muzzle.lua): the old view model's own muzzle in first person,
--- the head of the world model (AGP.MuzzleTips) in third person
+-- AGP: where the shot leaves the weapon (lua/autorun/agp_muzzle.lua): the old view model's own muzzle in first person, the head
+-- of the world model (AGP.MuzzleTips) in third person
 if (AGP and AGP.MuzzleTrack) then
     SWEP.AGPMuzzleSync = true
     AGP.MuzzleTrack(SWEP, { vm = true, fmt = true })

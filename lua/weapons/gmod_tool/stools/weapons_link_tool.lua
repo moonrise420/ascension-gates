@@ -5,8 +5,8 @@
 	Left click: select a weapon (again: deselect). Right click on an Apple Core: link the selection to it.
 	Reload: clear the selection; on an Apple Core: remove all its links.
 ]]
--- AGP 2026-11-08: in our Stargate tool menu like the other tools (Tab "Stargate" + AddToMenu=false: menu.lua adds it),
--- with translated texts. Before it had AddToMenu=false and no Tab, so it was in no menu at all.
+-- AGP: in our Stargate tool menu like the other tools (Tab "Stargate" + AddToMenu=false: menu.lua adds it), with
+-- translated texts. Before it had AddToMenu=false and no Tab, so it was in no menu at all.
 TOOL.Tab = "Stargate"
 TOOL.AddToMenu = false
 TOOL.Category = "Weapons"
@@ -36,8 +36,8 @@ local function IsCore(e)
 	return IsValid(e) and e:GetClass() == "apple_core"
 end
 
--- AGP 2026-11-08: one selection per player (it was one table for everybody: player B could link A's selection).
--- [weapon] = its colour before it was selected (was always set back to white)
+-- AGP: one selection per player (it was one table for everybody: player B could link A's selection). [weapon] =
+-- its colour before it was selected (was always set back to white)
 local function Selection(ply)
 	ply.AGPWeaponLinkSel = ply.AGPWeaponLinkSel or {}
 	return ply.AGPWeaponLinkSel
@@ -69,7 +69,7 @@ end
 
 function TOOL:LeftClick(tr)
 	local e = tr.Entity
-	-- AGP 2026-11-08: no WireLib.GetPorts call any more (unused; a Lua error without Wiremod)
+	-- AGP: no WireLib.GetPorts call any more (unused; a Lua error without Wiremod)
 	if (not IsValid(e) or not LINKABLE[e:GetClass()]) then return false end
 	if (CLIENT) then return true end
 	local sel = Selection(self:GetOwner())
@@ -85,7 +85,7 @@ end
 
 function TOOL:RightClick(tr)
 	local core = tr.Entity
-	-- AGP 2026-11-08: was "!x:GetClass() == "apple_core"" (always false): anything else gave a server error
+	-- AGP: was "!x:GetClass() == "apple_core"" (always false): anything else gave a server error
 	if (not IsCore(core)) then return false end
 	if (CLIENT) then return true end
 	local ply = self:GetOwner()
@@ -107,7 +107,7 @@ end
 
 function TOOL:Reload(tr)
 	local core = tr.Entity
-	-- AGP 2026-11-08: ClearWeaps exists only on the server (the client part errored here)
+	-- AGP: ClearWeaps exists only on the server (the client part errored here)
 	if (CLIENT) then return IsCore(core) end
 	local ply = self:GetOwner()
 	if (IsCore(core)) then

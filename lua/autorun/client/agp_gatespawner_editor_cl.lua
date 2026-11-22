@@ -56,8 +56,8 @@ local function refreshPanel()
     for _, e in ipairs(state.list) do
         local line = p.AGPList:AddLine(nice(e.class), e.address, e.name)
         line.AGPKey = e.k
-        -- AGP 2026-11-12: ground AND text colours set together (the skin's own list ground came out white with white text
-        -- on the owner's menu skin: the rows could not be read, in every language). Dark ground, light text, same for all skins.
+        -- AGP: ground AND text colours set together (the skin's own list ground came out white with white text on a
+        -- player's menu skin: the rows could not be read, in every language). Dark ground, light text, same for all skins.
         local alt = (#p.AGPList:GetLines() % 2 == 0)
         line.Paint = function(s, w, h)
             if s:IsSelected() then surface.SetDrawColor(45, 85, 140) elseif s:IsHovered() then surface.SetDrawColor(50, 54, 64)
@@ -111,7 +111,7 @@ local function build(panel)
     end
     panel:AddItem(list)
     panel.AGPList = list
-    -- (owner 2026-11-11: a slider for how many gates one press places; 0 = as many as fit the map's size)
+    -- (a slider for how many gates one press places; 0 = as many as fit the map's size)
     panel.AGPCount = panel:NumSlider(L("agp_gs_count", "How many gates (0 = by map size)"), nil, 0, 20, 0)
     panel.AGPCount:SetValue(cookie.GetNumber("agp_gs_count", 0))
     panel.AGPCount.OnValueChanged = function(_, v) cookie.Set("agp_gs_count", tostring(math.Round(v))) end

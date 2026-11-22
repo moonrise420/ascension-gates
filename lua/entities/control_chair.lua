@@ -722,7 +722,7 @@ if SERVER then
 
     function ENT:AddZPMHub(p)
         local e = ents.Create("chair_zpm_hub")
-        if (IsValid(e)) then e.DoNotDuplicate = true end   -- (2026-11-12: built by its parent, which builds it again after a save or a paste - copied as well it was there twice)
+        if (IsValid(e)) then e.DoNotDuplicate = true end   -- (built by its parent, which builds it again after a save or a paste - copied as well it was there twice)
         e:SetModel("models/soren/zpm_slot/zpm_slot.mdl")
         e:SetPos(self:GetPos() + self:GetUp()*2 + self:GetRight()*-39.80 + self:GetForward()*-69.32)
         e:SetAngles(self:GetAngles())
@@ -822,7 +822,7 @@ if SERVER then
 
         self.Pilot:SetNetworkedEntity("ScriptedVehicle", NULL)
         self.Pilot:SetViewEntity(NULL)
-        if (AGP and AGP.ShipRespawnPilot) then AGP.ShipRespawnPilot(self.Pilot) else self.Pilot:Spawn() end -- AGP 2026-11-08: keeps armour and ammo, no Ha'tak bunk move (agp_ship_shield.lua)
+        if (AGP and AGP.ShipRespawnPilot) then AGP.ShipRespawnPilot(self.Pilot) else self.Pilot:Spawn() end -- AGP: keeps armour and ammo, no Ha'tak bunk move (agp_ship_shield.lua)
         self.Pilot:SetParent()
         self.Pilot:SetPos(self:GetPos() + self:GetRight() * 60 + self:GetUp() * 20)
 

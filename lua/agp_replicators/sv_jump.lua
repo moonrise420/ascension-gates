@@ -1,9 +1,9 @@
--- Replicators: jumping (owner 2026-11-04: "they know their power, they should be able to jump on their own").
--- A bug knows how hard it can jump (JUMP_MAX) and how hard a landing it survives (its RepFallBreak). Before a jump it
--- picks a spot it can land on near where it wants to be, works out the arc (gravity), checks that the arc is free and
--- the landing not too hard, and takes the gentlest arc that works. A spot on a wall or a pillar is fine too: it grabs
--- on there (agp_replicator.lua ENT:Grab) and climbs on.
--- What it learns, the swarm knows:
+-- Replicators: jumping. A bug knows how hard it can jump (JUMP_MAX) and how hard a landing it survives (its
+-- RepFallBreak). Before a jump it picks a spot it can land on near where it wants to be, works out the arc (gravity),
+-- checks that the arc is free and the landing not too hard, and takes the gentlest arc that works. A spot on a wall
+-- or a pillar is fine too: it grabs on there (agp_replicator.lua ENT:Grab) and climbs on. What it learns, the swarm
+-- knows:
+--
 --  * how strong to jump: after every landing the swarm compares where it came down with where it aimed (too short:
 --    a little harder next time, too far: softer) - a factor round 1
 --  * which jumps pay off: landed where it wanted / missed / broke apart, by kind of jump (up / level / down, near /
@@ -80,7 +80,7 @@ function R.DoJump(bug, v, land, kind)
 	if bug.Falling and bug:GetVelocity():Length() < 30 then bug:Land() end
 	if bug.Falling then return false end
 	-- (no jump whose arc goes into an incoming gate's horizon - it kills; a hop, a wall jump, a leap at prey standing in
-	-- front of one: owner 2026-11-14, sv_pursuit.lua R.DeadArc)
+	-- front of one:, sv_pursuit.lua R.DeadArc)
 	if R.DeadArc and R.DeadArc(bug:GetPos(), v, land) then R.Stat("jump kept off an incoming gate") R.Dbg(bug, "no jump: the arc runs into an incoming gate") return false end
 	bug.JumpPlan = { from = bug:GetPos(), land = land, kind = kind, t0 = CurTime(), v = v }
 	-- free of the surface first (a body pressed a little into the floor is held there by the physics and goes nowhere)
@@ -123,10 +123,10 @@ end
 -- how much the swarm trusts this kind of jump (the learned value: 0.6 .. 1.6, 1 = nothing learned yet)
 function R.JumpTrust(kind) return R.Brain.Weight("jump", kind) end
 
--- falling (not an attack jump): it turns its feet to the ground in the air, like a cat (owner 2026-11-05), and lands
--- on them when the fall gives it the time; a short drop can still put it on its back (it flails and rolls upright).
--- A turning push towards upright with damping, given back to ENT:PhysicsSimulate (setting the body's angles in there
--- froze it in the air)
+-- falling (not an attack jump): it turns its feet to the ground in the air, like a cat, and lands on them when the
+-- fall gives it the time; a short drop can still put it on its back (it flails and rolls upright). A turning push
+-- towards upright with damping, given back to ENT:PhysicsSimulate (setting the body's angles in there froze it in
+-- the air)
 function R.CatTwist(b, ph)
 	local u = b:GetUp()
 	local axis = u:Cross(Vector(0, 0, 1))

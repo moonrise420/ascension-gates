@@ -62,6 +62,8 @@ function ENT:Initialize()
 
 	self.RestoreThresold = StarGate.CFG:Get("shield","restore_thresold",15); -- Which powerlevel has the shield to reach again until it works again?
 	self:AddResource("energy",1);
+	-- AGP: on a StarCore ship and not linked itself, the shield takes the ship's energy (ship_weapons.lua)
+	if (StarGate.ShipPowered) then StarGate.ShipPowered(self) end
 	self:CreateWireInputs("Activate","Toggle"); -- AGP: Toggle for Wire buttons (1 then 0)
 	self:CreateWireOutputs("Active","Strength");
 	self:SetWire("Strength",self.Strength);

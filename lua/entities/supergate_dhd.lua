@@ -76,14 +76,14 @@ function ENT:FindGate()
 	return gate;
 end
 
--- AGP 2026-11-08: the outputs show the state of the gate this DHD dials. Every change comes from the gate
+-- AGP: the outputs show the state of the gate this DHD dials. Every change comes from the gate
 -- (stargate_base ENT:WireOutput); this also catches up when the DHD is spawned next to a gate that is already active.
 local AGPOutputs = {["Active"] = 0, ["Open"] = 0, ["Inbound"] = 0, ["Dialing Address"] = "", ["Dialing Mode"] = 0};
 
 --################# Update the speech bubbles @aVoN
 function ENT:Think()
 	self:SetOverlayText("Supergate DHD");
-	local gate = self:FindGate(); -- AGP 2026-11-08: see AGPOutputs
+	local gate = self:FindGate(); -- AGP: see AGPOutputs
 	if (IsValid(gate) and gate.GetWire) then
 		for k,default in pairs(AGPOutputs) do
 			self:SetWire(k,gate:GetWire(k,default,true));

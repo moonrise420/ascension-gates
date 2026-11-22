@@ -13,7 +13,7 @@ else
         SWEP.WepSelectIcon = surface.GetTextureID("VGUI/weapons/nox_hands.vmt")
     end
 
-    -- Kill Icon (AGP 2026-11-08: the icon is in VGUI/weapons/, the old path never existed - same as the ring caller)
+    -- Kill Icon (AGP: the icon is in VGUI/weapons/, the old path never existed - same as the ring caller)
     if (file.Exists("materials/VGUI/weapons/ring_killicon.vmt", "GAME")) then
         killicon.Add("ring_ring", "VGUI/weapons/ring_killicon", Color(255, 255, 255))
         killicon.Add("ring_base", "VGUI/weapons/ring_killicon", Color(255, 255, 255))
@@ -33,8 +33,8 @@ SWEP.Slot = 1
 SWEP.SlotPos = 5
 SWEP.DrawAmmo = false
 SWEP.DrawCrosshair = true
--- AGP 2026-11-08: Garry's Mod's own hands with the fists animations (agp_weapon_hands.lua); c_arms_animations.mdl
--- without UseHands showed no hands at all
+-- AGP: Garry's Mod's own hands with the fists animations (agp_weapon_hands.lua); c_arms_animations.mdl without
+-- UseHands showed no hands at all
 SWEP.ViewModel = "models/weapons/c_arms.mdl"
 SWEP.ViewModelFOV = 54
 SWEP.UseHands = true
@@ -110,5 +110,5 @@ if CLIENT then
     end
 end
 
--- AGP 2026-11-08: the hands come up on deploy and rest in the fists idle (agp_weapon_hands.lua)
+-- AGP: the hands come up on deploy and rest in the fists idle (agp_weapon_hands.lua)
 if (AGP and AGP.HandsWeapon) then AGP.HandsWeapon(SWEP) end

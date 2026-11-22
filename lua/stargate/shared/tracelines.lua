@@ -173,8 +173,8 @@ function StarGate.Trace:New(start, dir, ignore)
     end
 
     local trace = util.QuickTrace(start, dir, ignore)
-    -- AGP 2026-11-07: a ray that starts inside a ship's shield bubble also hit the bubble's own physics (the engine trace
-    -- above), so a ship's beams and bullets stopped at its own raised shield (the O'Neill's Asgard beam, the
+    -- AGP: a ray that starts inside a ship's shield bubble also hit the bubble's own physics (the engine trace above), so
+    -- a ship's beams and bullets stopped at its own raised shield (the O'Neill's Asgard beam, the
     -- Prometheus's rail guns). The shield's rule below lets rays from inside out: trace again without that bubble.
     for _ = 1, 4 do
         local e = trace.Entity

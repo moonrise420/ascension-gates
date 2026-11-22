@@ -1,4 +1,4 @@
-// Ascension Gates: Croatian texts (2026-10-19)
+// Ascension Gates: Croatian texts
 cat_capital_ship = Veliki brodovi
 cat_small_ship = Brodovi
 cat_others = Ostalo
@@ -50,7 +50,7 @@ wp_m9_berreta = SGC Sidearm
 wp_ori_hand = Ori ručno oružje
 wp_goauld_zatarc = Goa'uld Zatarc
 
-// Spajanje EAP značajki (2026-10-19)
+// Spajanje EAP značajki
 key_malp_control = Prekini upravljanje
 vis_wormhole = Animacija putovanja crvotočinom
 vis_wormhole_desc = Prikazuje tunel crvotočine kad putuješ kroz vrata (samo ako server koristi sekvencu crvotočine). Isključeno = trenutno putovanje.
@@ -91,7 +91,7 @@ agp_info_btn_close = Idemo!
 agp_info_dontshow = Ne prikazuj ovo više pri pokretanju
 agp_gtsp_saved = Stvaratelj vrata spremljen za %s. Učitava se automatski pri svakom pokretanju ove mape.
 agp_credits_about = O paketu
-// gate spawner, Grid Power, life support, units (2026-10-21)
+// gate spawner, Grid Power, life support, units
 agp_gs_title = Stvaratelj vrata
 agp_gs_help = Postavi vrata, DHD-ove, prstenove i rampe kao inače i pritisni "Spremi mapu": pojavit će se pri svakom pokretanju ove mape. Dvoklik na dio = idi tamo, desni klik = ukloni.
 agp_gs_status = Mapa: %s\nStvaratelj: %s\nKoristi: %s\nDijelova: %d
@@ -149,7 +149,7 @@ agp_unit_temp = Temperatura
 agp_unit_gravity = Gravitacija
 agp_unit_auto = Automatski (tvoja zemlja)
 agp_unit_auto_g = Automatski (g)
-// our parts: names, suit HUD, gate report, screens, link tool, chat, resources (2026-10-21)
+// our parts: names, suit HUD, gate report, screens, link tool, chat, resources
 agp_ent_cell_xs = Energetska ćelija (XS)
 agp_ent_cell_small = Energetska ćelija (S)
 agp_ent_cell_medium = Energetska ćelija (M)
@@ -751,7 +751,7 @@ agp_hkm_c_reps_core = Replikatori kod energetske jezgre!
 agp_arg_name = Antireplikatorsko oružje
 agp_arg_purpose = Uništi te bube
 agp_arg_instr = Lijevi klik - ispali antireplikatorski val, drži R - traži novu frekvenciju
-// window texts (2026-11-10)
+// window texts
 agp_ui_hyperspace = Hiperprostor
 agp_ui_target = Cilj
 agp_ui_jump_target = Skoči do odabranog cilja
@@ -834,7 +834,7 @@ agp_ui_autolink = Automatski poveži s čvorom resursa
 agp_ui_add_velocity = Hitcu se dodaje brzina topa
 agp_ui_autoweld = Automatski zavari
 agp_ui_empty = (prazno)
-// Ha'tak consoles (2026-11-10)
+// Ha'tak consoles
 agp_hk_weapons = ORUŽJE
 agp_hk_staff_cannons = ŠTAPNI TOPOVI
 agp_hk_charging = PUNI SE
@@ -958,7 +958,7 @@ agp_hk_nearest_ring = Najbliži prsten izvan broda
 agp_hk_glyph_pad = Goa'uldska ploča sa simbolima
 agp_hk_t_mark = Oznaka %s
 agp_hk_t_player = Igrač %s
-// Ha'tak messages, crew announcements and ship log (2026-11-10)
+// Ha'tak messages, crew announcements and ship log
 agp_hkm_w_ship = Ha'tak
 agp_hkm_w_engine = Ha'tak strojarnica
 agp_hkm_w_computer = Ha'tak računalna jezgra
@@ -1312,6 +1312,16 @@ agp_ship_title_all = Svi brodovi
 agp_ship_shieldvis = Mjehur štita
 agp_ship_shieldvis0 = Samo pri pogotku ili uključivanju/isključivanju
 agp_ship_shieldvis1 = Uvijek vidljiv
+agp_ship_wenergy = Oružja troše energiju
+agp_ship_wenergy0 = Nikad (besplatno)
+agp_ship_wenergy1 = Kad su spojena
+agp_ship_wenergy2 = Uvijek
+agp_ship_spower = Oružje koristi energiju broda
+agp_ship_tip_spower = Da: oružje na StarCore brodu uzima energiju broda - najprije iz njegovih ZPM-ova, generatora i baterija, inače vlastitu energiju broda.
+agp_ship_wbalance = Oružje protiv brodova
+agp_ship_wbalance0 = AGP sandbox
+agp_ship_wbalance1 = Snaga iz serije
+agp_ship_tip_wbalance = Snaga iz serije: oružje pogađa brodove jednako snažno kao u seriji, ručno oružje jedva ogrebe trup. AGP sandbox: vlastita šteta svakog oružja.
 agp_ship_destructtime = Samouništenje: odbrojavanje (sekunde)
 agp_ship_tip_shieldvis = Uvijek: mjehur štita svakog broda slabo svijetli dok je štit uključen. Inače se vidi samo pri pogotku te pri uključivanju ili isključivanju.
 agp_ship_tip_destructtime = Sekunde od pritiska tipke za samouništenje do eksplozije. Drugi pritisak odmah raznosi brod.

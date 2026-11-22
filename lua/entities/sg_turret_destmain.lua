@@ -602,15 +602,14 @@ if SERVER then
 
     -----------------------------------SHOOT----------------------------------
     function ENT:Shoot()
-        local energy = self:GetResource("energy", self.energy_drain)
-
-        if (energy > self.energy_drain or not self.HasResourceDistribution) then
-            self:ConsumeResource("energy", self.energy_drain)
-
+        -- AGP: energy by agp_weapon_energy (StarGate.WeaponEnergy), taken only once the barrel is there (a missing
+        -- barrel took the energy for nothing)
+        if (StarGate.WeaponEnergy(self, self.energy_drain, true)) then
             local cannons = {self.Cann1, self.Cann2, self.Cann3, self.Cann4}
 
             local cann = cannons[self.ShootingCann]
             if not IsValid(cann) then return end
+            StarGate.WeaponEnergy(self, self.energy_drain)
             local light = self.Lights[self.ShootingCann]
             light.Time = CurTime()
             light.Glow = true
@@ -622,6 +621,7 @@ if SERVER then
                 local data = cann:GetAttachment(cann:LookupAttachment("Fire"))
                 if (not (data and data.Pos)) then if IsValid(self) then self.CanFire = true end return end
                 local e = ents.Create("energy_pulse")
+                StarGate.MarkShot(e, self)
 
                 -- AGP: the four barrels sit far apart; a shot runs from its own muzzle to the aim point when that is close to the barrel line
                 local dir = -1 * cann:GetForward()
@@ -651,7 +651,7 @@ if SERVER then
                     self.ShootingCann = 1
                 end
 
-                timer.Create(self.Entity:EntIndex() .. "CanFire", math.random(7, 10) / 10, 1, function()   -- AGP 2026-10-26: was 1.8-2.4 s per barrel, too slow (owner)
+                timer.Create(self.Entity:EntIndex() .. "CanFire", math.random(7, 10) / 10, 1, function()   -- AGP: was 1.8-2.4 s per barrel, too slow
                     self.CanFire = true
                 end)
             end)

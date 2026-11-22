@@ -60,8 +60,8 @@ function TOOL:LeftClick(t)
     end
 
     local keyb = nil
-    -- AGP 2026-11-08: the keyboard comes from Wiremod's keyboard tool; without Wiremod there is none (a Lua error
-    -- before): the screen is made without a keyboard
+    -- AGP: the keyboard comes from Wiremod's keyboard tool; without Wiremod there is none (a Lua error before):
+    -- the screen is made without a keyboard
     local tool = util.tobool(self:GetClientNumber("keyboard")) and p:GetTool("wire_keyboard")
 
     if (tool and tool.LeftClick_Make) then
@@ -233,7 +233,7 @@ function TOOL:ControlsPanel(Panel)
         Text = SGLanguage.GetMessage("stool_sgcscreen_cl")
     })
 
-    -- AGP 2026-11-08: the keyboard boxes only with Wiremod (its keyboard tool makes the keyboard)
+    -- AGP: the keyboard boxes only with Wiremod (its keyboard tool makes the keyboard)
     local toolgun = weapons.GetStored("gmod_tool")
     if (toolgun and toolgun.Tool and toolgun.Tool.wire_keyboard) then
         Panel:CheckBox(SGLanguage.GetMessage("stool_sgcscreen_keyboard"), "sgc_screen_keyboard")

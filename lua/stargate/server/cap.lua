@@ -449,7 +449,7 @@ function StarGate.JamRemoteGate(gate,attero)
     -- Override local gate's functions to un-jam the remote gate when the connection is closed locally
     localGate.backups.AcceptInput = localGate.AcceptInput
 
-    -- AGP 2026-10-31: called as methods (gate:AcceptInput(...)), so the gate comes first; the arguments were shifted by one
+    -- AGP: called as methods (gate:AcceptInput(...)), so the gate comes first; the arguments were shifted by one
     localGate.AcceptInput = function(ent, name, activator, caller, data)
         if (name == "Use" or name == nil) then return end
         StarGate.UnJamGate(localGate)
@@ -572,7 +572,7 @@ function StarGate.DestroyStargate(gate)
             local gatePos = StarGate.GetEntityCentre(gate)
             local fx = EffectData()
             fx:SetOrigin(gatePos)
-            -- AGP 2026-11-08: "Unstable_Explosion" never existed (no visual): a fireball and the unstable gate's debris burst
+            -- AGP: "Unstable_Explosion" never existed (no visual): a fireball and the unstable gate's debris burst
             util.Effect("Explosion", fx)
             util.Effect("unstable_zap_explosion", fx)
             util.BlastDamage(gate.Entity, gate, gatePos, 2048, 1000)

@@ -18,7 +18,7 @@ function ENT:DoKill(ply)   --######### @ RononDex
 	end
 
 	self:EmitSound(self.Sounds.Explosion, 100, 100)
-	if (AGP and AGP.ShipExplosion) then AGP.ShipExplosion(self) end -- AGP 2026-10-30: the shared ship explosion
+	if (AGP and AGP.ShipExplosion) then AGP.ShipExplosion(self) end -- AGP: the shared ship explosion
 
 	for k,v in pairs(self.Gibs) do
 		local model = v

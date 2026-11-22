@@ -5,7 +5,7 @@
 	  the rings, as in the series. The panel's menu rings to any deck or to the nearest ring outside the ship.
 	- the Stargate in the gate room
 	- Goa'uld doors at the corridor entrances of the gate deck and the hangar deck, and the hangar door
-	- the lower deck in the hollow pyramid under the hangar (part of the hull model, notes/hatak/rooms.py): cargo hold
+	- the lower deck in the hollow pyramid under the hangar (part of the hull model): cargo hold
 	  (second Stargate in clamps behind a force field, DHD, sarcophagus), corridor, engine room (power core,
 	  control-crystal trays), computer core (self-destruct console), holding cells (force fields); each room has a ring
 	Everything is welded to the hull. Spawns frozen.
@@ -24,7 +24,7 @@ ENT.Spawnable = false
 ENT.AdminSpawnable = false
 list.Set("CAP.Entity", ENT.PrintName, ENT)
 
-ENT.HullModel = "models/agp/hatak/agp_hatak_hull.mdl"   -- original hull + 2 glider exit slots (notes/hatak/hull_slots.py)
+ENT.HullModel = "models/agp/hatak/agp_hatak_hull.mdl"   -- original hull + 2 glider exit slots
 ENT.Decks = { "Bridge (pel'tak)", "Gate room", "Hangar" }
 ENT.LowerDecks = { "Cargo hold", "Engine room", "Computer core", "Holding cells" }
 -- TARDIS style: the walkable inside is a separate, still-standing copy (agp_hatak_interior: all decks + the lower deck
@@ -35,10 +35,10 @@ ENT.HangarOut = { Vector(-820, -200, -760), Vector(-700, 200, -300) }    -- insi
 -- the hangar mouth as a see-through doorway (agp_portal): hull space, just outside the hangar door, the exact opening
 ENT.HangarPortal = { pos = Vector(-612, 2, -400), w = 404, h = 400 }
 
--- the interior (notes/hatak/interior2.py, design.md): bigger than the hull, built room by room
+-- the interior: bigger than the hull, built room by room
 ENT.InteriorModel2 = "models/agp/hatak/agp_hatak_interior2.mdl"
 ENT.Decks2 = { "Hangar deck", "Pel'tak", "Gate room", "Command deck", "Engineering" }
-ENT.Layout2 = {   -- generated: notes/hatak/interior2_parts.lua
+ENT.Layout2 = {   -- generated
 	rings = { Vector(820.0, 251.0, -600.3), Vector(700.0, 376.0, 100.0), Vector(640.0, 476.0, -1400.0), Vector(700.0, -749.0, 100.0), Vector(1500.0, 251.0, -1400.0) },
 	panels = { { Vector(932.0, 251.0, -538.3), 180 }, { Vector(812.0, 376.0, 162.0), 180 }, { Vector(752.0, 476.0, -1338.0), 180 }, { Vector(812.0, -749.0, 162.0), 180 }, { Vector(1612.0, 251.0, -1338.0), 180 } },
 	braziers = { Vector(702.0, 133.0, -600.3), Vector(938.0, 133.0, -600.3), Vector(702.0, 369.0, -600.3), Vector(938.0, 369.0, -600.3), Vector(560.0, 45.0, -600.3), Vector(1000.0, -45.0, -600.3), Vector(1400.0, 45.0, -600.3), Vector(1512.0, -45.0, -600.3), Vector(150.0, 140.0, -600.3), Vector(150.0, -140.0, -600.3), Vector(340.0, -131.0, -600.3), Vector(1660.0, -131.0, -600.3), Vector(340.0, -1251.0, -600.3), Vector(1660.0, -1251.0, -600.3), Vector(530.0, -165.0, 100.0), Vector(530.0, 165.0, 100.0), Vector(582.0, 258.0, 100.0), Vector(818.0, 258.0, 100.0), Vector(582.0, 494.0, 100.0), Vector(818.0, 494.0, 100.0), Vector(340.0, -255.0, -1400.0), Vector(340.0, 255.0, -1400.0), Vector(1010.0, -250.0, -1400.0), Vector(1010.0, 250.0, -1400.0), Vector(620.0, -250.0, -1400.0), Vector(522.0, 358.0, -1400.0), Vector(758.0, 358.0, -1400.0), Vector(522.0, 594.0, -1400.0), Vector(758.0, 594.0, -1400.0), Vector(582.0, -867.0, 100.0), Vector(818.0, -867.0, 100.0), Vector(582.0, -631.0, 100.0), Vector(818.0, -631.0, 100.0), Vector(420.0, -955.0, 100.0), Vector(900.0, -1045.0, 100.0), Vector(1240.0, -955.0, 100.0), Vector(620.0, -1375.0, 100.0), Vector(1195.0, -1119.0, 100.0), Vector(940.0, -877.0, 100.0), Vector(1220.0, -877.0, 100.0), Vector(400.0, 253.0, -590.3), Vector(268.0, 363.0, -600.3), Vector(532.0, 363.0, -600.3), Vector(1030.0, 123.0, -600.3), Vector(1470.0, 123.0, -600.3), Vector(1382.0, 133.0, -1400.0), Vector(1618.0, 133.0, -1400.0), Vector(1382.0, 369.0, -1400.0), Vector(1618.0, 369.0, -1400.0), Vector(1330.0, -123.0, -1400.0), Vector(1700.0, -123.0, -1400.0), Vector(1380.0, 45.0, -1400.0), Vector(1820.0, -45.0, -1400.0), Vector(1730.0, 127.0, -1400.0), Vector(2270.0, 127.0, -1400.0), Vector(1850.0, -123.0, -1400.0), Vector(2270.0, -123.0, -1400.0), Vector(1850.0, -406.0, -1400.0), Vector(2270.0, -406.0, -1400.0) },
@@ -50,7 +50,7 @@ ENT.Layout2 = {   -- generated: notes/hatak/interior2_parts.lua
 	kelnoreem = { Vector(300.0, 253.0, -600.3), Vector(500.0, 253.0, -600.3), Vector(400.0, 161.0, -600.3), Vector(400.0, 345.0, -600.3) },
 	cells = { { Vector(1802.5, 257.0, -1400.0), 153, 190, "cell 1" }, { Vector(1992.5, 257.0, -1400.0), 153, 190, "cell 2" }, { Vector(2182.5, 257.0, -1400.0), 153, 190, "cell 3" } },
 	slots = { { bay = Vector(300.0, -691.0, -450.3), bayYaw = 0, hull = Vector(-1585.3, -2595.3, -510.0), hullYaw = 240.24, w = 650, h = 180 }, { bay = Vector(1700.0, -691.0, -450.3), bayYaw = 180, hull = Vector(-1588.1, 2600.1, -510.0), hullYaw = 119.76, w = 650, h = 180 } },
-	-- (2026-11-10: two spots lay under a brazier - the crystal could not be seen or taken there; moved clear)
+	-- (two spots lay under a brazier - the crystal could not be seen or taken there; moved clear)
 	crystalSpots = { Vector(380.0, -35.0, -600.3), Vector(1120.0, 25.0, -600.3), Vector(1600.0, -35.0, -600.3), Vector(650.0, 430.0, -600.3), Vector(920.0, 170.0, -600.3), Vector(590.0, 480.0, 100.0), Vector(790.0, 480.0, 100.0), Vector(720.0, 150.0, 100.0), Vector(560.0, 640.0, -1400.0), Vector(700.0, 650.0, -1400.0), Vector(1030.0, 120.0, -1400.0), Vector(720.0, -200.0, -1400.0), Vector(840.0, -990.0, 100.0), Vector(650.0, -1211.0, 100.0), Vector(1100.0, -1191.0, 100.0), Vector(1780.0, 25.0, -1400.0), Vector(1650.0, -141.0, -1400.0) },
 	window = { pos = Vector(779.0, 0.0, 225.0), w = 280, h = 140 },
 	power = { core = { Vector(1540.0, -379.0, -1379.0), Vector(1452.0, -291.0, -1379.0), Vector(1628.0, -291.0, -1379.0) }, weapons = { Vector(1328.0, -474.0, -1336.0), Vector(1358.0, -474.0, -1336.0), Vector(1388.0, -474.0, -1336.0) }, hyperdrive = { Vector(1472.0, -474.0, -1336.0), Vector(1502.0, -474.0, -1336.0), Vector(1532.0, -474.0, -1336.0) }, engines = { Vector(1590.0, -474.0, -1336.0), Vector(1620.0, -474.0, -1336.0), Vector(1650.0, -474.0, -1336.0) }, shields = { Vector(2010.0, -434.0, -1336.0), Vector(2060.0, -434.0, -1336.0), Vector(2110.0, -434.0, -1336.0) }, spare = { Vector(1761.0, -241.0, -1336.0), Vector(1761.0, -211.0, -1336.0), Vector(1761.0, -181.0, -1336.0), Vector(1761.0, -151.0, -1336.0) }, zpm = { Vector(1540.0, -203.0, -1379.0) }, rings = { Vector(939.0, -628.0, 174.0), Vector(963.0, -628.0, 174.0), Vector(987.0, -628.0, 174.0) }, doors = { Vector(1022.0, -628.0, 174.0), Vector(1046.0, -628.0, 174.0), Vector(1070.0, -628.0, 174.0) }, sensors = { Vector(1105.0, -628.0, 174.0), Vector(1129.0, -628.0, 174.0), Vector(1153.0, -628.0, 174.0) }, comms = { Vector(1188.0, -628.0, 174.0), Vector(1212.0, -628.0, 174.0), Vector(1236.0, -628.0, 174.0) } },
@@ -193,7 +193,7 @@ ENT.Cannons = {   -- hull space: where the staff blasts leave the hull, and whic
 	{ pos = Vector(-1500, -2500, -450), out = Vector(-0.4, -1, 0) }, -- 6 rear arm right
 	{ pos = Vector(800, 0, -1300), out = Vector(0.3, 0, -1) },    -- 7 bottom
 }
--- the ship's front is the hangar side (-X of the hull model; owner 2026-10-24): FrontYaw turns "forward" around
+-- the ship's front is the hangar side (-X of the hull model): FrontYaw turns "forward" around
 ENT.FrontYaw = 180
 ENT.CannonGroups = { { "Top", { 1 } }, { "Front", { 5, 6 } }, { "Sides", { 3, 4 } }, { "Rear", { 2 } }, { "Bottom", { 7 } } }
 
@@ -204,8 +204,8 @@ if SERVER then
 	util.AddNetworkString("AGP_HatakRingGo")
 	util.AddNetworkString("AGP_HatakJumpMenu")
 	util.AddNetworkString("AGP_HatakJumpGo")
-	-- AGP 2026-11-10: the ship's messages in each player's own language (lua/data/language/*/stargate_agp.lua, keys
-	-- agp_hkm_*): the server sends the key, the English text and the values; a value that is itself a key
+	-- AGP: the ship's messages in each player's own language (lua/data/language/*/stargate_agp.lua, keys agp_hkm_*):
+	-- the server sends the key, the English text and the values; a value that is itself a key
 	-- ("agp_hkm_p_weapons", or "key<31>value" for one with its own value) is translated on the player's side too.
 	-- The ship log keeps the English line as well (the server and the tests read it).
 	util.AddNetworkString("AGP_HatakSay")
@@ -853,8 +853,8 @@ if SERVER then
 		self.Destroying = true   -- its own chain of blasts must not start the hull's destruction a second time
 		local pos, r = self:GetPos(), self:BoundingRadius()
 		local it = self.Interior
-		-- (2026-11-12, owner: "I got killed first, glitched through the interior, and then the ship exploded") the people
-		-- aboard die IN the last blast, not three seconds before it: until then the ship breaks up around them
+		-- the people aboard die IN the last blast, not three seconds before it: until then the ship breaks up around them
+		--
 		local function aboard()
 			local t = {}
 			if (IsValid(it)) then
@@ -923,7 +923,7 @@ if SERVER then
 	-- the ship's last blast: everyone around the hull dies (DeathKill x its size), further out it hurts less and less
 	-- (DeathHurt x its size), loose things fly away
 	ENT.DeathKill, ENT.DeathHurt, ENT.DeathHurtMax = 1.0, 2.5, 250
-	-- blast size setting (agp_hatak_blast_size): small, medium (as before 2026-10-25), large (default), XL, XXL
+	-- blast size setting (agp_hatak_blast_size): small, medium (as before), large (default), XL, XXL
 	ENT.BlastScales = { 0.6, 1.0, 1.4, 2.0, 3.0 }
 	function ENT:BlastScale()
 		local cv = GetConVar("agp_hatak_blast_size")
@@ -1012,7 +1012,7 @@ if SERVER then
 		if (e.CPPISetOwner and IsValid(self:ShipOwner())) then e:CPPISetOwner(self:ShipOwner()) end
 		e.AGPTwin, inner.AGPTwin = inner, e
 		self.HullHangarDoor = e
-		self.Parts[#self.Parts + 1] = e		-- door controls outside too: on the side walls of the hangar mouth, in front of the door (owner 2026-10-25)
+		self.Parts[#self.Parts + 1] = e		-- door controls outside too: on the side walls of the hangar mouth, in front of the door
 		for _, side in ipairs({ 1, -1 }) do
 			local c = ents.Create("agp_hatak_prop")
 			if (IsValid(c)) then
@@ -1303,7 +1303,7 @@ if SERVER then
 			if (not IsValid(self)) then return end
 			local arriveFwd = Angle(0, self:GetAngles().y + self.FrontYaw, 0):Forward()
 			self:MoveShipTo(spot)
-			-- AGP 2026-11-08: the window it came out of stays behind the stern (owner: it has left hyperspace; was ahead)
+			-- AGP: the window it came out of stays behind the stern (it has left hyperspace; was ahead)
 			local ld, back = self:WorldToLocal(self:GetPos() + arriveFwd), 0
 			local mn, mx = self:OBBMins(), self:OBBMaxs()
 			for _, x in ipairs({ mn.x, mx.x }) do for _, y in ipairs({ mn.y, mx.y }) do
@@ -1544,7 +1544,7 @@ if SERVER then
 		self.BeamTaken = self.BeamTaken + take
 		return take
 	end
-	-- AGP 2026-11-08 (as in the series, owner's wish): the Ori mothership's main beam is far beyond a Ha'tak. In
+	-- AGP (as in the series, the author's wish): the Ori mothership's main beam is far beyond a Ha'tak. In
 	-- "Camelot" the Ori ships wiped out the Jaffa fleet in minutes; a Ha'tak's shield did not stop their beam. Its
 	-- hits (energy_beam2 with AGPOriBeam) do not use the beam budget above (600 a second: one Ori beam could never
 	-- drain the shield, the recharge was faster). They count by time instead: a full shield fails within one burn of
@@ -1640,8 +1640,8 @@ if SERVER then
 			local c = self.Cannons[i]
 			local from = self:LocalToWorld(c.pos)
 			local tr = util.TraceLine({ start = from, endpos = aim, filter = function(e) return e ~= self end, mask = MASK_SHOT })
-			-- AGP 2026-11-15: the target's own raised shield counts as the target (a shielded ship was never fired at: every
-			-- line of fire met its bubble first)
+			-- AGP: the target's own raised shield counts as the target (a shielded ship was never fired at: every line of
+			-- fire met its bubble first)
 			local tshield = IsValid(target) and AGP.ShipShieldEntity and AGP.ShipShieldEntity(target)
 			if (not tr.Hit or (IsValid(target) and (tr.Entity == target or (IsValid(tshield) and tr.Entity == tshield))) or tr.Fraction > 0.97) then
 				local e = ents.Create("hatak_pulse")
@@ -1651,7 +1651,10 @@ if SERVER then
 					e:PrepareBullet((aim - from):GetNormal(), 2, 2600, 60, ign)
 					e:SetPos(from); e:SetOwner(self); e.Owner = self:Commander() or self
 					e:Spawn(); e:Activate()
-					e.Damage = 650 -- AGP 2026-10-30 balance: 7 x 650 per volley (size 60 gave 2300 each: a ship shield in one volley)
+					e.Damage = 650 -- AGP balance: 7 x 650 per volley (size 60 gave 2300 each: a ship shield in one volley) AGP (his
+					-- Ha'tak's volleys took a SpaceGrid ship only ~10 %): the shot knows its ship. Its owner is the commander, so
+					-- the ship-hull balance took the volley for the commander's hand weapon (5 %)
+					if (StarGate.MarkShot) then StarGate.MarkShot(e, self) end
 					e:SetColor(Color(250, 190, 100, 215))
 					n = n + 1
 				end
@@ -2384,7 +2387,7 @@ if SERVER then
 		end
 	end
 	hook.Add("PlayerSpawn", "AGP.HatakBunk", function(ply)
-		if (ply.AGPShipLeaving) then return end   -- AGP 2026-11-08: getting out of a ship is no respawn (AGP.ShipRespawnPilot)
+		if (ply.AGPShipLeaving) then return end   -- AGP: getting out of a ship is no respawn (AGP.ShipRespawnPilot)
 		local ship = ply.AGPBunkShip
 		if (not IsValid(ship) or not IsValid(ship.BunkConsole) or not ship:IsCrew(ply) or ship.Destroying) then return end   -- (not into a ship that is blowing up)
 		timer.Simple(0, function()
@@ -2433,7 +2436,7 @@ if SERVER then
 	-- Strength 0..100. Every hit costs damage / ShieldAbsorb; at 0 the shield fails and comes back on its own at 25.
 	-- Recharge per second: ShieldRecharge x shield power (the shield room's crystal tray x core x routing).
 	-- Console in the shield room (crew), Wire input Shield, outputs Shield / Shield Strength.
-	ENT.ShieldAbsorb = 400 -- AGP 2026-10-30 balance: 100 % = 40000 damage (was 6000: one volley of another Ha'tak)
+	ENT.ShieldAbsorb = 400 -- AGP balance: 100 % = 40000 damage (was 6000: one volley of another Ha'tak)
 	ENT.ShieldBeamDrain = 0.7   -- continuous beams (IsBeamDamage) drain it gentler: the Asuran gate weapon ~25 s, not ~15 s
 	ENT.ShieldRecharge = 2
 	util.AddNetworkString("AGP_HatakShieldHit")
@@ -2461,7 +2464,7 @@ if SERVER then
 		end
 		if (not self:ShieldUp()) then return false end
 		amount = (amount or dmg:GetDamage()) * (self:IsBeamDamage(dmg) and self.ShieldBeamDrain or 1)
-		-- (2026-11-12) a hit bigger than what the shield has left: the shield fails and the rest goes on to the hull
+		-- a hit bigger than what the shield has left: the shield fails and the rest goes on to the hull
 		local left = (self.ShieldStrength or 100) * self.ShieldAbsorb
 		local rest = (not self:IsBeamDamage(dmg)) and (amount - left) or 0
 		self.ShieldStrength = math.max(0, (self.ShieldStrength or 100) - amount / self.ShieldAbsorb)
@@ -2484,10 +2487,10 @@ if SERVER then
 		return c:find("pulse") or c:find("missile") or c:find("drone") or c:find("projectile") or c:find("rocket") or c:find("bolt")
 			or c == "grenade_ar2" or c == "npc_grenade_frag" or c == "prop_combine_ball" or c == "tac_bomb"
 	end
-	-- AGP 2026-11-08: beams stop on the shield too. It is a shell the client draws, not an entity, so the beams' traces
-	-- never met it: the Ori mothership's beam went through to the hull (owner: "a no-go"). For a beam from a to b: the
-	-- first point where it enters the raised shield of a Ha'tak it started outside of (its own beams go out), with the
-	-- ship and the outward normal there; nil when it enters none. energy_beam2 / energy_laser call it.
+	-- AGP: beams stop on the shield too. It is a shell the client draws, not an entity, so the beams' traces never met
+	-- it: the Ori mothership's beam went through to the hull. For a beam from a to b: the first point where it enters
+	-- the raised shield of a Ha'tak it started outside of (its own beams go out), with the ship and the outward normal
+	-- there; nil when it enters none. energy_beam2 / energy_laser call it.
 	function AGP.HatakShieldOnPath(a, b)
 		local best, bestShip, bestNormal
 		for _, ship in ipairs(ents.FindByClass("agp_hatak")) do
@@ -2764,9 +2767,9 @@ if SERVER then
 		self:SendComputer(ply, kind)
 	end
 	-- key 1 on the throne, in the pilot chair or as gunner: the master menu (the right mouse stays free for zooming)
-	-- AGP 2026-10-31: the client sends the key as well (AGP_HatakMenuKey, read like the V camera key with input.IsKeyDown):
-	-- the owner could not open the menu from the pilot chair, and PlayerButtonDown alone stops working as soon as any other
-	-- addon's PlayerButtonDown hook returns a value. Both ways lead here, the first one wins (0.5 s).
+	-- AGP: the client sends the key as well (AGP_HatakMenuKey, read like the V camera key with input.IsKeyDown): the owner
+	-- could not open the menu from the pilot chair, and PlayerButtonDown alone stops working as soon as any other addon's
+	-- PlayerButtonDown hook returns a value. Both ways lead here, the first one wins (0.5 s).
 	util.AddNetworkString("AGP_HatakMenuKey")
 	local function menuKey(ply)
 		if (not IsValid(ply) or (ply.AGPMenuKeyT or 0) > CurTime()) then return end
@@ -2887,8 +2890,8 @@ hook.Add("VehicleMove", "AGP.HatakSeatNoDuckToggle", function(ply, veh, mv)
 end)
 
 if CLIENT then
-	-- AGP 2026-11-10: the ship's messages in the player's language (the server sends key, English text and values; a
-	-- value that is a key - "agp_hkm_p_weapons", or "key<31>value" - is translated too)
+	-- AGP: the ship's messages in the player's language (the server sends key, English text and values; a value that
+	-- is a key - "agp_hkm_p_weapons", or "key<31>value" - is translated too)
 	local function hkmArg(a)
 		local parts = string.Explode("", a)
 		local key = parts[1]
@@ -2981,10 +2984,10 @@ if CLIENT then
 	hook.Add("CalcView", "AGP.HatakCamera", function(ply, pos, ang, fov)
 		local ship = pilotShip()
 		if (not ship or mode == 3) then return end
-		-- AGP 2026-10-31: the throne and the pilot chair stand in the interior, a separate room that never turns, so the
-		-- view angle is in the room's frame. Turned into the hull's frame (room +X = the ship's front, FrontYaw), the
-		-- camera looks where the ship flies and turns with it; before, it always faced one map direction and W looked
-		-- like flying backwards whenever the ship faced the other way (owner 2026-10-31)
+		-- AGP: the throne and the pilot chair stand in the interior, a separate room that never turns, so the view angle
+		-- is in the room's frame. Turned into the hull's frame (room +X = the ship's front, FrontYaw), the camera
+		-- looks where the ship flies and turns with it; before, it always faced one map direction and W looked like
+		-- flying backwards whenever the ship faced the other way
 		local room = ship:GetNWEntity("AGPInterior")   -- the seats stand frozen in it (not parented); no interior: seats on the hull
 		if (IsValid(room) and room ~= ship) then
 			local _, la = WorldToLocal(Vector(0, 0, 0), ang, room:GetPos(), room:GetAngles())
@@ -3042,7 +3045,7 @@ if CLIENT then
 			if (IsValid(c.Header)) then c.Header:SetTextColor(GOLD); c.Header.Paint = function(_, w, h) draw.RoundedBox(0, 0, 0, w, h, Color(40, 30, 12)) end end
 		end
 	end
-	-- AGP 2026-11-08: a selected row's text turns light gold: red, blue and the dim gold were unreadable on the brown selection
+	-- AGP: a selected row's text turns light gold: red, blue and the dim gold were unreadable on the brown selection
 	local function goauldLineText(ln)
 		local sel = ln:IsSelected() and true or false
 		if (ln.AGPSel == sel) then return end
@@ -3285,7 +3288,7 @@ if CLIENT then
 				for _, c in ipairs(line.Columns) do c:SetTextColor(col) end   -- own colours: some skins draw list text white
 				line.Paint = function(ln, w, h)
 					if (ln:IsSelected()) then draw.RoundedBox(0, 0, 0, w, h, Color(110, 80, 26)) elseif (ln:IsHovered()) then draw.RoundedBox(0, 0, 0, w, h, Color(45, 34, 14)) end
-					goauldLineText(ln) -- AGP 2026-11-08: light text on the selection
+					goauldLineText(ln) -- AGP: light text on the selection
 				end
 				if (t.ent == st.target) then list:SelectItem(line) end
 			end
@@ -3494,7 +3497,7 @@ if CLIENT then
 			for _, c in ipairs(line.Columns) do c:SetTextColor(col or GOLD) end   -- own colours: some skins draw list text white
 			line.Paint = function(ln, lw, lh)
 				if (ln:IsSelected()) then draw.RoundedBox(0, 0, 0, lw, lh, Color(110, 80, 26)) elseif (ln:IsHovered()) then draw.RoundedBox(0, 0, 0, lw, lh, Color(45, 34, 14)) end
-				goauldLineText(ln) -- AGP 2026-11-08: light text on the selection
+				goauldLineText(ln) -- AGP: light text on the selection
 			end
 			return line
 		end
@@ -3718,7 +3721,7 @@ if CLIENT then
 					surface.DrawRect(0, 0, w, 24); surface.DrawRect(0, h - 24, w, 24); surface.DrawRect(0, 24, 24, h - 48); surface.DrawRect(w - 24, 24, 24, h - 48)
 					if (CurTime() > nextKlaxon) then nextKlaxon = CurTime() + 2.4; LocalPlayer():EmitSound("ambient/alarms/klaxon1.wav", 60, 100, 0.45) end
 				end
-				-- AGP 2026-10-30: ship status for the crew: lockdown, life support failure (with the reason), hijacked
+				-- AGP: ship status for the crew: lockdown, life support failure (with the reason), hijacked
 				local lines = {}
 				if (ship:GetNWBool("AGPLockdown")) then lines[#lines + 1] = { AGP.L and AGP.L("agp_hatak_hud_lockdown", "LOCKDOWN - doors locked") or "LOCKDOWN - doors locked", Color(255, 90, 60) } end
 				local why = ship:GetNWString("AGPLifeSupportWhy", "")
@@ -3728,7 +3731,7 @@ if CLIENT then
 				end
 				local hj = ship:GetNWEntity("AGPHijacker")
 				if (IsValid(hj) and hj:IsPlayer()) then lines[#lines + 1] = { string.format(AGP.L and AGP.L("agp_hatak_hud_hijack", "SHIP TAKEN OVER BY %s") or "SHIP TAKEN OVER BY %s", hj:Nick()), Color(255, 200, 80) } end
-				-- AGP 2026-10-31: at the helm the ship HUD (lua/autorun/client/agp_ship_hud_ships.lua) shows the same in its status plate
+				-- AGP: at the helm the ship HUD (lua/autorun/client/agp_ship_hud_ships.lua) shows the same in its status plate
 				local helm = AGP.HUD and AGP.HUD.Current and AGP.HUD.Current() == ship
 				if (#lines > 0 and not helm) then
 					local w, x = 380, ScrW() - 400

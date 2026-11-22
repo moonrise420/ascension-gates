@@ -124,6 +124,7 @@ if SERVER then
             if e.IgnoreTouch then return end -- Gloabal for anyone, who want's to make his scripts "staff-passable"
             if self.Passed[e] then return end -- We already passed this entity. Don't touch it again
             if (self.CoreNotCollide and self.CoreEntity == e) then return end -- avoid owner shields
+            if (self.AGPFrom and StarGate.ShotPasses(self, e)) then return end -- AGP: never its own ship or own shield
             local pos = data.HitPos
             local world = e:IsWorld()
             local owner = self.Entity:GetOwner()

@@ -225,7 +225,7 @@ hook.Add("HUDPaint","StarGate.Hook.HUDPaint.ShowAddressAndGroupAndName",
 				if(trace.Hit and IsValid(trace.Entity)) then
 					local e = trace.Entity;
 					local color = Color(255,255,255,255);
-					if (e.IsStargate and e:GetBlocked()) then color = Color(255,105,105,255); end -- AGP 2026-11-08: light red reads on the dark box (pure red was dim)
+					if (e.IsStargate and e:GetBlocked()) then color = Color(255,105,105,255); end -- AGP: light red reads on the dark box (pure red was dim)
 					if(e.IsGroupStargate and e:GetNetworkedBool("SG_GROUP_SYSTEM")) then
 						local address = e:GetGateAddress();
 						local group = e:GetGateGroup();
@@ -297,8 +297,8 @@ end
 
 --################# Find's special DHD's which may power this gate @Mad
 function ENT:FindPowerDHD()
-	-- AGP 2026-11-08: the same fix as on the server (modules/lib.lua): the locked DHD powers the gate unless it is a City DHD
-	-- ("not self:GetClass()=="dhd_city"" was always false: the menu greyed such gates as "low energy")
+	-- AGP: the same fix as on the server (modules/lib.lua): the locked DHD powers the gate unless it is a City DHD ("not
+	-- self:GetClass()=="dhd_city"" was always false: the menu greyed such gates as "low energy")
 	if (IsValid(self:GetNWEntity("LockedDHD")) and self:GetNWEntity("LockedDHD"):GetClass()~="dhd_city" and (not self:GetNWEntity("LockedDHD"):GetNWBool("Destroyed",false) or util.tobool(self.Entity:GetNetworkedInt("SG_ENERGY_DHD_K")))) then return {self:GetNWEntity("LockedDHD")} end
 	if (IsValid(self:GetNWEntity("LockedMDHD"))) then return {self:GetNWEntity("LockedMDHD")} end
 	if (IsValid(self:GetNWEntity("LockedDestC"))) then return {self:GetNWEntity("LockedDestC")} end
@@ -412,8 +412,8 @@ function ENT:CheckEnergy(target,chevs)
 	local distance = 100;
 	--if(IsValid(target)) then distance = (self:GetPos() - target:GetPos()):Length(); end;
 	if (target.pos) then distance = (self:GetPos() - target.pos):Length(); end
-	-- AGP 2026-11-08: the server's formula (ENT:CheckEnergy in modules/lib.lua, halved by CAP Enhanced): with the full
-	-- distance the menu greyed gates as "low energy" that the server lets dial
+	-- AGP: the server's formula (ENT:CheckEnergy in modules/lib.lua, halved by CAP Enhanced): with the full distance
+	-- the menu greyed gates as "low energy" that the server lets dial
 	local consume = distance / 2 * self.EnergyConsume;
 	if (self.ConnectionSGU) then consume = consume + self.SGUAdd; elseif (self.ConnectionGalaxy) then consume = consume + self.GalaxyAdd; else consume = consume + self.ChevAdd; end
 	if(not self.ConnectionSGU and not self.ConnectionGalaxy)then consume = consume / self.ChevConsumption end;

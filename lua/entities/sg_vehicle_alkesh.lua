@@ -1,7 +1,7 @@
 --[[
-	Al'kesh (the Goa'uld mid-range bomber) - Ascension Gates' own code (2026-11-07).
-	EAP's code is gone; the class name stays "sg_vehicle_alkesh", so saves and dupes keep working (same Wire names,
-	same keyboard layout "Alkesh"). Built on:
+	Al'kesh (the Goa'uld mid-range bomber) - Ascension Gates' own code. EAP's code is
+	gone; the class name stays "sg_vehicle_alkesh", so saves and dupes keep working (same Wire names, same keyboard
+	layout "Alkesh"). Built on:
 	  * the ship base sg_vehicle_base (CAP, RononDex): flying, getting in / out, the camera
 	  * CAP's energy_pulse (aVoN, Madman07) for the shots and the bombs, in the Goa'uld orange
 	  * the Al'kesh model by Ska-Ara (Sketchfab, CC BY-NC-SA, see CREDITS.md), converted by us
@@ -31,8 +31,8 @@ function ENT:AGPModel() return MODEL end
 
 -- the shield bubble, fitted to the hull (2000 x 1500 x 1500), Goa'uld gold
 ENT.AGPShield = { model = "models/iziraider/shields/3x4x3.mdl", yaw = 0, offset = Vector(0, 0, 171), color = { 1, 0.85, 0.5 } }
--- (2026-11-07 balance, the series' order: Ori > O'Neill > Aurora > Daedalus > Destiny > Prometheus > Al'kesh > Tel'tak)
--- the shield holds 12000 damage (a beam: 12 s)
+-- (balance, the series' order: Ori > O'Neill > Aurora > Daedalus > Destiny > Prometheus > Al'kesh > Tel'tak) the shield
+-- holds 12000 damage (a beam: 12 s)
 ENT.AGPShieldHP, ENT.AGPShieldBeamTime = 12000, 12
 
 local HULL = 18000
@@ -141,9 +141,9 @@ if SERVER then
 		self.NextGuns = CurTime() + 0.45
 		self.GunIndex = self.GunIndex % #GUNS + 1
 		local from = self:LocalToWorld(GUNS[self.GunIndex])
-		-- AGP 2026-11-08: the nose cannon meets the crosshair within 10 degrees of straight ahead (lua/autorun/agp_ship_aim.lua)
+		-- AGP: the nose cannon meets the crosshair within 10 degrees of straight ahead (lua/autorun/agp_ship_aim.lua)
 		local dir = AGP.ShipAimCone and AGP.ShipAimCone(self, from, 10) or self:GetForward()
-		bolt(self, from + dir * 20, dir, 8, 16000, shotColour(), 225)   -- (2026-11-08 balance) one every 0.5 s: ~450 a second
+		bolt(self, from + dir * 20, dir, 8, 16000, shotColour(), 225)   -- (balance) one every 0.5 s: ~450 a second
 		self:EmitSound("pulse_weapon/staff_weapon.mp3", 90, math.random(90, 110))
 	end
 

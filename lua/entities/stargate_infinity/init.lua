@@ -725,7 +725,7 @@ function ENT:TriggerInput(k,v,mobile,mdhd)
 				self.TargetGate = nil
 			end
 	elseif (k == "Switch Gate") then
-		if (v >= 1) then -- AGP 2026-11-08: any value >= 1, as on the SG-1 gate (was only 42; 42 still works)
+		if (v >= 1) then -- AGP: any value >= 1, as on the SG-1 gate (was only 42; 42 still works)
 			if (IsValid(self.TargetGate)) then
 				self:ControlledJump(self.TargetGate)
 			end

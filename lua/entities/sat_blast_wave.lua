@@ -115,7 +115,7 @@ function ENT:Think()
 					v:Fire("kill","","0.1")
 				elseif v:IsPlayer() then
 					if (v:Alive() and not v:HasGodMode()) then
-						FindMetaTable("Entity").SetModel(v, "models/player/charple.mdl") -- AGP 2026-11-08: Entity meta, a playermodel enforcer on the Player meta kept the normal look
+						FindMetaTable("Entity").SetModel(v, "models/player/charple.mdl") -- AGP: Entity meta, a playermodel enforcer on the Player meta kept the normal look
 						v:Kill()
 					end
 				elseif class == "npc_strider" then

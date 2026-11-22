@@ -1,13 +1,13 @@
 --[[
-	Goa'uld Sarcophagus - Ascension Gates' own code (2026-11-06), no Evolution Addon Pack code left. The class name
-	stays "sarcophagus" (saves, dupes, the Ha'tak interior). Model: ours, designed after the series,
-	models/agp/props/agp_sarcophagus.mdl (series size since 2026-11-06: 151 x 42 x 40 units, about 3.8 m long).
-	USE: the lid halves slide apart, you lie down inside, the lid closes and you heal (up to 150 health, fire goes
-	out). USE again - or when you are healed - and the lid opens and you climb out beside it. While inside you see the
+	Goa'uld Sarcophagus - Ascension Gates' own code, no Evolution Addon Pack code left. The class name stays
+	"sarcophagus" (saves, dupes, the Ha'tak interior). Model: ours, designed after the series,
+	models/agp/props/agp_sarcophagus.mdl (series size: 151 x 42 x 40 units, about 3.8 m long). USE: the lid
+	halves slide apart, you lie down inside, the lid closes and you heal (up to 150 health, fire goes out). USE
+	again - or when you are healed - and the lid opens and you climb out beside it. While inside you see the
 	sarcophagus from above. Wire: input "Eject"; outputs "Active", "Player Health", "Entity [ENTITY]".
 ]]
--- AGP 2026-11-08: gives the entity CreateWireInputs/Outputs, SetWire and Wire links in dupes; without it the Wire
--- ports promised above never existed (Initialize only makes them when these functions are there)
+-- AGP: gives the entity CreateWireInputs/Outputs, SetWire and Wire links in dupes; without it the Wire ports
+-- promised above never existed (Initialize only makes them when these functions are there)
 if (StarGate ~= nil and StarGate.LifeSupportAndWire ~= nil) then StarGate.LifeSupportAndWire(ENT) end
 
 ENT.Type = "anim"
@@ -124,8 +124,8 @@ if SERVER then
 		ply.AGPSarcophagus = nil
 		ply:SetNWEntity("AGPSarcophagus", NULL)
 		ply:Freeze(false)
-		-- (2026-11-12) died inside: un-hiding a dead player draws his model next to the body - he becomes visible again
-		-- when he respawns (autorun/server/agp_one_body.lua), and is not moved
+		-- died inside: un-hiding a dead player draws his model next to the body - he becomes visible again when he
+		-- respawns (autorun/server/agp_one_body.lua), and is not moved
 		local alive = ply:Alive()
 		if (alive) then ply:SetNoDraw(false) else ply.AGPHiddenAtDeath = true end
 		ply:SetNotSolid(false)
@@ -169,7 +169,7 @@ if SERVER then
 
 	function ENT:OnRemove()
 		if (IsValid(self:GetOccupant())) then self:LetOut() end
-		if (StarGate.WireRD and StarGate.WireRD.OnRemove) then StarGate.WireRD.OnRemove(self) end -- AGP 2026-11-08: Wire clean-up
+		if (StarGate.WireRD and StarGate.WireRD.OnRemove) then StarGate.WireRD.OnRemove(self) end -- AGP: Wire clean-up
 	end
 
 	-- the occupant leaves the game or a USE press comes while they are frozen inside

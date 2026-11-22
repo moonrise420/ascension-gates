@@ -121,8 +121,8 @@ function PANEL:OnDoubleClick()
 end
 
 --################# Highlight and Edit colors in Paint@aVoN
--- AGP 2026-11-08: readable on every menu skin: black on the bright cyan highlight (was white), otherwise light on dark
--- tool pages and black on bright ones (was always black: unreadable on dark menu skins)
+-- AGP: readable on every menu skin: black on the bright cyan highlight (was white), otherwise light on dark tool pages
+-- and black on bright ones (was always black: unreadable on dark menu skins)
 local HIGHLIGHT = Color(0, 211, 255)
 local EDIT = Color(255, 166, 0)
 local ON_BRIGHT = Color(0, 0, 0, 255)

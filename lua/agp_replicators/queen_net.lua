@@ -1,5 +1,5 @@
--- Replicators: the Queen's network, trained by notes/models/make_queen_net.py from the training runs
--- (inputs: n, own, foe, power, queens, enemies, shot, losses, plan; output: how good that plan is, normalised)
+-- Replicators: the Queen's network, trained by a build script from the training runs (inputs: n,
+-- own, foe, power, queens, enemies, shot, losses, plan; output: how good that plan is, normalised)
 return {
 	feats = { "n", "own", "foe", "power", "queens", "enemies", "shot", "losses" },
 	mu = { 11.85770, 11.80745, 4.98058, 0.00000, 1.00000, 1.00000, 1.47563, 0.15595 },

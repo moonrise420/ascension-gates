@@ -48,8 +48,8 @@ function SWEP:Deploy()
 end
 
 function SWEP:Holster()
-    -- AGP 2026-11-08: the run speed and jump the player had before feeding come back (CAP set run 500 / jump 200 on
-    -- every holster, also when he had never fed - faster than sandbox's 400)
+    -- AGP: the run speed and jump the player had before feeding come back (CAP set run 500 / jump 200 on every
+    -- holster, also when he had never fed - faster than sandbox's 400)
     if SERVER then
         self:AGPFeedSpeed(nil)
     end
@@ -140,7 +140,7 @@ end
 if SERVER then
     local col = 255
 
-    -- AGP 2026-11-08: feeding speeds by health, highest first (CAP's numbers; at 401+ the run speed of 301+ stays)
+    -- AGP: feeding speeds by health, highest first (CAP's numbers; at 401+ the run speed of 301+ stays)
     local FEED_STEPS = {
         { hp = 500, run = 1000, jump = 800 },
         { hp = 401, run = 850, jump = 400 },
@@ -200,8 +200,8 @@ if SERVER then
             end
         end
 
-        -- AGP 2026-11-08: the feeding steps checked from the top (CAP asked "> 200" first, so 300 / 400 / 500 never
-        -- came); set only when the step changes, and below 201 health the own speeds come back
+        -- AGP: the feeding steps checked from the top (CAP asked "> 200" first, so 300 / 400 / 500 never came); set
+        -- only when the step changes, and below 201 health the own speeds come back
         local hp = self:GetOwner():Health()
         local step
 
@@ -217,7 +217,7 @@ if SERVER then
         end
     end
 
-    -- AGP 2026-11-08: one feeding step on (the speeds he had before are kept aside), or nil: those speeds back
+    -- AGP: one feeding step on (the speeds he had before are kept aside), or nil: those speeds back
     function SWEP:AGPFeedSpeed(step)
         self.AGPFeedStep = step
 
@@ -242,7 +242,7 @@ if SERVER then
         end
     end
 
-    -- AGP 2026-11-08: dropped, taken away or given to someone else while fed: the speeds come back too
+    -- AGP: dropped, taken away or given to someone else while fed: the speeds come back too
     function SWEP:OnDrop()
         self:AGPFeedSpeed(nil)
     end
@@ -261,5 +261,5 @@ if SERVER then
         vm:SetSequence(seq)
     end
 end
--- AGP 2026-11-10: the player's own hands (GMod's hands of the player model) instead of the arms built into the old view model
+-- AGP: the player's own hands (GMod's hands of the player model) instead of the arms built into the old view model
 if (AGP and AGP.OwnHands) then AGP.OwnHands(SWEP, { "pg_wraith_hands_v2" }) end

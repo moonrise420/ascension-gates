@@ -1,4 +1,4 @@
-// Ascension Gates: Dutch texts (2026-10-19)
+// Ascension Gates: Dutch texts
 cat_capital_ship = Grote schepen
 cat_small_ship = Schepen
 cat_others = Overig
@@ -50,7 +50,7 @@ wp_m9_berreta = SGC Sidearm
 wp_ori_hand = Ori-handwapen
 wp_goauld_zatarc = Goa'uld-Zatarc
 
-// Samenvoeging van EAP-functies (2026-10-19)
+// Samenvoeging van EAP-functies
 key_malp_control = Besturing stoppen
 vis_wormhole = Wormgat-reisanimatie
 vis_wormhole_desc = Toont de wormgattunnel als je door een gate reist (alleen als de server de wormgatsequentie gebruikt). Uit = direct reizen.
@@ -91,7 +91,7 @@ agp_info_btn_close = Aan de slag!
 agp_info_dontshow = Dit niet meer tonen bij het opstarten
 agp_gtsp_saved = Gate-spawner opgeslagen voor %s. Hij laadt automatisch elke keer dat deze map start.
 agp_credits_about = Over
-// gate spawner, Grid Power, life support, units (2026-10-21)
+// gate spawner, Grid Power, life support, units
 agp_gs_title = Gate-spawner
 agp_gs_help = Plaats gates, DHD's, ringen en hellingen zoals altijd en druk op "Map opslaan": ze verschijnen elke keer dat deze map start. Dubbelklik op een onderdeel om erheen te gaan, rechtsklik om het te verwijderen.
 agp_gs_status = Map: %s\nSpawner: %s\nGebruikt: %s\nOnderdelen: %d
@@ -149,7 +149,7 @@ agp_unit_temp = Temperatuur
 agp_unit_gravity = Zwaartekracht
 agp_unit_auto = Automatisch (jouw land)
 agp_unit_auto_g = Automatisch (g)
-// our parts: names, suit HUD, gate report, screens, link tool, chat, resources (2026-10-21)
+// our parts: names, suit HUD, gate report, screens, link tool, chat, resources
 agp_ent_cell_xs = Energiecel (XS)
 agp_ent_cell_small = Energiecel (S)
 agp_ent_cell_medium = Energiecel (M)
@@ -751,7 +751,7 @@ agp_hkm_c_reps_core = Replicators bij de energiekern!
 agp_arg_name = Anti-replicatorwapen
 agp_arg_purpose = Vernietig die beestjes
 agp_arg_instr = Linksklik - anti-replicatorgolf afvuren, houd R vast - nieuwe frequentie zoeken
-// window texts (2026-11-10)
+// window texts
 agp_ui_hyperspace = Hyperruimte
 agp_ui_target = Doel
 agp_ui_jump_target = Naar het gekozen doel springen
@@ -834,7 +834,7 @@ agp_ui_autolink = Automatisch koppelen aan een grondstofknooppunt
 agp_ui_add_velocity = Het schot krijgt de snelheid van het kanon erbij
 agp_ui_autoweld = Automatisch lassen
 agp_ui_empty = (leeg)
-// Ha'tak consoles (2026-11-10)
+// Ha'tak consoles
 agp_hk_weapons = WAPENS
 agp_hk_staff_cannons = STAFKANONNEN
 agp_hk_charging = LADEN
@@ -958,7 +958,7 @@ agp_hk_nearest_ring = Dichtstbijzijnde ring buiten het schip
 agp_hk_glyph_pad = Goa'uld-symbolenpaneel
 agp_hk_t_mark = Markering %s
 agp_hk_t_player = Speler %s
-// Ha'tak messages, crew announcements and ship log (2026-11-10)
+// Ha'tak messages, crew announcements and ship log
 agp_hkm_w_ship = Ha'tak
 agp_hkm_w_engine = Ha'tak machinekamer
 agp_hkm_w_computer = Ha'tak computerkern
@@ -1312,6 +1312,16 @@ agp_ship_title_all = Alle schepen
 agp_ship_shieldvis = Schildbel
 agp_ship_shieldvis0 = Alleen bij een treffer of aan/uit
 agp_ship_shieldvis1 = Altijd zichtbaar
+agp_ship_wenergy = Wapens gebruiken energie
+agp_ship_wenergy0 = Nooit (gratis)
+agp_ship_wenergy1 = Als verbonden
+agp_ship_wenergy2 = Altijd
+agp_ship_spower = Wapens gebruiken de energie van het schip
+agp_ship_tip_spower = Ja: een wapen op een StarCore-schip neemt de energie van het schip - eerst uit zijn ZPM's, generatoren en accu's, anders de eigen energie van het schip.
+agp_ship_wbalance = Wapens tegen schepen
+agp_ship_wbalance0 = AGP-sandbox
+agp_ship_wbalance1 = Kracht uit de serie
+agp_ship_tip_wbalance = Kracht uit de serie: wapens raken schepen zo hard als in de serie, handwapens krassen nauwelijks op een romp. AGP-sandbox: de eigen schade van elk wapen.
 agp_ship_destructtime = Zelfvernietiging: aftellen (seconden)
 agp_ship_tip_shieldvis = Altijd: de schildbel van elk schip gloeit zwak zolang het schild aan staat. Anders zie je hem alleen bij een treffer en bij het in- of uitschakelen.
 agp_ship_tip_destructtime = Seconden tussen het indrukken van de zelfvernietigingstoets en de explosie. Een tweede druk blaast het schip meteen op.

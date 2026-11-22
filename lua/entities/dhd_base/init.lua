@@ -339,8 +339,8 @@ function ENT:TriggerInput(k,v)
 			self.Entity:SetNWBool("DisRingRotate",false);
 		end
 	elseif (k == "Disable Menu") then
-		-- AGP 2026-11-08: the input was declared but never handled (self.DisMenu, read when DIAL is pressed, was never set);
-		-- now as on the gates and as the "Disable Menu" property does
+		-- AGP: the input was declared but never handled (self.DisMenu, read when DIAL is pressed, was never set); now as on
+		-- the gates and as the "Disable Menu" property does
 		self.DisMenu = tobool(v);
 		self:SetNWBool("DisMenu",self.DisMenu);
 	elseif (k == "Hide Letters") then
@@ -459,8 +459,8 @@ function ENT:DestroyEffect(noeffect)
 		util.Effect( "HelicopterMegaBomb", effectdata )
 	end
 
-	-- AGP 2026-11-08: blast and energy burst only when it really gets destroyed. noeffect = a gate-spawner DHD saved as
-	-- destroyed and set up so on map load: it exploded there and added 500000 energy on every load.
+	-- AGP: blast and energy burst only when it really gets destroyed. noeffect = a gate-spawner DHD saved as destroyed
+	-- and set up so on map load: it exploded there and added 500000 energy on every load.
 	if (not noeffect) then
 		local fx = EffectData()
 		fx:SetOrigin(self:GetPos())
@@ -746,7 +746,7 @@ function ENT:AddChevron(btn, nosound, lightup, gate, city, fail)
 			end
 
 			if((not fail or btn == "#" or table.getn(self.DialledAddress)==9 and not table.HasValue(self.DialledAddress,"DIAL")) and not nosound) then
-				-- AGP 2026-11-08: the gate can be gone (removed meanwhile): self:FindGate():GetClass() errored then
+				-- AGP: the gate can be gone (removed meanwhile): self:FindGate():GetClass() errored then
 				local fgate = self:FindGate()
 				local virgo = IsValid(fgate) and fgate:GetClass() == "stargate_virgo"
 				if (btn == "DIAL") then
@@ -783,13 +783,13 @@ function ENT:AddChevron(btn, nosound, lightup, gate, city, fail)
 							self.Entity:EmitSound(self.Inf_ChevSounds[math.random(1,table.getn(self.Inf_ChevSounds))],500,crystal_pitch/2)
 						end
 					elseif (self:GetClass() == "dhd_atlantis" or self:GetClass() == "dhd_city") then
-						-- AGP 2026-11-08: CAP's Atlantis / city branch again (CAP Enhanced lost it): loud press, none in the slow mode
+						-- AGP: CAP's Atlantis / city branch again (CAP Enhanced lost it): loud press, none in the slow mode
 						if (not self.DisRingRotate) then
 							self:EmitSound(Sound(self.PlorkSound), 130, math.random(97, 103))
 						end
 					elseif (self.ChevSounds) then
-						-- AGP 2026-11-08: tested the global ChevSounds (always nil), so SG-1, concept and Infinity DHDs played the old
-						-- dhd_sg1.mp3 (and Sound() of the table would have errored): one of the DHD's own press sounds, as in CAP
+						-- AGP: tested the global ChevSounds (always nil), so SG-1, concept and Infinity DHDs played the old dhd_sg1.mp3
+						-- (and Sound() of the table would have errored): one of the DHD's own press sounds, as in CAP
 						self:EmitSound(self.ChevSounds[math.random(1, #self.ChevSounds)], 70, math.random(97, 103))
 					else
 						self.Entity:EmitSound(Sound(self.PlorkSound),70,math.random(97,103))

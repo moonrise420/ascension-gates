@@ -69,8 +69,8 @@ function SWEP:PrimaryAttack()
     self.Weapon:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
     -- Muzzle
     if (self.Owner:IsPlayer() and AGP and AGP.MuzzleFx) then
-        -- AGP 2026-11-14 (owner: "iam not sure if there the bullets come out at the right place"): the glow was drawn on the
-        -- HL2 pistol's muzzle (energy_muzzle takes the view model's attachment 1), not where our model's barrel is
+        -- AGP: the glow was drawn on the HL2 pistol's muzzle (energy_muzzle takes the view model's attachment 1), not where
+        -- our model's barrel is
         AGP.MuzzleFx(self, "flash", nil, "energy")
     else
         local fx = EffectData()
@@ -128,10 +128,10 @@ if SERVER then
         if (p:IsPlayer()) then
             local right = aimvector:Angle():Right()
             local up = aimvector:Angle():Up()
-            -- AGP 2026-11-14 (owner: "iam not sure if there the bullets come out at the right place"): the pulse starts at the
-            -- muzzle of the gun as the shooter sees it (his client reports it: lua/autorun/agp_muzzle.lua; third person: the
-            -- world model's attachment). CAP put it on a fixed spot 23 to the right and 15 down from the eye, which
-            -- ignored the field of view, the model and the pose.
+            -- AGP: the pulse starts at the muzzle of the gun as the shooter sees it (his client reports it:
+            -- lua/autorun/agp_muzzle.lua; third person: the world model's attachment). CAP put it on a fixed spot 23 to the
+            -- right and 15 down from the eye, which ignored the field of view, the model and the pose.
+            --
             local muzzle = AGP and AGP.MuzzleWorld and AGP.MuzzleWorld(self)
             -- Check, how far we can go to right (avoids exploding shots on the wall right next to you)
             local max = util.QuickTrace(shootpos, right * 100, filter).Fraction * 100 - 10
@@ -252,27 +252,27 @@ if CLIENT then
     end
 end
 
--- AGP 2026-11-10 (owner: the hands in first person must be the player's own): GMod's hand animations (c_pistol.mdl) with the
--- player's own hands; the item's own model sits on the right hand bone the way it sits in a player's hand. The old
--- view model had arms of its own (other hands than the player's).
--- AGP 2026-11-14 (owner: "cant you restore the original froom cap? with that everything should be and work as was?" - the
+-- AGP (the hands in first person must be the player's own): GMod's hand animations (c_pistol.mdl) with the player's own
+-- hands; the item's own model sits on the right hand bone the way it sits in a player's hand. The old view model
+-- had arms of its own (other hands than the player's). AGP (the
 -- gun pointing up while shooting is CAP's own recoil animation, "because its so powerful"): CAP's own first-person model
--- (models/weapons/v_dexgun.mdl: the original gun with the white grip, its own animations) again, with the player's own hands
--- laid onto its arm skeleton was tried first: its gun hand has no finger bones, so that hand came out wrong (owner: "first
--- person the hands are wrong ... but in the past it worked... right hand and the weapon"). So it is CAP's view model exactly
--- as CAP shipped it, with its own arms.
+-- (models/weapons/v_dexgun.mdl: the original gun with the white grip, its own animations) again, with the player's own
+-- hands laid onto its arm skeleton was tried first: its gun hand has no finger bones, so that hand came out wrong. So it is
+-- CAP's view model exactly as CAP shipped it, with its own arms.
+--
+--
 if (AGP) then
     if (AGP.MuzzleTrack) then AGP.MuzzleTrack(SWEP, { vm = true }) end   -- (the muzzle of CAP's view model, as drawn in first person)
     SWEP.AGPMuzzleSync = true   -- (the owner's client tells the server where it sees the muzzle: the pulse starts there)
 end
 
--- AGP 2026-11-14 (owner: "had a white grip, was not so puny ... like the icon thumbnail and that's missing"): the gun in the hand is
--- the ORIGINAL one the icon shows (CAP's first-person model models/weapons/v_dexgun.mdl: material miriam/weapons/rononsgun, white
--- grip) instead of the small dark world model models/w_dexgun.mdl. GMod's c_pistol hand and its animations stay (the simple way,
--- owner's decision): the old model's own arm mesh (v_hand_sheet) is drawn with an invisible material, its gun (bone "Python") is
--- laid on the hand bone. The numbers were measured from both models' vertices (bbox centre, barrel forward, grip side): in the
--- hand bone's space the old gun's barrel points along +x, its grip hangs towards +z, its flat side faces -y.
--- Also in third person and dropped (the world model's hand bone is the player's hand / the entity itself).
+-- AGP: the gun in the hand is the ORIGINAL one the icon shows (CAP's first-person model models/weapons/v_dexgun.mdl: material
+-- miriam/weapons/rononsgun, white grip) instead of the small dark world model models/w_dexgun.mdl. GMod's c_pistol hand and its
+-- animations stay (the simple way, the author's decision): the old model's own arm mesh (v_hand_sheet) is drawn with an invisible
+-- material, its gun (bone "Python") is laid on the hand bone. The numbers were measured from both models' vertices (bbox centre,
+-- barrel forward, grip side): in the hand bone's space the old gun's barrel points along +x, its grip hangs towards +z, its
+-- flat side faces -y. Also in third person and dropped (the world model's hand bone is the player's hand /
+-- the entity itself).
 if (CLIENT) then
     local GUN = "models/weapons/v_dexgun.mdl"
     local G0 = Matrix({ { 0, 0, 1, 7.47 }, { -1, 0, 0, -1.03 }, { 0, -1, 0, -4.04 }, { 0, 0, 0, 1 } })   -- Python bone space -> hand bone space

@@ -71,7 +71,7 @@ if SERVER then
         local trace = util.TraceHull(tr)
 
         if (trace.Hit) then
-            vecSrc = trace.HitPos -- AGP 2026-11-08: where the trace stopped (was tr.endpos = the wanted spot, maybe in the wall)
+            vecSrc = trace.HitPos -- AGP: where the trace stopped (was tr.endpos = the wanted spot, maybe in the wall)
         end
 
         return vecSrc
@@ -82,8 +82,8 @@ if SERVER then
         local pPlayer = self.Owner
         local vecEye = pPlayer:EyePos()
         local vForward, vRight
-        -- AGP 2026-11-08: along the aim like HL2's grenade (eye direction, then a little up); GetForward() of a player
-        -- is level, so looking up or down was ignored and every throw went flat
+        -- AGP: along the aim like HL2's grenade (eye direction, then a little up); GetForward() of a player is level,
+        -- so looking up or down was ignored and every throw went flat
         local eyeAng = pPlayer:EyeAngles()
         vForward = eyeAng:Forward()
         vRight = eyeAng:Right()
@@ -226,8 +226,8 @@ if (SERVER) then
 end
 
 if CLIENT then
-    -- AGP 2026-11-08: the mode switch runs on the server only; without this the client used weapon_base's secondary
-    -- attack and played the pistol's empty click in multiplayer
+    -- AGP: the mode switch runs on the server only; without this the client used weapon_base's secondary attack and
+    -- played the pistol's empty click in multiplayer
     function SWEP:SecondaryAttack() end
 
     function SWEP:DrawHUD()
@@ -246,9 +246,9 @@ if CLIENT then
     end
 end
 
--- AGP 2026-11-12 (owner: "CAP's is way better held in the hand - why can't we have it exactly the same way"): CAP's own
--- first-person model and animations, with the player's own hands laid onto its arm skeleton
--- (lua/autorun/agp_blueprint_arms.lua). 2026-11-10's GMod hand animations never fitted this item.
+-- AGP: CAP's own first-person model and animations, with the player's own hands laid onto its arm skeleton
+-- (lua/autorun/agp_blueprint_arms.lua). GMod hand animations never fitted this item.
+--
 if (AGP and AGP.BlueprintArms) then
     AGP.BlueprintArms(SWEP, { vm = "models/boba_fett/tac/tac.mdl", hide = { "v_hands" }, arms = AGP.BlueprintRigs.izi })
 end

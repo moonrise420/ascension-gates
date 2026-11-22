@@ -1,4 +1,4 @@
-SWEP.Category = (SGLanguage and SGLanguage.GetMessage) and SGLanguage.GetMessage("weapon_misc_cat") or "Misc Weapons"   -- AGP 2026-11-10: one of our two weapon folders (was "Ascension Gates: Misc": a folder of its own)
+SWEP.Category = (SGLanguage and SGLanguage.GetMessage) and SGLanguage.GetMessage("weapon_misc_cat") or "Misc Weapons"   -- AGP: one of our two weapon folders (was "Ascension Gates: Misc": a folder of its own)
 SWEP.PrintName = "Minidrone Platform Key";
 SWEP.Author = "Madman07";
 SWEP.Contact = "";
@@ -38,9 +38,9 @@ if SERVER then
 if (StarGate==nil or StarGate.CheckModule==nil or not StarGate.CheckModule("entweapon")) then return end
 AddCSLuaFile();
 
--- AGP 2026-11-08: the owner is not set yet in Initialize, and is gone again on drop / death / cleanup: a NULL-entity
--- error every time the platform gave the key, and on every drop or death. The ATA control flag is only touched while
--- the key has a valid owner (and is taken from the last one on drop / remove).
+-- AGP: the owner is not set yet in Initialize, and is gone again on drop / death / cleanup: a NULL-entity error
+-- every time the platform gave the key, and on every drop or death. The ATA control flag is only touched while the
+-- key has a valid owner (and is taken from the last one on drop / remove).
 local function setControl(self, on)
 	local p = IsValid(self.Owner) and self.Owner or self.AGPLastOwner
 	if (IsValid(p) and p:IsPlayer()) then p.CanMinidroneControll = on end
@@ -168,14 +168,14 @@ end
 
 end
 
--- AGP 2026-11-12 (owner: "CAP's is way better held in the hand - why can't we have it exactly the same way"): CAP's own
--- first-person model and animations, with the player's own hands laid onto its arm skeleton
--- (lua/autorun/agp_blueprint_arms.lua). 2026-11-10's GMod hand animations never fitted this item.
+-- AGP: CAP's own first-person model and animations, with the player's own hands laid onto its arm skeleton
+-- (lua/autorun/agp_blueprint_arms.lua). GMod hand animations never fitted this item.
+--
 if (AGP and AGP.BlueprintArms) then
     AGP.BlueprintArms(SWEP, { vm = "models/Madman07/minidrone_platform/key_v.mdl", hide = { "v_hands" }, arms = AGP.BlueprintRigs.iziR })
 end
 -- (third person: the key in the hand - its world model has no hand bone, the engine left it at the feet; this half of
--- 2026-11-10's fix was lost with the first-person change of 2026-11-12 and found again by suite heldall)
+-- fix was lost with the first-person change and found again by suite heldall)
 if (AGP and AGP.WorldOnHand) then
     AGP.WorldOnHand(SWEP, { model = "models/Madman07/minidrone_platform/key_w.mdl", pos = Vector(3.4, 2.4, -0.6), ang = Angle(-120, 180, 0), size = 1.5 })
 end

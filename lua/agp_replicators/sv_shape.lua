@@ -1,10 +1,10 @@
--- Replicators: the shape of the world, read instead of felt (owner 2026-11-05: "can we let it see and understand - not
--- guessing?"). The game hands over the shapes: the map's faces (GetBrushSurfaces), its terrain and the props built into
--- it (both from the map file itself), and every prop's physics shape. They go into a grid of 256-unit cells, read once
--- when the map is up (some 20-100 ms); props are read when a bug needs them (a few hundredths of a ms each).
--- R.Shape.Slice cuts all of it with a plane: the side view a bug plans its way over (sv_surfnav.lua).
--- The faces nothing is drawn on and the invisible clip walls come from the map's brushes (readBrushes).
--- Not read (the rays of sv_surfnav.lua find these): lumps the map stores packed.
+-- Replicators: the shape of the world, read instead of felt. The game hands over the shapes: the map's faces
+-- (GetBrushSurfaces), its terrain and the props built into it (both from the map file itself), and every prop's physics
+-- shape. They go into a grid of 256-unit cells, read once when the map is up (some 20-100 ms); props are read when a
+-- bug needs them (a few hundredths of a ms each). R.Shape.Slice cuts all of it with a plane: the side view a
+-- bug plans its way over (sv_surfnav.lua). The faces nothing is drawn on and the invisible clip walls
+-- come from the map's brushes (readBrushes). Not read (the rays of sv_surfnav.lua find these): lumps the
+-- map stores packed.
 local R = AGP.Rep
 local S = R.Shape or {}
 R.Shape = S
@@ -198,10 +198,10 @@ local function readStatic(f, L)
 	S.staticProps, S.staticNoShape = #list, none
 end
 
--- what the faces miss (2026-11-05: a fifth of gm_construct's walls): sides the map's compiler drops because nothing is
--- drawn on them (a "nodraw" back of a wall, a ledge's top no one sees) and the invisible clip walls. Both are only in
--- the map's brushes - solid boxes, each a set of planes. A side is the plane cut down by the brush's other planes.
--- Only the world's own brushes (walked from the map's tree; a door's would sit where it was built, not where it is now)
+-- what the faces miss (a fifth of gm_construct's walls): sides the map's compiler drops because nothing is drawn on
+-- them (a "nodraw" back of a wall, a ledge's top no one sees) and the invisible clip walls. Both are only in the map's
+-- brushes - solid boxes, each a set of planes. A side is the plane cut down by the brush's other planes. Only the
+-- world's own brushes (walked from the map's tree; a door's would sit where it was built, not where it is now)
 local NODRAW, SKY = 0x80, 0x6
 local SOLIDISH, CLIP = bit.bor(CONTENTS_SOLID, CONTENTS_WINDOW, CONTENTS_GRATE), CONTENTS_PLAYERCLIP
 local function clipPoly(v, n, d)   -- keeps the part behind the plane (n . x <= d)
@@ -272,11 +272,11 @@ local function readBrushes(f, L)
 	S.brushFaces = made
 end
 
--- how much the swarm looks (owner 2026-11-05: "4 steps... 4 is full scan... 1 is only some ping"), agp_rep_scan:
---   1 ping   a few rays round the bug and its goal, nothing read
---   2 radar  the full ring of rays, and the shapes of props near the way
---   3 map    and the map's faces and terrain
---   4 full   and the props built into the map, the faces nothing is drawn on, the invisible clip walls (the default)
+-- how much the swarm looks, agp_rep_scan: 1 ping a few rays round the bug and its goal, nothing read 2 radar the
+--   full ring of rays, and the shapes of props near the way 3 map
+--   and the map's faces and terrain 4 full and the props built into the
+--   map, the faces nothing is drawn on, the
+--   invisible clip walls (the default)
 R.cv.scan = R.cv.scan or CreateConVar("agp_rep_scan", "4", FCVAR_ARCHIVE, "Replicators: how much they see of the world's shape (1 ping, 2 radar, 3 map, 4 full)")
 function S.Level() return math.Clamp(R.cv.scan:GetInt(), 1, 4) end
 

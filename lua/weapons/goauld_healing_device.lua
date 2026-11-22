@@ -1,14 +1,14 @@
 --[[
-	Goa'uld Healing Device - Ascension Gates' own code and model (2026-11-06), designed after the series; no Evolution
-	Addon Pack content left (the class name stays for saves). The oval device held in the palm ("Thor's Hammer",
-	"Fair Game"): its red dome glows and a soft golden light falls on the one being healed.
-	Hold left click on a player or NPC up to 200 units away: +10 health a second, players up to 150 (NPCs up to their
-	full health). Hold right click: heal yourself.
-	First person: GMod's hands on the bug bait animations, the device in the palm, the dome towards your patient;
-	healing yourself, the hand turns it round, the dome towards you (owner 2026-11-07).
+	Goa'uld Healing Device - Ascension Gates' own code and model, designed after the series; no Evolution Addon Pack
+	content left (the class name stays for saves). The oval device held in the palm ("Thor's Hammer", "Fair
+	Game"): its red dome glows and a soft golden light falls on the one being healed. Hold
+	left click on a player or NPC up to 200 units away: +10 health a second, players up to 150 (NPCs up to their full
+	health). Hold right click: heal yourself. First
+	person: GMod's hands on the bug bait animations, the device in the palm, the dome towards your patient;
+	healing yourself, the hand turns it round, the dome towards you.
 ]]
 SWEP.PrintName = "Goa'uld Healing Device"
-SWEP.Category = (SGLanguage and SGLanguage.GetMessage) and SGLanguage.GetMessage("weapon_misc_cat") or "Misc Weapons"   -- AGP 2026-11-10: one of our two weapon folders (was "Misc": a folder of its own)
+SWEP.Category = (SGLanguage and SGLanguage.GetMessage) and SGLanguage.GetMessage("weapon_misc_cat") or "Misc Weapons"   -- AGP: one of our two weapon folders (was "Misc": a folder of its own)
 if (SGLanguage ~= nil and SGLanguage.GetMessage ~= nil) then
     SWEP.PrintName = SGLanguage.GetMessage("wp_goauld_medical")
     SWEP.Category = SGLanguage.GetMessage("weapon_misc_cat")
@@ -50,7 +50,7 @@ end
 
 function SWEP:SetupDataTables()
     self:NetworkVar("Float", 0, "HealUntil")        -- glowing until then
-    self:NetworkVar("Entity", 0, "Patient")         -- whom the light falls on (the owner: healing yourself)
+    self:NetworkVar("Entity", 0, "Patient")         -- whom the light falls on (healing yourself)
 end
 
 function SWEP:Initialize()
@@ -133,7 +133,7 @@ local function selfTurn(self)
 end
 
 -- the hand's share of the turn: the wrist rolls (view model hand bone); the device turns the rest in the fingers
-AGP.HealHandTurn = Angle(0, 0, 50)   -- chosen from in-game shots (2026-11-07): the palm opens and presents the device
+AGP.HealHandTurn = Angle(0, 0, 50)   -- chosen from in-game shots: the palm opens and presents the device
 if CLIENT then
     concommand.Add("agp_healturn", function(_, _, a)   -- tuning: agp_healturn p y r
         AGP.HealHandTurn = Angle(tonumber(a[1]) or 0, tonumber(a[2]) or 0, tonumber(a[3]) or 0)
@@ -144,11 +144,11 @@ function SWEP:PreDrawViewModel(vm)
     local b = handBone(vm)
     if (b) then
         vm:ManipulateBoneAngles(b, AGP.HealHandTurn * selfTurn(self))
-        vm.AGPHealHand = b; self.AGPHandVM = vm   -- AGP 2026-11-08: which hand bone of which view model is turned
+        vm.AGPHealHand = b; self.AGPHandVM = vm   -- AGP: which hand bone of which view model is turned
     end
 end
--- AGP 2026-11-08: the view model this device turned, also when the owner is already gone (removed while healing
--- yourself: OnRemove found no owner and the next weapon kept the rolled hand)
+-- AGP: the view model this device turned, also when the owner is already gone (removed while healing yourself:
+-- OnRemove found no owner and the next weapon kept the rolled hand)
 function resetHand(self)
     local o = self:GetOwner()
     local vm = IsValid(self.AGPHandVM) and self.AGPHandVM or (IsValid(o) and o.GetViewModel and o:GetViewModel())
@@ -157,8 +157,8 @@ function resetHand(self)
     self.AGPTurn = 0
 end
 if CLIENT then
-    -- AGP 2026-11-08: and whatever way the device left the hand (in single player Holster does not run on the client):
-    -- the first other weapon drawn on a view model with the turned hand straightens it
+    -- AGP: and whatever way the device left the hand (in single player Holster does not run on the client): the first
+    -- other weapon drawn on a view model with the turned hand straightens it
     hook.Add("PreDrawViewModel", "AGP.HealingDevice.ResetHand", function(vm, ply, wep)
         if (IsValid(vm) and vm.AGPHealHand and not (IsValid(wep) and wep:GetClass() == "goauld_healing_device")) then
             vm:ManipulateBoneAngles(vm.AGPHealHand, angle_zero)

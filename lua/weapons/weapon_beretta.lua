@@ -1,11 +1,11 @@
 --[[
-	SGC Sidearm (Beretta M9) - Ascension Gates' own code (2026-11-06) and model (CC BY 4.0, see CREDITS); no Evolution
-	Addon Pack content left (the class name stays for saves). The SGC's side arm: 16 rounds, pistol ammo.
-	The kick depends on how you stand: jumping kicks hardest, crouching least.
-	First person: GMod's HL2 pistol animations, our model on its gun bone (agp_sgc_weapons.lua).
+	SGC Sidearm (Beretta M9) - Ascension Gates' own code and model (CC BY 4.0, see CREDITS); no Evolution Addon Pack
+	content left (the class name stays for saves). The SGC's side arm: 16 rounds, pistol ammo. The kick
+	depends on how you stand: jumping kicks hardest, crouching least. First
+	person: GMod's HL2 pistol animations, our model on its gun bone (agp_sgc_weapons.lua).
 ]]
 SWEP.PrintName = "SGC Sidearm"
-SWEP.Category = (SGLanguage and SGLanguage.GetMessage) and SGLanguage.GetMessage("weapon_cat") or "Player Weapons"   -- AGP 2026-11-10: one of our two weapon folders (was "Player Weapons": a folder of its own)
+SWEP.Category = (SGLanguage and SGLanguage.GetMessage) and SGLanguage.GetMessage("weapon_cat") or "Player Weapons"   -- AGP: one of our two weapon folders (was "Player Weapons": a folder of its own)
 if (SGLanguage ~= nil and SGLanguage.GetMessage ~= nil) then
     SWEP.PrintName = SGLanguage.GetMessage("wp_m9_berreta")
     SWEP.Category = SGLanguage.GetMessage("weapon_cat")
@@ -66,7 +66,7 @@ end
 
 function SWEP:PrimaryAttack()
     if (self:Clip1() <= 0) then
-        -- AGP 2026-11-08: nothing left to load either: the dry click (as weapon_base does); before, it stayed silent
+        -- AGP: nothing left to load either: the dry click (as weapon_base does); before, it stayed silent
         if (self:Ammo1() <= 0) then
             self:EmitSound("Weapon_Pistol.Empty")
             self:SetNextPrimaryFire(CurTime() + 0.2)
@@ -82,8 +82,8 @@ function SWEP:PrimaryAttack()
     local kick = self.Primary.Kick * stance(o)
     local bullet = { Num = 1, Src = o:GetShootPos(), Dir = o:GetAimVector(), Spread = Vector(self.Primary.Cone, self.Primary.Cone, 0),
         Tracer = 1, Force = 0.65 * self.Primary.Damage, Damage = self.Primary.Damage }
-    -- AGP 2026-11-14 (owner: "for sgc sidearm too"): tracer and flash leave the muzzle of OUR model (the engine used the
-    -- HL2 pistol's), lua/autorun/agp_muzzle.lua; the bullet is still traced from the eye
+    -- AGP: tracer and flash leave the muzzle of OUR model (the engine used the HL2 pistol's),
+    -- lua/autorun/agp_muzzle.lua; the bullet is still traced from the eye
     local ours = AGP and AGP.MuzzleShot and AGP.MuzzleShot(self, bullet, "bullet")
     o:FireBullets(bullet)
     self:SendWeaponAnim(self:Clip1() <= 0 and ACT_VM_DRYFIRE or ACT_VM_PRIMARYATTACK)

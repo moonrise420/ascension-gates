@@ -121,15 +121,13 @@ if SERVER then
     -----------------------------------THINK----------------------------------
     function ENT:Think(ply)
 
-    	if (self.WireSalvo == 1) then
-        	self.Power = math.Clamp(self.Power + 285 / self.ChargingTime, 0, 100)
-    	else
-    		self.Power = math.Clamp(self.Power + 8 / self.ChargingTime, 0, 100)
-    	end
-    	Wire_TriggerOutput(self, "Charged %", self.Power)
-        if (self.Power < 100) then
-            self:ConsumeResource("energy", 2000)
+        -- AGP: charging takes energy only when the weapon uses energy (agp_weapon_energy); then a network that
+        -- cannot give it stops the charging (it drained a network that had nothing and charged anyway)
+        if (self.Power >= 100 or StarGate.WeaponCharge(self)) then -- AGP: per second (StarGate.ChargeRate)
+            local rate = (self.WireSalvo == 1) and 285 or 8
+            self.Power = math.Clamp(self.Power + rate / self.ChargingTime, 0, 100)
         end
+        Wire_TriggerOutput(self, "Charged %", self.Power)
 
 
         if IsValid(self.APC) then
@@ -157,23 +155,25 @@ if SERVER then
     end
 
     function ENT:Shoot()
-        local energy = self:GetResource("energy")
-
-        if (energy > self.energy_drain or not self.HasRD) then
+        -- AGP: energy by agp_weapon_energy (StarGate.WeaponEnergy)
+        if (StarGate.WeaponEnergy(self, 0, true)) then -- (the shot is paid with the charge)
             local FiringPos = self:GetPos() + self:GetUp() * 30
             local ShootDir = (self.Target - FiringPos):GetNormal()
 
+            -- AGP: through the own ship's shield; any part of the own ship in the way stops the shot
             local trace = util.TraceLine({
                 start = FiringPos,
                 endpos = self.Target,
-                ignoreworld = true
+                ignoreworld = true,
+                filter = function(e) return not StarGate.OwnShield(self, e) end
             })
 
-            if (IsValid(trace.Entity) and trace.Entity == self) then return end
-            self:ConsumeResource("energy", self.energy_drain)
+            if (IsValid(trace.Entity) and StarGate.SameShip(self, trace.Entity)) then return end
+            -- (no extra cost for the shot: the charge paid for it, StarGate.ChargeRate)
             self:EmitSound(self.Sounds.Shoot, 100, math.random(88, 102))
             self.Power = self.Power-10
             local e = ents.Create("vanir_pulse")
+            StarGate.MarkShot(e, self)
 
             e:PrepareBullet(ShootDir, 80, 4000, 5)
             e:SetPos(FiringPos)

@@ -1,6 +1,6 @@
 --[[
-	Mimetic imaging device - Ascension Gates' own code (2026-11-10), after the series (SG-1 "Foothold": a device that
-	lets its wearer look like a person it has imaged). The class name stays "mimetisor" so saves and dupes keep it.
+	Mimetic imaging device - Ascension Gates' own code, after the series (SG-1 "Foothold": a device that lets its
+	wearer look like a person it has imaged). The class name stays "mimetisor" so saves and dupes keep it.
 
 	Mouse1: image the person in front of you (a player or a human NPC, close by): hold the aim on them for a moment.
 	Mouse2: the projection on / off - you look like the imaged person, or like yourself again (the image is kept).

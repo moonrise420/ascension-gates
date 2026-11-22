@@ -525,8 +525,8 @@ end
 
 function StarGate.HasATA(ply,print)
     if(ply:IsPlayer() == false) then return end
-    -- AGP 2026-10-26: the gene is only needed when the admin switches it on (Stargate settings, "ATA Gene feature");
-    -- off (default) = everybody may use every Ancient device, no "missing the gene" message
+    -- AGP: the gene is only needed when the admin switches it on (Stargate settings, "ATA Gene feature"); off
+    -- (default) = everybody may use every Ancient device, no "missing the gene" message
     if (StarGate.CFG and StarGate.CFG.Get and not StarGate.CFG:Get("cap_enhanced_cfg", "ATA_gene_active", false)) then return true end
 
     local ret = false

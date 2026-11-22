@@ -13,7 +13,7 @@ if EGP and EGP.ValidFonts then
     -- insert to table with correct order client-side
     if insertid then
         table.insert(EGP.ValidFonts, insertid, "AGP Glyphs SG1")
-        table.insert(EGP.ValidFonts, insertid + 1, "AGP Glyphs Concept") -- AGP 2026-11-08: Earth's point of origin at '#' (CAP's concept font; AGP Glyphs SG1 has only the Abydos one)
+        table.insert(EGP.ValidFonts, insertid + 1, "AGP Glyphs Concept") -- AGP: Earth's point of origin at '#' (CAP's concept font; AGP Glyphs SG1 has only the Abydos one)
         table.insert(EGP.ValidFonts, insertid + 2, "AGP Glyphs Universe")
         table.insert(EGP.ValidFonts, insertid + 3, "AGP Glyphs Atlantis")
         table.insert(EGP.ValidFonts, insertid + 4, "AGP Ancient")

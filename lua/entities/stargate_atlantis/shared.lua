@@ -173,7 +173,7 @@ properties.Add( "Stargate.Atl.AtlType.Off",
 
 });
 
--- AGP 2026-11-08: own name again (CAP's): as "Stargate.Atl.AtlType.On/Off" these two replaced the Atlantis Type entries above
+-- AGP: own name again (CAP's): as "Stargate.Atl.AtlType.On/Off" these two replaced the Atlantis Type entries above
 properties.Add( "Stargate.Atl.AltSlowDial.On",
 {
 	MenuLabel	=	SGLanguage.GetMessage("stargate_c_tool_22"),
@@ -206,7 +206,7 @@ properties.Add( "Stargate.Atl.AltSlowDial.On",
 
 });
 
-properties.Add( "Stargate.Atl.AltSlowDial.Off", -- AGP 2026-11-08: own name (see above)
+properties.Add( "Stargate.Atl.AltSlowDial.Off", -- AGP: own name (see above)
 {
 	MenuLabel	=	SGLanguage.GetMessage("stargate_c_tool_22d"),
 	Order		=	-130,

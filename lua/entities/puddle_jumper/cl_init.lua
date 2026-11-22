@@ -45,7 +45,7 @@ KBD:SetDefaultKey("FIRE", StarGate.KeyBoard.BINDS["+attack"] or "MOUSE1") -- Fir
 KBD:SetDefaultKey("TRACK", StarGate.KeyBoard.BINDS["+attack2"] or "MOUSE2") -- Lock target on drones
 --Special Actions
 KBD:SetDefaultKey("RROLL", "MOUSE3") -- Reset roll
-KBD:SetDefaultKey("CLOAK", "C") -- Toggle Cloaking (AGP 2026-10-31: was ALT, ALT is free look now)
+KBD:SetDefaultKey("CLOAK", "C") -- Toggle Cloaking (AGP: was ALT, ALT is free look now)
 KBD:SetDefaultKey("DHD", "R") -- DHD
 KBD:SetDefaultKey("HIDEHUD", "H") -- Hide the pilot's HUD
 KBD:SetDefaultKey("HIDELSD", "L") -- Hide the pilot's HUD
@@ -153,7 +153,7 @@ function ENT:CreateHUD()
         self.HUD = vgui.Create("JumperHUD") -- Player/Passenger indicator
     end
 
-    -- AGP 2026-10-30: no extra shield text over the HUD any more (the new ship HUD shows the shield in its plate)
+    -- AGP: no extra shield text over the HUD any more (the new ship HUD shows the shield in its plate)
 
     if (not (self.LSD and self.LSD.Activate and self.LSD.Deactivate)) then
         if (self.LSD) then
@@ -361,8 +361,8 @@ function ENT:Think()
             self:CreateHUD()
         end
 
-        -- AGP 2026-10-30: the life-signs detector works in every view (it was only on in the cockpit view, key 1);
-        -- L switches it on / off
+        -- AGP: the life-signs detector works in every view (it was only on in the cockpit view, key 1); L switches
+        -- it on / off
         if (IsValid(self.LSD) and not self.LSD.Active and not View.HideLSD) then
             self.LSD:Activate()
         end

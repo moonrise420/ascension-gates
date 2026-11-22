@@ -204,7 +204,7 @@ CreateClientConVar("cl_stargate_visualsmisc", 1, true, false) -- Global - Turns 
 CreateClientConVar("cl_stargate_visualsweapon", 1, true, false) -- Global - Turns on or off all visuals which may suck FPS. Turning this to off will turn of all. If it's on, the one below will be used
 CreateClientConVar("cl_stargate_dynlights", 0, true, false)
 CreateClientConVar("cl_stargate_un_dynlights", 0, true, false)
--- AGP 2026-11-09: the horizon's refraction is on by default (owner's choice; CAP had it off for 2007 frame rates)
+-- AGP: the horizon's refraction is on by default (the author's choice; CAP had it off for 2007 frame rates)
 CreateClientConVar("cl_stargate_ripple", 1, true, false)
 CreateClientConVar("cl_stargate_kenter", 1, true, false)
 CreateClientConVar("cl_stargate_effects", 1, true, false)

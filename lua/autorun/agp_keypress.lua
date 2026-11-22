@@ -1,16 +1,16 @@
 --[[
-	Ascension Gates: one press = one action (2026-10-30).
-	Many ship keys were read as "held" every tick and called a toggle: holding the key a moment flipped the state back
-	and forth (view, cloak, lights, shield ...), or restarted a door animation every tick so nothing seemed to happen.
-	AGP.KeyPress(ent, ply, layout, key) is true only in the tick the key goes down (StarGate keyboard keys).
-	AGP.KeyPressIN(ent, ply, inKey) does the same for the normal player keys (IN_USE, IN_ATTACK2 ...).
+	Ascension Gates: one press = one action. Many ship keys
+	were read as "held" every tick and called a toggle: holding the key a moment flipped the state back and forth (view,
+	cloak, lights, shield ...), or restarted a door animation every tick so nothing seemed to happen. AGP.KeyPress(ent,
+	ply, layout, key) is true only in the tick the key goes down (StarGate keyboard keys). AGP.KeyPressIN(ent,
+	ply, inKey) does the same for the normal player keys (IN_USE, IN_ATTACK2 ...).
 ]]
 if SERVER then AddCSLuaFile() end
 AGP = AGP or {}
 
--- 2026-10-30: a quick tap (press and release in ~100 ms) often fell between two server Thinks of a ship (about 5 a
--- second), so it was never seen as "down". Every press is noted here when it arrives and counts once, even if the key
--- is already up again when the ship looks (for a second at most, so an old press never fires later).
+-- a quick tap (press and release in ~100 ms) often fell between two server Thinks of a ship (about 5 a second), so
+-- it was never seen as "down". Every press is noted here when it arrives and counts once, even if the key is already
+-- up again when the ship looks (for a second at most, so an old press never fires later).
 if SERVER then
 	hook.Add("StarGate.Player.KeyPressed", "AGP.KeyPressTap", function(p, layout, key)
 		if (not IsValid(p)) then return end
@@ -40,9 +40,9 @@ function AGP.KeyPressIN(ent, ply, inKey)
 	return down and not was
 end
 
--- 2026-10-31: free look (owner: hold ALT to look around without steering). The ships steer toward where the pilot looks;
--- while ALT (+walk) is held they keep the direction they had when it was pressed, and the camera (which follows the
--- mouse) is free. On release the view turns back to that direction, so the ship flies on without a jerk.
+-- free look (hold ALT to look around without steering). The ships steer toward where the pilot looks; while ALT (+walk)
+-- is held they keep the direction they had when it was pressed, and the camera (which follows the mouse) is free. On
+-- release the view turns back to that direction, so the ship flies on without a jerk.
 function AGP.SteerAim(ship, ply)
 	if (not IsValid(ply)) then return ship:GetForward() end
 	if (ply:KeyDown(IN_WALK)) then

@@ -15,7 +15,7 @@ ENT.CAP_NotSave = true;
 
 function ENT:Initialize()
 
-	self:SetModel(AGP.ModelOr("models/jaanus/thruster_flat.mdl")) -- AGP 2026-11-08: base-game model without Wiremod (lua/autorun/agp_fallback_models.lua)
+	self:SetModel(AGP.ModelOr("models/jaanus/thruster_flat.mdl")) -- AGP: base-game model without Wiremod (lua/autorun/agp_fallback_models.lua)
 
 	self:SetSolid(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)

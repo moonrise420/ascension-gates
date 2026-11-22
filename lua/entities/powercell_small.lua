@@ -20,7 +20,7 @@ end
 ENT.Spawnable = false
 ENT.AdminSpawnable = false
 
--- AGP 2026-11-08: our own model, PowerGrid's smallest cell (AGP needs PowerGrid; batteries are PowerGrid's, not
+-- AGP: our own model, PowerGrid's smallest cell (AGP needs PowerGrid; batteries are PowerGrid's, not
 -- SpaceGrid's). Half-Life 2's car battery only when PowerGrid's models are missing. The stool uses the same rule.
 function ENT.AGPCellModel()
     local own = "models/agp_power/agp_cell_xs.mdl"
@@ -33,9 +33,9 @@ if SERVER then
 	AddCSLuaFile()
 
 	function ENT:Initialize()
-        -- AGP 2026-11-08: our own model (ENT.AGPCellModel above). The old model came only with Spacebuild: without it
-        -- the cell removed itself at once ("You need to install Spacebuild!"; from the spawn menu a Lua error, Owner
-        -- was not set yet)
+        -- AGP: our own model (ENT.AGPCellModel above). The old model came only with Spacebuild: without it the cell
+        -- removed itself at once ("You need to install Spacebuild!"; from the spawn menu a Lua error, Owner was not
+        -- set yet)
         self.Entity:SetModel(self.AGPCellModel())
         self.Entity:PhysicsInit(SOLID_VPHYSICS)
         self.Entity:SetMoveType(MOVETYPE_VPHYSICS)
@@ -100,7 +100,7 @@ if SERVER then
         end
 
 	    ----OUTPUT---------
-	    local percent = (self.Energy/self.MaxEnergy)*100 -- AGP 2026-11-08: local (was a global)
+	    local percent = (self.Energy/self.MaxEnergy)*100 -- AGP: local (was a global)
 	    if (self.Status) then
 	    	self.Entity:SetNWString("add", "ON")
 		else
@@ -109,7 +109,7 @@ if SERVER then
 	    self.Entity:SetNWString("energy%",percent)
 	    self.Entity:SetNWString("energy",self.Energy)
 
-	    -- AGP 2026-11-08: the Wire outputs were declared but never set (4 times a second is enough)
+	    -- AGP: the Wire outputs were declared but never set (4 times a second is enough)
 	    if (CurTime() >= (self.AGPWireNext or 0)) then
 	    	self.AGPWireNext = CurTime() + 0.25
 	    	self:SetWire("Active", self.Status and 1 or 0)

@@ -1,4 +1,4 @@
-// Ascension Gates: Swedish texts CAP never translated (2026-10-19)
+// Ascension Gates: Swedish texts CAP never translated
 
 // ===== från stargate.lua =====
 // Namn på portar och DHD:er
@@ -15,6 +15,7 @@ dhd_sg1 = DHD (SG-1)
 dhd_universe = DHD (Universe)
 stargate_atlantis = Stjärnport (Atlantis)
 stargate_infinity = Stjärnport (Infinity)
+stargate_virgo = Stjärnport (Virgo)
 stargate_movie = Stjärnport (Film)
 stargate_orlin = Stjärnport (Orlin)
 stargate_sg1 = Stjärnport (SG-1)

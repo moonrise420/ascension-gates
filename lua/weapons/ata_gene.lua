@@ -104,7 +104,7 @@ function SWEP:Deploy()
 end
 
 function SWEP:PrimaryAttack()
-	self:SendWeaponAnim( ACT_VM_SECONDARYATTACK )   -- AGP 2026-11-10: the bug bait squeeze (the injector pressed)
+	self:SendWeaponAnim( ACT_VM_SECONDARYATTACK )   -- AGP: the bug bait squeeze (the injector pressed)
 	self:SetNextPrimaryFire(CurTime()+3.4)
 
 	if (SERVER) then
@@ -652,9 +652,9 @@ if CLIENT then
 
 end
 
--- AGP 2026-11-10 (owner: the hands in first person must be the player's own, the fingers on the item): GMod's
--- small-object grip (c_bugbait) with the player's own hands; the item sits in the hand as its world element does
--- in third person. The old view model had arms of its own.
+-- AGP (the hands in first person must be the player's own, the fingers on the item): GMod's small-object grip
+-- (c_bugbait) with the player's own hands; the item sits in the hand as its world element does in third person.
+-- The old view model had arms of its own.
 if (AGP and AGP.HandItem) then
 	AGP.HandItem(SWEP, { vm = "models/weapons/c_bugbait.mdl", model = "models/pg_props/pg_stargate/pg_shot.mdl", pos = Vector(3.2, 1.6, 0), ang = Angle(180, 0, 0), size = 0.8, flip = Vector(0, 0, 1) })
 end

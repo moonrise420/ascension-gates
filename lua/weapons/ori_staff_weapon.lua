@@ -57,8 +57,8 @@ function SWEP:SecondaryAttack()
     p:ViewPunch(Angle(-4, math.Rand(-1.5, 1.5), 0))
 
     -- the staff view model only has an idle sequence, so the thrust is done in GetViewModelPosition. The start time
-    -- goes over the network (2026-11-12: in singleplayer this function runs on the server only - the old client-only
-    -- flag was never set there and right click looked like nothing happened)
+    -- goes over the network (in singleplayer this function runs on the server only - the old client-only flag was
+    -- never set there and right click looked like nothing happened)
     if (SERVER) then self:SetNWFloat("AGPThrust", CurTime()) end
     if (CLIENT and IsFirstTimePredicted()) then self.MeleeThrust = CurTime() end
 
@@ -157,8 +157,8 @@ function SWEP:PrimaryAttack()
             local max = util.QuickTrace(shootpos, right * 100, filter).Fraction * 100 - 10
             local trans = right:DotProduct(vel) * right / 25
 
-            -- AGP 2026-11-14: the pulse starts at the muzzle as the shooter sees it (the owner's client reports it, third person: the hand plus the
-            -- weapon's reach; lua/autorun/agp_muzzle.lua), not on a fixed spot 23 right / 15 down from the eye
+            -- AGP: the pulse starts at the muzzle as the shooter sees it (the owner's client reports it, third person: the hand plus the weapon's
+            -- reach; lua/autorun/agp_muzzle.lua), not on a fixed spot 23 right / 15 down from the eye
             local muzzle = AGP and AGP.MuzzleWorld and AGP.MuzzleWorld(self)
             if (muzzle) then
                 shootpos = muzzle
@@ -183,7 +183,7 @@ function SWEP:PrimaryAttack()
         local trace = util.QuickTrace(p:GetShootPos(), 16 * 1024 * aimvector, filter)
         local spawnpos = shootpos + p:GetForward() * 94 + p:GetRight() * -15 + p:GetUp() * 5 -- AGP: where the pulse really appears
         if (p:IsNPC()) then spawnpos = shootpos end -- AGP: an NPC's shootpos is the staff's head already (AGP.NPCMuzzle)
-        if (usedMuzzle) then spawnpos = shootpos end -- AGP 2026-11-14: a player's shootpos is now the staff's head as he sees it (AGP.MuzzleWorld)
+        if (usedMuzzle) then spawnpos = shootpos end -- AGP: a player's shootpos is now the staff's head as he sees it (AGP.MuzzleWorld)
 
         if (trace.Hit) then
             -- AGP: aim from the spawn point (not shootpos) so the shot meets the crosshair when looking up/down
@@ -209,15 +209,15 @@ function SWEP:PrimaryAttack()
     end
 end
 
--- AGP 2026-11-12 (owner: "CAP's is way better held in the hand - why can't we have it exactly the same way"): CAP's own
--- first-person model and animations, with the player's own hands laid onto its arm skeleton
--- (lua/autorun/agp_blueprint_arms.lua). 2026-11-10's GMod hand animations never fitted this item.
+-- AGP: CAP's own first-person model and animations, with the player's own hands laid onto its arm skeleton
+-- (lua/autorun/agp_blueprint_arms.lua). GMod hand animations never fitted this item.
+--
 if (AGP and AGP.BlueprintArms) then
     AGP.BlueprintArms(SWEP, { vm = "models/Boba_Fett/ori_staff/v_ori_staff.mdl", hide = { "v_hands" }, arms = AGP.BlueprintRigs.izi })
 end
 
--- AGP 2026-11-14: where the shot leaves the weapon (lua/autorun/agp_muzzle.lua): the old view model's own muzzle in first person,
--- the head of the world model (AGP.MuzzleTips) in third person
+-- AGP: where the shot leaves the weapon (lua/autorun/agp_muzzle.lua): the old view model's own muzzle in first person, the head
+-- of the world model (AGP.MuzzleTips) in third person
 if (AGP and AGP.MuzzleTrack) then
     SWEP.AGPMuzzleSync = true
     AGP.MuzzleTrack(SWEP, { vm = true })

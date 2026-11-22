@@ -1,8 +1,8 @@
 --[[
-	Traveler ship (the Travelers' generational ship of Stargate Atlantis) - Ascension Gates' own code and model
-	(2026-11-09), designed after the series (notes/models/agp_traveler_ship_*.py).
-	EAP's model and code are gone; the class name stays "sg_vehicle_traveler", so saves and dupes keep working (the old
-	Wire names "Health" and "Hyperspace" stay, the keyboard layout is still "Traveler"). Built on:
+	Traveler ship (the Travelers' generational ship of Stargate Atlantis) - Ascension Gates' own code and model,
+	designed after the series. EAP's model and code are gone; the class name stays
+	"sg_vehicle_traveler", so saves and dupes keep working (the old Wire names "Health" and "Hyperspace" stay, the
+	keyboard layout is still "Traveler"). Built on:
 	  * the ship base sg_vehicle_base (CAP, RononDex): flying, getting in / out, the camera
 	  * CAP's energy_pulse (aVoN, Madman07) for the shots, in the Travelers' red (energy_pulse_traveler)
 	  * our own ship systems (lua/autorun/agp_ship_shield.lua, agp_ship_hyperdrive.lua, agp_ship_aim.lua): shield, hull
@@ -25,15 +25,15 @@ ENT.AGPSupergateDHD = true      -- R: dial menu of the nearest Supergate (or Sta
 ENT.AGPHyperRange = 25000       -- hyperdrive (H): longest jump
 list.Set("CAP.Entity", ENT.PrintName, ENT)
 
--- our own model, designed after the series (notes/models/agp_traveler_ship_models.py); +X = the two bows
+-- our own model, designed after the series; +X = the two bows
 local MODEL = "models/agp/traveler/agp_traveler.mdl"
 function ENT:AGPModel() return MODEL end
 
--- the shield bubble round every point of the hull (fitted on the model 2026-11-09: centre (190, 0, -30), radii
--- 826 x 528 x 198 with a margin), the Travelers' warm orange
+-- the shield bubble round every point of the hull (fitted on the model: centre (190, 0, -30), radii 826 x 528
+-- x 198 with a margin), the Travelers' warm orange
 ENT.AGPShield = { model = "models/iziraider/shields/4x4x3.mdl", yaw = 0, offset = Vector(190, 0, -30), scale = Vector(0.826, 0.529, 0.263), color = { 1, 0.7, 0.4 } }
--- (2026-11-09 balance) a battlecruiser half a Daedalus' size (series): hull 20000 + shield 16000, between the Wraith
--- cruiser and the Prometheus (EAP's 10000 + 8000 was less than an Al'kesh)
+-- (balance) a battlecruiser half a Daedalus' size (series): hull 20000 + shield 16000, between the Wraith cruiser
+-- and the Prometheus (EAP's 10000 + 8000 was less than an Al'kesh)
 ENT.AGPShieldHP, ENT.AGPShieldBeamTime = 16000, 16
 
 local HULL = 20000

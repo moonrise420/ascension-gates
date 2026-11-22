@@ -82,7 +82,7 @@ if(SERVER) then
 
         local class = "naquadah_generator";
 		local pos = Vector(0,0,0);
-		-- AGP 2026-11-08: compared without case: the convar/list say "models/MarkJaw/...", the check said
+		-- AGP: compared without case: the convar/list say "models/MarkJaw/...", the check said
 		-- "models/markjaw/...", so the Mk2 (the default) never spawned, always a Mk1
 		local lmodel = string.lower(model or "");
         if(lmodel=="models/naquada-reactor.mdl")then

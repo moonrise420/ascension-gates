@@ -272,7 +272,7 @@ function PANEL:Paint()
                     end
                 end
 
-                draw.WordBox(4, gX, gY, gate, "Default", Color(0, 0, 255, 127.5), Color(255, 255, 255, 255)) -- AGP 2026-11-08: white on the blue box (red on blue was 2:1)
+                draw.WordBox(4, gX, gY, gate, "Default", Color(0, 0, 255, 127.5), Color(255, 255, 255, 255)) -- AGP: white on the blue box (red on blue was 2:1)
             end
         end
     end

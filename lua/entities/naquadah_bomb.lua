@@ -44,7 +44,7 @@ function ENT:Initialize()
    -- Set up wire inputs and outputs
 	if(self.HasWire) then
 		self:CreateWireInputs("Detonate", "Abort", "Detonation Code [STRING]", "Abort Code [STRING]", "Time to Destruct")
-		self:CreateWireOutputs("Charging", "Charge", "Countdown Timer", "Health") -- AGP 2026-11-08: + Health (HealthRepair wrote it, the port did not exist)
+		self:CreateWireOutputs("Charging", "Charge", "Countdown Timer", "Health") -- AGP: + Health (HealthRepair wrote it, the port did not exist)
 		self:SetWire("Health", self.EntHealth)
 	end
 
@@ -67,7 +67,7 @@ function ENT:Setup(detonationCode, abortCode,  yield, chargeTime, hud, cart, p)
 
 	self:SetNWBool("Hud", hud)
 	if cart and not IsValid(self.Cart) then
-		if(string.lower(self:GetModel() or "") == "models/markjaw/gate_buster.mdl") then -- AGP 2026-11-08: without case (the tool sets "models/MarkJaw/...", so the Gate Buster never got its cart)
+		if(string.lower(self:GetModel() or "") == "models/markjaw/gate_buster.mdl") then -- AGP: without case (the tool sets "models/MarkJaw/...", so the Gate Buster never got its cart)
 			local ent = ents.Create("prop_physics");
 			ent:SetModel("models/MarkJaw/gate_buster_cart.mdl");
 			ent:SetAngles(self.Entity:GetAngles());
@@ -186,7 +186,7 @@ concommand.Add("AbortDetonation", ReceiveAbortCommand)
 function ENT:OnTakeDamage(damageInfo)
     if self:GetNWInt("State", 1) == 4 then return end
 	self.EntHealth = self.EntHealth - damageInfo:GetDamage()
-    self:SetWire("Health", math.max(0, self.EntHealth)) -- AGP 2026-11-08: Health output follows damage
+    self:SetWire("Health", math.max(0, self.EntHealth)) -- AGP: Health output follows damage
 
     if(self.EntHealth < 1) then
         self:Destruct()
@@ -346,7 +346,7 @@ function ENT:Draw()
 
 	if self.Entity:GetNetworkedBool("Hud", false) then
 
-		local mdl = string.lower(self:GetModel() or "") -- AGP 2026-11-08: without case (the list says "Boba_Fett": the Goa'uld and Lucian bombs got the Gate Buster's screen place)
+		local mdl = string.lower(self:GetModel() or "") -- AGP: without case (the list says "Boba_Fett": the Goa'uld and Lucian bombs got the Gate Buster's screen place)
 		if(mdl == "models/markjaw/gate_buster.mdl") then
 			pos = self.Entity:LocalToWorld(Vector(-7.5, 9.5, 25));
 			ang = self.Entity:GetAngles();

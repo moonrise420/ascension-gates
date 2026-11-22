@@ -1,4 +1,4 @@
-// Ascension Gates: Czech texts CAP never translated (2026-10-19)
+// Ascension Gates: Czech texts CAP never translated
 
 // ===== from stargate.lua =====
 // Stargate tool menu (hold C)

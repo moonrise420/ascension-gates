@@ -4,9 +4,9 @@
 -- is kept in the future with a high priority (CAI_BaseNPC::FOkToMakeSound refuses every normal sentence then),
 -- and the pain and death sentences, which skip that check, are stopped right after they start.
 -- The Wraith gets an eerie screech for pain and death instead; the Goa'uld and the Prior stay silent.
--- Our own NPCs (lua/autorun/agp_npcs.lua, 2026-11-10) - citizens on CAP's soldier in our cloth - get
--- the same treatment: no HL2 lines (no "Gordon", no Combine radio), only a human cry of pain (a woman's for the women)
--- or, for the Wraith, the screech.
+-- Our own NPCs (lua/autorun/agp_npcs.lua) - citizens on CAP's soldier in our cloth - get the same
+-- treatment: no HL2 lines (no "Gordon", no Combine radio), only a human cry of pain (a woman's for the women) or, for
+-- the Wraith, the screech.
 
 local VOICE = {
 	["models/pg_props/pg_charaktere/pg_wraith_test.mdl"] = "wraith",

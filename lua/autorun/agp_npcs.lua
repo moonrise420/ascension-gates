@@ -1,11 +1,11 @@
 --[[
-	Ascension Gates: the Tau'ri as NPCs (2026-11-10, the owner's idea). The four groups stand on CAP's SG soldier in
-	each group's cloth (2026-11-12; notes/models/agp_cap_soldier_build.py), which carries the HL2 citizens' NPC
-	animations next to the player's: they are citizens (allies of the players, they follow on "use"). One entry per
-	group in the Stargate tab, NPCs. They do not speak HL2's lines.
-	(Our own Jaffa, Serpent Guard, Horus Guard, Goa'uld and Wraith groups stood on our own player models; they are
-	parked with them for a later update - Code/parked/player_models_2026-11-12. CAP's own Wraith, Prior and Goa'uld
-	NPCs are untouched.)
+	Ascension Gates: the Tau'ri as NPCs (the author's idea). The four groups stand on CAP's SG soldier in each group's
+	cloth, which carries the HL2 citizens' NPC animations next to the player's: they are citizens (allies of the
+	players, they follow on "use"). One entry per group in the Stargate tab, NPCs. They do not speak HL2's lines.
+	(Our own Jaffa, Serpent Guard, Horus Guard, Goa'uld and Wraith
+	groups stood on our own player models; they are parked with them for a later update -
+	Code/parked/player_models_. CAP's own Wraith, Prior and Goa'uld NPCs are untouched.)
+
 ]]
 local P2 = "models/player/agp_cap/"      -- CAP's SG soldier in our cloth
 
@@ -27,9 +27,9 @@ AGP_NPCS = {
 }
 
 -- where an NPC's shot leaves its weapon: CAP's energy weapons started it at the NPC's eyes (the shooter's view for a
--- player), so a Jaffa's staff blast came out of his head, a staff length behind the staff's head (owner 2026-11-10).
--- An NPC firing points its weapon at the target: the muzzle is the right hand plus the weapon's reach along the aim
--- (staff ~50, Wraith stunner ~20, Zat ~8), never through a wall in front of it.
+-- player), so a Jaffa's staff blast came out of his head, a staff length behind the staff's head. An NPC firing
+-- points its weapon at the target: the muzzle is the right hand plus the weapon's reach along the aim (staff ~50,
+-- Wraith stunner ~20, Zat ~8), never through a wall in front of it.
 if (SERVER) then
 	AGP = AGP or {}
 	function AGP.NPCMuzzle(npc, reach, weapon)
@@ -53,9 +53,9 @@ end
 
 if (CLIENT) then return end
 
--- three sides like in the series (owner 2026-11-10): the Tau'ri, the Goa'uld with their Jaffa and guards, and the
--- Wraith, who are everyone's enemy. (Underneath the Goa'uld's people and the Wraith are all Combine soldiers, which
--- would make them allies: each pair of our NPCs is told whom to like and whom to hate.)
+-- three sides like in the series: the Tau'ri, the Goa'uld with their Jaffa and guards, and the Wraith, who are
+-- everyone's enemy. (Underneath the Goa'uld's people and the Wraith are all Combine soldiers, which would make them
+-- allies: each pair of our NPCs is told whom to like and whom to hate.)
 local SIDE = {
 	agp_npc_sg = "tauri", agp_npc_sgc = "tauri", agp_npc_atl = "tauri", agp_npc_dst = "tauri",
 	agp_npc_jaf = "goauld", agp_npc_srp = "goauld", agp_npc_hor = "goauld", agp_npc_gou = "goauld",

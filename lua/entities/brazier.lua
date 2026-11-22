@@ -39,7 +39,7 @@ function ENT:Initialize()
 
 end
 
--- AGP 2026-10-30: E (and the wire input "Toggle") puts the fire out or lights it again
+-- AGP: E (and the wire input "Toggle") puts the fire out or lights it again
 function ENT:SetBrazierFire(on)
 	if (on) then
 		self.Entity:MakeFire();

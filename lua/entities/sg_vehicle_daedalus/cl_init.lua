@@ -89,8 +89,8 @@ function ENT:Think()
     local p = LocalPlayer()
     local IsDriver = (p:GetNetworkedEntity(self.Vehicle, NULL) == self.Entity)
 
-    -- AGP 2026-10-30: only the Daedalus you fly sets the keys and the HUD values (a second one on the map switched your
-    -- keys off and wrote its own values into your HUD)
+    -- AGP: only the Daedalus you fly sets the keys and the HUD values (a second one on the map switched your keys off
+    -- and wrote its own values into your HUD)
     if (IsDriver) then
         self.KBD:SetActive(true)
         self.AGPKbdOn = true
@@ -158,12 +158,12 @@ function DaedalusHUD()
     if (self and self:IsValid() and vehicle and vehicle:IsValid() and LocalPlayer().HUDEnable) then
         surface.SetTexture(MainHud_left)
         surface.SetDrawColor(255, 255, 255, 255)
-        -- AGP 2026-10-30: only the lower part (hull, power supply): the two "Hangar Bay" plates above them are left out,
-        -- this Daedalus has no hangars (the texture keeps them for the walk-in Daedalus planned later)
+        -- AGP: only the lower part (hull, power supply): the two "Hangar Bay" plates above them are left out, this
+        -- Daedalus has no hangars (the texture keeps them for the walk-in Daedalus planned later)
         local cut = 0.595
         surface.DrawTexturedRectUV(0, ScrH() - 512 + 512 * cut, 256, 512 * (1 - cut), 0, cut, 1, 1)
-        -- AGP 2026-10-30: the right plates without the top "Hyperdrive" plate; that plate moves to the left, where the
-        -- hangar bays were (texture pixels: hyperdrive plate x 260-507, y 178-315 of 512 x 1024; drawn at half size)
+        -- AGP: the right plates without the top "Hyperdrive" plate; that plate moves to the left, where the hangar bays
+        -- were (texture pixels: hyperdrive plate x 260-507, y 178-315 of 512 x 1024; drawn at half size)
         local rcut = 0.315
         surface.SetTexture(MainHud_right)
         surface.SetDrawColor(255, 255, 255, 255)

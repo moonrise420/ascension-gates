@@ -30,7 +30,7 @@ SWEP.ViewModelFOV = 80
 -- Third Person Model
 SWEP.WorldModel = "models/Madman07/GDO/GDO_w.mdl"
 -- Weapon Details
--- AGP 2026-11-08: ClipSize / SlotPos / DrawAmmo / DrawCrosshair were misspelt (Clipsize, Slotpos, Drawammo,
+-- AGP: ClipSize / SlotPos / DrawAmmo / DrawCrosshair were misspelt (Clipsize, Slotpos, Drawammo,
 -- Drawcrosshair), so weapon_base's values were used: a clip of 8, slot position 10 and a crosshair this remote is not
 -- meant to have
 SWEP.Primary.ClipSize = -1
@@ -189,7 +189,7 @@ function SWEP:PrimaryAttack()
 	self.gate = self:FindEnt(pos, false)
 	if(self.gate and self.gate.IsOpen) then
 		self.Weapon:SetNextPrimaryFire( CurTime() + self.Primary.Delay + 1 )
-		self.Owner:SetAnimation(PLAYER_ATTACK1); -- AGP 2026-11-08: a player animation (was ACT_VM_PRIMARYATTACK, a view model one: no third-person press)
+		self.Owner:SetAnimation(PLAYER_ATTACK1); -- AGP: a player animation (was ACT_VM_PRIMARYATTACK, a view model one: no third-person press)
 		self.Weapon:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
 		timer.Simple(self.Primary.Delay+1, function() if IsValid(self) then SendCode(self) end end)
 		timer.Simple(2, function() if IsValid(self) then self:SetNWString("gdo_textdisplay",self.Owner:GetInfo("cl_weapon_gdo_iriscode"):gsub("[^0-9]","")) end end);
@@ -292,7 +292,7 @@ end
 SWEP.Slot               = 4
 SWEP.SlotPos            = 1
 SWEP.DrawAmmo           = false
-SWEP.DrawCrosshair      = false   -- AGP 2026-11-08: spelling (see SWEP.Primary.ClipSize)
+SWEP.DrawCrosshair      = false   -- AGP: spelling (see SWEP.Primary.ClipSize)
 SWEP.WepSelectIcon = surface.GetTextureID("VGUI/weapons/gdo_inventory")
 
 -- Inventory Icon
@@ -868,16 +868,16 @@ if CLIENT then
 
 end
 
--- AGP 2026-11-12 (owner: "CAP's is way better held in the hand - why can't we have it exactly the same way"): CAP's own
--- first-person model and animations, with the player's own hands laid onto its arm skeleton
--- (lua/autorun/agp_blueprint_arms.lua). 2026-11-10's GMod hand animations never fitted this item.
+-- AGP: CAP's own first-person model and animations, with the player's own hands laid onto its arm skeleton
+-- (lua/autorun/agp_blueprint_arms.lua). GMod hand animations never fitted this item.
+--
 if (AGP and AGP.BlueprintArms) then
-    -- shift (2026-11-14, owner: "the gdo thing what is mounted on the left arm is glitched into the cloothes"): the device is
-    -- weighted to CAP's left forearm bone and sits only ~1.3 off its axis; our sleeve is thicker - so our left arm moves away
-    -- from the device along the forearm bone's (y, z)
+    -- shift: the device is weighted to CAP's left forearm bone and sits only ~1.3 off its axis; our sleeve is thicker - so
+    -- our left arm moves away from the device along the forearm bone's (y, z)
+    --
     AGP.BlueprintArms(SWEP, { vm = "models/Madman07/GDO/GDO_v.mdl", hide = { "v_hands" }, arms = AGP.BlueprintRigs.izi,
         shift = { L = Vector(0, 1.5, 1.5) } })
 end
 
--- AGP 2026-11-12: its buttons are heard (agp_weapon_hands.lua)
+-- AGP: its buttons are heard (agp_weapon_hands.lua)
 if (AGP and AGP.ClickSounds) then AGP.ClickSounds(SWEP, { primary = "button/button_press2.wav", secondary = "button/button_press1.wav", gap = 0.6 }) end

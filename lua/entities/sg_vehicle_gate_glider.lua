@@ -122,8 +122,8 @@ if SERVER then
                 self:OpenDHD(self.Pilot)
             end
 
-            -- AGP 2026-10-30: Mouse2 = plasma torpedo that locks on (what is under the crosshair, else the nearest craft,
-            -- player or NPC ahead) and follows it; one every 2.5 s
+            -- AGP: Mouse2 = plasma torpedo that locks on (what is under the crosshair, else the nearest craft, player or
+            -- NPC ahead) and follows it; one every 2.5 s
             if (self.Pilot:KeyDown(self.Vehicle, "TORPEDO") and CurTime() >= (self.AGPNextTorp or 0)) then
                 self.AGPNextTorp = CurTime() + 2.5
                 self:SetNWFloat("AGPTorpReady", self.AGPNextTorp)

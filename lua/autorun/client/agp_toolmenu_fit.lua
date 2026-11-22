@@ -1,5 +1,5 @@
 --[[
-	Ascension Gates: the tool tabs of the spawn menu (2026-11-13).
+	Ascension Gates: the tool tabs of the spawn menu.
 	1. The tool list (left column, 130 px wide) cut long names with "..." ("Goa'uld Power Hub + ...", "Schwerkraftsteue...").
 	   An entry that does not fit now wraps onto a second / third line (the entry gets taller); a single word that is wider
 	   than the column is drawn in a smaller font. A category heading that does not fit is drawn in a smaller font.
@@ -126,9 +126,132 @@ local function fitHeader(cat)
 	h.AGPFitted = true
 end
 
+--[[ Our own tabs: the entry-by-entry smaller font above made single long words - German compounds like
+ "Verteidigungssystem", "Schwerkraftsteuerung" - smaller than the rest. In our tabs every entry now has the same font:
+
+	- the column is made wide enough for the longest word (never narrower than the player made it, at most OUR_MAX);
+	- a hyphenated word that still does not fit may break after its hyphen ("Aschen-" / "Verteidigungssystem");
+	- only if a word is wider than even that, ALL entries of the tab take one smaller size together;
+	- the leading spaces some entries carry (from the old menu code) are not shown, so the entries line up. ]]
+local OUR_TABS = { Stargate = true, SpaceGrid = true, SpaceGridKit = true }
+local OUR_MAX = 200
+
+-- what an entry may break at: spaces, and after a hyphen
+local function widestPiece(font, text)
+	local m = 0
+	for word in string.gmatch(text, "%S+") do
+		for part in string.gmatch(word, "[^%-]+%-?") do
+			local w = measure(font, part)
+			if w > m then m = w end
+		end
+	end
+	return m
+end
+
+-- the entry's own text (without what we changed for showing it)
+local function rawText(item)
+	local cur = item:GetText() or ""
+	if item.AGPShown ~= nil and cur == item.AGPShown then return item.AGPRaw or cur end
+	item.AGPRaw = cur
+	return cur
+end
+
+local function fitOurItem(item, font)
+	local W = item:GetWide()
+	if W < 40 then return end
+	local text = string.Trim(language.GetPhrase(rawText(item)))
+	if text == "" then return end
+	if item.AGPFitW == W and item.AGPFitText == text and item.AGPFitFont == font then return end
+	item.AGPFitW, item.AGPFitText, item.AGPFitFont = W, text, font
+	item.AGPFont0 = item.AGPFont0 or item:GetFont() or "DermaDefault"
+	item.AGPTall0 = item.AGPTall0 or item:GetTall()
+	local avail = W - 8   -- (the label's own inset 4 + 4)
+	-- a word too wide for the line breaks after its hyphen (a space after it lets the wrapping use it)
+	local words = {}
+	for word in string.gmatch(text, "%S+") do
+		if measure(font, word) > avail and string.find(word, "-", 1, true) then word = string.gsub(word, "%-", "- ") end
+		words[#words + 1] = word
+	end
+	local show = table.concat(words, " ")
+	item.AGPShown = show
+	if item:GetText() ~= show then item:SetText(show) end
+	item:SetFont(font)
+	local _, lh0 = measure(item.AGPFont0, "Ag")
+	local pad = math.max(0, item.AGPTall0 - lh0)
+	if measure(font, show) <= avail - 2 then
+		item:SetWrap(false); item:SetAutoStretchVertical(false); item:SetTall(item.AGPTall0)
+		item.AGPFitted = nil
+		relayout(item)
+		return
+	end
+	item:SetWrap(true)
+	item:SetAutoStretchVertical(true)
+	item.AGPFitted = true
+	item:InvalidateLayout(true)
+	timer.Simple(0.05, function()
+		if not IsValid(item) or not item.AGPFitted then return end
+		local th = item:GetTall()
+		item:SetAutoStretchVertical(false)
+		item:SetTall(math.max(item.AGPTall0, th + pad))
+		relayout(item)
+	end)
+end
+
+local function fitOurPanel(tp)
+	local items, heads, font0 = {}, {}, nil
+	for _, cat in ipairs(tp.List.pnlCanvas:GetChildren()) do
+		if IsValid(cat) then
+			if IsValid(cat.Header) then heads[#heads + 1] = cat end
+			for _, item in ipairs(cat:GetChildren()) do
+				if IsValid(item) and item ~= cat.Header and item.GetText and item.DoClick then
+					items[#items + 1] = item
+					font0 = font0 or item.AGPFont0 or item:GetFont()
+				end
+			end
+		end
+	end
+	if #items == 0 then return end
+	font0 = font0 or "DermaDefault"
+	-- the width every entry needs in the normal font, and the column made that wide (only ever wider)
+	local need = 0
+	for _, item in ipairs(items) do
+		need = math.max(need, widestPiece(font0, string.Trim(language.GetPhrase(rawText(item)))))
+	end
+	for _, cat in ipairs(heads) do
+		local h = cat.Header
+		need = math.max(need, measure(h.AGPFont0 or h:GetFont() or "DermaDefaultBold", string.Trim(language.GetPhrase(h:GetText() or ""))) + 8)
+	end
+	local inset = tp.List:GetWide() - items[1]:GetWide()   -- (the list's scroll bar and margins)
+	local div = tp.HorizontalDivider
+	local want = math.min(OUR_MAX, math.ceil(need + 10 + inset))
+	if IsValid(div) and div.GetLeftWidth and want > div:GetLeftWidth() then
+		div:SetLeftWidth(want)
+		div:InvalidateLayout(true)
+	end
+	-- one font for every entry: the normal one, or one smaller size for all when a word is wider than the column
+	local avail = items[1]:GetWide() - 8
+	local font = font0
+	if need > avail then
+		for _, s in ipairs(FONT_SIZES) do
+			font = "AGPToolItem" .. s
+			local ok = true
+			for _, item in ipairs(items) do
+				if widestPiece(font, string.Trim(language.GetPhrase(rawText(item)))) > avail then ok = false break end
+			end
+			if ok then break end
+		end
+	end
+	for _, cat in ipairs(heads) do fitHeader(cat) end
+	for _, item in ipairs(items) do fitOurItem(item, font) end
+end
+
 local function fitPanel(tp)
 	if not IsValid(tp) or not IsValid(tp.List) or not IsValid(tp.List.pnlCanvas) then return end
-	local changed = false
+	-- (the panel's tab id is the tab's number in spawnmenu.GetTools(), whose entry has the name)
+	local id = tp.GetTabID and tp:GetTabID()
+	local tab = id ~= nil and (spawnmenu.GetTools() or {})[id]
+	local name = istable(tab) and tab.Name or id
+	if OUR_TABS[name] then return fitOurPanel(tp) end
 	for _, cat in ipairs(tp.List.pnlCanvas:GetChildren()) do
 		if IsValid(cat) then
 			fitHeader(cat)
@@ -137,10 +260,8 @@ local function fitPanel(tp)
 					fitItem(item)
 				end
 			end
-			if changed then cat:InvalidateLayout() end
 		end
 	end
-	if changed then tp.List.pnlCanvas:InvalidateLayout(); tp.List:InvalidateLayout() end
 end
 AGP.FitToolList = fitPanel
 

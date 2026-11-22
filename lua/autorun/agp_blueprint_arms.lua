@@ -1,10 +1,10 @@
--- Ascension Gates (2026-11-12, owner: "CAP's hold is way better, ours looks off - why can't we have it exactly the same
--- way"): a weapon keeps CAP's old first-person model - the item, its grip and every animation exactly as they were -
--- and only the arms change: CAP's own arm mesh is hidden and the player's own hands (GMod's hands of the player model,
--- with our sleeve and skin) are laid onto CAP's arm skeleton joint by joint, every frame. The old skeletons have other
--- bone names and other rest poses than GMod's hands, so the pose is carried over by the joints' positions (shoulder,
--- elbow, wrist, the three joints of each finger), not by bone angles: where CAP's fingers closed around the item,
--- ours close around it too.
+-- Ascension Gates: a weapon keeps CAP's old first-person model - the item, its grip and every animation exactly as they
+-- were - and only the arms change: CAP's own arm mesh is hidden and the player's own hands (GMod's hands of the
+-- player model, with our sleeve and skin) are laid onto CAP's arm skeleton joint by joint, every frame. The old
+-- skeletons have other bone names and other rest poses than GMod's hands, so the pose is carried over by the joints'
+-- positions (shoulder, elbow, wrist, the three joints of each finger), not by bone angles: where CAP's fingers closed
+-- around the item, ours close around it too.
+--
 --
 -- AGP.BlueprintArms(SWEP, {
 --     vm = "models/.../v_item.mdl",         -- CAP's first-person model
@@ -13,7 +13,7 @@
 --     fov = 54, flip = false })   -- (both optional: only where CAP's weapon file set none)
 -- An arm without `hand` (fingers hanging on the forearm bone): the wrist is taken `wrist` (0.8) of the way from the
 -- elbow to the knuckles. An arm the old model does not have is not drawn.
--- notes/models/vm_rig_map.py prints the arms table of a model.
+-- A build script prints the arms table of a model.
 AddCSLuaFile()
 AGP = AGP or {}
 
@@ -39,7 +39,7 @@ function AGP.BlueprintArms(SWEP, cfg)
     end
 end
 
--- the arm tables of CAP's first-person skeletons (notes/models/vm_rig_map.py)
+-- the arm tables of CAP's first-person skeletons
 AGP.BlueprintRigs = AGP.BlueprintRigs or {}
 do
     local function f3(a, b, c) return { a, b, c } end

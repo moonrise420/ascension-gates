@@ -216,7 +216,7 @@ if CLIENT then
     function ENT:Draw()
         if (not IsValid(self.Entity)) then return end
         self.Entity:DrawModel()
-        if (not self.Middle) then return end -- AGP 2026-11-08: only the real panels (Goa'uld, Ancient, Ori) set it; the base class errored every frame
+        if (not self.Middle) then return end -- AGP: only the real panels (Goa'uld, Ancient, Ori) set it; the base class errored every frame
         local address = self.Entity:GetNetworkedString("ADDRESS"):TrimExplode(",")
         local eye = self.Entity:WorldToLocal(LocalPlayer():GetEyeTrace().HitPos)
         local len = (eye - self.Middle):Length()

@@ -235,7 +235,7 @@ if SERVER then
         -- Set up wire inputs and outputs
         if (self.HasWire) then
             self:CreateWireInputs("Fire","Lock","ATA Mode")
-            self:CreateWireOutputs("Active", "Percent", "Energy", "Time", "Health") -- AGP 2026-11-08: + Health (HealthRepair wrote it, the port did not exist)
+            self:CreateWireOutputs("Active", "Percent", "Energy", "Time", "Health") -- AGP: + Health (HealthRepair wrote it, the port did not exist)
             self:SetWire("Health", self.EntHealth)
         end
 
@@ -697,8 +697,8 @@ if SERVER then
         end
 
         -- Attempt to un-jam gates individually incase one of them has been destroyed
-        -- AGP 2026-10-31: the wormhole stays open when the beam stops (it was shut down every time, so a short pause in
-        -- energy closed the gate); the DHD works again and closes it as usual
+        -- AGP: the wormhole stays open when the beam stops (it was shut down every time, so a short pause in energy
+        -- closed the gate); the DHD works again and closes it as usual
         if (self.remoteGate and self.remoteGate:IsValid()) then
             StarGate.UnJamGate(self.remoteGate)
             self.remoteGate.overloader = nil
@@ -735,7 +735,7 @@ if SERVER then
         local addedEnergy = 0
 
         if (self.HasRD) then
-            self:ConsumeResource("energy", self.energyPerCycle) -- AGP 2026-10-31: was * 100 (400000 per second): the network was empty at once, the overloader stopped and the gate shut
+            self:ConsumeResource("energy", self.energyPerCycle) -- AGP: was * 100 (400000 per second): the network was empty at once, the overloader stopped and the gate shut
             addedEnergy = self.energyPerCycle
         else
             addedEnergy = self.energyPerCycle
@@ -795,7 +795,7 @@ if SERVER then
         if (self.isDestructing == false and self.isCombatSystemEnabled ~= true) then
             self.Entity:TakePhysicsDamage(damageInfo)
             self.EntHealth = self.EntHealth - damageInfo:GetDamage()
-            self:SetWire("Health", math.max(0, self.EntHealth)) -- AGP 2026-11-08: Health output follows damage
+            self:SetWire("Health", math.max(0, self.EntHealth)) -- AGP: Health output follows damage
 
             if (self.EntHealth < 1) then
                 self:Destruct()

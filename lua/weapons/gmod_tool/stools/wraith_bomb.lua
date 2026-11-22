@@ -42,7 +42,7 @@ function TOOL:LeftClick(t)
 		power = math.Clamp(power, 5, 30)
 	end
 
-	-- AGP 2026-11-08: passed the undefined global autoweld (nil) and welded always; the Autoweld box is honoured now
+	-- AGP: passed the undefined global autoweld (nil) and welded always; the Autoweld box is honoured now
 	local e = self:SpawnSENT(p,t,model,power,time,yield,weld);
 	if (not IsValid(e)) then return end
 	e.Timer = time

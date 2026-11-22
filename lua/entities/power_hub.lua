@@ -18,7 +18,7 @@ if SERVER then
 	function ENT:Initialize()
 
 		self.Entity:SetModel("models/naquada-reactor.mdl")
-        self.Entity:SetMaterial("models/reactor-skin-off") -- AGP 2026-11-10: without "materials/" (with it the client drew the purple error texture)
+        self.Entity:SetMaterial("models/reactor-skin-off") -- AGP: without "materials/" (with it the client drew the purple error texture)
 		self.Entity:SetName("power_hub")
 		self.Entity:PhysicsInit(SOLID_VPHYSICS)
 		self.Entity:SetMoveType(MOVETYPE_VPHYSICS)

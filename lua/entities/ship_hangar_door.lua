@@ -27,8 +27,8 @@ ENT.Sounds = {
 
 -----------------------------------INIT----------------------------------
 
--- AGP 2026-10-25: the doors are parented to the hangar and slide on it. They used to remove and re-make a weld to the
--- hangar in every physics update (heavy lag, and an unfrozen hangar floated and turned slowly).
+-- AGP: the doors are parented to the hangar and slide on it. They used to remove and re-make a weld to the hangar in
+-- every physics update (heavy lag, and an unfrozen hangar floated and turned slowly).
 function ENT:Initialize()
 	self.Entity:SetName("Ships Hangar Door");
 	self.Entity:SetModel("models/Iziraider/capbuild/hangardoor.mdl");

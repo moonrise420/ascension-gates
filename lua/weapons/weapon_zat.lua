@@ -348,9 +348,9 @@ if SERVER then
                             v:SetHealth(new_health)
                             v:SetArmor(new_armor)
                             --################### Slowdown
-                            -- AGP 2026-11-08: one timer per victim, and his own speeds come back after 4 s (CAP: one global
-                            -- timer - a second victim within 4 s cancelled the first one's restore - and fixed 250/500,
-                            -- faster than sandbox's 200/400). StarGate.ParalyzePlayer: stargate/shared/init.lua
+                            -- AGP: one timer per victim, and his own speeds come back after 4 s (CAP: one global timer - a
+                            -- second victim within 4 s cancelled the first one's restore - and fixed 250/500, faster
+                            -- than sandbox's 200/400). StarGate.ParalyzePlayer: stargate/shared/init.lua
                             StarGate.ParalyzePlayer(v, 150, 150, 4)
 
                             if (new_health >= 150) then return end -- He has had too much health. He will need more hits to die!
@@ -426,8 +426,8 @@ if SERVER then
                         v.ZatMode = 2
                     elseif (v.ZatMode == 2 and StarGate.CFG:Get("zat", "dissolve", true)) then
                         --################### Disintegrate (Either allowed on valid props or ragdolls)
-                        -- AGP 2026-10-31: frozen props dissolve too (owner: the third shot did nothing on frozen props, which is
-                        -- most of a build); config zat dissolve_frozen = false brings back the old rule for servers
+                        -- AGP: frozen props dissolve too (the third shot did nothing on frozen props, which is most of a build);
+                        -- config zat dissolve_frozen = false brings back the old rule for servers
                         local frozenOK = StarGate.CFG:Get("zat", "dissolve_frozen", true)
                         if ((not disallow_dissolve[v] and not IS_PLAYER and not self:MapObject(v) and (frozenOK or phys:IsMoveable()) and size < self.MaxSize and dist < self.DissolveDistance) or class == "prop_ragdoll") then
                             --################### It is constrained - Check with what and decide whether to dissolve or not
@@ -611,9 +611,9 @@ if CLIENT then
     end
 end
 
--- AGP 2026-11-12 (owner: "CAP's is way better held in the hand - why can't we have it exactly the same way"): CAP's own
--- first-person model and animations, with the player's own hands laid onto its arm skeleton
--- (lua/autorun/agp_blueprint_arms.lua). 2026-11-10's GMod hand animations never fitted this item.
+-- AGP: CAP's own first-person model and animations, with the player's own hands laid onto its arm skeleton
+-- (lua/autorun/agp_blueprint_arms.lua). GMod hand animations never fitted this item.
+--
 if (AGP and AGP.BlueprintArms) then
     AGP.BlueprintArms(SWEP, { vm = "models/v_zat_tauri.mdl", hide = { "hand", "soldier_arm", "arm2" }, arms = AGP.BlueprintRigs.zat })
 end

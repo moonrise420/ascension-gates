@@ -1,9 +1,9 @@
 --[[
-	Ascension Gates: clicking an energy tool in the SpaceGrid tab stays in the SpaceGrid tab (owner 2026-10-30).
-	The energy tools are listed in two tabs (Stargate and SpaceGrid, lua/stargate/client/menu.lua); the SpaceGrid entry is
-	called "<tool>_spacegrid". Clicking it selects the tool; the tool gun then reports its new mode and GMod looks the
-	tool up by its plain name - which it finds in the Stargate tab first, and switched there. That second lookup is sent
-	to the SpaceGrid entry when the SpaceGrid entry was just clicked.
+	Ascension Gates: clicking an energy tool in the SpaceGrid tab stays in the SpaceGrid tab. The energy tools
+	are listed in two tabs (Stargate and SpaceGrid, lua/stargate/client/menu.lua); the SpaceGrid entry is called
+	"<tool>_spacegrid". Clicking it selects the tool; the tool gun then reports its new mode and GMod looks the tool up
+	by its plain name - which it finds in the Stargate tab first, and switched there. That second lookup is sent to the
+	SpaceGrid entry when the SpaceGrid entry was just clicked.
 ]]
 local lastSG, lastSGTime = nil, 0
 

@@ -69,8 +69,8 @@ end
 function TOOL:ControlsPanel(Panel)
 	Panel:AddControl("Label",{Text=SGLanguage.GetMessage("stool_stargate_shield_ident_text")});
 	Panel:AddControl("PropSelect",{Label=SGLanguage.GetMessage("stool_model"),ConVar="stargate_shield_identifier_model",Category="",Models=self.Models});
-	-- AGP 2026-11-08: was bound to stargate_shield_autoweld (the Shield tool's setting): the box changed the other
-	-- tool and the identifier always welded. Its own setting is stargate_shield_identifier_autoweld (read in LeftClick).
+	-- AGP: was bound to stargate_shield_autoweld (the Shield tool's setting): the box changed the other tool and
+	-- the identifier always welded. Its own setting is stargate_shield_identifier_autoweld (read in LeftClick).
 	Panel:CheckBox(SGLanguage.GetMessage("stool_autoweld"),"stargate_shield_identifier_autoweld");
 end
 

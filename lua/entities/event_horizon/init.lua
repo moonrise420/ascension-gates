@@ -91,16 +91,16 @@ ENT.AutocloseImmunity = {
 	"kino_ball",
 }
 
--- AGP 2026-11-08: Half-Life 2's shots and thrown things. They go through at once with their speed turned to the far gate,
--- as in CAP (CAP Enhanced's wormhole ride froze them 3.2 s and sent them on in their old direction at double speed: a
--- thrown grenade dropped at the far horizon or flew back into it).
+-- AGP: Half-Life 2's shots and thrown things. They go through at once with their speed turned to the far gate, as in CAP
+-- (CAP Enhanced's wormhole ride froze them 3.2 s and sent them on in their old direction at double speed: a thrown
+-- grenade dropped at the far horizon or flew back into it).
 ENT.AGPShots = {
 	npc_grenade_frag = true, grenade_ar2 = true, rpg_missile = true, crossbow_bolt = true, prop_combine_ball = true,
 	npc_satchel = true, hunter_flechette = true, grenade_helicopter = true, weapon_striderbuster = true, grenade_spit = true,
 }
 
--- AGP 2026-11-08: seconds the gate stays open after the last traveller went in or came out; each new traveller starts the
--- wait again, so a group (players, Replicators) can follow. CAP: 3-4 s after going in; CAP Enhanced: 6 s after the 3.2 s
+-- AGP: seconds the gate stays open after the last traveller went in or came out; each new traveller starts the wait
+-- again, so a group (players, Replicators) can follow. CAP: 3-4 s after going in; CAP Enhanced: 6 s after the 3.2 s
 -- wormhole ride (over 9 s in all).
 ENT.AGPAutoCloseDelay = 4
 
@@ -294,8 +294,8 @@ function ENT:OnRemove()
 	if(self.IdleSound)then
 	    self.IdleSound:Stop();
 	end
-	-- AGP 2026-11-08: whoever still rides the wormhole from here is let out now (this horizon goes: its gate was removed
-	-- or destroyed, or it closed while routing was paused); the ride's own timer then finds the ride ended
+	-- AGP: whoever still rides the wormhole from here is let out now (this horizon goes: its gate was removed or
+	-- destroyed, or it closed while routing was paused); the ride's own timer then finds the ride ended
 	self:AGPAbortRides(); -- modules/agp_ride.lua
 	-- Remove no-collide from our gate
 	local parent = self.Entity:GetParent();
@@ -484,7 +484,7 @@ function ENT:Open()
 							end	
 						end);
 					end
-					local reach = Data.KawooshReach or {1,3,5}; -- AGP 2026-11-13: per gate type (the Supergate's reached past its vortex)
+					local reach = Data.KawooshReach or {1,3,5}; -- AGP: per gate type (the Supergate's reached past its vortex)
 					for _,k in ipairs(reach) do self:EHDissolve(pos+k*radius*normal,radius); end
 				end
                                 --##### Refract to the event horizon (Because people complained it's to less)
@@ -530,7 +530,7 @@ end
 
 -- AGP: the kawoosh spheres reach below an upright gate and dissolved the floor it stands on (an unwelded base
 -- plate, and everything welded to it). Spared is only what lies completely below the gate's bottom edge AND right
--- under the gate (2026-10-25: before, everything low in front was spared too - ramps lying in front of a raised gate).
+-- under the gate (before, everything low in front was spared too - ramps lying in front of a raised gate).
 function ENT:IsBelowGate(v)
 	local gate = self.Entity:GetParent();
 	if (not IsValid(v) or not IsValid(gate) or math.abs(self.Entity:GetForward().z) >= 0.5) then return false end
@@ -625,8 +625,8 @@ function ENT:Shutdown(override)
 	if(IsValid(self.Target)) then
 		self.Target:Shutdown(override);
 	end
-	-- AGP 2026-11-14: a horizon shut down while its gate is being removed has no parent, and may be gone 0.1 s later
-	-- (errors in a test run: "Tried to use a NULL entity", net.Start with an unpooled name)
+	-- AGP: a horizon shut down while its gate is being removed has no parent, and may be gone 0.1 s later (errors in
+	-- a test run: "Tried to use a NULL entity", net.Start with an unpooled name)
 	local par = self:GetParent();
 	if(IsValid(par) and par:GetClass() == "stargate_supergate") then
 		timer.Simple(0.1,function()
@@ -681,9 +681,9 @@ end
 function ENT:Hit()
 	if(self.ShuttingDown) then return end;
 	-- This basically is the same as the establish effect until someone else does a better one
-	-- AGP 2026-11-08: "eventhorizon_establish" never existed; it is the old name of eventhorizon_stabilize (same white
-	-- overlay material, zup/stargate/eventhorizon_establish). On the front side like the opening's front overlay;
-	-- Radius 0 = not the main overlay, so it leaves the horizon's alpha and ripple alone.
+	-- AGP: "eventhorizon_establish" never existed; it is the old name of eventhorizon_stabilize (same white overlay
+	-- material, zup/stargate/eventhorizon_establish). On the front side like the opening's front overlay; Radius
+	-- 0 = not the main overlay, so it leaves the horizon's alpha and ripple alone.
 	local fx = EffectData();
 	fx:SetEntity(self.Entity);
 	fx:SetOrigin(self:GetPos() + self:GetForward() * 0.3);
@@ -723,23 +723,23 @@ function ENT:EnterEffectEntity(e)
 	self:EnterEffect(pos,radius);
 end
 
--- AGP 2026-11-08: a shot or thrown thing: Half-Life 2's (AGPShots) or a SENT shot that says it does not close the gate
+-- AGP: a shot or thrown thing: Half-Life 2's (AGPShots) or a SENT shot that says it does not close the gate
 -- (NoAutoClose: staff and other energy blasts, drones, missiles). These go through at once, without the wormhole ride.
 function ENT:AGPIsShot(e)
 	return IsValid(e) and not e:IsPlayer() and not e:IsNPC() and (self.AGPShots[e:GetClass()] or e.NoAutoClose == true) or false;
 end
--- AGP 2026-11-09: what goes through at once, without the wormhole ride: shots, and Replicators (bugs, Queens, blocks).
--- Riding, a bug was held frozen half in the horizon of the gate it went into for 3.2 s - the owner watched them stand
--- there - and when the gate shut meanwhile (its autoclose after the prey) it was deleted with the rest of the swarm that
+-- AGP: what goes through at once, without the wormhole ride: shots, and Replicators (bugs, Queens, blocks). Riding, a
+-- bug was held frozen half in the horizon of the gate it went into for 3.2 s - a player watched them stand there -
+-- and when the gate shut meanwhile (its autoclose after the prey) it was deleted with the rest of the swarm that
 -- followed it; the ride is a picture for players.
 function ENT:AGPNoRide(e)
 	return self:AGPIsShot(e) or (IsValid(e) and e.AGPReplicator == true);
 end
 
--- AGP 2026-11-08: something went in or came out: the gate closes AGPAutoCloseDelay s from now (ENT:Think), unless autoclose
--- is off (config "autoclose", Wire/menu "Disable Autoclose") or it is a shot, a grenade or a weapon (CAP's rules, which
--- were copied four times below). Every traveller pushes the close back. Not on an incoming horizon (no Target: what walks
--- in there dies; CAP's close from there did nothing).
+-- AGP: something went in or came out: the gate closes AGPAutoCloseDelay s from now (ENT:Think), unless autoclose is off
+-- (config "autoclose", Wire/menu "Disable Autoclose") or it is a shot, a grenade or a weapon (CAP's rules, which were
+-- copied four times below). Every traveller pushes the close back. Not on an incoming horizon (no Target: what walks in
+-- there dies; CAP's close from there did nothing).
 function ENT:AGPAutoClose(e)
 	if (not self.AutoClose or not IsValid(e) or not IsValid(self.Target)) then return end
 	local class = e:GetClass();
@@ -751,11 +751,11 @@ function ENT:AGPAutoClose(e)
 	self.Entity:NextThink(self.AGPCloseAt);
 end
 
--- AGP 2026-11-08: is v in or right at this horizon (the nearest point of its box within the horizon's reach)? A buffer
--- entry of something that left long ago no longer keeps the gate open.
+-- AGP: is v in or right at this horizon (the nearest point of its box within the horizon's reach)? A buffer entry of
+-- something that left long ago no longer keeps the gate open.
 function ENT:AGPAtHorizon(v)
-	-- AGP 2026-11-08: the gate's own parts never count (the Alteran gate's turning ring, a func_rotating, sat in the
-	-- buffer at the horizon's centre and held the gate open for good)
+	-- AGP: the gate's own parts never count (the Alteran gate's turning ring, a func_rotating, sat in the buffer at
+	-- the horizon's centre and held the gate open for good)
 	local g = self.Entity:GetParent();
 	if (IsValid(g) and (v == g or v:GetParent() == g or v:GetClass() == "func_rotating")) then return false end
 	local c = self.Entity:GetPos();
@@ -908,8 +908,8 @@ function ENT:StartTouchPlayersNPCs(e,ignore)
 					end
 
 
-				-- AGP 2026-11-08: shots and thrown things (grenades, bolts, rockets, combine balls, energy blasts) go through at
-				-- once, as in CAP; players, NPCs and the rest take the wormhole ride (when it is on)
+				-- AGP: shots and thrown things (grenades, bolts, rockets, combine balls, energy blasts) go through at once, as
+				-- in CAP; players, NPCs and the rest take the wormhole ride (when it is on)
 				local wormhole = StarGate.CFG:Get("stargate", "doWormholeSequence", false) and not self:AGPNoRide(e);
 
 				if (not wormhole) then
@@ -942,12 +942,12 @@ function ENT:StartTouchPlayersNPCs(e,ignore)
 						);
 					end
 
-					self:AGPAutoClose(e); -- AGP 2026-11-08: CAP's autoclose rules, now in one place (ENT:AGPAutoClose)
+					self:AGPAutoClose(e); -- AGP: CAP's autoclose rules, now in one place (ENT:AGPAutoClose)
 				end
 
 				if (wormhole) then
-					-- AGP 2026-11-08: going in starts the wait too (CAP Enhanced only started it once the 3.2 s ride was over);
-					-- while it rides the wormhole the gate stays open (ENT:Think)
+					-- AGP: going in starts the wait too (CAP Enhanced only started it once the 3.2 s ride was over); while it
+					-- rides the wormhole the gate stays open (ENT:Think)
 					self:AGPAutoClose(e);
 					if (self.Entity:GetForward():DotProduct(dir) >= 0) then
 							self:DoWormHole(e,block,attached,bcfd,false);
@@ -956,8 +956,8 @@ function ENT:StartTouchPlayersNPCs(e,ignore)
 					end
 				end
 		end
-		-- AGP 2026-11-08: no "else" any more (CAP has none): what GetEntitiesForTeleport rejects (frozen, parented, welded
-		-- to the gate, no physics) stays where it is, untouched. CAP Enhanced played the gulp at every touch and, with the
+		-- AGP: no "else" any more (CAP has none): what GetEntitiesForTeleport rejects (frozen, parented, welded to the
+		-- gate, no physics) stays where it is, untouched. CAP Enhanced played the gulp at every touch and, with the
 		-- wormhole ride on, hid it 3.2 s without teleporting it, then errored on its nil ___dir (ENT:MoveToTarget) and
 		-- never counted "Entities On Route" down again.
 		end
@@ -1137,7 +1137,7 @@ function ENT:EndTouch(e)
 			--################# Teleport us
 			--Marked Moonwatcher
 
-			-- AGP 2026-11-08: SENT shots (Ha'tak, Wraith, Vanir blasts, F-302 missiles) go through at once, as in CAP
+			-- AGP: SENT shots (Ha'tak, Wraith, Vanir blasts, F-302 missiles) go through at once, as in CAP
 			if (StarGate.CFG:Get("stargate", "doWormholeSequence", false) and not self:AGPNoRide(e)) then
 
 				if (self.Entity:GetForward():DotProduct(dir) >= 0) then
@@ -1193,7 +1193,7 @@ function ENT:EndTouch(e)
 					end
 				);
 
-				self:AGPAutoClose(e); -- AGP 2026-11-08: CAP's autoclose rules, now in one place (ENT:AGPAutoClose)
+				self:AGPAutoClose(e); -- AGP: CAP's autoclose rules, now in one place (ENT:AGPAutoClose)
 			end
 		end
 	end
@@ -1217,7 +1217,7 @@ function ENT:EndTouch(e)
 	self.Holding[e] = nil;
 end
 
--- AGP 2026-11-08: is something still going through, so the gate must stay open?
+-- AGP: is something still going through, so the gate must stay open?
 -- - riding the wormhole from here (the 3.2 s ride: closing now would kill it); a ride that never ended counts 10 s at most
 --   (unless routing is paused)
 -- - half-way through this or the far horizon (the buffers) - but only while it is still at that horizon. Buffer entries
@@ -1257,7 +1257,7 @@ end
 --################# For the autoclose @aVoN
 function ENT:Think()
 	if(self.DoAutoClose) then
-		-- AGP 2026-11-08: not before the wait is over (a later traveller pushed it back)
+		-- AGP: not before the wait is over (a later traveller pushed it back)
 		if ((self.AGPCloseAt or 0) > CurTime() + 0.05) then
 			self.Entity:NextThink(self.AGPCloseAt);
 			return true;
@@ -1275,7 +1275,7 @@ function ENT:Think()
 				end
 				-- fix: "close" was a global, the HD check was always false and an unconditional "close = true"
 				-- overwrote both buffer checks, so entities half-way through the EH never kept it open.
-				local close = not self:AGPPassing(); -- AGP 2026-11-08: the buffer checks moved to ENT:AGPPassing (+ the ride)
+				local close = not self:AGPPassing(); -- AGP: the buffer checks moved to ENT:AGPPassing (+ the ride)
 
 				for _,e in pairs({self.Entity}) do
 					if(close) then
@@ -1722,7 +1722,7 @@ function ENT:DoSecret(v)
 			k:UnSpectate();
 			k:DrawViewModel(true);
 			k:DrawWorldModel(true);
-			-- AGP 2026-11-08: the same life goes on (Mimetisor disguise, armour and ammo stay), not a new one: AGP.ShipRespawnPilot
+			-- AGP: the same life goes on (Mimetisor disguise, armour and ammo stay), not a new one: AGP.ShipRespawnPilot
 			if (AGP and AGP.ShipRespawnPilot) then AGP.ShipRespawnPilot(k) else k:Spawn() end
 			if (v.God) then k:GodEnable() end
 			-- Just to be 100% sure!
@@ -1794,9 +1794,9 @@ end
 function ENT:ResumeAllRouting()
 	self.RoutingPaused = false
 	for timer_name, timer_data in pairs(self.timer_table) do
-    		timer.UnPause(timer_data) -- AGP 2026-11-10: with the time it had left (an Adjust here cut every ride to index/1.5 s)
+    		timer.UnPause(timer_data) -- AGP: with the time it had left (an Adjust here cut every ride to index/1.5 s)
 	end
 end
 
--- the wormhole ride (ENT:DoWormHole, ENT:AGPRideArrive): our own, modules/agp_ride.lua (2026-11-10; was EAP's DoWormHole /
+-- the wormhole ride (ENT:DoWormHole, ENT:AGPRideArrive): our own, modules/agp_ride.lua (was EAP's DoWormHole /
 -- MoveToTarget by Elanis)

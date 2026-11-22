@@ -50,7 +50,7 @@ wp_m9_berreta = SGC Sidearm
 wp_ori_hand = Ori-Handwaffe
 wp_goauld_zatarc = Goa'uld-Zatarc
 
-// Zusammenführung der EAP-Funktionen (2026-10-19)
+// Zusammenführung der EAP-Funktionen
 key_malp_control = Steuerung beenden
 vis_wormhole = Wurmloch-Reiseanimation
 vis_wormhole_desc = Zeigt den Wurmloch-Tunnel bei der Reise durch ein Tor (nur wenn der Server die Wurmloch-Sequenz nutzt). Aus = sofortige Reise.
@@ -163,7 +163,7 @@ agp_unit_temp = Temperatur
 agp_unit_gravity = Schwerkraft
 agp_unit_auto = Automatisch (dein Land)
 agp_unit_auto_g = Automatisch (g)
-// our parts: names, suit HUD, gate report, screens, link tool, chat, resources (2026-10-21)
+// our parts: names, suit HUD, gate report, screens, link tool, chat, resources
 agp_ent_cell_xs = Energiezelle (XS)
 agp_ent_cell_small = Energiezelle (S)
 agp_ent_cell_medium = Energiezelle (M)
@@ -765,7 +765,7 @@ agp_hud_k_malpstop = Steuerung beenden
 agp_rep_gates = Große Schwärme schicken Siedler durch Stargates
 agp_rep_gateswarm = Schwarmgröße für eine Kolonie
 agp_rep_tip_gates = Sie wählen ein Tor auf der Karte an (am DHD), gehen hindurch und gründen dort einen neuen Schwarm.
-// window texts (2026-11-10)
+// window texts
 agp_ui_hyperspace = Hyperraum
 agp_ui_target = Ziel
 agp_ui_jump_target = Zum gewählten Ziel springen
@@ -848,7 +848,7 @@ agp_ui_autolink = Automatisch mit einem Ressourcenknoten verbinden
 agp_ui_add_velocity = Der Schuss bekommt die Geschwindigkeit der Kanone dazu
 agp_ui_autoweld = Automatisch verschweißen
 agp_ui_empty = (leer)
-// Ha'tak consoles (2026-11-10)
+// Ha'tak consoles
 agp_hk_weapons = WAFFEN
 agp_hk_staff_cannons = STABKANONEN
 agp_hk_charging = LÄDT
@@ -972,7 +972,7 @@ agp_hk_nearest_ring = Nächster Ring außerhalb des Schiffs
 agp_hk_glyph_pad = Goa'uld-Symbolfeld
 agp_hk_t_mark = Marke %s
 agp_hk_t_player = Spieler %s
-// Ha'tak messages, crew announcements and ship log (2026-11-10)
+// Ha'tak messages, crew announcements and ship log
 agp_hkm_w_ship = Ha'tak
 agp_hkm_w_engine = Ha'tak Maschinenraum
 agp_hkm_w_computer = Ha'tak Computerkern
@@ -1326,6 +1326,16 @@ agp_ship_title_all = Alle Schiffe
 agp_ship_shieldvis = Schildblase
 agp_ship_shieldvis0 = Nur bei Treffer oder Ein-/Ausschalten
 agp_ship_shieldvis1 = Immer sichtbar
+agp_ship_wenergy = Waffen brauchen Energie
+agp_ship_wenergy0 = Nie (gratis)
+agp_ship_wenergy1 = Wenn angeschlossen
+agp_ship_wenergy2 = Immer
+agp_ship_spower = Waffen nutzen die Schiffsenergie
+agp_ship_tip_spower = Ja: Eine Waffe auf einem StarCore-Schiff nimmt die Energie des Schiffs - zuerst seine ZPMs, Generatoren und Batterien, sonst die eigene Energie des Schiffs.
+agp_ship_wbalance = Waffen gegen Schiffe
+agp_ship_wbalance0 = AGP-Sandbox
+agp_ship_wbalance1 = Serienstärke
+agp_ship_tip_wbalance = Serienstärke: Waffen treffen Schiffe so stark wie in der Serie, Handwaffen kratzen eine Hülle kaum. AGP-Sandbox: der eigene Schaden jeder Waffe.
 agp_ship_destructtime = Selbstzerstörung: Countdown (Sekunden)
 agp_ship_tip_shieldvis = Immer: Die Schildblase jedes Schiffs leuchtet schwach, solange der Schild aktiv ist. Sonst sieht man sie nur bei Treffern und beim Ein- oder Ausschalten.
 agp_ship_tip_destructtime = Sekunden vom Drücken der Selbstzerstörungstaste bis zur Explosion. Ein zweiter Druck sprengt das Schiff sofort.

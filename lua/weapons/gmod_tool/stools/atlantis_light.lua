@@ -70,9 +70,9 @@ function TOOL:LeftClick(t)
 		t.Entity:SetBrightness(brightness);
 		t.Entity:SetLightSize(size);
 		-- THIS FUNCTIONS SAVES THE MODIFIED KEYS TO THE SENT, SO THEY ARE AVAILABLE WHEN COPIED WITH DUPLICATOR!
-		-- AGP 2026-11-08: in the order of TOOL.Entity.Keys {brightness,model,r,g,b,size}; it was shifted by two
-		-- (copied from the shield tool), so a dupe/save stored r=brightness, g=model path -> "bad argument to min" on
-		-- paste and the light was lost. The model of a placed light does not change here (nil = keep).
+		-- AGP: in the order of TOOL.Entity.Keys {brightness,model,r,g,b,size}; it was shifted by two (copied
+		-- from the shield tool), so a dupe/save stored r=brightness, g=model path -> "bad argument to min" on paste
+		-- and the light was lost. The model of a placed light does not change here (nil = keep).
 		t.Entity:UpdateKeys(brightness,nil,r,g,b,size);
 		return true;
 	end
@@ -96,9 +96,9 @@ end
 
 --################# The PostEntitySpawn function is called after a SENT got spawned. Either by the duplicator or with the stool.@aVoN
 function TOOL:PostEntitySpawn(p,e,brightness,model,r,g,b,size)
-	-- AGP 2026-11-08: dupes/saves made after a re-colour before the fix above hold shifted keys (r=brightness,
-	-- g=model path, b=red, size=green): take back what is left of the colour, the rest as default, so the light comes
-	-- back instead of a Lua error; the keys are stored right again for the next save
+	-- AGP: dupes/saves made after a re-colour before the fix above hold shifted keys (r=brightness, g=model
+	-- path, b=red, size=green): take back what is left of the colour, the rest as default, so the light comes back
+	-- instead of a Lua error; the keys are stored right again for the next save
 	if (g ~= nil and tonumber(g) == nil) then
 		r, g, b, size = b, size, 255, nil;
 		timer.Simple(0, function()

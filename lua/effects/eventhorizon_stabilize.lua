@@ -34,8 +34,8 @@ function EFFECT:Init(data)
 	self.Spawned = CurTime();
 	self.LastMul = 0;
 	self.Parent = e;
-	-- (AGP 2026-11-13: these bounds stay as they were although the Supergate's horizon is bigger - the engine sorts see-through
-	-- things by their bounds, and with a bigger box this white overlay was drawn after the vortex and covered it)
+	-- (AGP: these bounds stay as they were although the Supergate's horizon is bigger - the engine sorts see-through things by
+	-- their bounds, and with a bigger box this white overlay was drawn after the vortex and covered it)
 	self:SetRenderBounds(Vector(1,1,1)*-1024,Vector(1,1,1)*1024);
 	self.Draw = true;
 	self.Entity:SetRenderMode(RENDERMODE_TRANSALPHA);
@@ -84,8 +84,8 @@ function EFFECT:Render()
 	if(self.Main and IsValid(self.Parent) and self.Parent.SetAlpha) then
 		self.Parent:SetAlpha(math.Clamp(mul*350,150,255),true);
 	end
-	-- AGP 2026-11-13: this overlay is the horizon's own model in the horizon's own place - on the Supergate's huge horizon the two
-	-- fought over the depth buffer (dark streaks through the opening, filmed). Drawn a hair nearer to the eye.
+	-- AGP: this overlay is the horizon's own model in the horizon's own place - on the Supergate's huge horizon the two fought over
+	-- the depth buffer (dark streaks through the opening, filmed). Drawn a hair nearer to the eye.
 	render.MaterialOverride(self.Material);
 	render.DepthRange(0,0.99999);
 	self.Entity:DrawModel();

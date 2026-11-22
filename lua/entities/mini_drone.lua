@@ -14,7 +14,7 @@ if SERVER then
 
     function ENT:Initialize()
         self.Entity:SetModel("models/miriam/minidrone/minidrone.mdl")
-        self.Entity:SetMaterial("miriam/minidrone/yellow_on") -- AGP 2026-11-10: without "materials/" and ".vmt" (the purple error texture)
+        self.Entity:SetMaterial("miriam/minidrone/yellow_on") -- AGP: without "materials/" and ".vmt" (the purple error texture)
         self.Entity:PhysicsInit(SOLID_VPHYSICS)
         self.Entity:SetMoveType(MOVETYPE_VPHYSICS)
         self.Entity:SetCollisionGroup(COLLISION_GROUP_PROJECTILE)
@@ -275,6 +275,13 @@ if SERVER then
                 -- Do not explode on shields!
                 if (not e.nocollide) then
                     self:Blast(pos, t)
+                elseif (isfunction(e.Hit) and IsValid(e.Parent) and isfunction(e.Parent.Hit)) then
+                    -- AGP: a shield bubble takes the hit as from any other shot (mini drones were removed on a
+                    -- shield and never drained it)
+                    if (not self.AGPShieldDrained) then
+                        self.AGPShieldDrained = true   -- (once: the bubble's own guard counts it too, shield/init.lua stopAt)
+                        e:Hit(self.Entity, pos, math.Clamp((tonumber(self.Damage) or 75) / 20, 1, 20), (pos - e:GetPos()):GetNormalized())
+                    end
                 end
 
                 self:StartRemoving(delay_deletion)

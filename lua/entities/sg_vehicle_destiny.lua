@@ -1,7 +1,7 @@
 --[[
-	Destiny (the Ancient ship of Stargate Universe) - Ascension Gates' own code (2026-11-07).
-	Model and code are ours (EAP's model and code are gone since 2026-11-07). The class name stays
-	"sg_vehicle_destiny", so saves and dupes keep working. Built on:
+	Destiny (the Ancient ship of Stargate Universe) - Ascension Gates' own code. Model and
+	code are ours (EAP's model and code are gone). The class name stays "sg_vehicle_destiny", so
+	saves and dupes keep working. Built on:
 	  * the ship base sg_vehicle_base (CAP, RononDex): flying, getting in / out, the camera
 	  * CAP's energy_pulse (aVoN, Madman07) for the shots, in Destiny's yellow
 	  * CAP's Destiny main weapon models (Madman07, Rafael De Jongh: models/madman07/main_weapon), hung under the hull
@@ -29,14 +29,14 @@ ENT.AGPHyperFTL = true          -- Destiny's FTL sounds, the short blue-white fl
 ENT.AGPCamBack, ENT.AGPCamUp = 1.1, 0.2
 list.Set("CAP.Entity", ENT.PrintName, ENT)
 
--- our own model, designed after the series (notes/models/agp_destiny_ship_models.py)
+-- our own model, designed after the series
 local MODEL = "models/agp/destiny/agp_destiny.mdl"
 function ENT:AGPModel() return MODEL end
 
 -- the shield bubble: a flat ellipsoid over the hull, wide enough for the wing tips; yellow as in the series
-ENT.AGPShield = { model = "models/iziraider/shields/4x4x3.mdl", yaw = 0, offset = Vector(-2, 0, 48), scale = Vector(1.22, 0.9, 0.26), color = { 1, 0.8, 0.35 } }   -- fitted round every point of the hull (2026-11-07)
--- (2026-11-07 balance, the series' order: Ori > O'Neill > Aurora > Daedalus > Destiny > Prometheus > Al'kesh > Tel'tak)
--- the shield holds 24000 damage (a beam: 24 s)
+ENT.AGPShield = { model = "models/iziraider/shields/4x4x3.mdl", yaw = 0, offset = Vector(-2, 0, 48), scale = Vector(1.22, 0.9, 0.26), color = { 1, 0.8, 0.35 } }   -- fitted round every point of the hull (balance,
+-- the series' order: Ori > O'Neill > Aurora > Daedalus > Destiny > Prometheus > Al'kesh > Tel'tak) the shield holds
+-- 24000 damage (a beam: 24 s)
 ENT.AGPShieldHP, ENT.AGPShieldBeamTime = 24000, 24
 
 local HULL = 24000
@@ -44,8 +44,8 @@ local YELLOW = Color(255, 210, 90)
 
 -- the main weapon: CAP's Destiny main weapon, put together as CAP's sg_turret_destmain does (stand, turning housing
 -- at +17, barrels turned round: they fire along the stand's +X), then hung upside down under the neck at GUN_SCALE,
--- the stand flush on the mounting plate of our model (owner 2026-11-07: no gap between weapon and hull).
--- Parts: { model, position on the stand, angles }; MUZZLE_AT: the muzzle of each barrel on the stand.
+-- the stand flush on the mounting plate of our model (no gap between weapon and hull). Parts: { model,
+-- position on the stand, angles }; MUZZLE_AT: the muzzle of each barrel on the stand.
 local GUN_ORIGIN, GUN_SCALE, GUN_FLIP = Vector(0, 0, -33.9), 0.38, Angle(0, 0, 180)
 local MW = "models/madman07/main_weapon/"
 local GUN_PARTS = {
@@ -185,8 +185,8 @@ if SERVER then
 			timer.Simple(i == 4 and 0.55 or (i - 1) * 0.14, function()
 				if (not IsValid(self)) then return end
 				local from = self:LocalToWorld(gunLocal(m))
-				-- AGP 2026-11-08: still straight ahead, but within 8 degrees it meets the crosshair (the camera sits above
-				-- and behind the guns, so dead ahead missed what the crosshair showed, most in the bridge view)
+				-- AGP: still straight ahead, but within 8 degrees it meets the crosshair (the camera sits above and behind
+				-- the guns, so dead ahead missed what the crosshair showed, most in the bridge view)
 				local fwd = AGP.ShipAimCone and AGP.ShipAimCone(self, from, 8) or self:GetForward()
 				bolt(self, from + fwd * 10, fwd, i == 4 and 40 or 25, 14000, i == 4 and 600 or 380)
 				self:SetNWFloat("AGPGunShot" .. i, CurTime())

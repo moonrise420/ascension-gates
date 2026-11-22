@@ -126,8 +126,8 @@ function ENT:FireWeapon()
 	e:Activate();
 	e.Explosion = self.Explosion;
 	e:SetColor(Color(self.Color.r, self.Color.g, self.Color.b,255));
-	-- AGP 2026-11-08: the tool's shaft and "colorize explosion" settings (presets) reach the shot; they did nothing before.
-	-- Not set (spawn menu, old dupes) = as before: shaft drawn, explosion in the shot's colour (energy_pulse.lua).
+	-- AGP: the tool's shaft and "colorize explosion" settings (presets) reach the shot; they did nothing before. Not set
+	-- (spawn menu, old dupes) = as before: shaft drawn, explosion in the shot's colour (energy_pulse.lua).
 	e.PlainExplosion = (self.ColorizeExplosion == false);
 	if (self.Shaft == false) then e:SetNWBool("AGPNoShaft",true) end;
 	self.NextFire = CurTime()+self.Delay;
@@ -206,7 +206,7 @@ ENT.RenderGroup = RENDERGROUP_OPAQUE; -- This FUCKING THING avoids the clipping 
 if (SGLanguage!=nil and SGLanguage.GetMessage!=nil) then
 language.Add("staff_weapon_glider",SGLanguage.GetMessage("glider_staff")); -- Some idiot got smashed
 end
--- Kill Icon (AGP 2026-11-08: the icon is in VGUI/weapons/, the old path never existed - killfeed showed the default)
+-- Kill Icon (AGP: the icon is in VGUI/weapons/, the old path never existed - killfeed showed the default)
 if(file.Exists("materials/VGUI/weapons/staff_stationary_killicon.vmt","GAME")) then
 	killicon.Add("staff_weapon_glider","VGUI/weapons/staff_stationary_killicon",Color(255,255,255));
 	killicon.Add("staff_pulse_stationary","VGUI/weapons/staff_stationary_killicon",Color(255,255,255));

@@ -10,8 +10,8 @@ TOOL.Name=SGLanguage.GetMessage("stool_giris");
 TOOL.ClientConVar["toggle"] = KEY_PAD_2;
 TOOL.ClientConVar["activate"] = KEY_B;
 TOOL.ClientConVar["deactivate"] = KEY_C;
--- AGP 2026-11-08: the colour picker starts at the Goa'uld orange (was white: an untouched tool made a white shield
--- unless "Default Color?" was ticked)
+-- AGP: the colour picker starts at the Goa'uld orange (was white: an untouched tool made a white shield unless
+-- "Default Color?" was ticked)
 TOOL.ClientConVar["r"] = 200;
 TOOL.ClientConVar["g"] = 100;
 TOOL.ClientConVar["b"] = 0;
@@ -59,8 +59,8 @@ function TOOL:LeftClick(t)
 		return
 	end
 	if(not self:CheckLimit()) then return false end;
-	-- AGP 2026-11-08: the colour goes in as the keys r, g, b (the 4th key, IsActivated, stays empty as before): the duplicator
-	-- saves them, PostEntitySpawn colours the shield. Before, only this click coloured it: dupes and saves came back orange.
+	-- AGP: the colour goes in as the keys r, g, b (the 4th key, IsActivated, stays empty as before): the duplicator saves them,
+	-- PostEntitySpawn colours the shield. Before, only this click coloured it: dupes and saves came back orange.
 	local e = self:SpawnSENT(p,t,toggle,activate,deactivate,nil,r,g,b);
 	if (not IsValid(e)) then return end
 	local stargate = false;
@@ -95,7 +95,7 @@ function TOOL:LeftClick(t)
 end
 
 function TOOL:PostEntitySpawn(p,e,toggle,activate,deactivate,IsActivated,r,g,b)
-	-- AGP 2026-11-08: colour from the tool or from a dupe/save (old dupes without it keep the entity's orange)
+	-- AGP: colour from the tool or from a dupe/save (old dupes without it keep the entity's orange)
 	if (r and g and b) then
 		e:SetNWVector("shield_color", Vector(r,g,b))
 		e:SetNWVector("Col",Vector(r,g,b))

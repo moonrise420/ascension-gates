@@ -50,7 +50,7 @@ wp_m9_berreta = SGC Sidearm
 wp_ori_hand = Ori Hand Weapon
 wp_goauld_zatarc = Goa'uld Zatarc
 
-// Merge of EAP features (2026-10-19)
+// Merge of EAP features
 key_malp_control = Stop controlling
 vis_wormhole = Wormhole travel animation
 vis_wormhole_desc = Shows the wormhole tunnel when you travel through a gate (only if the server uses the wormhole sequence). Off = instant travel.
@@ -92,7 +92,7 @@ agp_info_btn_close = Let's go!
 agp_info_dontshow = Do not show this at start again
 agp_gtsp_saved = Gate spawner saved for %s. It loads automatically every time this map starts.
 agp_credits_about = About
-// gate spawner, Grid Power, life support, units (2026-10-21)
+// gate spawner, Grid Power, life support, units
 agp_gs_title = Gate Spawner
 agp_gs_help = Place gates, DHDs, rings and ramps like normal, then press "Save map": they spawn on this map every time it starts. Double-click a part to go there, right-click to remove it.
 agp_gs_status = Map: %s\nSpawner: %s\nUsing: %s\nParts: %d
@@ -150,7 +150,7 @@ agp_unit_temp = Temperature
 agp_unit_gravity = Gravity
 agp_unit_auto = Auto (your country)
 agp_unit_auto_g = Auto (g)
-// our parts: names, suit HUD, gate report, screens, link tool, chat, resources (2026-10-21)
+// our parts: names, suit HUD, gate report, screens, link tool, chat, resources
 agp_ent_cell_xs = Energy Cell (XS)
 agp_ent_cell_small = Energy Cell (S)
 agp_ent_cell_medium = Energy Cell (M)
@@ -752,7 +752,7 @@ agp_hud_k_malpstop = Stop controlling
 agp_rep_gates = Big swarms send colonists through Stargates
 agp_rep_gateswarm = Swarm size for a colony
 agp_rep_tip_gates = They dial a gate on the map (at its DHD), walk through and start a new swarm there.
-// window texts (2026-11-10)
+// window texts
 agp_ui_hyperspace = Hyperspace
 agp_ui_target = Target
 agp_ui_jump_target = Jump to the selected target
@@ -835,7 +835,7 @@ agp_ui_autolink = Link to a resource node automatically
 agp_ui_add_velocity = Add the cannon's own speed to the shot
 agp_ui_autoweld = Weld automatically
 agp_ui_empty = (empty)
-// Ha'tak consoles (2026-11-10)
+// Ha'tak consoles
 agp_hk_weapons = WEAPONS
 agp_hk_staff_cannons = STAFF CANNONS
 agp_hk_charging = CHARGING
@@ -959,7 +959,7 @@ agp_hk_nearest_ring = Nearest ring outside the ship
 agp_hk_glyph_pad = Goa'uld glyph pad
 agp_hk_t_mark = Mark %s
 agp_hk_t_player = Player %s
-// Ha'tak messages, crew announcements and ship log (2026-11-10)
+// Ha'tak messages, crew announcements and ship log
 agp_hkm_w_ship = Ha'tak
 agp_hkm_w_engine = Ha'tak engine room
 agp_hkm_w_computer = Ha'tak computer core
@@ -1313,6 +1313,16 @@ agp_ship_title_all = All ships
 agp_ship_shieldvis = Shield bubble
 agp_ship_shieldvis0 = Only when hit or switched on/off
 agp_ship_shieldvis1 = Always visible
+agp_ship_wenergy = Weapons use energy
+agp_ship_wenergy0 = Never (free)
+agp_ship_wenergy1 = When connected
+agp_ship_wenergy2 = Always
+agp_ship_spower = Weapons use the ship's power
+agp_ship_tip_spower = Yes: a weapon on a StarCore ship takes the ship's power - its ZPMs, generators and batteries first, else the ship's own power.
+agp_ship_wbalance = Weapons against ships
+agp_ship_wbalance0 = AGP sandbox
+agp_ship_wbalance1 = Series power
+agp_ship_tip_wbalance = Series power: weapons hit ships as hard as in the series, hand weapons barely scratch a hull. AGP sandbox: every weapon's own damage.
 agp_ship_destructtime = Self-destruct countdown (seconds)
 agp_ship_tip_shieldvis = Always: every ship's shield bubble glows faintly while the shield is up. Otherwise it only shows when it is hit or switched on or off.
 agp_ship_tip_destructtime = Seconds from pressing the self-destruct key to the explosion. A second press blows the ship up at once.

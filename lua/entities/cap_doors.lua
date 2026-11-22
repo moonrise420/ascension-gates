@@ -116,7 +116,7 @@ function ENT:PreEntityCopy()
 		end
 	end
 
-	dupeInfo.DoorModel = IsValid(self.Frame) and self.Frame.DoorModel or self.Entity:GetModel();   -- AGP 2026-11-10: a door without its frame was a Lua error on copy
+	dupeInfo.DoorModel = IsValid(self.Frame) and self.Frame.DoorModel or self.Entity:GetModel();   -- AGP: a door without its frame was a Lua error on copy
 
 	duplicator.StoreEntityModifier(self, "DupeInfo", dupeInfo)
 end

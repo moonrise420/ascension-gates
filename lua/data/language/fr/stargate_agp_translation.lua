@@ -1,4 +1,4 @@
-// Ascension Gates: French texts CAP never translated (2026-10-19)
+// Ascension Gates: French texts CAP never translated
 
 // ===== de stargate.lua =====
 // Menu outils de la porte (maintenir C)

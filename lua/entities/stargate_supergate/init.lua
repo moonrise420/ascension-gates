@@ -136,8 +136,8 @@ end
 --################# @Madman07, Assassin21
 function ENT:SpawnFunction(p,t)
 	local ent = ents.Create("stargate_supergate");
-	-- AGP 2026-10-30: where the player looks, standing on it: the ring (radius 2375 + its segments) fully above the
-	-- spot. It was centred on the player's feet, so half of it was in the ground or in whatever stood there.
+	-- AGP: where the player looks, standing on it: the ring (radius 2375 + its segments) fully above the spot. It
+	-- was centred on the player's feet, so half of it was in the ground or in whatever stood there.
 	local spot = (t and t.Hit) and t.HitPos or p:GetPos();
 	if (t and t.Hit and t.HitNormal.z < 0.5) then spot = spot + t.HitNormal * 300 end -- a wall: away from it
 	ent:SetPos(spot + Vector(0, 0, 2375 + 260));
@@ -192,8 +192,8 @@ function ENT:LightUp(Tick)
 	local ent = self.Entity;
 
 	timer.Create( "Effects"..ent:EntIndex(), Tick, 72, function()
-		-- AGP 2026-11-14: a Supergate removed while its ring still lights up has no segments any more (errors in a
-		-- test run: "attempt to index local 'segment'", Timer Failed)
+		-- AGP: a Supergate removed while its ring still lights up has no segments any more (errors in a test run:
+		-- "attempt to index local 'segment'", Timer Failed)
 		if (IsValid(ent) and IsValid(self.EffectSegments[i]) and IsValid(self.Segments[i])) then
 			self:Fade(self.EffectSegments[i], true);
 			self:SetWire("Active Segment",i);
@@ -222,7 +222,7 @@ end
 
 --################# Segments Fadding @Madman07
 function ENT:Fade(segment, tofull)
-	if (not IsValid(segment) or not IsValid(self.Segments[1])) then return end   -- (AGP 2026-11-14: the gate is being removed)
+	if (not IsValid(segment) or not IsValid(self.Segments[1])) then return end   -- (AGP: the gate is being removed)
 	if tofull then
 		segment.direction = 16;
 		segment.alpha = 0;

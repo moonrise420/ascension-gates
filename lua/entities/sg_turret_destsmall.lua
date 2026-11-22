@@ -91,11 +91,8 @@ if SERVER then
 
     -----------------------------------SHOOT----------------------------------
     function ENT:Shoot()
-        local energy = self:GetResource("energy", self.energy_drain)
-
-        if (energy > self.energy_drain or not self.HasResourceDistribution) then
-            self:ConsumeResource("energy", self.energy_drain)
-
+        -- AGP: energy by agp_weapon_energy (StarGate.WeaponEnergy)
+        if (StarGate.WeaponEnergy(self, self.energy_drain)) then
             local anim = {"FireTop", "FireBottom"}
 
             local attach = {"FireTop", "FireBottom"}
@@ -110,6 +107,7 @@ if SERVER then
             fx:SetOrigin(data.Pos)
             util.Effect("Destiny_launch", fx)
             local e = ents.Create("energy_pulse")
+            StarGate.MarkShot(e, self)
 
             e:PrepareBullet(self:AimDirFrom(data.Pos), 10, 16000, 10, {self.Cann, self.Turn, self.Stand})   -- AGP: muzzle -> aim point, not barrel forward
 

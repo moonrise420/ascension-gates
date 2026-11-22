@@ -1,11 +1,11 @@
 AddCSLuaFile() --Makes it show up in singleplayer
--- AGP 2026-11-12: the loader's own SWEP table (a local one registered by a 0.1 s timer came after the spawn menu was
--- built: the weapon had no class name there yet and was left out of the weapons tab)
--- AGP 2026-11-10: name, purpose and how to use it in the player's language (texts agp_arg_* in stargate_agp.lua)
+-- AGP: the loader's own SWEP table (a local one registered by a 0.1 s timer came after the spawn menu was built: the
+-- weapon had no class name there yet and was left out of the weapons tab) AGP: name,
+-- purpose and how to use it in the player's language (texts agp_arg_* in stargate_agp.lua)
 local function LT(k, f) return (AGP and AGP.L) and AGP.L(k, f) or f end
 
 SWEP.PrintName = LT("agp_arg_name", "Anti Replicator Gun")
--- AGP 2026-11-10: in our weapons folder (player weapons), like the other Stargate guns
+-- AGP: in our weapons folder (player weapons), like the other Stargate guns
 if (SGLanguage ~= nil and SGLanguage.GetMessage ~= nil) then SWEP.Category = SGLanguage.GetMessage("weapon_cat") else SWEP.Category = "Stargate" end
 list.Set("CAP.Weapon", SWEP.PrintName or "", SWEP)
 
@@ -18,7 +18,7 @@ SWEP.SlotPos = 10
 SWEP.Slot = 2
 SWEP.Spawnable = true
 SWEP.Weight = 1
-SWEP.WorldModel = "models/agp/arg_remaster/replicator_disruptor.mdl" -- 2026-11-13: remastered (same mesh, bone and size as the CryptAlchemy original at models/cryptalchemy/humans/weapons/)
+SWEP.WorldModel = "models/agp/arg_remaster/replicator_disruptor.mdl" -- remastered (same mesh, bone and size as the CryptAlchemy original at models/cryptalchemy/humans/weapons/)
 SWEP.ViewModel = "models/agp/arg_remaster/replicator_disruptor.mdl"
 SWEP.ViewModelFOV = 50
 
@@ -28,9 +28,9 @@ SWEP.Primary.Automatic = false
 SWEP.Secondary.Ammo = "none"
 SWEP.Secondary.Automatic = false
 
--- AGP: the gun works on one frequency (owner 2026-11-04). After a few shots the Replicators adapt to it and only
--- shudder (agp_replicators.lua R.ArgHit); hold R and it searches a new one - sometimes it locks on quickly, sometimes it
--- takes long. The display shows the frequency, its wave, the search and when they have adapted.
+-- AGP: the gun works on one frequency. After a few shots the Replicators adapt to it and only shudder
+-- (agp_replicators.lua R.ArgHit); hold R and it searches a new one - sometimes it locks on quickly, sometimes it takes
+-- long. The display shows the frequency, its wave, the search and when they have adapted.
 local function newFreq(old)
     local R = AGP and AGP.Rep
     for _ = 1, 30 do
@@ -44,9 +44,9 @@ end
 
 function SWEP:CanPrimaryAttack() return false end
 function SWEP:Reload() end
--- AGP 2026-11-13: the gun is worn over the right forearm like an arm cannon (the series' gun has a sleeve at the back):
--- the model sits rigidly on the forearm bone (client, DrawWorldModel), the hand inside it is made invisible (bone scale)
--- while the gun is in the hand, and given back when it is put away, dropped, or its owner changes.
+-- AGP: the gun is worn over the right forearm like an arm cannon (the series' gun has a sleeve at the back): the model
+-- sits rigidly on the forearm bone (client, DrawWorldModel), the hand inside it is made invisible (bone scale) while the
+-- gun is in the hand, and given back when it is put away, dropped, or its owner changes.
 local ARM_HAND = "ValveBiped.Bip01_R_Hand"
 local function armHand(own, hide)
     if not IsValid(own) or not own.LookupBone then return end
@@ -74,8 +74,8 @@ function SWEP:ShouldDropOnDie() return true end
 
 function SWEP:Initialize()
     if(self.SetHoldType) then
-        -- AGP 2026-11-13: "pistol": the right arm held out straight at the target, the gun worn over the forearm (it was
-        -- "physgun", the gun carried in both hands before the chest)
+        -- AGP: "pistol": the right arm held out straight at the target, the gun worn over the forearm (it was "physgun",
+        -- the gun carried in both hands before the chest)
         self:SetHoldType("pistol")
     end
 
@@ -85,24 +85,24 @@ function SWEP:Initialize()
     self.IronX = Vector(0,0,0)   -- (the kick when it fires, see PrimaryAttack)
 end
 
--- AGP 2026-11-10: where the gun sits. The model's barrel is its +y, its top +z, the grip at its origin (a world model
--- with a single R_Hand bone); its emitter plate in front is 15 units across. To try other places in game:
+-- AGP: where the gun sits. The model's barrel is its +y, its top +z, the grip at its origin (a world model with a
+-- single R_Hand bone); its emitter plate in front is 15 units across. To try other places in game:
 -- agp_arg_vm "forward right up pitch yaw roll" (first person, from the eye),
--- agp_arg_wm "forward right up pitch yaw roll scale" (third person, from the right hand bone).
--- 2026-11-13: the original place (lower right, rolled, running off the bottom-right screen edge: the open rear end is never in view),
+-- agp_arg_wm "forward right up pitch yaw roll scale" (third person, from the right hand
+-- bone).: the original place (lower right, rolled, running off the bottom-right screen edge: the open rear end is never in view),
 -- fitted at fov 100; the screen is on the first-person stand FP_DEF (the collar stand lies below the picture in this pose).
 local VM_POSE = { 18, 11, -12, 5, 4, -60 }
--- 2026-11-13: worn over the right forearm: forward / right / up (along the forearm bone, units of the fitted model's forearm),
--- pitch yaw roll, scale, spin. Yaw -90 turns the barrel (+y) along the forearm (bone +x); the sleeve's bottom plate sits at the wrist.
+-- worn over the right forearm: forward / right / up (along the forearm bone, units of the fitted model's forearm), pitch yaw
+-- roll, scale, spin. Yaw -90 turns the barrel (+y) along the forearm (bone +x); the sleeve's bottom plate sits at the wrist.
 local WM_BONE, WM_LREF = "ValveBiped.Bip01_R_Forearm", 11
 local WM_POSE = { 10.5, 0, 0, 0, -90, 0, 0.7 }
--- 2026-11-13: how far the gun is turned on its own barrel axis in the hand (degrees; agp_arg_wm's 8th number): its top, with
--- the screen on its stand, then faces up and out instead of into the body
+-- how far the gun is turned on its own barrel axis in the hand (degrees; agp_arg_wm's 8th number): its top, with the screen
+-- on its stand, then faces up and out instead of into the body
 local WM_SPIN = 90
--- the screen on the gun, in the model's own frame. 2026-11-13: it sat in the air beside the body and half inside it (the old
--- place cut through the hull, 2900 vertices of the model in front of it). Now it is a small lectern on top of the rear collar:
--- a dark stand (wedge) set into the hull, its slanted face leaning back at 50 degrees to the shooter, the screen flat on that
--- face (nothing of the model in front of it, checked against every triangle of the model, tools in notes). The stand's
+-- the screen on the gun, in the model's own frame.: it sat in the air beside the body and half inside it (the old place cut
+-- through the hull, 2900 vertices of the model in front of it). Now it is a small lectern on top of the rear collar: a dark
+-- stand (wedge) set into the hull, its slanted face leaning back at 50 degrees to the shooter, the screen flat on that face
+-- (nothing of the model in front of it, checked against every triangle of the model, tools in notes). The stand's
 -- bottom is inside the hull, so no gap shows; the screen's own bottom edge rests on the hull's surface.
 local STAND_TILT = 50
 local SCR_POS, SCR_ANG, SCR_SCALE = Vector(0, -1.253, 4.879), Angle(0, 0, STAND_TILT), 0.012   -- (the screen's centre; 4.08 x 2.35 units)
@@ -126,9 +126,9 @@ local function standQuads()
     }
 end
 local STAND = standQuads()
--- 2026-11-13: the first-person view has its own stand (the same kind of dark block with the screen on its face, set in the hull)
--- placed where the gun's view model pose shows it: on the hull top further forward, its face turned straight to the eye. In
--- the view model pose the gun's open rear end must run off the screen (never hang in the air), and the collar's stand
+-- the first-person view has its own stand (the same kind of dark block with the screen on its face, set in the hull) placed
+-- where the gun's view model pose shows it: on the hull top further forward, its face turned straight to the eye. In the
+-- view model pose the gun's open rear end must run off the screen (never hang in the air), and the collar's stand
 -- near the rear end is then out of view. C = the screen's centre, n = its normal (to the eye), u = its up.
 local FP_DEF = { 3.387, 5.608, 5.377, 0.013, -0.888, 0.460, 0.893, 0.217, 0.393 }
 local cvFp = CLIENT and CreateClientConVar("agp_arg_fpst", "", false, false) or nil   -- "cx cy cz nx ny nz ux uy uz": the first-person stand, for trying
@@ -186,10 +186,10 @@ local function scrPose()
     return SCR_POS, SCR_ANG, true
 end
 
--- 2026-11-13: the view model is projected with a field of view that follows the player's: the lower fov_desired, the further out and
--- the bigger the gun is drawn (at fov 75 it had slid off the screen, at 100 it sits as framed; the owner plays at 100). The framing is
--- made the same at every FOV by moving the gun away along the view (towards the eye at fov > 100). The shifts were measured in
--- game (agp_arg_fova "s<units>" tries one): the screen on the stand lands where it does at fov 100, at the same size.
+-- the view model is projected with a field of view that follows the player's: the lower fov_desired, the further out and the bigger
+-- the gun is drawn (at fov 75 it had slid off the screen, at 100 it sits as framed; a player plays at 100). The framing is made the
+-- same at every FOV by moving the gun away along the view (towards the eye at fov > 100). The shifts were measured in game
+-- (agp_arg_fova "s<units>" tries one): the screen on the stand lands where it does at fov 100, at the same size.
 local FOV_SHIFT = { { 60, 55 }, { 70, 35 }, { 75, 26 }, { 80, 17 }, { 90, 6 }, { 100, 0 }, { 110, -4.7 }, { 120, -7.5 }, { 140, -12 } }
 local cvFovA = CLIENT and CreateClientConVar("agp_arg_fova", "", false, false) or nil
 local function fovShift()   -- how many units the gun is moved away along the view at the player's current FOV
@@ -257,8 +257,8 @@ if SERVER then
         end
     end
 
-    -- AGP 2026-11-13: one wave, for the player's click and for an NPC's shot: a properly spawned entity (position, angles,
-    -- owner and frequency set first, then Spawn: Initialize runs once there). The owner does not collide with it.
+    -- AGP: one wave, for the player's click and for an NPC's shot: a properly spawned entity (position, angles, owner and
+    -- frequency set first, then Spawn: Initialize runs once there). The owner does not collide with it.
     local function launch(self, owner, pos, ang, dir)
         local ent = ents.Create("sg_arg_projectile")
         if not IsValid(ent) then return end
@@ -292,7 +292,7 @@ if SERVER then
         launch(self, ply, ply:EyePos() + eyeang:Forward()*10 - eyeang:Right()*5 - eyeang:Up()*5, eyeang, ply:GetAimVector()) -- AGP: eye-relative (was world Vector(10,5,-5))
     end
 
-    -- AGP 2026-11-13: an NPC holding it shoots at its enemy (the wave only carries ~900 units: it does not fire from further)
+    -- AGP: an NPC holding it shoots at its enemy (the wave only carries ~900 units: it does not fire from further)
     function SWEP:GetCapabilities() return CAP_WEAPON_RANGE_ATTACK1 end
     function SWEP:NPCShoot_Primary(shootPos, shootDir)
         local npc = self:GetOwner()
@@ -444,9 +444,9 @@ else --client
 
     -- the screen on top of the gun (right, behind the emitter), fixed to the gun model: it moves with every sway and
     -- the kick when it fires (depth tested: parts of the gun in front of it hide it, as they would)
-    -- (2026-11-12, the night's weapon sweep: "the gun floats in first person, no hands") the player's own hands on the
-    -- gun's grip: GMod's pistol grip (the hand pose of c_pistol's idle) is laid on the gun where HAND_POSE says - the
-    -- hand bone's place in the gun model's own frame (forward right up pitch yaw roll; to try others in game:
+    -- (the night's weapon sweep: "the gun floats in first person, no hands") the player's own hands on the gun's grip:
+    -- GMod's pistol grip (the hand pose of c_pistol's idle) is laid on the gun where HAND_POSE says - the hand bone's
+    -- place in the gun model's own frame (forward right up pitch yaw roll; to try others in game:
     -- agp_arg_hand "f r u p y r"). The hands are the hands model of the player (sleeve, skin).
     local HAND_POSE = { 0, 0, 0, 0, 0, 0 }
     local cvHand = CreateClientConVar("agp_arg_hand", "", false, false)

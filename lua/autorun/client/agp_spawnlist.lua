@@ -1,6 +1,6 @@
 --[[
 	Ascension Gates: spawn menu list for props that had no function in CAP Enhanced or EAP
-	(models in the packs that no entity or tool used). Generated from notes/unused_models.txt.
+	(models in the packs that no entity or tool used). Generated from a build script
 ]]
 local GROUPS = {
     {"boba_fett", {
@@ -85,8 +85,8 @@ local GROUPS = {
     }},
 }
 
--- (2026-11-12) a model is listed only when its whole set is there: with the .mdl alone (no vertex file) the game draws a
--- red ERROR - the small ore deposit of the pack was like that. AGP.ModelComplete is used by the other prop lists too.
+-- a model is listed only when its whole set is there: with the .mdl alone (no vertex file) the game draws a red ERROR -
+-- the small ore deposit of the pack was like that. AGP.ModelComplete is used by the other prop lists too.
 AGP = AGP or {}
 function AGP.ModelComplete(m)
     local stem = m:sub(1, -5)

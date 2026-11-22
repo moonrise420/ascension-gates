@@ -42,8 +42,8 @@ local function StarGateRefreshList(len)
         info["galaxy"] = false
         info["class"] = class
         info["pos"] = Vector(0, 0, 0)
-        -- AGP 2026-11-08: Universe gate or not, from the class (as CAP did): the server sends "sgugate" only once per
-        -- player on join, so gates spawned later had no flag here and got a wrong address in the dial list
+        -- AGP: Universe gate or not, from the class (as CAP did): the server sends "sgugate" only once per player on
+        -- join, so gates spawned later had no flag here and got a wrong address in the dial list
         info["sgugate"] = class == "stargate_universe" or scripted_ents.GetMember(class, "IsUniverseGate") == true
         StarGate_GetAll[ent] = info
     end
@@ -2012,8 +2012,8 @@ local sg1 = {
 
 surface.CreateFont("stargate_address_glyphs_sg1", sg1)
 
--- AGP 2026-11-08: concept DHD / Earth point of origin: "AGP Glyphs Concept" = the SG-1 glyphs with Earth's
--- point of origin at '#' (as CAP's concept font); AGP Glyphs SG1 has only the Abydos one there
+-- AGP: concept DHD / Earth point of origin: "AGP Glyphs Concept" = the SG-1 glyphs with Earth's point of
+-- origin at '#' (as CAP's concept font); AGP Glyphs SG1 has only the Abydos one there
 local sgc = {
     font = "AGP Glyphs Concept",
     size = 16,
@@ -2120,8 +2120,8 @@ local function ApplyGlyphs(self, galaxy, small)
             end
         end
 
-        -- AGP 2026-11-08: our list is dark: normal rows take the skin's light text (was black, readable only under the
-        -- mouse), blocked gates light red, too little energy dimmed (CAP's colours were for its white list)
+        -- AGP: our list is dark: normal rows take the skin's light text (was black, readable only under the mouse),
+        -- blocked gates light red, too little energy dimmed (CAP's colours were for its white list)
         local col = nil
 
         if (blocked == "true") then
@@ -2180,7 +2180,7 @@ local function ApplyColor(self)
     for i = 1, #mlist do
         local ss = self.VGUI.AddressListView:GetLine(i)
         local energy = ss.Columns[3]:GetValue()
-        local col = nil -- AGP 2026-11-08: the skin's light text on our dark list (was black), too little energy dimmed
+        local col = nil -- AGP: the skin's light text on our dark list (was black), too little energy dimmed
 
         if (energy == "false") then
             col = (AGP and AGP.Colors and AGP.Colors.textDim) or Color(150, 165, 185, 255)

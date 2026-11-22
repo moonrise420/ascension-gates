@@ -149,7 +149,7 @@ if SERVER then
             self.EndPos = self.StartPos -- held at the iris: no beam on this side, no blast in the gate room
             return
         end
-        -- AGP 2026-11-08: a Ha'tak's shield (a shell, not an entity: agp_hatak.lua) holds the beam like the other shields
+        -- AGP: a Ha'tak's shield (a shell, not an entity: agp_hatak.lua) holds the beam like the other shields
         if AGP and AGP.HatakShieldOnPath and self.StargateTrace.HitPos then
             local ship, at = AGP.HatakShieldOnPath(self.StartPos, self.StargateTrace.HitPos)
             if IsValid(ship) then

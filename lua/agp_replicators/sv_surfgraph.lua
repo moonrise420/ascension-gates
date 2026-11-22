@@ -1,19 +1,19 @@
--- Replicators: the way in 3D (owner 2026-11-05: "why not 3D?"). The side view of sv_surfnav.lua sees only the upright
--- slice through a bug and its goal: the wall beside a door, a pillar next to a deck, the part of a wall without a
--- window lay off that slice and were never found. Here the swarm maps the surfaces themselves: points about a step
--- apart on floors, walls and ceilings, each with its own "up", linked where a bug can crawl from one to the next - along
--- a face, into an inside corner (floor to wall, wall to ceiling) or round an outside edge (onto the face beyond it).
--- The links are found by feeling with rays the way its legs do (sv_walk.lua), so a way found is a way it can walk.
--- The map is felt out only where bugs want to go and kept for the whole game (the map's own surfaces for good, a
--- player's props for a few seconds - they move). Over it the shortest way to the goal (A*), in the background, a few
--- milliseconds a tick, and handed over as the same kind of plan the side view makes (N.Step follows it on rails).
--- When the 3D way finds nothing the side view still gets its turn. agp_rep_surf3d 0 turns it off.
+-- Replicators: the way in 3D. The side view of sv_surfnav.lua sees only the upright slice through a bug and its goal:
+-- the wall beside a door, a pillar next to a deck, the part of a wall without a window lay off that slice and were
+-- never found. Here the swarm maps the surfaces themselves: points about a step apart on floors, walls and
+-- ceilings, each with its own "up", linked where a bug can crawl from one to the next - along a face, into an inside
+-- corner (floor to wall, wall to ceiling) or round an outside edge (onto the face beyond it). The links are found by
+-- feeling with rays the way its legs do (sv_walk.lua), so a way found is a way it can walk. The map is felt out
+-- only where bugs want to go and kept for the whole game (the map's own surfaces for good, a player's props for a
+-- few seconds - they move). Over it the shortest way to the goal (A*), in the background, a few milliseconds a tick,
+-- and handed over as the same kind of plan the side view makes (N.Step follows it on rails). When the 3D way finds
+-- nothing the side view still gets its turn. agp_rep_surf3d 0 turns it off.
 local R = AGP.Rep
 local N = R.SurfNav
 local G = N.Graph or {}
 N.Graph = G
--- (off by default - owner 2026-11-06, the lag: the felt map grew to 152,000 points, 517 MB of Lua memory, and the
--- garbage collector's work on it froze the game 70-170 ms again and again; off, it is neither loaded nor fed)
+-- (off by default -, the lag: the felt map grew to 152,000 points, 517 MB of Lua memory, and the garbage
+-- collector's work on it froze the game 70-170 ms again and again; off, it is neither loaded nor fed)
 R.cv.surf3d = R.cv.surf3d or CreateConVar("agp_rep_surf3d", "0", FCVAR_ARCHIVE, "Replicators: plan climbs over a 3D map of surfaces (uses a lot of memory)")
 local CAP = 60000   -- points at most: more, and the map is read again from its file (what was felt since is lost)
 
@@ -127,10 +127,10 @@ local function expand(nd)
 	return nb
 end
 
--- a point read from the saved map: is its surface still there? (owner 2026-11-18, freespace13: "crawling up in the air as
--- if there was a pillar but there was none" - every first climb at the building went 340 up a wall of saved points with
--- nothing there, then fell. Whatever stood there once - a test's block, a changed map - is gone.) Looked at once, the
--- first time a way comes by it; a dead one is never used and not saved again
+-- a point read from the saved map: is its surface still there? (freespace13: "crawling up in the air as if there was a
+-- pillar but there was none" - every first climb at the building went 340 up a wall of saved points with nothing there,
+-- then fell. Whatever stood there once - a test's block, a changed map - is gone.) Looked at once, the first time a
+-- way comes by it; a dead one is never used and not saved again
 local function alive(nd)
 	if nd.ok ~= nil then return nd.ok end
 	local t = tr(nd.p + nd.n * H, nd.p - nd.n * (H + 6))
@@ -224,7 +224,7 @@ function G.Plan(pos, up, goal)
 			closed[nd.k] = true
 			local d = nd.p:Distance(gp)
 			-- (as far as it gets, for a way not all the way: never a point with the goal behind its surface - under the slab
-			-- the goal stands on, 16 from it: the way ended there and the bug hung under it, owner 2026-11-18)
+			-- the goal stands on, 16 from it: the way ended there and the bug hung under it)
 			if d < bestD and (gp - nd.p):Dot(nd.n) > -4 then best, bestD = nd, d end
 			if d < S * 0.8 and not tr(nd.p + nd.n * 4, gp + gn * 4).Hit then found = nd break end
 			n = n + 1
@@ -348,10 +348,10 @@ hook.Add("PostCleanupMap", "AGPRepSurf3DClear", function()
 	for _, nd in pairs(G.nodes) do if nd.prop then nd.nb = nil end end
 end)
 
--- the map felt out once (owner 2026-11-06: "the map data... then we only have player props left and save ticks?"):
--- the points and links over the map's own surfaces are kept per map in data/agp_replicators/<map>_surf.txt and read
--- when the map is up - after that only a player's props (and doors) are felt out live. Links that touched a prop are
--- not kept: they are felt again where they are now.
+-- the map felt out once: the points and links over the map's own surfaces are kept per map in
+-- data/agp_replicators/<map>_surf.txt and read when the map is up - after that only a player's props (and doors) are
+-- felt out live. Links that touched a prop are not kept: they are felt again where they are now.
+--
 local function fileName() return "agp_replicators/" .. game.GetMap():lower():gsub("[^%w_]", "_") .. "_surf.txt" end
 local function r1(x) return math.Round(x, 1) end
 local function r2(x) return math.Round(x, 3) end

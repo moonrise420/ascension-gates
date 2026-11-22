@@ -187,7 +187,7 @@ if SERVER then
         local pos = self.Entity:GetPos()
 
         if (self.Track and self.DroneCount > 0) then
-            -- Track the owner's eyes
+            -- Track a player's eyes
             local p = self.Entity.Owner
 
             if (self.EyeTrack and p and p:IsValid() and p:Alive()) then
@@ -250,13 +250,17 @@ if SERVER then
         if (self.Launched) then
             if (self.DroneCount >= (game.SinglePlayer() and StarGate.CFG:Get("drone", "max_drones_sp", 50) or self.MaxDrones)) then return end -- AGP: single player has its own, bigger limit (Stargate settings > Drone launcher); unlimited could freeze the game
 
-            if (energy < self.energy_drain) then
+            -- AGP: on a StarCore ship the drones are paid like every ship weapon (agp_ship_power: the ship's stores,
+            -- else the ship's own power; ship_weapons.lua) - an unlinked launcher asked its own empty network
+            if (StarGate.WeaponShip and StarGate.WeaponShip(self.Entity)) then
+                if (not StarGate.WeaponEnergy(self.Entity, self.energy_drain)) then self.Launched = false return end
+            elseif (energy < self.energy_drain) then
                 self.Launched = false
 
                 return
+            else
+                self:ConsumeResource("energy", self.energy_drain)
             end
-
-            self:ConsumeResource("energy", self.energy_drain)
             local vel = self.Entity:GetVelocity()
             local up = self.Entity:GetUp()
 
@@ -273,6 +277,9 @@ if SERVER then
             e:SetAngles(self.Entity:GetUp():Angle() + Angle(math.random(-2, 2), math.random(-2, 2), math.random(-2, 2)))
             e:SetOwner(self.Entity) -- Don't collide with this thing here please
             e.Owner = self.Entity.Owner
+            -- AGP: the drones of a launcher on a ship fly through that ship, like the other ship weapons' shots
+            -- (ship_weapons.lua)
+            if (StarGate.MarkShot) then StarGate.MarkShot(e, self.Entity) end
             e:Spawn()
             e:SetVelocity(vel)
             -- This is necessary to make the drone not collide and explode with the cannon when it's moving
@@ -299,7 +306,7 @@ end
 if CLIENT then
     ENT.RenderGroup = RENDERGROUP_OPAQUE -- This FUCKING THING avoids the clipping bug I have had for ages since stargate BETA 1.0. DAMN!
 
-    -- Kill Icon (AGP 2026-11-08: the icon is in VGUI/weapons/, the old path never existed - killfeed showed the default)
+    -- Kill Icon (AGP: the icon is in VGUI/weapons/, the old path never existed - killfeed showed the default)
     if (file.Exists("materials/VGUI/weapons/drone_killicon.vmt", "GAME")) then
         killicon.Add("drone_launcher", "VGUI/weapons/drone_killicon", Color(255, 255, 255))
         killicon.Add("drone", "VGUI/weapons/drone_killicon", Color(255, 255, 255))

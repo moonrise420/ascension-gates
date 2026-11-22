@@ -292,7 +292,7 @@ function SGLanguage.SetClientLanguage(lang)
 end
 
 function SGLanguage.GetMessage(message, ...)
-    -- AGP: a text with %s / %d asked for without its values was a Lua error (the Gate Seeder hit it, 2026-11-09)
+    -- AGP: a text with %s / %d asked for without its values was a Lua error (the Gate Seeder hit it)
     local m = tostring(SGLanguage_Messages[message] or message)
     local ok, out = pcall(Format, m, ...)
     return ok and out or m

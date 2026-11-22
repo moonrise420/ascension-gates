@@ -100,8 +100,8 @@ end
 
 --################# Over filled Init function @ RononDex
 function ENT:Initialize(ply)
-    -- AGP 2026-10-30: own copies per Jumper (the class tables were shared: two Jumpers blocked each other's cooldowns,
-    -- mixed their drone racks and one could not switch its lights off)
+    -- AGP: own copies per Jumper (the class tables were shared: two Jumpers blocked each other's cooldowns, mixed
+    -- their drone racks and one could not switch its lights off)
     self.NextUse = table.Copy(self.NextUse or {})
     self.Flashlight = { NULL, NULL }
     self.DronePropFired = table.Copy(self.DronePropFired or {})
@@ -398,7 +398,7 @@ function ENT:Think()
             end
 
             if (IsValid(self)) then
-                -- AGP 2026-10-30: one press = countdown 5 s, a second press during it = at once
+                -- AGP: one press = countdown 5 s, a second press during it = at once
                 if (AGP.KeyPress(self, self.Pilot, self.Vehicle, "BOOM")) then
                     if (self.AGPDestructAt) then self:DoKill() return end
                     local cv = GetConVar("agp_ship_destruct_time")   -- (admin setting, 5 s by default)

@@ -29,7 +29,7 @@ function ENT:Initialize()
 	self.Naquadah = self.MaxEnergy; --Naquadah energy @Anorr
 	self:AddResource("energy",self.MaxStorage); -- Maximum energy to store in a Naquadah Bottle is 800 units
 	self:SupplyResource("energy",self.MaxStorage);
-	self:CreateWireOutputs("Active","Naquadah %","Naquadah Energy","Health"); -- AGP 2026-11-08: + Health (it was written, but the port did not exist)
+	self:CreateWireOutputs("Active","Naquadah %","Naquadah Energy","Health"); -- AGP: + Health (it was written, but the port did not exist)
 	self:CreateWireInputs("Disable");
 	self.EntHealth = 50
 	self.MaxHealth = self.EntHealth
@@ -116,7 +116,7 @@ end
 --Using aVoN's Wire class thingy ??
 function ENT:TriggerInput(name,value)
 	if(name == "Disable") then
-		-- AGP 2026-11-08: dropped SetWire("Disabled"): no such output, it only echoed this input ("Active" reads 0 while disabled)
+		-- AGP: dropped SetWire("Disabled"): no such output, it only echoed this input ("Active" reads 0 while disabled)
 		if (value == 1) then
 			self.disabled = true;
 		else

@@ -38,8 +38,8 @@ if SERVER then
         Staff = Sound("pulse_weapon/staff_weapon.mp3")
     }
 
-    -- AGP (our own, 2026-11-09): optional free flight (hover, strafe, climb/descend, reverse). Off by default: the classic
-    -- glider flies forward only, like in the show.
+    -- AGP (our own): optional free flight (hover, strafe, climb/descend, reverse). Off by default: the classic glider
+    -- flies forward only, like in the show.
     local agp_glider_free_flight = CreateConVar("agp_glider_free_flight", "0", {FCVAR_ARCHIVE, FCVAR_NOTIFY}, "1 = Death Gliders can hover, strafe, climb and fly backwards (free flight); 0 = classic forward-only flight", 0, 1)
 
     --######## Pretty useless unless we can spawn it @RononDex
@@ -114,8 +114,8 @@ if SERVER then
         end
     end
 
-    -- AGP (our own values, 2026-11-09): the optional free flight (agp_glider_free_flight) of a light, quick fighter -
-    -- faster forward than a cargo ship, quick to strafe and climb, slow in reverse; the fire delay stays CAP's
+    -- AGP (our own values): the optional free flight (agp_glider_free_flight) of a light, quick fighter - faster
+    -- forward than a cargo ship, quick to strafe and climb, slow in reverse; the fire delay stays CAP's
     function ENT:ApplyFlightModel()
         if (agp_glider_free_flight:GetBool()) then
             self.ForwardSpeed = 2200
@@ -131,7 +131,7 @@ if SERVER then
             self.GoesUp = true
         else
             self.ForwardSpeed = 2000
-            self.BackwardSpeed = -600   -- AGP: S flies backwards slowly (owner)
+            self.BackwardSpeed = -600   -- AGP: S flies backwards slowly
             self.UpSpeed = 0
             self.MaxSpeed = 2750
             self.RightSpeed = 0
@@ -322,7 +322,10 @@ if CLIENT then
         if (not IsValid(g) or g:GetClass() ~= "sg_vehicle_glider" or not g.FirstPerson) then return end
         local mn, mx = g:OBBMins(), g:OBBMaxs()
         local eye = g:LocalToWorld(Vector(mx.x * 0.25, 0, mn.z + (mx.z - mn.z) * 0.7))
-        return { origin = eye, angles = ply:GetAimVector():Angle(), fov = fov, drawviewer = false }
+        local turned = AGP_PortalTurnAim and AGP_PortalTurnAim()   -- (agp_portal: the aim turned by a doorway, this frame)
+        local o, a = eye, turned and Angle(turned.p, turned.y, 0) or ply:GetAimVector():Angle()
+        if (AGP_PortalCamera) then o, a = AGP_PortalCamera(g:WorldSpaceCenter(), o, a) end   -- (the canopy ahead through a launch slot first)
+        return { origin = o, angles = a, fov = fov, drawviewer = false }
     end)
     function ENT:Draw()
         local g = LocalPlayer():GetNetworkedEntity("ScriptedVehicle", NULL)

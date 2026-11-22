@@ -1,4 +1,4 @@
-// Ascension Gates: Swedish texts (2026-10-19)
+// Ascension Gates: Swedish texts
 cat_capital_ship = Stora skepp
 cat_small_ship = Skepp
 cat_others = Övrigt
@@ -50,7 +50,7 @@ wp_m9_berreta = SGC Sidearm
 wp_ori_hand = Ori-handvapen
 wp_goauld_zatarc = Goa'uld-Zatarc
 
-// Sammanslagning av EAP-funktioner (2026-10-19)
+// Sammanslagning av EAP-funktioner
 key_malp_control = Sluta styra
 vis_wormhole = Animation för maskhålsresa
 vis_wormhole_desc = Visar maskhålstunneln när du reser genom en port (bara om servern använder maskhålssekvensen). Av = direkt resa.
@@ -91,7 +91,7 @@ agp_info_btn_close = Nu kör vi!
 agp_info_dontshow = Visa inte detta vid start igen
 agp_gtsp_saved = Gate-spawner sparad för %s. Den laddas automatiskt varje gång kartan startar.
 agp_credits_about = Om
-// gate spawner, Grid Power, life support, units (2026-10-21)
+// gate spawner, Grid Power, life support, units
 agp_gs_title = Gate-spawner
 agp_gs_help = Placera gates, DHD:er, ringar och ramper som vanligt och tryck på "Spara karta": de dyker upp varje gång kartan startar. Dubbelklicka på en del för att gå dit, högerklicka för att ta bort den.
 agp_gs_status = Karta: %s\nSpawner: %s\nAnvänder: %s\nDelar: %d
@@ -149,7 +149,7 @@ agp_unit_temp = Temperatur
 agp_unit_gravity = Gravitation
 agp_unit_auto = Auto (ditt land)
 agp_unit_auto_g = Auto (g)
-// our parts: names, suit HUD, gate report, screens, link tool, chat, resources (2026-10-21)
+// our parts: names, suit HUD, gate report, screens, link tool, chat, resources
 agp_ent_cell_xs = Energicell (XS)
 agp_ent_cell_small = Energicell (S)
 agp_ent_cell_medium = Energicell (M)
@@ -751,7 +751,7 @@ agp_hkm_c_reps_core = Replikatorer vid energikärnan!
 agp_arg_name = Antireplikatorvapen
 agp_arg_purpose = Förinta de där krypen
 agp_arg_instr = Vänsterklick - avfyra antireplikatorvåg, håll R - sök en ny frekvens
-// window texts (2026-11-10)
+// window texts
 agp_ui_hyperspace = Hyperrymd
 agp_ui_target = Mål
 agp_ui_jump_target = Hoppa till valt mål
@@ -834,7 +834,7 @@ agp_ui_autolink = Koppla automatiskt till en resursnod
 agp_ui_add_velocity = Skottet får kanonens egen fart tillagd
 agp_ui_autoweld = Svetsa automatiskt
 agp_ui_empty = (tom)
-// Ha'tak consoles (2026-11-10)
+// Ha'tak consoles
 agp_hk_weapons = VAPEN
 agp_hk_staff_cannons = STAVKANONER
 agp_hk_charging = LADDAR
@@ -958,7 +958,7 @@ agp_hk_nearest_ring = Närmaste ring utanför skeppet
 agp_hk_glyph_pad = Goa'uld-symbolpanel
 agp_hk_t_mark = Märke %s
 agp_hk_t_player = Spelare %s
-// Ha'tak messages, crew announcements and ship log (2026-11-10)
+// Ha'tak messages, crew announcements and ship log
 agp_hkm_w_ship = Ha'tak
 agp_hkm_w_engine = Ha'tak maskinrum
 agp_hkm_w_computer = Ha'tak datorkärna
@@ -1312,6 +1312,16 @@ agp_ship_title_all = Alla skepp
 agp_ship_shieldvis = Sköldbubbla
 agp_ship_shieldvis0 = Bara vid träff eller på/av
 agp_ship_shieldvis1 = Alltid synlig
+agp_ship_wenergy = Vapen använder energi
+agp_ship_wenergy0 = Aldrig (gratis)
+agp_ship_wenergy1 = När anslutna
+agp_ship_wenergy2 = Alltid
+agp_ship_spower = Vapnen använder skeppets energi
+agp_ship_tip_spower = Ja: ett vapen på ett StarCore-skepp tar skeppets energi - först från dess ZPM:er, generatorer och batterier, annars skeppets egen energi.
+agp_ship_wbalance = Vapen mot skepp
+agp_ship_wbalance0 = AGP-sandlåda
+agp_ship_wbalance1 = Seriens styrka
+agp_ship_tip_wbalance = Seriens styrka: vapnen träffar skepp lika hårt som i serien, handvapen repar knappt ett skrov. AGP-sandlåda: varje vapens egen skada.
 agp_ship_destructtime = Självförstörelse: nedräkning (sekunder)
 agp_ship_tip_shieldvis = Alltid: varje skepps sköldbubbla lyser svagt medan skölden är på. Annars syns den bara vid träff och när den slås på eller av.
 agp_ship_tip_destructtime = Sekunder från att självförstörelsetangenten trycks till explosionen. Ett andra tryck spränger skeppet direkt.

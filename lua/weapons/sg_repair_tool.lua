@@ -1,5 +1,5 @@
--- AGP 2026-11-12: the loader's own SWEP table (a local one registered by a 0.1 s timer came after the spawn menu was
--- built: the weapon had no class name there yet and was left out of the weapons tab)
+-- AGP: the loader's own SWEP table (a local one registered by a 0.1 s timer came after the spawn menu was built: the
+-- weapon had no class name there yet and was left out of the weapons tab)
 
 if (StarGate == nil or StarGate.CheckModule == nil or not StarGate.CheckModule("weapon")) then return end
 
@@ -37,8 +37,8 @@ function SWEP:CanPrimaryAttack() return false end
 function SWEP:CanSecondaryAttack() return false end
 function SWEP:ShouldDropOnDie() return false end
 
--- AGP 2026-11-08: the welding loop plays exactly while the tool repairs (it stayed on after looking away, letting go
--- of the key elsewhere, switching weapons or losing the tool)
+-- AGP: the welding loop plays exactly while the tool repairs (it stayed on after looking away, letting go of the key
+-- elsewhere, switching weapons or losing the tool)
 function SWEP:AGPWeldSound(on)
 	local snd = self.Weldsound
 	if (not snd) then return end
@@ -87,7 +87,7 @@ if SERVER then
 			end
 		end
 
-		local welding = false -- AGP 2026-11-08: repairing something this tick (drives the welding sound below)
+		local welding = false -- AGP: repairing something this tick (drives the welding sound below)
 
 		if(self.Owner:GetShootPos():Distance(self.Trace.HitPos) < 300) then
 				if(IsValid(self.Trace.Entity) and self.Trace.Entity.EntHealth and self.Trace.Entity.MaxHealth) then
@@ -99,8 +99,8 @@ if SERVER then
 					self:SetNWString("screencol","100 200 100 255")
 					self:SetNWString("repairname",self.Trace.Entity:GetNWString("WireName", self.Trace.Entity.PrintName) or trclass)
 
-					-- AGP 2026-11-08: (was: start on the key press, stop on the release or at full health - only while
-					-- still aiming at it, so looking away or letting go elsewhere left the loop playing)
+					-- AGP: (was: start on the key press, stop on the release or at full health - only while still
+					-- aiming at it, so looking away or letting go elsewhere left the loop playing)
 					welding = curhp < maxhp and self.Trace.Entity.HealthRepair != nil
 				else
 					self:SetNWInt("health",0)
@@ -119,7 +119,7 @@ if SERVER then
 
 						if(CurHP >= MaxHP) then
 							local fullpitch = math.random(100,125)
-						elseif (self.Trace.Entity.HealthRepair) then -- AGP 2026-11-08: only what can be repaired (a Lua error every tick on things without it)
+						elseif (self.Trace.Entity.HealthRepair) then -- AGP: only what can be repaired (a Lua error every tick on things without it)
 							local effectData = EffectData()
 							effectData:SetOrigin(self.Trace.HitPos)
 							effectData:SetNormal(self.Trace.HitNormal)
@@ -144,7 +144,7 @@ if SERVER then
 			self:SetNWString("repairname","Repair")
 		end
 
-		self:AGPWeldSound(welding and self:GetOwner():KeyDown(IN_ATTACK)) -- AGP 2026-11-08: on while repairing, else off
+		self:AGPWeldSound(welding and self:GetOwner():KeyDown(IN_ATTACK)) -- AGP: on while repairing, else off
 	end
 end
 

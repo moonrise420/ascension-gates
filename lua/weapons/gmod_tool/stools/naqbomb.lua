@@ -57,7 +57,7 @@ function TOOL:LeftClick(t)
 
 	local e = self:SpawnSENT(p,t,model,detcode,abcode,time,yield, hud, cart, autoweld);
 	if (not IsValid(e)) then return end
-	if (cart and string.lower(model) == "models/markjaw/gate_buster.mdl") then e:SetPos(e:GetPos()+Vector(0,0,25)) end -- AGP 2026-11-08: without case (the list says "MarkJaw", so the Gate Buster never got its cart)
+	if (cart and string.lower(model) == "models/markjaw/gate_buster.mdl") then e:SetPos(e:GetPos()+Vector(0,0,25)) end -- AGP: without case (the list says "MarkJaw", so the Gate Buster never got its cart)
 	e:Setup(detcode, abcode, yield, time, hud, cart, p)
 	self.Instancing = false
 	if (self.Instancing) then

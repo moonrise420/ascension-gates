@@ -1,5 +1,5 @@
--- AGP 2026-11-12: the loader's own SWEP table (a local one registered by a 0.1 s timer came after the spawn menu was
--- built: the weapon had no class name there yet and was left out of the weapons tab)
+-- AGP: the loader's own SWEP table (a local one registered by a 0.1 s timer came after the spawn menu was built: the
+-- weapon had no class name there yet and was left out of the weapons tab)
 SWEP.PrintName      = "Tollan Hands"
 SWEP.DrawCrosshair	= true
 SWEP.SlotPos = 1

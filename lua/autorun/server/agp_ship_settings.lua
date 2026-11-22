@@ -20,10 +20,17 @@ local SETTINGS = {
     agp_hatak_cloak = { def = 1, min = 0, max = 1, help = "Ha'tak: the cloak may be used" },
     agp_hatak_glider_respawn = { def = 1, min = 0, max = 1, help = "Ha'tak glider bay: lost gliders come back on their pads" },
     agp_hatak_glider_respawn_time = { def = 60, min = 10, max = 600, help = "Ha'tak glider bay: seconds until a lost glider comes back" },
-    -- (owner 2026-11-11) every ship with a shield: the bubble always visible while the shield is up (default: only when
-    -- it is hit or switched on / off); the countdown of the ships' self-destruct key
+    -- every ship with a shield: the bubble always visible while the shield is up (default: only when it is hit or
+    -- switched on / off); the countdown of the ships' self-destruct key
     agp_ship_shield_visible = { def = 0, min = 0, max = 1, help = "Ships: the shield bubble stays visible while the shield is up (0 = only when hit or switched)" },
     agp_ship_destruct_time = { def = 5, min = 1, max = 600, help = "Ships: seconds of the self-destruct countdown" },
+    -- the ship weapons' energy (stargate/server/ship_weapons.lua; also made in stargate/shared/init.lua)
+    agp_weapon_energy = { def = 1, min = 0, max = 2, help = "Ascension Gates: weapons' energy - 0 = free, 1 = use energy when connected to a network (unconnected fire free), 2 = always need energy" },
+    -- weapons against ships: 1 = series power (ranked as in the series, hand weapons 5 %), 0 = AGP sandbox (each
+    -- weapon's own damage); stargate/server/ship_weapons.lua StarGate.HullFactor a weapon
+    -- welded on a StarCore ship uses the ship's power (stargate/server/ship_weapons.lua)
+    agp_ship_power = { def = 1, min = 0, max = 1, help = "Ascension Gates: weapons on a StarCore ship use the ship's power - its ZPMs, generators and batteries first, else the ship's own power (0 = off)" },
+    agp_weapon_balance = { def = 1, min = 0, max = 1, help = "Ascension Gates: weapons against ships - 1 = series power (as strong as in the series, hand weapons 5 %), 0 = AGP sandbox (each weapon's own damage)" },
 }
 for name, s in pairs(SETTINGS) do CreateConVar(name, tostring(s.def), FCVAR_ARCHIVE + FCVAR_NOTIFY, s.help, s.min, s.max) end
 

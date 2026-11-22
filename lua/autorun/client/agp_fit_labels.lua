@@ -1,9 +1,9 @@
 --[[
-	Ascension Gates: every text on our pages readable in every language (2026-11-10 full check). GMod's tool and settings
-	pages give a choice box, a text field or a slider a label column of a fixed width (100 - 125 px): a longer label
-	("Weapons fire at owner and friends", "Código de cancelación:") was cut off. After one of our pages is built, a label
-	that does not fit moves onto its own line(s) above its control, at the full width; the control keeps its height.
-	Only our own pages (tools and settings of Ascension Gates, PowerGrid, StarCore, Black Hole Cache), not other addons'.
+	Ascension Gates: every text on our pages readable in every language (full check). GMod's tool and settings pages give
+	a choice box, a text field or a slider a label column of a fixed width (100 - 125 px): a longer label ("Weapons
+	fire at owner and friends", "Código de cancelación:") was cut off. After one of our pages is built, a label that does
+	not fit moves onto its own line(s) above its control, at the full width; the control keeps its height. Only our
+	own pages (tools and settings of Ascension Gates, PowerGrid, StarCore, Black Hole Cache), not other addons'.
 ]]
 AGP = AGP or {}
 

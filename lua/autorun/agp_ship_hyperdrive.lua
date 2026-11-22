@@ -1,6 +1,6 @@
--- Ascension Gates (2026-10-30): hyperdrive for the pilotable big ships (Daedalus, Prometheus, O'Neill, Aurora, Wraith
--- cruiser, Al'kesh; Destiny: FTL). Built like the Tel'tak's: hold the HYPERSPACE key (H) to charge the distance, release
--- it (or reach full charge) to jump forward by that distance, or towards the Wire "Hyperspace" target when one is set.
+-- Ascension Gates: hyperdrive for the pilotable big ships (Daedalus, Prometheus, O'Neill, Aurora, Wraith cruiser,
+-- Al'kesh; Destiny: FTL). Built like the Tel'tak's: hold the HYPERSPACE key (H) to charge the distance, release it (or
+-- reach full charge) to jump forward by that distance, or towards the Wire "Hyperspace" target when one is set.
 --  * The ship sets ENT.AGPHyperRange (max distance), optional ENT.AGPHyperChargeTime (s to full), ENT.AGPHyperFTL (Destiny
 --    look and sounds), ENT.AGPHyperSharedHUD (shared, for a ship without its own HUD: a small box at the bottom).
 --  * Server: AGP.ShipHyperdriveThink(ship) from the ship's Think, AGP.ShipHyperdriveInput(ship, k, v) from TriggerInput.
@@ -96,8 +96,8 @@ if SERVER then
     end
     AGP.ShipHyperWindow = window
 
-    -- AGP 2026-11-08: the window a ship comes out of stays BEHIND it (owner: it has left hyperspace, so the window is at
-    -- its stern, not ahead of it). Call right after the ship was moved to the target; dir = the way it travelled.
+    -- AGP: the window a ship comes out of stays BEHIND it (it has left hyperspace, so the window is at its stern, not
+    -- ahead of it). Call right after the ship was moved to the target; dir = the way it travelled.
     function AGP.ShipHyperArrive(ship, dir, radius, life)
         local f, r, u = ship:GetForward(), ship:GetRight(), ship:GetUp()
         local mn, mx = ship:OBBMins(), ship:OBBMaxs()
@@ -118,7 +118,7 @@ if SERVER then
                 end
             end
         end
-        -- AGP 2026-10-30: props welded/constrained to the ship come along (they stayed behind before)
+        -- AGP: props welded/constrained to the ship come along (they stayed behind before)
         local parts = {}
         for _, e in pairs(constraint.GetAllConstrainedEntities(ship) or {}) do
             if IsValid(e) and e ~= ship and not e:IsWorld() and not e:IsPlayer() and e:GetParent() ~= ship then
@@ -182,7 +182,7 @@ if SERVER then
             end
             moveShip(ship, dir * free)
             local c = ship:LocalToWorld(ship:OBBCenter())
-            AGP.ShipHyperArrive(ship, dir, radius, ftl and 0.9 or 1.8)   -- AGP 2026-11-08: behind the ship (was ahead of it)
+            AGP.ShipHyperArrive(ship, dir, radius, ftl and 0.9 or 1.8)   -- AGP: behind the ship (was ahead of it)
             sound.Play(ftl and "eap/hyperespace/destiny_ftl_jump_out.wav" or "eap/hyperespace/hyper_window_close.wav", c, 140)
         end)
     end

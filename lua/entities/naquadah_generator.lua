@@ -38,7 +38,7 @@ if SERVER then
     --################# Init
     function ENT:Initialize()
         self.Entity:SetModel("models/naquada-reactor.mdl")
-        self.Entity:SetMaterial("models/reactor-skin-off") -- AGP 2026-11-10: without "materials/" (with it the client drew the purple error texture)
+        self.Entity:SetMaterial("models/reactor-skin-off") -- AGP: without "materials/" (with it the client drew the purple error texture)
         self.Entity:PhysicsInit(SOLID_VPHYSICS)
         self.Entity:SetMoveType(MOVETYPE_VPHYSICS)
         self.Entity:SetSolid(SOLID_VPHYSICS)
@@ -48,7 +48,7 @@ if SERVER then
         self.Generate = StarGate.CFG:Get("naq_gen_mk1", "generate", 130)
         self.GenMulti = StarGate.CFG:Get("naq_gen_mk1", "multiplier", 20)
         self:CreateWireInputs("ON/OFF", "Disable Use")
-        self:CreateWireOutputs("Active", "Naquadah", "Naquadah %", "Energy", "Health") -- AGP 2026-11-08: + Health (it was written, but the port did not exist)
+        self:CreateWireOutputs("Active", "Naquadah", "Naquadah %", "Energy", "Health") -- AGP: + Health (it was written, but the port did not exist)
         self.EntHealth = 100
         self.MaxHealth = self.EntHealth
         self:SetWire("Health", self.EntHealth)
@@ -102,7 +102,7 @@ if SERVER then
 
             -- No Naquadah available anymore - We are dead!
             if (Naquadah <= 0) then
-                self.Entity:SetMaterial("models/reactor-skin-off") -- AGP 2026-11-10: without "materials/" (with it the client drew the purple error texture)
+                self.Entity:SetMaterial("models/reactor-skin-off") -- AGP: without "materials/" (with it the client drew the purple error texture)
                 self.depleted = true
                 self.enabled = false
                 self:Off()

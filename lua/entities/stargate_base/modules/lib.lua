@@ -608,9 +608,9 @@ end
 
 --################# Find's special DHD's which may power this gate @Mad
 function ENT:FindPowerDHD()
-	-- AGP 2026-11-08: "not self:GetClass()=="dhd_city"" was always false (a gate is never a dhd_city), so a locked DHD
-	-- was never the gate's power (out of range or nearer another gate: "low energy"); meant: the locked DHD is no City DHD
-	-- (those never power a gate, see the loop below)
+	-- AGP: "not self:GetClass()=="dhd_city"" was always false (a gate is never a dhd_city), so a locked DHD was never
+	-- the gate's power (out of range or nearer another gate: "low energy"); meant: the locked DHD is no City DHD (those
+	-- never power a gate, see the loop below)
 	if (IsValid(self.LockedDHD) and (not self.LockedDHD.Destroyed or util.tobool(GetConVar("stargate_dhd_destroyed_energy"):GetInt())) and self.LockedDHD:GetClass()~="dhd_city") then
 		if self.LockedDHD.Disabled then return {} end
 		return {self.LockedDHD} 

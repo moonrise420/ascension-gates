@@ -40,8 +40,8 @@ function EFFECT:Init(data)
 	self.Parent = e;
 	self.LastMul = 0;
 	self.Size = e:BoundingRadius()*1.4; -- The "Collapse's" size
-	-- (AGP 2026-11-13: these bounds stay as they were although the Supergate's horizon is bigger - the engine sorts see-through
-	-- things by their bounds, and with a bigger box this white overlay was drawn after the vortex and covered it)
+	-- (AGP: these bounds stay as they were although the Supergate's horizon is bigger - the engine sorts see-through things by
+	-- their bounds, and with a bigger box this white overlay was drawn after the vortex and covered it)
 	self:SetRenderBounds(Vector(1,1,1)*-1024,Vector(1,1,1)*1024);
 	e.CurrentHorizonEffect = self.Entity;
 	self.Draw = true;
@@ -108,8 +108,8 @@ function EFFECT:Render()
 				self.Parent:SetAlpha(math.Clamp(255*(1-mul^pow)^0.4,1,255));
 			end
 			self.Entity:SetColor(Color(185,185,205,math.Clamp((mul^pow)*255,1,255)));
-			-- AGP 2026-11-13: this overlay is the horizon's own model in the horizon's own place - on the Supergate's huge horizon the two
-			-- fought over the depth buffer (dark streaks through the opening, filmed). Drawn a hair nearer to the eye.
+			-- AGP: this overlay is the horizon's own model in the horizon's own place - on the Supergate's huge horizon the two fought over
+			-- the depth buffer (dark streaks through the opening, filmed). Drawn a hair nearer to the eye.
 			render.MaterialOverride(self.Material);
 			render.DepthRange(0,0.99999);
 			self.Entity:DrawModel();

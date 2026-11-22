@@ -123,12 +123,12 @@ if SERVER then
     function ENT:SpawnButtons(p)
         entt = entt or {}
         local ang = self:GetAngles()
-        util.PrecacheModel(AGP.ModelOr("models/beer/wiremod/numpad.mdl")) -- AGP 2026-11-08: base-game model without Wiremod (lua/autorun/agp_fallback_models.lua)
+        util.PrecacheModel(AGP.ModelOr("models/beer/wiremod/numpad.mdl")) -- AGP: base-game model without Wiremod (lua/autorun/agp_fallback_models.lua)
         local ent = ents.Create("ship_hangar_button")
-        if (IsValid(ent)) then ent.DoNotDuplicate = true end   -- (2026-11-12: built by its parent, which builds it again after a save or a paste - copied as well it was there twice)
+        if (IsValid(ent)) then ent.DoNotDuplicate = true end   -- (built by its parent, which builds it again after a save or a paste - copied as well it was there twice)
         ent:SetAngles(ang + Angle(35, -90, 0))
         ent:SetPos(self:LocalToWorld(Vector(-469.94, -622.5, 48)))
-        ent:SetModel(AGP.ModelOr("models/beer/wiremod/numpad.mdl")) -- AGP 2026-11-08: base-game model without Wiremod (lua/autorun/agp_fallback_models.lua)
+        ent:SetModel(AGP.ModelOr("models/beer/wiremod/numpad.mdl")) -- AGP: base-game model without Wiremod (lua/autorun/agp_fallback_models.lua)
         ent:Spawn()
         ent:Activate()
         ent:SetColor(Color(0, 0, 0, 0))
@@ -231,7 +231,7 @@ if SERVER then
         ent = ents.Create("prop_physics")
         ent:SetAngles(ang + Angle(35, -90, 0))
         ent:SetPos(self:LocalToWorld(Vector(-430, -621.5, 49)))
-        ent:SetModel(AGP.ModelOr("models/led2.mdl")) -- AGP 2026-11-08: base-game model without Wiremod (lua/autorun/agp_fallback_models.lua)
+        ent:SetModel(AGP.ModelOr("models/led2.mdl")) -- AGP: base-game model without Wiremod (lua/autorun/agp_fallback_models.lua)
         ent:Spawn()
         ent:Activate()
         ent:SetParent(self)
@@ -410,7 +410,7 @@ if SERVER then
             WireLib.ApplyDupeInfo(ply, Ent, Ent.EntityMods.HangarConDupeInfo.WireData, function(id) return CreatedEntities[id] end)
         end
 
-        -- AGP 2026-11-10: a hangar copied without its doors was a Lua error on paste; it gets new doors then
+        -- AGP: a hangar copied without its doors was a Lua error on paste; it gets new doors then
         local d1 = dupeInfo and dupeInfo.Door1 and CreatedEntities[dupeInfo.Door1]
         local d2 = dupeInfo and dupeInfo.Door2 and CreatedEntities[dupeInfo.Door2]
         if IsValid(d1) and IsValid(d2) then

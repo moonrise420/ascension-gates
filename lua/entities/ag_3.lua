@@ -6,7 +6,7 @@
 ENT.Type = "anim"
 ENT.Base = "base_anim"
 ENT.PrintName = "AG-3 Satelitte"
-ENT.WireDebugName = "AG-3 Satelitte"
+ENT.WireDebugName = "AG-3 Satellite"
 ENT.Author = "Madman07, Rafael De Jongh"
 ENT.Instructions = ""
 ENT.Contact = ""
@@ -95,7 +95,7 @@ if SERVER then
     end
 
     -- master (the first of a player's satellites: its Wire inputs fire the group) or one of its satellites
-    -- AGP 2026-11-10: also after a paste - a duplicated AG-3 had no Wire ports and never became a master
+    -- AGP: also after a paste - a duplicated AG-3 had no Wire ports and never became a master
     function ENT:AGPSetupNet(ply)
         self.Owner = ply
         self.IsMaster = self:FindSatellites(self)
@@ -133,7 +133,7 @@ if SERVER then
         return ent
     end
 
-    function ENT:PreEntityCopy()   -- AGP 2026-11-10: its Wire links are kept in dupes
+    function ENT:PreEntityCopy()   -- AGP: its Wire links are kept in dupes
     	if (StarGate.WireRD) then StarGate.WireRD.PreEntityCopy(self) end
     end
 

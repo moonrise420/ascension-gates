@@ -128,6 +128,7 @@ if SERVER then
             if e.IgnoreTouch then return end -- Gloabal for anyone, who want's to make his scripts "staff-passable"
             if self.Passed[e] then return end -- We already passed this entity. Don't touch it again
             if (self.CoreNotCollide and self.CoreEntity == e) then return end -- avoid owner shields
+            if (self.AGPFrom and StarGate.ShotPasses(self, e)) then return end -- AGP: never its own ship or own shield
             local pos = data.HitPos
             local world = e:IsWorld()
             local owner = self.Entity:GetOwner()
@@ -278,8 +279,8 @@ if SERVER then
 
         fx:SetMagnitude(self.Size)
         local c = self.Entity:GetColor()
-        -- AGP 2026-11-08: a staff weapon with "colorize explosion" off (tool presets) sends no colour for the explosion:
-        -- it keeps the standard staff colour (the effect's default). The impact always has the shot's colour.
+        -- AGP: a staff weapon with "colorize explosion" off (tool presets) sends no colour for the explosion: it keeps
+        -- the standard staff colour (the effect's default). The impact always has the shot's colour.
         if (effect == "energy_explosion" and self.PlainExplosion) then
             fx:SetAngles(Angle(0, 0, 0))
         else
@@ -397,7 +398,7 @@ if CLIENT then
         local start = self.Entity:GetPos()
         local color = self.Entity:GetColor()
 
-        -- AGP 2026-11-08: a staff weapon with the shaft off (tool presets, e.g. Quantum Torpedo) marks its shots
+        -- AGP: a staff weapon with the shaft off (tool presets, e.g. Quantum Torpedo) marks its shots
         if (self.DrawShaft and not self:GetNWBool("AGPNoShaft", false)) then
             local velo = self.Entity:GetVelocity()
             local dir = -1 * velo:GetNormalized()

@@ -11,8 +11,8 @@ SWEP.Slot = 3
 SWEP.SlotPos = 5
 SWEP.DrawAmmo	= false
 SWEP.DrawCrosshair = true
--- AGP 2026-11-08: Garry's Mod's own hands with the fists animations (agp_weapon_hands.lua); c_arms_animations.mdl
--- without UseHands showed no hands at all
+-- AGP: Garry's Mod's own hands with the fists animations (agp_weapon_hands.lua); c_arms_animations.mdl without
+-- UseHands showed no hands at all
 SWEP.ViewModel = "models/weapons/c_arms.mdl"
 SWEP.ViewModelFOV = 54
 SWEP.UseHands = true
@@ -71,7 +71,7 @@ local Sounds = {
 	Hit=Sound("shields/personal_impact.wav")
 }
 
--- AGP 2026-11-08: the gene check runs again after a drop + pick-up (OnDrop removes it; it was only made in Initialize)
+-- AGP: the gene check runs again after a drop + pick-up (OnDrop removes it; it was only made in Initialize)
 function SWEP:AGPStartATACheck()
 	timer.Create("Personal Shield ATACheck"..self:EntIndex(),1,0,function()
 		-- only someone with the Ancient gene can keep it running (the check was inverted: it switched off for gene carriers)
@@ -137,7 +137,7 @@ end
 
 function SWEP:PrimaryAttack()
 	if(StarGate.HasATA(self.Owner,true)) then
-		-- AGP 2026-11-08: the hands come up as the shield goes on (first person)
+		-- AGP: the hands come up as the shield goes on (first person)
 		if (not self:GetOwner().pShielded and self.AGPHandsPlay) then self:AGPHandsPlay("fists_draw", 1.5) end
 		self:TurnOn()
 	end
@@ -250,5 +250,5 @@ function SWEP:PrimaryAttack() end
 function SWEP:SecondaryAttack() end
 end
 
--- AGP 2026-11-08: the hands come up on deploy and rest in the fists idle (agp_weapon_hands.lua)
+-- AGP: the hands come up on deploy and rest in the fists idle (agp_weapon_hands.lua)
 if (AGP and AGP.HandsWeapon) then AGP.HandsWeapon(SWEP) end

@@ -645,12 +645,12 @@ if CLIENT then
 
 end
 
--- AGP 2026-11-12 (owner: "CAP's is way better held in the hand - why can't we have it exactly the same way"): CAP's own
--- first-person model and animations, with the player's own hands laid onto its arm skeleton
--- (lua/autorun/agp_blueprint_arms.lua). 2026-11-10's GMod hand animations never fitted this item.
+-- AGP: CAP's own first-person model and animations, with the player's own hands laid onto its arm skeleton
+-- (lua/autorun/agp_blueprint_arms.lua). GMod hand animations never fitted this item.
+--
 if (AGP and AGP.BlueprintArms) then
     AGP.BlueprintArms(SWEP, { vm = "models/Boba_Fett/portable_dhd/v_portable_dhd.mdl", hide = { "v_hands" }, arms = AGP.BlueprintRigs.izi2 })
 end
 
--- AGP 2026-11-12: its buttons are heard (agp_weapon_hands.lua)
+-- AGP: its buttons are heard (agp_weapon_hands.lua)
 if (AGP and AGP.ClickSounds) then AGP.ClickSounds(SWEP, { primary = "kino/kino_turn_on.wav", gap = 0.6 }) end

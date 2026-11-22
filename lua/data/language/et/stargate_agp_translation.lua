@@ -1,4 +1,4 @@
-// Ascension Gates: Estonian texts CAP never translated (2026-10-19)
+// Ascension Gates: Estonian texts CAP never translated
 
 // ===== failist stargate.lua =====
 stargate_c_tool_01 = Luba rõnga pöörlemine

@@ -1,4 +1,4 @@
-// Ascension Gates: Croatian texts CAP never translated (2026-10-19)
+// Ascension Gates: Croatian texts CAP never translated
 
 // ===== iz datoteke stargate.lua =====
 stargate_c_tool_01 = Uključi rotaciju prstena

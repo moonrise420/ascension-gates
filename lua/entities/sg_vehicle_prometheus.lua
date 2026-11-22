@@ -1,8 +1,8 @@
 --[[
-	Prometheus (the BC-303 of the series) - Ascension Gates' own code and model (2026-11-07), designed after the series
-	(notes/models/agp_prometheus_ship_*.py).
-	EAP's model and code are gone; the class name stays "sg_vehicle_prometheus", so saves and dupes keep working (same
-	Wire names, same keyboard layout "Prometheus"). Built on:
+	Prometheus (the BC-303 of the series) - Ascension Gates' own code and model, designed after the series. EAP's model
+	and code are gone; the class name stays
+	"sg_vehicle_prometheus", so saves and dupes keep working (same Wire names, same keyboard layout "Prometheus").
+	Built on:
 	  * the ship base sg_vehicle_base (CAP, RononDex): flying, getting in / out, the camera
 	  * CAP's F-302 missile (302missile, Zup / aVoN, the same the Daedalus fires) for the missiles
 	  * our own ship systems (lua/autorun/agp_ship_shield.lua, agp_ship_hyperdrive.lua): shield, hull damage,
@@ -25,15 +25,15 @@ ENT.AGPSupergateDHD = true      -- R: dial menu of the nearest Supergate (or Sta
 ENT.AGPHyperRange = 30000       -- hyperdrive (H): longest jump
 list.Set("CAP.Entity", ENT.PrintName, ENT)
 
--- our own model, designed after the series (notes/models/agp_prometheus_ship_models.py)
+-- our own model, designed after the series
 local MODEL = "models/agp/prometheus/agp_prometheus.mdl"
 function ENT:AGPModel() return MODEL end
 
 -- the shield bubble: a long flat ellipsoid round the hull, the tower with its masts and the pods (fitted round every
--- point, 2026-11-07)
+-- point)
 ENT.AGPShield = { model = "models/iziraider/shields/4x4x3.mdl", yaw = 0, offset = Vector(38, 0, 115), scale = Vector(0.77, 0.34, 0.42), color = { 0.6, 0.8, 1 } }
--- (2026-11-07 balance, the series' order: Ori > O'Neill > Aurora > Daedalus > Destiny > Prometheus > Al'kesh > Tel'tak)
--- the shield holds 20000 damage (a beam: 20 s)
+-- (balance, the series' order: Ori > O'Neill > Aurora > Daedalus > Destiny > Prometheus > Al'kesh > Tel'tak) the shield
+-- holds 20000 damage (a beam: 20 s)
 ENT.AGPShieldHP, ENT.AGPShieldBeamTime = 20000, 20
 
 local HULL = 25000
@@ -141,8 +141,8 @@ if SERVER then
 			e:SetVelocity(self:GetUp() * self.MissileMaxVel)
 			e:SetCollisionGroup(COLLISION_GROUP_PROJECTILE)
 			e:SetOwner(self)
-			e.Damage = 400   -- (2026-11-07 balance; the F-302 missile's own 150)
-			e.AGPSweep = true   -- (2026-11-08) it hits whatever lies on its path (fast, it flew through hulls)
+			e.Damage = 400   -- (balance; the F-302 missile's own 150)
+			e.AGPSweep = true   -- it hits whatever lies on its path (fast, it flew through hulls)
 			self.AGPShotsFired = (self.AGPShotsFired or 0) + 1
 		end
 		self:EmitSound("eap/ship/armes/firemissile2.wav", 100, 100)
@@ -150,7 +150,7 @@ if SERVER then
 
 	-- the rail guns: two turrets at a time, every 0.1 s, at the target (never back through the hull); the bullets go out
 	-- through the ship's own raised shield: for the moment they are fired (the bullets are traced right there) its bubble
-	-- is not solid, else they hit its physics from inside (2026-11-07, shield test: no rail shot got out)
+	-- is not solid, else they hit its physics from inside (shield test: no rail shot got out)
 	function ENT:FireRails(target)
 		if (CurTime() < self.NextRails or not target) then return end
 		self.NextRails = CurTime() + 0.1
@@ -163,7 +163,7 @@ if SERVER then
 			local dir = (target - from):GetNormalized()
 			if (dir:Dot(self:GetForward()) < -0.2) then dir = self:GetForward() end
 			self:FireBullets({ Num = 1, Src = from, Dir = dir, Spread = Vector(0.02, 0.02, 0), Tracer = 1, TracerName = "AirboatGunTracer",
-				Force = 1, Damage = 25, IgnoreEntity = self })   -- (2026-11-08 balance: ~280 a second)
+				Force = 1, Damage = 25, IgnoreEntity = self })   -- (balance: ~280 a second)
 			self.AGPShotsFired = (self.AGPShotsFired or 0) + 1
 		end
 		if (opened and IsValid(own)) then own:SetNotSolid(false) end
@@ -177,8 +177,8 @@ if SERVER then
 		self.ExitPos = self:GetPos() - self:GetRight() * 250
 		local p = self.Pilot
 		if (IsValid(p) and self.Inflight) then
-			-- where the pilot aims: the missiles fly there, the rail guns fire there (AGP 2026-11-08: the crosshair from
-			-- the pilot's camera, lua/autorun/agp_ship_aim.lua; the old trace from the ship's middle missed in the bridge view)
+			-- where the pilot aims: the missiles fly there, the rail guns fire there (AGP: the crosshair from the
+			-- pilot's camera, lua/autorun/agp_ship_aim.lua; the old trace from the ship's middle missed in the bridge view)
 			self.Target, self.Track = AGP.ShipCrosshair(self), true
 			if (p:KeyDown(self.Vehicle, "FIRE")) then self:FireMissiles() end
 			if (p:KeyDown(self.Vehicle, "TRACK")) then self:FireRails(self.Target) end
@@ -247,8 +247,8 @@ if CLIENT then
 		return IsValid(ship) and ship == self
 	end
 
-	-- the two round engines: their cores always glow softly (a warm halo round the nozzle's mouth, owner 2026-11-07: "the
-	-- orange is flat and lifeless"); while it flies forward a soft orange plume as well (seen by everyone)
+	-- the two round engines: their cores always glow softly (a warm halo round the nozzle's mouth); while it flies
+	-- forward a soft orange plume as well (seen by everyone)
 	local HALO = Material("sprites/light_glow02_add")
 	local HALO_COL = Color(255, 140, 60, 150)
 	function ENT:DrawTranslucent()

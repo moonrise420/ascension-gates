@@ -1,8 +1,8 @@
 --[[
 	Ascension Gates: one HUD for every pilotable craft.
-	Owner 2026-10-30: in the style of the Daedalus HUD (dark navy plates, light grey double frame, a cut corner, white
-	underlined titles, thin bars with 0/50/100 marks), small, the keys folded away until F1 (which then does not open the
-	spawn menu). The species shows in the accent colour of titles and bars.
+	in the style of the Daedalus HUD (dark navy plates, light grey double frame, a cut corner, white underlined titles,
+	thin bars with 0/50/100 marks), small, the keys folded away until F1 (which then does not open the spawn menu). The
+	species shows in the accent colour of titles and bars.
 
 	Bottom left: the status plate (name, hull, shield, hyperdrive, the craft's own rows, state tags).
 	Bottom right: the controls plate with the keys really bound in the Keybinder (or GMod's own binds for crafts flown
@@ -143,9 +143,9 @@ function HUD.Hull(e, spec)
 	return hp, max
 end
 
--- speed (game units per second) as text in the player's distance unit (2026-11-15, owner: "does everything show true
--- data"): 1 game unit = 1 inch like PowerGrid, StarCore and the suit HUD (it was 1.905 cm and always km/h: 25 % too low).
--- metres -> km/h, feet -> mph, game units -> u/s (agp_unit_distance, PowerGrid's AGP.Units; without PowerGrid km/h).
+-- speed (game units per second) as text in the player's distance unit: 1 game unit = 1 inch like PowerGrid, StarCore
+-- and the suit HUD (it was 1.905 cm and always km/h: 25 % too low). metres -> km/h, feet -> mph, game units -> u/s
+-- (agp_unit_distance, PowerGrid's AGP.Units; without PowerGrid km/h).
 function HUD.SpeedText(ups)
 	if (AGP.Units and AGP.Units.Speed) then return AGP.Units.Speed(ups) end
 	return string.format("%d km/h", math.floor(ups * 0.0254 * 3.6))
@@ -309,11 +309,11 @@ local function drawMarker(e, spec, th)
 	if (not spec.marker) then return end
 	local hit
 	if (spec.marker == "aim" and AGP.ShipAimHit) then
-		hit = AGP.ShipAimHit -- AGP 2026-11-08: the point the guns aim at (lua/autorun/agp_ship_aim.lua)
+		hit = AGP.ShipAimHit -- AGP: the point the guns aim at (lua/autorun/agp_ship_aim.lua)
 	else
 		local dir = spec.marker == "aim" and EyeAngles():Forward() or e:GetForward()
 		local start = spec.marker == "aim" and EyePos() or e:GetPos() -- "aim": along the view from the camera (the guns aim there)
-		-- AGP 2026-11-08: never on the craft itself (its shield bubble and parts parented deeper held the mark on the hull)
+		-- AGP: never on the craft itself (its shield bubble and parts parented deeper held the mark on the hull)
 		hit = util.TraceLine({ start = start, endpos = start + dir * 30000, filter = function(x) return x ~= LocalPlayer() and not (AGP.ShipPart and AGP.ShipPart(e, x) or x == e or x:GetParent() == e) end }).HitPos
 	end
 	local x, y = HUD.SmoothMarker(hit)

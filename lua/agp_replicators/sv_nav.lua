@@ -1,9 +1,9 @@
--- Replicators: the way across the whole map (owner 2026-11-06: "we have the map data - each bug only needs to know where
--- it is"; and the lesson of the Antwork game: a fixed way-finding layer under the brain, the legs only for the next
--- steps). The ways they had were the ones they once walked (sv_map.lua) and short climbs seen from the side
--- (sv_surfnav.lua): on a map new to them they found no way out of a building to a ship above it, none round a
--- building, none down a drop behind a wall.
--- The map as cells of 48 units, worked out where a way is asked for, and kept:
+-- Replicators: the way across the whole map (and the lesson of the Antwork game: a fixed way-finding layer under the
+-- brain, the legs only for the next steps). The ways they had were the ones they once walked (sv_map.lua) and short
+-- climbs seen from the side (sv_surfnav.lua): on a map new to them they found no way out of a building to a
+-- ship above it, none round a building, none down a drop behind a wall. The map as cells of 48 units, worked
+-- out where a way is asked for, and kept:
+--
 --  * room for a bug: nothing solid at the cell's middle;
 --  * something to hold on to: a surface within 40 of the middle, straight down (a floor), up (a ceiling) or to a side
 --    (a wall) - six short rays;
@@ -25,7 +25,7 @@ local B = 16          -- cells along a block's side
 local MAXB = 160      -- blocks kept while ways are worked out as needed (with the live area scan: LIVEB)
 local REACH = 40      -- a surface this near the middle is something to hold on to
 local GAP = 26        -- a slot between two walls narrower than this has no room for a bug
-local MAXX = 20000    -- cells looked at for one way at most (6000: from the ground floor of a 6-storey building on freespace13 to its roof no way was found, "too far", 14 times in a run - they walked straight at the roof into the ceiling; owner 2026-11-16. Worked out in slices of BUDGET a tick, so more is only slower, not more lag)
+local MAXX = 60000    -- cells looked at for one way at most (20000 was "too far" from the ground to a tower roof 1100 up on freespace13, 27 times a run; 6000: from the ground floor of a 6-storey building on freespace13 to its roof no way was found, "too far", 14 times in a run - they walked straight at the roof into the ceiling. Worked out in slices of BUDGET a tick, so more is only slower, not more lag)
 local BUDGET = 0.002  -- seconds a tick for all the ways being worked out
 local MASK = MASK_PLAYERSOLID_BRUSHONLY
 local floor, band, bor, sqrt, lshift = math.floor, bit.band, bit.bor, math.sqrt, bit.lshift
@@ -92,7 +92,7 @@ local function state(cx, cy, cz)
 		end
 		-- a slot between two walls narrower than a bug: no room (its middle was free, so a way led up a gap 11 wide
 		-- between a building and the next wall on freespace13 - the bug jammed in it, flipping from one wall to the other
-		-- for seconds; repfs13, the roof corner, 2026-11-17)
+		-- for seconds; repfs13, the roof corner)
 		if (fr[3] and fr[4] and (fr[3] + fr[4]) * REACH < GAP) or (fr[5] and fr[6] and (fr[5] + fr[6]) * REACH < GAP) then s = -1 end
 		V.cells = (V.cells or 0) + 1
 	end
@@ -116,8 +116,8 @@ local function link(cx, cy, cz, d)
 		if ok and (n[1] ~= 0 and 1 or 0) + (n[2] ~= 0 and 1 or 0) + (n[3] ~= 0 and 1 or 0) > 1 then
 			-- (a diagonal: at least one way round the corner through the straight neighbours has room. Where another side
 			-- is solid, the way gets a waypoint in the free corner cell - waypoints() below: out of a window first, then
-			-- up; up a wall first, then over a roof's edge. Every side free, tried 2026-11-16 for the owner's window
-			-- wobble on freespace13, let no way over any roof's edge: the cell beside the edge holds on to nothing)
+			-- up; up a wall first, then over a roof's edge. Every side free, tried for a player's window wobble on
+			-- freespace13, let no way over any roof's edge: the cell beside the edge holds on to nothing)
 			local any = false
 			for _, s2 in ipairs({ { n[1], 0, 0 }, { 0, n[2], 0 }, { 0, 0, n[3] } }) do
 				if (s2[1] ~= 0 or s2[2] ~= 0 or s2[3] ~= 0) and state(cx + s2[1], cy + s2[2], cz + s2[3]) >= 0 then any = true break end
@@ -131,8 +131,8 @@ local function link(cx, cy, cz, d)
 end
 
 -- what a step onto a cell costs: a floor least, a wall more, only a ceiling most
--- (R.NavCost: { wall, ceiling } - tried against each other in the tests, owner 2026-11-17: from inside a building to
--- its roof up the outside wall, not under every floor's ceiling)
+-- (R.NavCost: { wall, ceiling } - tried against each other in the tests from inside a building to its roof up the
+-- outside wall, not under every floor's ceiling)
 R.NavCost = R.NavCost or { 1.25, 1.8 }
 local function weight(s)
 	if band(s, 1) ~= 0 then return 1 end
@@ -142,7 +142,7 @@ end
 
 -- a cell of air beside one of the players' frozen props (within REACH of it): something to hold on to as well - the
 -- plan's cells read only the map; without this a wall of props was in the way but nothing to climb, and the way went
--- round its far end instead of over it (repcourse c3 on gm_construct, 2026-11-16). Filled in below (propsTick).
+-- round its far end instead of over it (repcourse c3 on gm_construct). Filled in below (propsTick).
 local propHold = function() return false end
 
 -- the hold-on cell nearest a point (its own, else one of the 26 round it)
@@ -171,12 +171,12 @@ local function onSurface(cx, cy, cz)
 	return best or c
 end
 
--- the players' builds in the plan (owner 2026-11-16: "if its player prop it will eat the door or wall away ... if its
--- somehow protected it will search for some other way"): the cells read only the map (brushes); frozen props of the
--- players are put on top of them, looked at every PROPT s. A step through one is a step through it only if it can be
--- eaten (R.Edible: metal, the eat setting), and costs EATCOST more - a short way round is still taken first; one that
--- cannot be eaten (wood, a protected part) is no way at all - the way goes round it. The bug eats it when it gets there
+-- the players' builds in the plan: the cells read only the map (brushes); frozen props of the players are put on top
+-- of them, looked at every PROPT s. A step through one is a step through it only if it can be eaten (R.Edible:
+-- metal, the eat setting), and costs EATCOST more - a short way round is still taken first; one that cannot be eaten
+-- (wood, a protected part) is no way at all - the way goes round it. The bug eats it when it gets there
 -- (agp_replicator.lua, Route.eats).
+--
 local PROPT = 2
 local EATCOST = 10 * C
 local PROPCELLS = 6000   -- cells one prop may cover at most (bigger ones are left out, as before)
@@ -252,8 +252,8 @@ local function propOnFrom(a, b, ck, k)
 end
 -- where a bug stands on the props in a cell, seen from each of the cell's six sides: a cell's middle can be behind a
 -- thin plate while the bug is on its front - the step past a lip 12 out (the upper wall's bottom) then ran through the
--- plate from middle to middle, and the way went round the wall's far end; replip on gm_construct, 2026-11-18. p: the
--- waypoint (SOFF off the face), w: the point steps are checked from (SWAY off: a bug reaches out over a lip)
+-- plate from middle to middle, and the way went round the wall's far end; replip on gm_construct. p: the waypoint
+-- (SOFF off the face), w: the point steps are checked from (SWAY off: a bug reaches out over a lip)
 local SOFF, SWAY = 8, 16
 V.cand = V.cand or {}
 local function standPoints(x, y, z, k)
@@ -279,8 +279,8 @@ local function standPoints(x, y, z, k)
 end
 
 -- A* from cell to cell (in a coroutine: it gives way when the tick's time is used up)
-local function search(s, g)
-	local sk, gk = cellKey(s[1], s[2], s[3]), cellKey(g[1], g[2], g[3])
+local function search(s, g, isGoal)
+	local sk, gk = cellKey(s[1], s[2], s[3]), g and cellKey(g[1], g[2], g[3])
 	local pos, gc, came = { [sk] = s }, { [sk] = 0 }, {}
 	local done, eat = {}, {}   -- (eat: the player's build part a cell is reached through)
 	local hk, hf, hn = { sk }, { 0 }, 1
@@ -319,8 +319,8 @@ local function search(s, g)
 		local cur = pop()
 		if not done[cur] then
 			done[cur] = true
-			if cur == gk then
-				local path, eats, k = {}, {}, gk
+			if cur == gk or (isGoal and isGoal(pos[cur])) then
+				local path, eats, k = {}, {}, cur
 				while k do
 					table.insert(path, 1, pos[k])
 					if eat[k] then table.insert(eats, 1, eat[k]) end
@@ -350,8 +350,8 @@ local function search(s, g)
 					if not through and c.w and util.TraceLine({ start = a, endpos = centre(x, y, z), mask = MASK }).Hit then through = false end
 					-- (in the way of the middle, or a cell that holds on to a prop only - its middle is in the air up to 40 off the
 					-- prop, and the bug stood on the floor under such a waypoint for seconds, then went off another way and fell
-					-- off the edge; replip 2026-11-18, owner watching: onto a face of the next cell's props instead, the side it
-					-- comes from)
+					-- off the edge, a player watching: onto a face of the next cell's props instead, the side it comes from)
+					--
 					if through ~= nil or state(x, y, z) == 0 then
 						local best, bd
 						for _, s2 in ipairs(standPoints(x, y, z, k) or {}) do
@@ -368,7 +368,7 @@ local function search(s, g)
 					if not gc[k] or cost < gc[k] then
 						gc[k], came[k], pos[k] = cost, cur, { x, y, z, w = sp and sp.w, p = sp and sp.p }
 						eat[k] = through
-						local h = sqrt((x - g[1]) ^ 2 + (y - g[2]) ^ 2 + (z - g[3]) ^ 2) * C
+						local h = g and sqrt((x - g[1]) ^ 2 + (y - g[2]) ^ 2 + (z - g[3]) ^ 2) * C or 0
 						push(k, cost + h * 2)   -- (greedy towards the goal: at 1.3 a way 400 up took 7 s to work out)
 					end
 				end
@@ -381,10 +381,10 @@ end
 -- the cells of a way as the bug's waypoints: one where the way turns or changes what it holds on to, at most every 2
 -- cells, each on its surface; the last one the goal itself. (Every 4 cells, up to 190 apart, the straight line from one
 -- to the next ran through the wall above a window or a door the way went through - out of a building's ground floor to
--- its roof they wobbled under the ceiling there for a minute, owner 2026-11-16 on freespace13; a bug goes on to the next
--- waypoint only when it sees it, agp_replicator.lua)
--- the free corner cell of a diagonal step that cuts past something solid (nil: nothing solid beside it); one that
--- holds on to something before one in the air
+-- its roof they wobbled under the ceiling there for a minute on freespace13; a bug goes on to the next waypoint only
+-- when it sees it, agp_replicator.lua) the free
+-- corner cell of a diagonal step that cuts past something solid (nil: nothing solid beside it); one that holds on
+-- to something before one in the air
 local function corner(a, dx, dy, dz)
 	local free, cut = nil, false
 	for _, s2 in ipairs({ { dx, 0, 0 }, { 0, dy, 0 }, { 0, 0, dz } }) do
@@ -424,13 +424,150 @@ local function waypoints(path, goal)
 	return out
 end
 
+-- can a bug crawl from cell a to cell b: the cells say only "something to hold on to in each, nothing between their
+-- middles" - a way a point could take, not a body. Under a car park's ramp (a plate 6 thick) the way went from the
+-- floor through the air onto the ramp's top, and the bug hung under the ramp for a minute. The felt map
+-- (sv_field.lua) is where a bug's body can be - the level H off every surface: along the line between the two middles,
+-- every 8 units, the nearest point of that level. Those points must follow on from each other: a jump (from under a plate
+-- to its top, from the floor up to a ramp's edge in the air) or no surface near at all (open air) is no crawl. nil: not
+-- known (the felt map not there) - the step is kept (every 4: round an outside corner
+-- the nearest level point moves on smoothly, at most about 15 a step; from under a plate 6 thick to its top it jumps 2 H +
+-- 6 = 34. Every 8 with 22 the corners jumped too and good steps were closed - a bug in a building's corner got no way
+-- out at all)
+local CRAWLSTEP, CRAWLJUMP = 4, 26
+-- (from the points the bug really goes between - each cell's waypoint on its surface, the bug itself at the start: from
+-- middle to middle the line ran above the ramp while the waypoint lay on the floor under it, and that step passed)
+local function crawls(pa, pb)
+	local F = R.Field
+	if not (F and F.Onto) then return nil end
+	local len = pa:Distance(pb)
+	local n = math.max(2, math.ceil(len / CRAWLSTEP))
+	local last
+	F.force = true
+	for i = 0, n do
+		if V.deadline and SysTime() > V.deadline then F.force = nil coroutine.yield() F.force = true end
+		local q = LerpVector(i / n, pa, pb)
+		local p, why = F.Onto(q)
+		if not p then
+			F.force = nil
+			if why == "not felt yet" then return nil end
+			return false, why
+		end
+		if last and p:DistToSqr(last) > CRAWLJUMP * CRAWLJUMP then F.force = nil return false, "jump " .. math.Round(p:Distance(last)) end
+		last = p
+	end
+	F.force = nil
+	return true
+end
+V.Crawls = crawls
+local function dirOf(dx, dy, dz)
+	for d, o in ipairs(NB) do if o[1] == dx and o[2] == dy and o[3] == dz then return d end end
+end
+-- a step found to be no crawl: closed both ways in the cells' links (the way is worked out again round it)
+local function closeLink(a, b)
+	for _, s in ipairs({ { a, b }, { b, a } }) do
+		local c, e = s[1], s[2]
+		local d = dirOf(e[1] - c[1], e[2] - c[2], e[3] - c[3])
+		if d then
+			local bl, i = block(c[1], c[2], c[3])
+			local m = lshift(1, d - 1)
+			bl.lq[i] = bor(bl.lq[i] or 0, m)
+			bl.lm[i] = band(bl.lm[i] or 0, bit.bnot(m))
+		end
+	end
+	V.closed = (V.closed or 0) + 1
+end
+
+-- the way out to open sky (inside a player's building, the generator on a tower 1100 up and 1600 away - no way within
+-- 20 000 cells, "too far"; the bug went straight at the tower, up into the corner of the ceiling, and wobbled there,
+-- felt map and legs by turns). The nearest cell it reaches that holds on to something and has open sky over it (a floor
+-- outside, a wall's outer face) - from there the way to the goal is short. Waypoints as any way's; nil: none near.
+local function skyOpen(c)
+	if state(c[1], c[2], c[3]) <= 0 then return false end
+	local p = centre(c[1], c[2], c[3])
+	return not util.TraceLine({ start = p, endpos = p + Vector(0, 0, 3000), mask = MASK }).Hit
+end
+local function planOut(from)
+	local sx, sy, sz = nearHold(from)
+	if not sx then return nil, "no hold at the start" end
+	if skyOpen({ sx, sy, sz }) then return nil, "already outside" end
+	local path, n = search({ sx, sy, sz }, nil, skyOpen)
+	if not path then return nil, "no way out (" .. n .. " cells)" end
+	local last = path[#path]
+	local w = waypoints(path, onSurface(last[1], last[2], last[3]))
+	w.out = true
+	R.Stat("way out to open sky")
+	return w, n .. " cells (out)"
+end
+function V.RequestOut(from)
+	local sx, sy, sz = cellOf(from)
+	local key = cellKey(sx, sy, sz) .. ">out"
+	local now = CurTime()
+	local r = V.routes[key]
+	if r and now < r.t then return r.r end
+	local j = V.jobs[key]
+	if j then j.want = now return nil end
+	local f = Vector(from)
+	V.jobs[key] = { co = coroutine.create(function() return planOut(f) end), want = now, t0 = SysTime() }
+	V.order[#V.order + 1] = key
+	while #V.order > 8 do V.jobs[table.remove(V.order, 1)] = nil end
+	return nil
+end
+
 local function plan(from, goal)
+	-- (on the felt map first, sv_feltnav.lua: it sees beams and both sides of thin plates. Not near the players' frozen
+	-- props - the felt map has only the map; the cell way knows them, eats through metal, goes round wood)
+	-- (not from under water: from gm_construct's pool floor the felt way took longer than the 20 s a bug waits, it never
+	-- came and the bug went back and forth at the pool wall; the cell way had it out round the pool in 13 s on 11-19 -
+	-- repwater)
+	local wet = bit.band(util.PointContents(from + Vector(0, 0, 8)), CONTENTS_WATER) ~= 0
+	if R.FeltNav and R.FieldOn and R.FieldOn() and not (R.TestOff and R.TestOff.feltNav) and not wet then
+		local w, why = R.FeltNav.Plan(from, goal)
+		if w then
+			local nearProp = false
+			for _, q in ipairs(w) do if V.pcell[cellKey(cellOf(q))] then nearProp = true break end end
+			if not nearProp then return w, why end
+			R.Stat("felt way: near a player's build - the cell way")
+		else
+			R.Stat("felt way: none (" .. tostring(why):gsub(" %(.*", "") .. ")")
+		end
+	end
 	local sx, sy, sz = nearHold(from)
 	if not sx then return nil, "no hold at the start" end
 	local gx, gy, gz = nearHold(goal)
 	if not gx then return nil, "nothing to hold on to at the goal" end
 	local path, n, eats = search({ sx, sy, sz }, { gx, gy, gz })
 	if not path then return nil, (n > MAXX and "too far" or "no way") .. " (" .. n .. " cells)" end
+	-- every step of it checked against the body (crawls above); a step it cannot crawl is closed and the way worked out
+	-- again, up to 5 times
+	if not (R.TestOff and R.TestOff.navCrawl) then
+		for _ = 1, 5 do
+			local bad
+			local pts = {}
+			local function pt(i)
+				if i == 1 then return from end
+				if i == #path then return goal end
+				local c = path[i]
+				pts[i] = pts[i] or c.p or onSurface(c[1], c[2], c[3])
+				return pts[i]
+			end
+			for i = 2, #path do
+				if not path[i].w and not path[i - 1].w then   -- (steps onto the players' props: their own checks)
+					local ok, why = crawls(pt(i - 1), pt(i))
+					-- (the first step from where the bug is: not closed - another bug elsewhere in that cell may well crawl it)
+					if ok == false and i > 2 then bad = { path[i - 1], path[i], why } break end
+				end
+			end
+			if not bad then break end
+			closeLink(bad[1], bad[2])
+			R.Stat("way: a step it cannot crawl closed (" .. tostring(bad[3]) .. ")")
+			-- (none left without it: the way as it was - better one with a doubtful step than none, then it walked
+			-- straight at its goal into a corner for 90 s)
+			local p2, n2, e2 = search({ sx, sy, sz }, { gx, gy, gz })
+			if not p2 then R.Stat("way: no way it can crawl - kept the doubtful one") break end
+			path, n, eats = p2, n2, e2
+		end
+	end
 	local w = waypoints(path, goal)
 	if eats and #eats > 0 then w.eats = eats R.Stat("way through a player's build (to be eaten)") end
 	return w, n .. " cells"
@@ -438,7 +575,7 @@ end
 
 -- can a bug at a see b: nothing of the map between, and none of the players' builds the plan knows (ign: the one it
 -- goes for). On along a way only to a waypoint it sees: with the map alone it saw a waypoint through a wooden wall
--- the way went round, went straight at it and pressed against the wall (2026-11-16, repwall)
+-- the way went round, went straight at it and pressed against the wall (repwall)
 function V.Sees(a, b, ign)
 	if util.TraceLine({ start = a, endpos = b, mask = MASK }).Hit then return false end
 	if next(V.psig) == nil then return true end
@@ -452,7 +589,13 @@ function V.Wanted(pos, goal)
 	if d < 150 then return false end
 	-- (a goal on nothing - a wander spot in the air - has no way to it: 529 of 879 asks in a test were such. On a
 	-- floor, a wall or a ceiling - an ambush spot over a door - it has)
-	if not nearHold(goal) then return false end
+	-- (or the felt map feels a surface at it: a beam the cells do not see - a goal on freespace13's tower got no way at
+	-- all and the bug went straight at it into a ceiling)
+	if not nearHold(goal) then
+		local F = R.Field
+		local d = F and F.Dist and R.FieldOn and R.FieldOn() and F.Dist(goal)
+		if not (d and d < 40) then return false end
+	end
 	if d > 600 or math.abs(goal.z - pos.z) > 120 then return true end
 	if util.TraceLine({ start = pos + Vector(0, 0, 12), endpos = goal + Vector(0, 0, 12), mask = MASK }).Hit then return true end
 	-- (a player's build straight between: the plan knows it, the straight line does not)
@@ -485,8 +628,10 @@ hook.Add("Tick", "AGPRepNav", function()
 	if #V.order == 0 then if liveTick then liveTick() end return end
 	V.clock = V.clock + 1
 	-- (a crowded swarm, its walking shares ticks - agp_replicator.lua R.walkDiv: half the time for the ways, they come a
-	-- little later; the game keeps its frame rate - owner 2026-11-17, 60 bugs at a building on freespace13)
-	local stop = SysTime() + BUDGET / ((R.walkDiv or 1) > 1 and 2 or 1)
+	-- little later; the game keeps its frame rate -, 60 bugs at a building on freespace13) (a few bugs:
+	-- twice the time - a way on the felt map at a place not felt yet took 15-30 s at 2 ms)
+	local few = (R.Count and R.Count("bugs") or 0) <= 5
+	local stop = SysTime() + (few and BUDGET * 2 or BUDGET) / ((R.walkDiv or 1) > 1 and 2 or 1)
 	local now = CurTime()
 	while #V.order > 0 and SysTime() < stop do
 		local key = V.order[#V.order]
@@ -495,6 +640,7 @@ hook.Add("Tick", "AGPRepNav", function()
 		else
 			V.deadline = stop
 			local ok, way, why = coroutine.resume(j.co)
+			if R.Field then R.Field.force = nil end   -- (only while a way's steps are checked, never left on)
 			if not ok then
 				ErrorNoHalt("[AGP] Replicators way across the map: " .. tostring(way) .. "\n")
 				way, why = nil, "error"
@@ -512,11 +658,11 @@ hook.Add("Tick", "AGPRepNav", function()
 	V.deadline = nil
 end)
 
--- the live area scan (owner 2026-11-16: not the whole map - that reached freespace13's whole city, 930 000 cells and
--- 450 MB - but "only what is around a Replicator, up to the highest structure near it, and wherever it is carried"; an
--- admin setting, on by default): in the background, a little every tick while no way is being worked out, the blocks
--- round each Replicator are read cell by cell - what each cell holds on to, the 7 rays a way's search would otherwise
--- cast when it first reaches the cell (the links between cells stay as needed: one ray each). A block of open air
+-- the live area scan (not the whole map - that reached freespace13's whole city, 930 000 cells and 450 MB - but
+-- "only what is around a Replicator, up to the highest structure near it, and wherever it is carried"; an admin
+-- setting, on by default): in the background, a little every tick while no way is being worked out, the blocks round
+-- each Replicator are read cell by cell - what each cell holds on to, the 7 rays a way's search would otherwise cast
+-- when it first reaches the cell (the links between cells stay as needed: one ray each). A block of open air
 -- (nothing within reach of any of its cells) takes one box trace. Kept in a file per map
 -- (data/agp_replicators/nav_<map>.dat, 4 KB a block read) and read back at the next start.
 local BW = B * C         -- a block's side in units (768)

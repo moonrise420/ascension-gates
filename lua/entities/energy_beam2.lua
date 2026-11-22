@@ -100,8 +100,32 @@ if SERVER then
         end
     end
 
+    -- AGP: a ship weapon's beam (StarGate.MarkShot) goes through its own ship and own shield bubbles: what the trace
+    -- hits of them is ignored from then on and the trace runs again
+    function ENT:AGPTrace()
+        local ignore = self.AGPIgnore
+        if (not ignore) then
+            ignore = {}
+            for _, v in pairs({self, self:GetOwner(), self.EndEntity, self.StartEntity}) do -- (the ship weapons set Owner = SetOwner)
+                if (IsValid(v)) then ignore[#ignore + 1] = v end
+            end
+            self.AGPIgnore = ignore
+        end
+        local tr = StarGate.Trace:New(self.EndPos, self.Dir * self.Speed, ignore)
+        for _ = 1, 8 do
+            if not (IsValid(tr.Entity) and StarGate.ShotPasses(self, tr.Entity)) then break end
+            ignore[#ignore + 1] = tr.Entity
+            tr = StarGate.Trace:New(self.EndPos, self.Dir * self.Speed, ignore)
+        end
+        return tr
+    end
+
     function ENT:Think()
-        self.StargateTrace = self.LastStargateTrace or StarGate.Trace:New(self.EndPos, self.Dir * self.Speed, {self.Entity, self.Owner, self.EndEntity, self.StartEntity})
+        if (self.AGPFrom) then
+            self.StargateTrace = self.LastStargateTrace or self:AGPTrace()
+        else
+            self.StargateTrace = self.LastStargateTrace or StarGate.Trace:New(self.EndPos, self.Dir * self.Speed, {self.Entity, self.Owner, self.EndEntity, self.StartEntity})
+        end
 
         if (self.UpdateStart == true) then
             self:UpdateStartPos()
@@ -118,8 +142,8 @@ if SERVER then
     end
 
     function ENT:UpdateEndPos()
-        -- AGP 2026-11-08: a Ha'tak's shield (a shell, not an entity: agp_hatak.lua) stops the beam and takes its damage;
-        -- it went through to the hull. The whole beam is checked, so a shield raised behind its end cuts it back too.
+        -- AGP: a Ha'tak's shield (a shell, not an entity: agp_hatak.lua) stops the beam and takes its damage; it went
+        -- through to the hull. The whole beam is checked, so a shield raised behind its end cuts it back too.
         if (AGP and AGP.HatakShieldOnPath) then
             local tr = self.StargateTrace
             local reach = self.EndPos + self.Dir * self.Speed
@@ -145,7 +169,7 @@ if SERVER then
                         local class = ent:GetClass()
 
                         if ((class == "shield" or class == "shield_core_buble" or class == "ship_shield") and (not IsValid(ent.Parent) or not ent.Parent.Depleted)) then
-                            ent:Hit(self.Entity, self.StargateTrace.HitPos, 3 * (self.AGPDamageScale or 1), self.StargateTrace.HitNormal, self.FireFrequency) -- AGP: the beam's damage scale (2026-11-07 balance)
+                            ent:Hit(self.Entity, self.StargateTrace.HitPos, 3 * (self.AGPDamageScale or 1), self.StargateTrace.HitNormal, self.FireFrequency) -- AGP: the beam's damage scale (balance)
                             self:DoUsualHit()
                             self:SetNWVector("EndPos", self.StargateTrace.HitPos)
                             self.LastStargateTrace = self.StargateTrace
@@ -176,8 +200,8 @@ if SERVER then
                     self.Length = self.Length + dist
 
                     if (not self.WillGoTroughtGates) then
-                        -- AGP 2026-11-08: the big ships take it by the distance to their hull (AGP.ShipBlastBegin): on a
-                        -- big ship's bow the beam's blast did nothing, measured from the ship's middle
+                        -- AGP: the big ships take it by the distance to their hull (AGP.ShipBlastBegin): on a big ship's
+                        -- bow the beam's blast did nothing, measured from the ship's middle
                         local agpBlast = AGP and AGP.ShipBlastBegin and AGP.ShipBlastBegin(self.EndPos, 250, 50 * (self.AGPDamageScale or 1))
                         util.BlastDamage(self.Entity, self.Entity, self.EndPos, 250, 50 * (self.AGPDamageScale or 1))
                         if (agpBlast) then AGP.ShipBlastEnd(agpBlast, self.Entity, self.Entity) end
@@ -219,8 +243,8 @@ if SERVER then
                 self.BlastCreated = true
             end
         elseif ((self.AGPNextImpact or 0) > CurTime()) then
-            -- AGP 2026-10-30: the impact effect (an explosion sound and a burst of particles each) ran every 0.1 s while
-            -- the beam hit: 10 explosions a second flooded the sound channels (audio stutter with the Ori mothership)
+            -- AGP: the impact effect (an explosion sound and a burst of particles each) ran every 0.1 s while the beam
+            -- hit: 10 explosions a second flooded the sound channels (audio stutter with the Ori mothership)
         elseif (self.Effect == "Ori") then
             self.AGPNextImpact = CurTime() + 0.4
             local fx = EffectData()

@@ -1,6 +1,6 @@
 --[[
-	Stargate (Alteran), server - Ascension Gates' own code (2026-11-06). Everything else comes from CAP's Stargate SG1
-	gate (the base class): only our models and the class's own spawning and duplicator entry are set here.
+	Stargate (Alteran), server - Ascension Gates' own code. Everything else comes from CAP's Stargate SG1 gate (the
+	base class): only our models and the class's own spawning and duplicator entry are set here.
 ]]
 if (StarGate == nil or StarGate.CheckModule == nil or not StarGate.CheckModule("base")) then return end
 AddCSLuaFile("cl_init.lua")

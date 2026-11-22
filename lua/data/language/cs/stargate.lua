@@ -17,6 +17,7 @@ dhd_sg1 = DHD z Mléčné dráhy
 dhd_universe = DHD Universe
 stargate_atlantis = Brána z Pegasu
 stargate_infinity = Brána Infinity
+stargate_virgo = Brána Virgo
 stargate_movie = Brána z filmu
 stargate_orlin = Brána Orlinova
 stargate_sg1 = Brána z Mléčné dráhy

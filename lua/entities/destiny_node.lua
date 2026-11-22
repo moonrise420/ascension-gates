@@ -1,7 +1,7 @@
 -- Ascension Gates: Destiny Power Node - one of Destiny's conduit junctions as a Grid Power node (see agp_power_base.lua).
 -- Works like the medium Power Node: links everything that touches it or stands on its deck, shows the network on its
 -- screen; with Spacebuild running it is a real Resource Distribution node (the base creates the RD network).
--- Model: our own (Code/notes/models/agp_destiny_asgard_models.py), the old models/circuitdest.mdl never existed.
+-- Model: our own (Code/), the old models/circuitdest.mdl never existed.
 ENT.Type = "anim"
 ENT.Base = "agp_power_base"
 ENT.AGPNameKey = "agp_ent_destiny_node"
@@ -43,7 +43,7 @@ if SERVER then
         return e
     end
 
-    function ENT:PreEntityCopy()   -- AGP 2026-11-10: its Wire links are kept in dupes
+    function ENT:PreEntityCopy()   -- AGP: its Wire links are kept in dupes
     	if (StarGate.WireRD) then StarGate.WireRD.PreEntityCopy(self) end
     end
 

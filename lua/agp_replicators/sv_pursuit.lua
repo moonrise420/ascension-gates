@@ -68,7 +68,7 @@ timer.Create("AGPRepGateOpen", 0.25, 0, function()   -- when each gate opened (i
 			elseif IsValid(eh) and g.IsOpen then
 				-- (an outgoing gate kills from behind: in through its back is "entering from the wrong side" -
 				-- event_horizon/init.lua. A pursuer that came round the re-dialled gate walked into its back and was
-				-- gone, reppursuit 2026-11-14 full check. Only its back half is kept clear, the front is the way in.)
+				-- gone. Only its back half is kept clear, the front is the way in.)
 				local e = R.DeadEntry(g)
 				if e then e.back = true dead[#dead + 1] = e end
 			end
@@ -83,10 +83,10 @@ function R.GateStable(g)
 	return t ~= nil and CurTime() - t > 3
 end
 
--- (owner 2026-11-14: "replicators should know if a wormhole is incoming or outgoing so they only would go threw an
--- outgoing wormhole only"): the horizon of the RECEIVING gate has no Target and kills everything that touches it
--- (event_horizon/init.lua: "Do we have a valid target? If not, we are inbound"); the dialling gate has Outbound = true
--- and its horizon has a Target. Inbound = open (or still dialling in) and not the dialling side.
+-- the horizon of the RECEIVING gate has no Target and kills everything that touches it (event_horizon/init.lua:
+-- "Do we have a valid target? If not, we are inbound"); the dialling gate has Outbound = true and its horizon
+-- has a Target. Inbound = open (or still dialling in) and not the dialling side.
+--
 function R.GateInbound(g)
 	if not IsValid(g) or not g.IsStargate then return false end
 	local eh = g.EventHorizon
@@ -103,9 +103,9 @@ end
 -- gate's back half too (e.back).
 -- The zone is the HORIZON itself (its disc, from the horizon entity: the Supergate's sits 2375 above the gate's origin,
 -- the gates differ in size) plus a bug's body, DEAD_ALONG thick on each side - not the ring: a bug on the ring of a
--- gate that turns inbound must be able to walk off it (2026-11-14 review: with the ring inside the zone every way
--- off it was refused and it wandered over the inner rim into the horizon).
--- Each entry: { g = gate, eh = horizon, oc = the horizon's middle (local), r = its radius }
+-- gate that turns inbound must be able to walk off it (review: with the ring inside the zone every way off it was
+-- refused and it wandered over the inner rim into the horizon). Each
+-- entry: { g = gate, eh = horizon, oc = the horizon's middle (local), r = its radius }
 R.deadGates = R.deadGates or {}
 local DEAD_ALONG, DEAD_BODY = 30, 14
 function R.DeadEntry(g)
@@ -202,10 +202,10 @@ function R.DeadArc(pos, v, land)
 		prev = q
 	end
 end
--- the way round an inbound gate on a long straight way from a to b (owner 2026-11-14; the rephorz test: bugs whose goal lay
--- behind an inbound gate walked along its foot straight through the horizon - the 140-unit feelers of ENT:Feel found
--- no way round in time). Returns a point beside the gate, level with where the bug is, a little on towards the goal.
--- In the zone itself: straight out of it on the side it is on.
+-- the way round an inbound gate on a long straight way from a to b (the rephorz test: bugs whose goal lay behind an inbound
+-- gate walked along its foot straight through the horizon - the 140-unit feelers of ENT:Feel found no way round in
+-- time). Returns a point beside the gate, level with where the bug is, a little on towards the goal. In the zone
+-- itself: straight out of it on the side it is on.
 function R.RoundDead(a, b)
 	if #R.deadGates == 0 then return nil end
 	local d = b - a
@@ -240,10 +240,10 @@ function R.RoundDead(a, b)
 	end
 end
 
--- the vortex (owner 2026-11-04: besides the anti-replicator gun and the Dakara wave the third thing that kills them):
--- the swarm knows a gate's vortex shoots out in front of it, and learns how far - it starts from a careful guess, and
--- every bug the vortex takes widens it (where that bug stood). Whenever a gate dials or its vortex forms, every bug in
--- that zone gets out of the way, and the waiting spots lie beyond it.
+-- the vortex (besides the anti-replicator gun and the Dakara wave the third thing that kills them): the swarm knows a
+-- gate's vortex shoots out in front of it, and learns how far - it starts from a careful guess, and every bug the
+-- vortex takes widens it (where that bug stood). Whenever a gate dials or its vortex forms, every bug in that zone
+-- gets out of the way, and the waiting spots lie beyond it.
 R.blast = R.blast or { ahead = 220, side = 110 }
 function R.InBlast(g, pos, margin)
 	local rel = pos - g:GetPos()
@@ -364,10 +364,10 @@ hook.Add("StarGate.Teleport", "AGPRepFollowGate", function(e, eh, attached, bloc
 		local P = e.Pursuit
 		-- the wormhole ride (doWormholeSequence: 3.2 s hidden and frozen at this gate, then over there) is waited for.
 		-- (Done 0.2 s after going in, it was set down at the near gate mid-ride and "came out safe" while still riding:
-		-- the others followed at once into a gate that shut on them - all lost, nobody left to dial it again, 2026-11-09)
+		-- the others followed at once into a gate that shut on them - all lost, nobody left to dial it again)
 		e.GateRide = CurTime()
 		-- (on its way out of the far gate - an incoming one, whose horizon kills: the dead-zone rules leave it alone a
-		-- moment, or the push out of a horizon sent a bug still coming out back into it - repgatein 2026-11-14 "gone")
+		-- moment, or the push out of a horizon sent a bug still coming out back into it - repgatein "gone")
 		e.OutOfGate, e.OutOfGateT = dstGate, CurTime()
 		local name = "AGPRepRide" .. e:EntIndex()
 		local t0 = CurTime()
@@ -410,8 +410,8 @@ hook.Add("StarGate.Rings.TeleportEnt", "AGPRepFollowRings", function(ent, ring)
 		local pad = IsValid(ring) and ring.Other
 		timer.Simple(0, function()
 			R.AfterJump(ent)
-			-- (owner 2026-11-05: "step out of the rings at the new destination"): off the platform - one left on it is
-			-- sent back by the next transport
+			-- off the platform - one left on it is sent back by the next transport
+			--
 			if IsValid(ent) and IsValid(pad) then
 				local a = math.random() * math.pi * 2
 				ent.Goal = pad:GetPos() + Vector(math.cos(a), math.sin(a), 0) * 150 + Vector(0, 0, 8)
@@ -429,10 +429,10 @@ hook.Add("StarGate.Rings.TeleportEnt", "AGPRepFollowRings", function(ent, ring)
 	end
 end)
 
--- the players' footsteps (owner 2026-11-05: "iam inside a building and they dont find me, they are on the roof above
--- me"): every player leaves a trail - a point every 40 units, the last 2 minutes. Whoever is hunted indoors got in
--- somewhere; a bug that cannot see its prey takes that same way in (ENT:FollowTrail). A jump (respawn, teleport,
--- noclip) starts a new trail
+-- the players' footsteps: every player leaves a trail - a point every 40 units, the last 2 minutes. Whoever is
+-- hunted indoors got in somewhere; a bug that cannot see its prey takes that same way in (ENT:FollowTrail). A jump
+-- (respawn, teleport, noclip) starts a new trail
+--
 R.trails = R.trails or {}
 timer.Create("AGPRepTrails", 0.25, 0, function()
 	if not R.Awake() or not next(R.bugs or {}) then return end
@@ -453,13 +453,13 @@ timer.Create("AGPRepTrails", 0.25, 0, function()
 	for p in pairs(R.trails) do if not IsValid(p) then R.trails[p] = nil end end
 end)
 
--- the way in (owner 2026-11-05: "the replicators know every building every window, also they have radar for player
--- buildings - they should manage on their own to find the right way to the player"): a player under a roof (a house
--- of the map or a base of props) - the hive feels its way out from him through the rooms, corridors, doors and
--- windows (a coarse search through the free space, 40 units a step, props count as walls) to the first place open to
--- the sky: that is the way in, back to front. Points on the floor (a window: its sill; the bugs climb the wall to it).
--- Shared by the whole swarm, worked out again when he has moved or after 5 s. Nil: he is outdoors, or no way in
--- within reach (then the trail, ENT:FollowTrail)
+-- the way in: a player under a roof (a house of the map or a base of props) - the hive feels its way out from him
+-- through the rooms, corridors, doors and windows (a coarse search through the free space, 40 units a step, props
+-- count as walls) to the first place open to the sky: that is the way in, back to front. Points on the floor
+-- (a window: its sill; the bugs climb the wall to it). Shared by the whole swarm, worked out again when he has moved
+-- or after 5 s. Nil: he is outdoors, or no way in within reach (then the trail, ENT:FollowTrail)
+--
+--
 local WG = 40
 local WH = Vector(10, 10, 10)
 local function wayFilter(e) return not (e:IsPlayer() or e:IsNPC() or e.AGPReplicator or e:GetClass():find("^stargate_") or e.IsRings) end
@@ -515,9 +515,9 @@ function R.WayIn(t)
 	return way
 end
 
--- (owner 2026-11-05: "one of the replicators swam in the event horizon, half the body sticking out"): a horizon is no
--- wall - a bug can stand in it. Through it only works from the front of a gate that dials out; in the horizon of an
--- incoming one (or one it does not mean to use) it stood there. Once a second: such a bug is sent out in front of it
+-- a horizon is no wall - a bug can stand in it. Through it only works from the front of a gate that dials out; in the
+-- horizon of an incoming one (or one it does not mean to use) it stood there. Once a second: such a bug is sent out
+-- in front of it
 timer.Create("AGPRepOutOfHorizon", 0.5, 0, function()   -- (twice a second: a kill takes a touch)
 	if not R.cv.on:GetBool() or not next(R.bugs or {}) then return end
 	local now = CurTime()
@@ -531,7 +531,7 @@ timer.Create("AGPRepOutOfHorizon", 0.5, 0, function()   -- (twice a second: a ki
 			local f = eh:GetForward()
 			for _, b in ipairs(ents.FindInSphere(c, de and de.r + 60 or 140)) do
 				-- (a falling bug too when the horizon has it in its buffer: there its gravity is off - it floats, never
-				-- lands, and died when the gate shut, with no damage at all - 2026-11-14 review)
+				-- lands, and died when the gate shut)
 				local floating = b.Falling and inbound and eh.AllBuffer and eh.AllBuffer[b:EntIndex()] == b
 				local arriving = b.OutOfGate == g and now - (b.OutOfGateT or 0) < 2.5   -- (still coming out of this one)
 				if b.AGPReplicator and not b.RepGone and (not b.Falling or floating) and b.RepKind == "bugs" and not arriving then
@@ -646,13 +646,13 @@ function R.RingColony(h, list, n, now)
 	R.Dbg(party.leader, "ring colony with", #party.members)
 end
 
--- the Queen away by rings or a Stargate (owner 2026-11-05: "if we are sure that we have a 100% success so the queen
--- survives she is also allowed to search a place via stargate or rings"). Only where it is sure:
---   rings     - a platform at least 2000 away with no player within 2000 of it (rings have no iris)
---   Stargate  - a gate one of the swarm came out of alive in the last 30 minutes, no iris known there, not busy,
---               no player within 2500 of it
--- She goes with her guards (the pursuers' way: onto the platform / dial, wait for the horizon, through); over there is
--- her new nest. Nil: no sure way
+-- the Queen away by rings or a Stargate. Only where it is sure: rings - a platform at least 2000 away with no
+-- player within 2000 of it (rings have no iris) Stargate - a gate one of the swarm came out of
+--   alive in the last 30 minutes, no iris known there, not busy, no player within 2500 of it She
+--   goes with her guards (the pursuers' way: onto the platform / dial, wait for the horizon, through); over
+--               there is her new nest. Nil: no sure way
+--
+--
 R.safeGates = R.safeGates or {}
 function R.QueenEscape(q, now)
 	local pos = q:GetPos()
@@ -720,6 +720,8 @@ function R.EndPursuit(b, arrived)
 	if arrived then
 		if party.colony then
 			b.Role, b.RepHome, b.RepHomeRadius = "worker", b:GetPos(), 1500
+			-- (no longer the old Queen's guard: as one it went back to her across the map, 2900)
+			b.RepGuard = nil
 		elseif IsValid(prey) then
 			b.State, b.Target, b.NextLook = "attack", prey, CurTime() + 3
 			b.GatherT = nil

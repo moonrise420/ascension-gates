@@ -1,9 +1,9 @@
 ENT.PlayerColor = Color(255,255,255,255);
 
--- AGP 2026-11-16 (owner test): a free spot to stand INSIDE the cabin after leaving the pilot seat. Only spots on the
--- cabin's centre line count (cockpit first, then the rear cabin), on the cabin floor, with the player's whole hull free
--- of the hull, the closed door and bulkhead, the seats - and with the Jumper's roof above (so never outside: the general
--- stand-spot search could step 64 units sideways, through the wall, and put the pilot outside).
+-- AGP (test): a free spot to stand INSIDE the cabin after leaving the pilot seat. Only spots on the cabin's centre
+-- line count (cockpit first, then the rear cabin), on the cabin floor, with the player's whole hull free of the hull,
+-- the closed door and bulkhead, the seats - and with the Jumper's roof above (so never outside: the general stand-spot
+-- search could step 64 units sideways, through the wall, and put the pilot outside).
 local CABIN_X = { 0, 15, -15, -75, -110, -145 }
 local CABIN_Y = { 0, 10, -10 }
 local function cabinSpot(self, ply)
@@ -38,11 +38,11 @@ function ENT:ExitJumper() --################# Get out the jumper@RononDex
 		self.Pilot:UnSpectate()
 		self.Pilot:DrawViewModel(true)
 		self.Pilot:DrawWorldModel(true)
-		if (AGP and AGP.ShipRespawnPilot) then AGP.ShipRespawnPilot(self.Pilot) else self.Pilot:Spawn() end -- AGP 2026-11-08: keeps armour and ammo, no Ha'tak bunk move (agp_ship_shield.lua)
+		if (AGP and AGP.ShipRespawnPilot) then AGP.ShipRespawnPilot(self.Pilot) else self.Pilot:Spawn() end -- AGP: keeps armour and ammo, no Ha'tak bunk move (agp_ship_shield.lua)
 		self.Pilot:SetNWBool("isFlyingjumper",false)
 		if(IsValid(self.PilotAvatar)) then self.PilotAvatar:Remove() end -- AGP: the pilot figure sat on the exit spot (it blocked the cabin: you were put outside)
-		-- AGP 2026-11-16 (owner test): the stand spot is chosen further down, AFTER the cabin's door and bulkhead parts are
-		-- back - chosen before them, the player stood inside the closed door/bulkhead and could not move until it opened.
+		-- AGP (test): the stand spot is chosen further down, AFTER the cabin's door and bulkhead parts are back - chosen
+		-- before them, the player stood inside the closed door/bulkhead and could not move until it opened.
 		exitPly = self.Pilot
 		self.AllowActivation=false
 		self.Pilot:SetHealth(self.health)
@@ -86,7 +86,7 @@ function ENT:ExitJumper() --################# Get out the jumper@RononDex
 		end
 		self:SpawnOpenedDoor(self.Owner);
 
-		-- AGP 2026-11-16: now that the door and bulkhead are back, the pilot gets a free spot in the cabin
+		-- AGP: now that the door and bulkhead are back, the pilot gets a free spot in the cabin
 		if (IsValid(exitPly)) then
 			local want = self:GetPos()+self:GetForward()*-25+self:GetUp()*-40
 			exitPly:SetPos(cabinSpot(self, exitPly) or (AGP and AGP.ShipExitSpot and AGP.ShipExitSpot(self, exitPly, want, false)) or want) -- outside only when the cabin is full
@@ -99,7 +99,7 @@ function ENT:ExitJumper() --################# Get out the jumper@RononDex
 			self.sequence = self:LookupSequence("epodc")
 			self:EmitSound(self.Sounds.EnginePodClose,100,100)
 			self.Roll = 0
-			self.WepPods = false -- AGP 2026-11-16: the drone pods close with the drive pods (the flag stayed true: no drones on the next flight)
+			self.WepPods = false -- AGP: the drone pods close with the drive pods (the flag stayed true: no drones on the next flight)
 			self:RemoveDrones()
 			self.CloakPods = false;
 			timer.Simple( 1, function() if not IsValid(self) then return end

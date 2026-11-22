@@ -1,6 +1,6 @@
 --[[
-	Traveler energy bolt - Ascension Gates' own code (2026-11-09): CAP's energy pulse (energy_pulse: aVoN, Madman07) in
-	the Travelers' red-orange. Fired by our Traveler ship. The class name stays (EAP had a colour variant of the same
+	Traveler energy bolt - Ascension Gates' own code: CAP's energy pulse (energy_pulse: aVoN, Madman07) in the
+	Travelers' red-orange. Fired by our Traveler ship. The class name stays (EAP had a colour variant of the same
 	name), so the kill feed and saves keep working.
 ]]
 ENT.Type = "anim"

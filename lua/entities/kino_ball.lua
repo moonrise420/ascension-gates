@@ -75,7 +75,7 @@ if SERVER then
         self.CanZoom = true
         self.IsControlled = false
         self.FOV = 0
-        -- AGP 2026-11-08: + "Health" at the end (HealthRepair wrote it, but the port did not exist); follows damage too
+        -- AGP: + "Health" at the end (HealthRepair wrote it, but the port did not exist); follows damage too
         self:CreateWireOutputs("Gravity", "Habitat", "Atmosphere", "Temperature", "O2 Percent", "CO2 Percent", "N2 Percent", "H2 Percent", "Water Level", "Health")
         self:SetWire("Health", self.EntHealth)
 
@@ -205,7 +205,7 @@ if SERVER then
 
     function ENT:OnTakeDamage(dmg)
         self.EntHealth = self.EntHealth - dmg:GetDamage()
-        self:SetWire("Health", math.max(0, self.EntHealth)) -- AGP 2026-11-08: Health output follows damage
+        self:SetWire("Health", math.max(0, self.EntHealth)) -- AGP: Health output follows damage
 
         if (self.EntHealth <= 1) then
             self.Entity:PrepareRemove()
@@ -310,7 +310,7 @@ if SERVER then
             if (ply:Alive()) then
                 ply:SetMoveType(MOVETYPE_WALK)
                 ply:SetObserverMode(OBS_MODE_NONE)
-                if (AGP and AGP.ShipRespawnPilot) then AGP.ShipRespawnPilot(ply) else ply:Spawn() end -- AGP 2026-11-08: keeps armour and ammo, no Ha'tak bunk move (agp_ship_shield.lua)
+                if (AGP and AGP.ShipRespawnPilot) then AGP.ShipRespawnPilot(ply) else ply:Spawn() end -- AGP: keeps armour and ammo, no Ha'tak bunk move (agp_ship_shield.lua)
                 ply:SetFOV(ply.CAP_KINO_FOV or 0, 0.3)
                 ply:SetPos(ply.CAP_KINO_StartPos or ply:GetPos() + Vector(0, 0, 5)) -- whoa it repaired everythin
             end
@@ -355,8 +355,8 @@ if SERVER then
             end
         end
 
-        -- AGP 2026-10-30: the remote only sent the look direction 5 times a second, so turning stopped and went on in
-        -- steps ("invisible wall"). Follow the pilot's view every tick.
+        -- AGP: the remote only sent the look direction 5 times a second, so turning stopped and went on in steps
+        -- ("invisible wall"). Follow the pilot's view every tick.
         if self.IsControlled and IsValid(self.Player) then
             self.AnglesSwep = self.Player:EyeAngles()
             self:NextThink(CurTime())
@@ -385,7 +385,7 @@ if SERVER then
     end
 
     function ENT:PostEntityPaste(ply, Ent, CreatedEntities)
-    	if (StarGate.WireRD) then StarGate.WireRD.PostEntityPaste(self, ply, Ent, CreatedEntities) end   -- AGP 2026-11-10: the Wire links back
+    	if (StarGate.WireRD) then StarGate.WireRD.PostEntityPaste(self, ply, Ent, CreatedEntities) end   -- AGP: the Wire links back
         if (StarGate.NotSpawnable(Ent:GetClass(), ply)) then
             self.Entity:Remove()
 

@@ -40,7 +40,7 @@ if SERVER then
         self:SupplyResource("energy", mk4_buffer)
         self.MaxEnergy = StarGate.CFG:Get("zpm_mk4", "capacity", 98000000)
         self.Energy = StarGate.CFG:Get("zpm_mk4", "capacity", 98000000)
-        self:CreateWireOutputs("Active", "ZPM %", "ZPM Energy", "Internal Overload") -- AGP 2026-11-08: Think sets "Internal Overload"; it was not declared (zpm_mk3.lua's MK4 mode has it)
+        self:CreateWireOutputs("Active", "ZPM %", "ZPM Energy", "Internal Overload") -- AGP: Think sets "Internal Overload"; it was not declared (zpm_mk3.lua's MK4 mode has it)
         self:Skin(2)
         self.IsMk4 = true
         self.empty = false
@@ -314,7 +314,7 @@ if CLIENT then
                 end
 
                 if (tonumber(perc) > 0) then
-                    perc = string.format("%4.2f", tonumber(perc) or 0)   -- AGP 2026-11-10: two decimals like the other info boxes (it showed 100.000000%)
+                    perc = string.format("%4.2f", tonumber(perc) or 0)   -- AGP: two decimals like the other info boxes (it showed 100.000000%)
                 end
 
                 draw.SimpleText(AGP.L("hud_sts_" .. string.lower(add), add), "center", ScrW() / 2 + 40 + w, ScrH() / 2 + 85 - h, color, 0)   -- the server sends the English state name; the status words exist in every language file

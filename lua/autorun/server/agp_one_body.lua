@@ -1,5 +1,5 @@
--- Ascension Gates (2026-11-12, owner: "when I die suddenly there are 2 dead bodies"): a death leaves one body.
--- Normal deaths already do (tested: kill, bullet, blast, fall, with a weapon out). The cases that left a second one:
+-- Ascension Gates: a death leaves one body. Normal deaths already do (tested: kill, bullet, blast, fall, with a
+-- weapon out). The cases that left a second one:
 --  * a stunned player (Zat-like stun bolts, TAC, Wraith stun bomb lie him down as a prop_ragdoll and hide him) who
 --    dies of something else: the game's death body appeared next to the stun body, which stayed for seconds
 --  * the Zat's second hit turned the victim's body into a server-side one - and left that switched on for every
@@ -21,9 +21,9 @@ local function stunBodyGone(ply)
         hook.Remove("EntityTakeDamage", "StunRagdollDamage" .. ply:EntIndex())
     end
 end
--- (2026-11-12, the owner's own case: "shot the Zat at the ground at my feet, and when I died there were 2 bodies" -
--- reproduced with suite bodieszat) the Zat's killing hit makes the engine leave a server-side body (it is the one the
--- third hit vaporises) - and the gamemode adds its normal death body as well. The normal one goes.
+-- (reproduced with suite bodieszat) the Zat's killing hit makes the engine leave a server-side body (it is the one
+-- the third hit vaporises) - and the gamemode adds its normal death body as well. The normal one goes.
+--
 local function oneZatBody(ply)
     if (not IsValid(ply) or not ply.GetShouldServerRagdoll or not ply:GetShouldServerRagdoll()) then return end
     local r = ply:GetRagdollEntity()

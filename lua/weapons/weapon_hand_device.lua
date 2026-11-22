@@ -29,14 +29,14 @@ SWEP.Slot = 3
 SWEP.SlotPos = 3
 SWEP.DrawAmmo = true
 SWEP.DrawCrosshair = true
--- AGP 2026-11-12: CAP's own first-person model and animations again (the device on the fingers, the push, the beam
--- hand), with the player's own hands laid onto its arm (AGP.BlueprintArms at the end of this file). 2026-11-08's bug
--- bait animations never held the device right (owner: "horribly misaligned on the fingers").
+-- AGP: CAP's own first-person model and animations again (the device on the fingers, the push, the beam hand),
+-- with the player's own hands laid onto its arm (AGP.BlueprintArms at the end of this file). bug bait animations
+-- never held the device right.
 SWEP.ViewModel = "models/weapons/v_models/v_hdevice.mdl"
 SWEP.WorldModel = "models/w_hdevice.mdl"
 SWEP.HoldType = "slam"
--- AGP 2026-11-14 (owner: "on first equipt of the goauld device the hand device i had a pistol there"): both models are
--- precached on the server when the file loads, so the first Give never meets a model the server has not loaded yet.
+-- AGP: both models are precached on the server when the file loads, so the first Give never meets a model the server
+-- has not loaded yet.
 if (SERVER) then
     util.PrecacheModel(SWEP.ViewModel)
     util.PrecacheModel(SWEP.WorldModel)
@@ -242,7 +242,7 @@ if SERVER then
 
                     if (self.Target:IsPlayer() and not self.Target:HasGodMode()) then
                         --################### Slowdown
-                        -- AGP 2026-11-08: one timer per victim, holding the victim itself (CAP's global timer read
+                        -- AGP: one timer per victim, holding the victim itself (CAP's global timer read
                         -- self.Target when it ran: after a miss it was nil and the victim stayed slow; a second victim
                         -- within 4 s cancelled the first one's restore), and his own speeds come back instead of 250/500.
                         -- StarGate.ParalyzePlayer: stargate/shared/init.lua
@@ -411,14 +411,14 @@ if CLIENT then
     end
 end
 
--- AGP 2026-11-12: the player's own hand in CAP's hand device model (lua/autorun/agp_blueprint_arms.lua)
+-- AGP: the player's own hand in CAP's hand device model (lua/autorun/agp_blueprint_arms.lua)
 if (AGP and AGP.BlueprintArms) then
     AGP.BlueprintArms(SWEP, { vm = "models/weapons/v_models/v_hdevice.mdl", hide = { "hand_black" }, arms = AGP.BlueprintRigs.hdevice })
 end
 
--- AGP 2026-11-12 (owner: "not really in the hand"): third person - CAP's world model is one rigid piece on one bone and
--- stood off the back of the hand on every body; the holder wears a copy whose pieces hang on the hand's and the
--- fingers' own bones (notes/models/agp_hdevice_build.py). The dropped weapon is CAP's model as before.
+-- AGP: third person - CAP's world model is one rigid piece on one bone and stood off the back of the hand on every
+-- body; the holder wears a copy whose pieces hang on the hand's and the fingers' own bones. The dropped weapon
+-- is CAP's model as before.
 if (AGP and AGP.WorldMerged) then
     AGP.WorldMerged(SWEP, { model = "models/agp/w_hdevice_fit.mdl", convar = "agp_hdev_fix", stand_in = AGP.HandDeviceStandIn })
 end

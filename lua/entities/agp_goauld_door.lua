@@ -30,7 +30,7 @@ function ENT:SetupDataTables()
 	self:NetworkVar("Bool", 1, "Locked")
 end
 
--- the real panel model for this door's size, if there is one (notes/hatak/mkdoor.py)
+-- the real panel model for this door's size, if there is one
 function ENT:RealPanelModel(w, h, t)
 	local m = string.format("models/agp/hatak/props/door_%dx%dx%d.mdl", math.floor(w / 2) + 1, math.Round(h), math.Round(t))
 	return file.Exists(m, "GAME") and m or nil
@@ -100,7 +100,7 @@ if SERVER then
 		self.RealPanels = {}
 		for i, side in ipairs({ 1, -1 }) do
 			local p = ents.Create("agp_door_panel")
-			if (IsValid(p)) then p.DoNotDuplicate = true end   -- (2026-11-12: built by its parent, which builds it again after a save or a paste - copied as well it was there twice)
+			if (IsValid(p)) then p.DoNotDuplicate = true end   -- (built by its parent, which builds it again after a save or a paste - copied as well it was there twice)
 			if (IsValid(p)) then
 				p:SetModel(mdl)
 				p:SetSide(side)

@@ -1,8 +1,8 @@
 --[[
 	Ascension Gates: our own pictures for the prop icons of our lists (CAP props, Ascension Gates Props). GMod renders
 	spawn icons itself and cuts big models off (Ha'tak hull, buildings: blank or one-colour icons), and it keeps those
-	in its cache. The pictures in materials/agp/propicons/ (rendered from outside each model, notes/test suite
-	propicons) are laid over any model icon that has one.
+	in its cache. The pictures in materials/agp/propicons/ (rendered from outside each model suite propicons)
+	are laid over any model icon that has one.
 ]]
 local function iconPath(m)
     local n = string.lower(m):gsub("\\", "/"):gsub("^models/", ""):gsub("%.mdl$", ""):gsub("/", "_")

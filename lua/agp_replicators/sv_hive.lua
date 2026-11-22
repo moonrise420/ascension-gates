@@ -1,8 +1,8 @@
 --[[
-	Replicators: the hive (server). One hive per swarm (per owner). The hive's commander is the QUEEN (owner 2026-11-02):
-	with a Queen the swarm is coordinated, without one it is a loose group where every bug decides alone (its own
-	character and the shared memory only) - so killing the Queen makes them much less dangerous until they have built a
-	new one, which then is their first goal. Every 3 seconds the Queen looks at her swarm and decides:
+	Replicators: the hive (server). One hive per swarm (per owner). The hive's commander is the QUEEN: with a Queen the
+	swarm is coordinated, without one it is a loose group where every bug decides alone (its own character and the
+	shared memory only) - so killing the Queen makes them much less dangerous until they have built a new one, which
+	then is their first goal. Every 3 seconds the Queen looks at her swarm and decides:
 	- roles: scouts (explore the edge of what they know, find metal and hiding places), workers (eat, carry metal), hunters
 	  (fight), guards (stay with the Queen), survivors (see below). Roles are suggestions the bugs weigh in their own
 	  decisions, not orders;
@@ -47,9 +47,9 @@ end
 -- a generator or a ship from far, an open Stargate, a shield. Close metal they smell anyway (sense in the bug).
 local LURES = { { "zpm", 5 }, { "hatak", 5 }, { "naquadah", 3 }, { "generator", 3 }, { "reactor", 3 }, { "core", 3 },
 	{ "shield", 3 }, { "sg_vehicle", 3 }, { "jumper", 3 }, { "stargate", 2 }, { "dhd", 2 }, { "drone", 2 }, { "asgard", 2 }, { "ancient", 2 } }
--- (owner 2026-11-14: "replicators radar sense for where energy and food is could be bigger ... in some distance i placed
--- some generators and yeahh no replicator hunting it"): the PowerGrid addon's generators and cells (class agp_solar_*,
--- agp_wind_turbine, agp_cell_*; their ENT.AGPKind) matched none of the names above - the swarm never saw them
+-- the PowerGrid addon's generators and cells (class agp_solar_*, agp_wind_turbine, agp_cell_*; their ENT.AGPKind)
+-- matched none of the names above - the swarm never saw them
+--
 local POWERGRID_KINDS = { solar = 3, wind = 3, storage = 3 }
 function R.LurePower(e)
 	if e.AGPReplicator or e:IsPlayer() or e:IsWeapon() then return nil end
@@ -64,7 +64,7 @@ function R.LurePower(e)
 	if pg and cls:find("^agp_") then return pg end
 	for _, l in ipairs(LURES) do
 		if cls:find(l[1], 1, true) then
-			-- an open gate: a lot of energy - but only one that dials out; the receiving one's horizon kills (owner 2026-11-14)
+			-- an open gate: a lot of energy - but only one that dials out; the receiving one's horizon kills
 			if cls:find("stargate", 1, true) and e.IsOpen == true then
 				if R.GateInbound and R.GateInbound(e) then return nil end
 				return 4

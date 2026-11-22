@@ -64,7 +64,7 @@ if SERVER then
         local trace = util.TraceHull(tr)
 
         if (trace.Hit) then
-            vecSrc = trace.HitPos -- AGP 2026-11-08: where the trace stopped (was tr.endpos = the wanted spot, maybe in the wall)
+            vecSrc = trace.HitPos -- AGP: where the trace stopped (was tr.endpos = the wanted spot, maybe in the wall)
         end
 
         return vecSrc
@@ -75,8 +75,8 @@ if SERVER then
         local pPlayer = self.Owner
         local vecEye = pPlayer:EyePos()
         local vForward, vRight
-        -- AGP 2026-11-08: along the aim like HL2's grenade (eye direction, then a little up); GetForward() of a player
-        -- is level, so looking up or down was ignored and every throw went flat
+        -- AGP: along the aim like HL2's grenade (eye direction, then a little up); GetForward() of a player is level,
+        -- so looking up or down was ignored and every throw went flat
         local eyeAng = pPlayer:EyeAngles()
         vForward = eyeAng:Forward()
         vRight = eyeAng:Right()
@@ -198,5 +198,5 @@ function SWEP:SecondaryAttack()
 
     self:SetNextSecondaryFire(CurTime() + 2.5)
 end
--- AGP 2026-11-10: the player's own hands (GMod's hands of the player model) instead of the arms built into the old view model
+-- AGP: the player's own hands (GMod's hands of the player model) instead of the arms built into the old view model
 if (AGP and AGP.OwnHands) then AGP.OwnHands(SWEP, { "pg_wraith_hands_v2" }) end

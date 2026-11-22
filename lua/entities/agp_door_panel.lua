@@ -1,8 +1,8 @@
 --[[
-	Goa'uld door panel (Ascension Gates)
-	One half of an agp_goauld_door: a real model with its own collision (models/agp/hatak/props/door_<w>x<h>x<t>.mdl,
-	notes/hatak/mkdoor.py), parented to its door, which slides it into the wall. E on it works the door.
-	Not in the spawn menu; doors create their panels.
+	Goa'uld door panel (Ascension Gates) One
+	half of an agp_goauld_door: a real model with its own collision (models/agp/hatak/props/door_<w>x<h>x<t>.mdl),
+	parented to its door, which slides it into the wall. E on it works the door. Not in the spawn menu;
+	doors create their panels.
 ]]
 ENT.Type = "anim"
 ENT.Base = "base_anim"

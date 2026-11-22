@@ -1,4 +1,4 @@
-// Ascension Gates: French texts (2026-10-19)
+// Ascension Gates: French texts
 cat_capital_ship = Vaisseaux mères
 cat_small_ship = Vaisseaux
 cat_others = Divers
@@ -50,7 +50,7 @@ wp_m9_berreta = SGC Sidearm
 wp_ori_hand = Arme à main Ori
 wp_goauld_zatarc = Zatarc Goa'uld
 
-// Fusion des fonctions de l'EAP (2026-10-19)
+// Fusion des fonctions de l'EAP
 key_malp_control = Arrêter le contrôle
 vis_wormhole = Animation du voyage dans le vortex
 vis_wormhole_desc = Affiche le tunnel du vortex quand tu traverses une porte (seulement si le serveur utilise la séquence du vortex). Désactivé = voyage instantané.
@@ -91,7 +91,7 @@ agp_info_btn_close = C'est parti !
 agp_info_dontshow = Ne plus afficher au démarrage
 agp_gtsp_saved = Générateur de portes enregistré pour %s. Il se charge automatiquement à chaque lancement de cette carte.
 agp_credits_about = À propos
-// gate spawner, Grid Power, life support, units (2026-10-21)
+// gate spawner, Grid Power, life support, units
 agp_gs_title = Générateur de portes
 agp_gs_help = Place les portes, DHD, anneaux et rampes normalement, puis appuie sur "Enregistrer la carte" : ils apparaîtront à chaque lancement de cette carte. Double-clic sur un élément pour y aller, clic droit pour le retirer.
 agp_gs_status = Carte : %s\nGénérateur : %s\nSource : %s\nÉléments : %d
@@ -149,7 +149,7 @@ agp_unit_temp = Température
 agp_unit_gravity = Gravité
 agp_unit_auto = Auto (ton pays)
 agp_unit_auto_g = Auto (g)
-// our parts: names, suit HUD, gate report, screens, link tool, chat, resources (2026-10-21)
+// our parts: names, suit HUD, gate report, screens, link tool, chat, resources
 agp_ent_cell_xs = Cellule d'énergie (XS)
 agp_ent_cell_small = Cellule d'énergie (S)
 agp_ent_cell_medium = Cellule d'énergie (M)
@@ -751,7 +751,7 @@ agp_hkm_c_reps_core = Des Réplicateurs au cœur d'énergie !
 agp_arg_name = Arme anti-réplicateurs
 agp_arg_purpose = Détruis ces bestioles
 agp_arg_instr = Clic gauche - tirer l'onde anti-réplicateurs, maintiens R - chercher une nouvelle fréquence
-// window texts (2026-11-10)
+// window texts
 agp_ui_hyperspace = Hyperespace
 agp_ui_target = Cible
 agp_ui_jump_target = Sauter vers la cible choisie
@@ -834,7 +834,7 @@ agp_ui_autolink = Relier automatiquement à un nœud de ressources
 agp_ui_add_velocity = Le tir reçoit en plus la vitesse du canon
 agp_ui_autoweld = Souder automatiquement
 agp_ui_empty = (vide)
-// Ha'tak consoles (2026-11-10)
+// Ha'tak consoles
 agp_hk_weapons = ARMES
 agp_hk_staff_cannons = CANONS À BÂTON
 agp_hk_charging = CHARGEMENT
@@ -958,7 +958,7 @@ agp_hk_nearest_ring = Anneau le plus proche hors du vaisseau
 agp_hk_glyph_pad = Clavier de glyphes goa'uld
 agp_hk_t_mark = Repère %s
 agp_hk_t_player = Joueur %s
-// Ha'tak messages, crew announcements and ship log (2026-11-10)
+// Ha'tak messages, crew announcements and ship log
 agp_hkm_w_ship = Ha'tak
 agp_hkm_w_engine = Ha'tak salle des machines
 agp_hkm_w_computer = Ha'tak noyau informatique
@@ -1312,6 +1312,16 @@ agp_ship_title_all = Tous les vaisseaux
 agp_ship_shieldvis = Bulle du bouclier
 agp_ship_shieldvis0 = Seulement à l'impact ou à l'activation/désactivation
 agp_ship_shieldvis1 = Toujours visible
+agp_ship_wenergy = Les armes consomment de l'énergie
+agp_ship_wenergy0 = Jamais (gratuit)
+agp_ship_wenergy1 = Si connectées
+agp_ship_wenergy2 = Toujours
+agp_ship_spower = Les armes utilisent l'énergie du vaisseau
+agp_ship_tip_spower = Oui : une arme sur un vaisseau StarCore prend l'énergie du vaisseau - d'abord ses ZPM, générateurs et batteries, sinon l'énergie propre du vaisseau.
+agp_ship_wbalance = Armes contre vaisseaux
+agp_ship_wbalance0 = Bac à sable AGP
+agp_ship_wbalance1 = Puissance de la série
+agp_ship_tip_wbalance = Puissance de la série : les armes frappent les vaisseaux aussi fort que dans la série, les armes de poing égratignent à peine une coque. Bac à sable AGP : les dégâts propres de chaque arme.
 agp_ship_destructtime = Autodestruction : compte à rebours (secondes)
 agp_ship_tip_shieldvis = Toujours : la bulle du bouclier de chaque vaisseau luit faiblement tant que le bouclier est actif. Sinon, on ne la voit qu'à l'impact et à l'activation ou la désactivation.
 agp_ship_tip_destructtime = Secondes entre l'appui sur la touche d'autodestruction et l'explosion. Un second appui fait exploser le vaisseau aussitôt.

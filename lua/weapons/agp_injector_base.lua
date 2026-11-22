@@ -1,13 +1,13 @@
 --[[
-	Ascension Gates (own code, 2026-11-06): base of our one-dose injectors (Wraith enzyme, tretonin), not spawnable.
-	AGP 2026-11-08 (owner): they inject like the adrenaline / ATA gene shot, the needle towards yourself.
-	First person (2026-11-10): GMod's small-object grip (c_bugbait) with the player's own hands, our injector in the
-	fist on its hand bone; the squeeze presses it, the plunger goes in and the liquid runs out, then it is gone.
-	Third person: held in the fist like a dagger the wrong way round, the needle down at the thigh (the hand frame of
-	our models, notes/models/agp_injectors_build.py); the plunger and the liquid move there too.
-	A weapon sets SWEP.WorldModel (one of our injector models: bones body, plunger, liquid, cap), SWEP.PlungerTravel
-	(model units), SWEP.CapPivot (the cap bone's pivot), SWEP.InjectSound and SWEP:AGPInject(ply) (server: what the
-	dose does), optionally SWEP:AGPCanInject(ply) -> ok, message.
+	Ascension Gates (own code): base of our one-dose injectors (Wraith enzyme, tretonin), not spawnable. AGP: they
+	inject like the adrenaline / ATA gene shot, the needle towards yourself. First person: GMod's
+	small-object grip (c_bugbait) with the player's own hands, our injector in the fist on its hand bone; the squeeze
+	presses it, the plunger goes in and the liquid runs out, then it is gone. Third person: held in the fist like
+	a dagger the wrong way round, the needle down at the thigh (the hand frame of our models); the plunger and the
+	liquid move there too. A weapon sets SWEP.WorldModel (one of our injector models: bones body,
+	plunger, liquid, cap), SWEP.PlungerTravel (model units), SWEP.CapPivot (the cap bone's pivot), SWEP.InjectSound
+	and SWEP:AGPInject(ply) (server: what the dose does), optionally SWEP:AGPCanInject(ply) -> ok, message.
+
 ]]
 SWEP.Base = "weapon_base"
 SWEP.PrintName = "Injector"
@@ -18,8 +18,8 @@ SWEP.Slot = 4
 SWEP.SlotPos = 6
 SWEP.DrawAmmo = false
 SWEP.DrawCrosshair = false
--- AGP 2026-11-10 (owner: the hands in first person must be the player's own): GMod's small-object grip with the
--- player's own hands (the adrenaline shot's view model had arms of its own); our injector in the fist on its hand bone
+-- AGP (the hands in first person must be the player's own): GMod's small-object grip with the player's own
+-- hands (the adrenaline shot's view model had arms of its own); our injector in the fist on its hand bone
 SWEP.ViewModel = "models/weapons/c_bugbait.mdl"
 SWEP.ViewModelFOV = 54
 SWEP.UseHands = true
@@ -37,8 +37,8 @@ SWEP.Secondary.DefaultClip = -1
 SWEP.Secondary.Automatic = false
 SWEP.Secondary.Ammo = "none"
 
--- AGP 2026-11-08: times in the adrenaline shot's "heal" animation (91 frames at 30 fps, measured offline):
--- the cap comes off at ~0.95 s, the needle goes in at ~1.65 s, the empty injector is gone after ~2.4 s
+-- AGP: times in the adrenaline shot's "heal" animation (91 frames at 30 fps, measured offline): the cap
+-- comes off at ~0.95 s, the needle goes in at ~1.65 s, the empty injector is gone after ~2.4 s
 local CAP_OFF, PUSH_AT, PUSH, DONE = 0.95, 1.65, 0.25, 3.0
 
 if SERVER then
@@ -53,7 +53,7 @@ function SWEP:Initialize()
     self:SetHoldType(self.HoldType)
 end
 
--- AGP 2026-11-08: the shot's draw animation, then its idle (as sg_adrenaline.lua)
+-- AGP: the shot's draw animation, then its idle (as sg_adrenaline.lua)
 function SWEP:Deploy()
     self:SendWeaponAnim(ACT_VM_DRAW)
     self:SetNextPrimaryFire(CurTime() + 0.4)
@@ -76,10 +76,10 @@ function SWEP:PrimaryAttack()
             return
         end
     end
-    -- AGP 2026-11-08: the adrenaline shot's injection (its view model animation) instead of the hand going to the thigh
+    -- AGP: the adrenaline shot's injection (its view model animation) instead of the hand going to the thigh
     self:SetNextPrimaryFire(CurTime() + DONE + 0.4)
     self:SetInjectAt(CurTime())
-    self:SendWeaponAnim(ACT_VM_SECONDARYATTACK)   -- AGP 2026-11-10: the bug bait squeeze (the fist presses the injector)
+    self:SendWeaponAnim(ACT_VM_SECONDARYATTACK)   -- AGP: the bug bait squeeze (the fist presses the injector)
     if (SERVER) then
         timer.Simple(CAP_OFF, function()
             if (IsValid(self)) then self:EmitSound("weapons/smg1/switch_single.wav", 45, 160) end   -- the cap pops off
@@ -109,7 +109,7 @@ end
 -- our model: the plunger goes in, the liquid runs out (bones "plunger" and "liquid"); the cap (bone "cap"):
 -- capPos / capAng = where the pen's cap has taken it (first person, in the design frame of bone "body"),
 -- else on the needle when the injector lies about, gone while it is held (the bare needle towards the body)
--- AGP 2026-11-08: those bones have no turn of their own below "body", so the offsets act along the design axes
+-- AGP: those bones have no turn of their own below "body", so the offsets act along the design axes
 function SWEP:AGPPose(ent, capPos, capAng)
     local d = self:Dose()
     local b = ent:LookupBone("plunger")

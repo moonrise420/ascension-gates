@@ -168,8 +168,8 @@ if SERVER then
                 end
             end
 
-            -- AGP 2026-10-30: the culling beam is on while SUCK is held (it flipped on/off 4 times a second before);
-            -- SPIT releases one per press, the last one collected first
+            -- AGP: the culling beam is on while SUCK is held (it flipped on/off 4 times a second before); SPIT
+            -- releases one per press, the last one collected first
             if (IsValid(self.Harvester)) then
                 local suck = self.Pilot:KeyDown(self.Vehicle, "SUCK")
                 local on = self.Harvester:GetNWBool("on")

@@ -15,10 +15,10 @@
 	drawn through a portal, or when you stand inside it yourself (an interior parked in the sky stays invisible).
 	Not in the spawn menu; ships create their portals.
 
-	Seamless crossing, as World Portals / the TARDIS addon do it (2026-10-25): the doorway is drawn as a box reaching
-	DEPTH units behind its plane, so the far side still fills the view while the eye is past the plane but the server
-	has not moved the player yet; the far side is rendered at full screen size with the normal tone mapping; a tilted
-	ship's roll is turned out of the view smoothly after crossing.
+	Seamless crossing, as World Portals / the TARDIS addon do it: the doorway is drawn as a box reaching DEPTH units
+	behind its plane, so the far side still fills the view while the eye is past the plane but the server has not
+	moved the player yet; the far side is rendered at full screen size with the normal tone mapping; a tilted ship's
+	roll is turned out of the view smoothly after crossing.
 ]]
 ENT.Type = "anim"
 ENT.Base = "base_anim"
@@ -185,6 +185,10 @@ if SERVER then
 			e:SetPos(np); e:SetAngles(na)
 			if (e:IsNPC()) then e:SetLocalVelocity(v) else e:SetVelocity(v) end
 		end
+		-- a teleport, not a movement, for the clients too (filmed on a hosted game: a glider carried through a launch slot
+		-- stood still for ~6 frames on the client, its pilot's camera with it)
+		e:AddEffects(EF_NOINTERP)
+		timer.Simple(0.1, function() if IsValid(e) then e:RemoveEffects(EF_NOINTERP) end end)
 		E.ESide = E.ESide or {}
 		E.ESide[e] = true
 		e.AGPPortalWait = CurTime() + 0.2
@@ -292,10 +296,16 @@ if CLIENT then
 	-- face different ways), but the client does not get both at once: in singleplayer the view origin is interpolated
 	-- (it comes a frame or more later), the new angles are there at once. Until both are in, the view is turned to
 	-- match the side the view origin still stands on - no frame looks the wrong way (the blink when crossing).
-	local cross
+	-- (filmed frame by frame: the blink) the view ORIGIN is not moved at once either: the engine slides it from the
+	-- old spot to the new one over about 0.1 s (EF_NOINTERP does not stop that for the local player), and the two
+	-- sides of a doorway can be far apart on the map (the Ha'tak's interior hangs in the sky) - 2 to 3 frames showed the
+	-- sky between them. crossO: for that time a view that stands near neither doorway is put where the player really is
+	-- (the network origin, not slid), on the new side.
+	local cross, crossO
 	net.Receive("AGP_PortalCross", function()
 		local P, E, na = net.ReadEntity(), net.ReadEntity(), net.ReadAngle()
-		if (not IsValid(P) or not IsValid(E) or not P:Linked() or not E:Linked()) then cross = nil return end
+		if (not IsValid(P) or not IsValid(E) or not P:Linked() or not E:Linked()) then cross = nil crossO = nil return end
+		crossO = { P = P, E = E, till = CurTime() + 0.5 }
 		local oa = E:CarryAng(na)   -- the same view on the old side
 		if (math.abs(math.AngleDifference(oa.y, na.y)) < 3 and math.abs(math.AngleDifference(oa.p, na.p)) < 3) then cross = nil return end   -- frames face the same way
 		cross = { P = P, E = E, na = na, oa = oa, till = CurTime() + 0.5 }
@@ -304,6 +314,126 @@ if CLIENT then
 		local inRect, l = P:InRect(pos, 64)
 		return inRect and math.abs(l.x) < 200
 	end
+	-- The view normally trails the real eye a little (viewLag, measured every frame); across the doorway it is kept at the
+	-- real eye plus that trail carried over, so the walk goes on without a jump - also not the 18-unit drop of the
+	-- engine's stair smoothing, which takes the doorway for a step. Once the engine's own view stands on the new side
+	-- too, the two are blended over 0.2 s.
+	local viewLag, lastNetEye
+	local function netEye(ply)
+		return ply:GetNetworkOrigin() + (ply:Crouching() and ply:GetViewOffsetDucked() or ply:GetViewOffset())
+	end
+	local function mendOrigin(ply, pos)
+		-- only for a player who walks through: in a seat or a craft the camera is the craft's (see AGP_PortalViewEnt)
+		if (ply:InVehicle() or ply:GetViewEntity() ~= ply or ply:GetObserverMode() ~= OBS_MODE_NONE) then crossO, lastNetEye = nil, nil return end
+		local eye = netEye(ply)
+		-- the real position jumped through a doorway: a crossing, also when the server's message is not in yet
+		if (not crossO and lastNetEye and eye:DistToSqr(lastNetEye) > 300 * 300) then
+			for _, P in ipairs(ents.FindByClass("agp_portal")) do
+				if (P:Linked() and not P:GetViewOnly() and near(P, lastNetEye) and near(P:GetExit(), eye)) then
+					crossO = { P = P, E = P:GetExit(), till = CurTime() + 0.5 }
+					break
+				end
+			end
+		end
+		lastNetEye = eye
+		if (crossO and (CurTime() > crossO.till or not IsValid(crossO.P) or not IsValid(crossO.E))) then crossO = nil end
+		if (not crossO) then viewLag = pos - eye return end
+		if (not near(crossO.E, eye)) then return end   -- the message came first, the real position is not over yet
+		crossO.lag = crossO.lag or crossO.P:CarryDir(viewLag or Vector(0, 0, 0))
+		local want = eye + crossO.lag
+		-- the trail can reach back past the far doorway (sprinting: the real eye is just over, the view a few units
+		-- behind it): there, behind the far doorway, is the void outside the room - a black frame, 3 of 12 sprints
+		-- (filmed). That spot is still on the near side: the view stays there, where the doorway shows it.
+		if (crossO.E:WorldToLocal(want).x < 1) then want = crossO.E:CarryPos(want) end
+		if (near(crossO.E, pos) and crossO.E:WorldToLocal(pos).x > 1 and pos:DistToSqr(want) < 40 * 40) then   -- the engine's view is over as well: hand back
+			crossO.blend = crossO.blend or CurTime()
+			local f = math.Clamp((CurTime() - crossO.blend) / 0.2, 0, 1)
+			if (f >= 1) then crossO = nil return end
+			return LerpVector(f, want, pos)
+		end
+		return want
+	end
+	-- a camera that belongs to a craft (the chase camera behind it, the cockpit eye in front of its centre): when the line
+	-- from the craft to its camera passes through a doorway, the camera really stands on the doorway's other side, so it
+	-- is moved through with its angles. A glider leaving a Ha'tak launch slot: its chase camera, 750 behind, was inside
+	-- the hull's model (filmed); now it stays in the glider bay and sees the glider through the slot, as the moment
+	-- before. Used by the AGP craft's cameras (sg_vehicle_base, the glider's cockpit view). Near a
+	-- doorway the camera also stops at the walls of the ship it belongs to (hull, interior) and the map: once the glider
+	-- is a little way out, the line back to its chase camera runs through the hull beside the slot (filmed too). Only
+	-- there; elsewhere the craft's camera is as it always was.
+	local function clipCam(from, to, frames)
+		local tr = util.TraceLine({ start = from, endpos = to, mask = MASK_SOLID,
+			filter = function(e) return e:IsWorld() or frames[e] == true end })
+		if (tr.Hit and not tr.StartSolid) then return tr.HitPos + tr.HitNormal * 8 end
+		return to
+	end
+	-- A chase camera sits above and behind its craft, so the line back to it soon misses the doorway's opening as the
+	-- craft flies on (then the hull is in between and the camera would pop in close). While the camera is carried, that
+	-- line is kept inside the opening: the camera is lowered towards the craft's axis, a little more as the craft gets
+	-- further out, until the camera itself is through; then it goes back to its usual height over 0.3 s.
+	local camState
+	function AGP_PortalCamera(anchor, origin, angles)
+		local frames, any = {}, false
+		local st = camState
+		if (st and (not IsValid(st.P) or CurTime() - st.seen > 0.5)) then st = nil; camState = nil end
+		for _, P in ipairs(ents.FindByClass("agp_portal")) do
+			if (P:Linked() and not P:GetViewOnly() and P:GetPos():DistToSqr(anchor) < 4000 * 4000) then
+				frames[P:GetFrameSelf()] = true; frames[P:GetFrameExit()] = true; any = true
+				local la, lo = P:WorldToLocal(anchor), P:WorldToLocal(origin)
+				local w, h = P:GetPortalWidth() / 2, P:GetPortalHeight() / 2
+				if (la.x > 0 and lo.x < 0) then
+					local hit = la + (lo - la) * (la.x / (la.x - lo.x))
+					local inside = math.abs(hit.y) <= w and math.abs(hit.z) <= h
+					if (inside or (st and st.P == P and not st.out)) then
+						-- the line from the craft to the camera through the opening (moved into it by up to the margin)
+						local m = math.min(64, w * 0.45, h * 0.45)   -- well inside: the camera passes the frame with room
+						local xp = Vector(0, math.Clamp(hit.y, -w + m, w - m), math.Clamp(hit.z, -h + m, h - m))
+						local lo2 = la + (xp - la):GetNormalized() * (lo - la):Length()
+						camState = { P = P, off = lo2 - la, seen = CurTime() }
+						return clipCam(P:CarryPos(P:LocalToWorld(xp)), P:CarryPos(P:LocalToWorld(lo2)), frames), P:CarryAng(angles)
+					end
+				elseif (st and st.P == P and la.x > 0 and lo.x >= 0) then
+					-- the camera came through the opening as well: back to its usual place, smoothly
+					st.out = st.out or CurTime()
+					st.seen = CurTime()
+					local f = math.Clamp((CurTime() - st.out) / 0.3, 0, 1)
+					if (f >= 1) then camState = nil else
+						local off = LerpVector(f * f * (3 - 2 * f), st.off, lo - la)
+						return clipCam(anchor, P:LocalToWorld(la + off), frames), angles
+					end
+				end
+			end
+		end
+		if (any) then return clipCam(anchor, origin, frames), angles end
+		return origin, angles
+	end
+
+	-- a player looking through an entity that went through a doorway (a glider's pilot, its chase camera): his aim is
+	-- turned with it in the same frame, or the camera behind the craft swings round by the doorway's turn. The craft's
+	-- camera calls this before it reads the aim and uses the angles it returns: GetAimVector() shows the turn one frame
+	-- later (filmed). Every Think calls it as well (a craft without such a camera).
+	local lastVE, lastVEPos, turnedFrame, turnedAng
+	function AGP_PortalTurnAim()
+		local ply = LocalPlayer()
+		if (not IsValid(ply)) then return end
+		if (turnedFrame == FrameNumber()) then return turnedAng end
+		local ve = ply:GetViewEntity()
+		if (not IsValid(ve) or ve == ply) then lastVE = nil return end
+		local pos = ve:GetPos()
+		if (ve == lastVE and lastVEPos and pos:DistToSqr(lastVEPos) > 300 * 300) then
+			for _, P in ipairs(ents.FindByClass("agp_portal")) do
+				if (P:Linked() and not P:GetViewOnly() and P:CarryPos(lastVEPos):DistToSqr(pos) < 400 * 400) then
+					local a = P:CarryAng(ply:EyeAngles()); a.r = 0
+					ply:SetEyeAngles(a)
+					turnedFrame, turnedAng = FrameNumber(), a
+					break
+				end
+			end
+		end
+		lastVE, lastVEPos = ve, pos
+		if (turnedFrame == FrameNumber()) then return turnedAng end
+	end
+	hook.Add("Think", "AGP_PortalViewEnt", AGP_PortalTurnAim)
 	local function turn(a, b) return math.abs(math.AngleDifference(a.y, b.y)) + math.abs(math.AngleDifference(a.p, b.p)) end
 	local function mendAngles(pos, ang)
 		if (not cross) then return end
@@ -317,37 +447,40 @@ if CLIENT then
 		end
 	end
 	local mended   -- this frame's mended view (the view model follows it)
+	local mendedPos
 	hook.Add("CalcView", "AGP_PortalRoll", function(ply, pos, ang, fov)
-		mended = nil
+		mended, mendedPos = nil, nil
+		local mo = mendOrigin(ply, pos)
+		if (mo) then pos = mo; mendedPos = mo end
 		local ma = mendAngles(pos, ang)
 		if (ma) then ang = ma; mended = ma end
 		if (roll) then
 			roll = math.Approach(roll, 0, FrameTime() * (0.5 + math.abs(roll)) * 3.5)
 			if (roll == 0) then roll = nil end
 		end
-		if (not roll and not ma) then return end
+		if (not roll and not ma and not mo) then return end
 		return { origin = pos, angles = Angle(ang.p, ang.y, roll or ang.r), fov = fov }
 	end)
 	hook.Add("CalcViewModelView", "AGP_Portal", function(wep, vm, oldPos, oldAng, pos, ang)
-		if (mended) then return pos, mended end
+		if (mended or mendedPos) then return mendedPos or pos, mended or ang end
 	end)
 
 	-- hidden volumes: interiors parked somewhere on the map, only drawn through a doorway or from inside
 	local function inBox(p, mn, mx) return p.x >= mn.x and p.x <= mx.x and p.y >= mn.y and p.y <= mx.y and p.z >= mn.z and p.z <= mx.z end
 	-- only entities we hid ourselves are shown again (things hidden on purpose stay hidden)
 	local hidden, seen = {}, {}
-	-- (2026-11-12, owner: "I travelled through the Stargate into our Hatak and all walls, floors and the ceiling are gone,
-	-- only the props are left") the volume's own big model - the walls - is drawn by hand: after arriving from far away
-	-- (a gate trip) the engine left it out of what it draws, although it was there and not hidden. shown[f] = this
-	-- volume is visible in the view being drawn now; the engine draws it too where it shows (see setHidden).
+	-- the volume's own big model - the walls - is drawn by hand: after arriving from far away (a gate trip) the engine
+	-- left it out of what it draws, although it was there and not hidden. shown[f] = this volume is visible in the view
+	-- being drawn now; the engine draws it too where it shows (see setHidden).
+	--
 	local shown = {}
 	local function setHidden(list, hide)
 		for _, e in ipairs(list) do
 			if (IsValid(e) and e.AGPHiddenVolume) then
 				shown[e] = not hide
-				-- AGP 2026-11-15: the engine draws it as well wherever it shows (opaque materials only, drawing twice is
-				-- harmless). On sb_gooniverse_v4 the hand drawing alone drew nothing - a Ha'tak's pel'tak had no walls,
-				-- floor or ceiling there; the engine's own drawing did. Each covers the case where the other fails.
+				-- AGP: the engine draws it as well wherever it shows (opaque materials only, drawing twice is harmless).
+				-- On sb_gooniverse_v4 the hand drawing alone drew nothing - a Ha'tak's pel'tak had no walls, floor or
+				-- ceiling there; the engine's own drawing did. Each covers the case where the other fails.
 				if (e:GetNoDraw() ~= hide) then e:SetNoDraw(hide) end
 			elseif (IsValid(e) and e ~= LocalPlayer() and not e:IsWeapon() and e:GetClass() ~= "agp_portal") then
 				seen[e] = true

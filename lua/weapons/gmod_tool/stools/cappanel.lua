@@ -10,7 +10,7 @@ TOOL.Name=SGLanguage.GetMessage("stool_console");
 TOOL.ClientConVar["autoweld"] = 1;
 
 TOOL.ClientConVar["model"] = "models/MarkJaw/atlantis_console/console.mdl"; -- fix: default model did not exist
-TOOL.List = "CAPConsoleModels"; -- AGP 2026-11-08: own list; "ConsoleModels" was shared with sg_console.lua (each picker showed both tools' models)
+TOOL.List = "CAPConsoleModels"; -- AGP: own list; "ConsoleModels" was shared with sg_console.lua (each picker showed both tools' models)
 list.Set(TOOL.List,"models/MarkJaw/atlantis_console/console.mdl",{});
 list.Set(TOOL.List,"models/ZsDaniel/atlantis_console/console.mdl",{});
 if (util.IsValidModel("models/micropro/ancientconsole/ancient_console.mdl")) then

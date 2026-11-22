@@ -33,8 +33,8 @@ function TOOL:LeftClick(t)
 	local c = self:Weld(e,t.Entity,util.tobool(self:GetClientNumber("autoweld")));
 	self:AddUndo(p,e,c);
 	self:AddCleanup(p,c,e);
-	-- AGP 2026-11-08: no second AddCount here: MakeEntity counts the ramp already (twice per ramp: the limit of 10
-	-- was reached after 5 ramps)
+	-- AGP: no second AddCount here: MakeEntity counts the ramp already (twice per ramp: the limit of 10 was
+	-- reached after 5 ramps)
 	return true;
 end
 
@@ -99,7 +99,7 @@ end
 
 function TOOL.BuildCPanel(panel)
     if (StarGate.CFG:Get("cap_disabled_tool","anim_ramps",false)) then
-		panel:Help(SGLanguage.GetMessage("stool_disabled_tool")); -- AGP 2026-11-08: "panel" (was "Panel": nil, a Lua error)
+		panel:Help(SGLanguage.GetMessage("stool_disabled_tool")); -- AGP: "panel" (was "Panel": nil, a Lua error)
 		return
 	end
 

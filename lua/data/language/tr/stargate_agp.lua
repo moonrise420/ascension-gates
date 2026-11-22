@@ -1,4 +1,4 @@
-// Ascension Gates: Turkish texts (2026-10-19)
+// Ascension Gates: Turkish texts
 cat_capital_ship = Büyük Gemiler
 cat_small_ship = Gemiler
 cat_others = Diğer
@@ -50,7 +50,7 @@ wp_m9_berreta = SGC Sidearm
 wp_ori_hand = Ori El Silahı
 wp_goauld_zatarc = Goa'uld Zatarc
 
-// EAP özelliklerinin birleştirilmesi (2026-10-19)
+// EAP özelliklerinin birleştirilmesi
 key_malp_control = Kontrolü bırak
 vis_wormhole = Solucan deliği yolculuk animasyonu
 vis_wormhole_desc = Bir geçitten geçerken solucan deliği tünelini gösterir (yalnızca sunucu solucan deliği sekansını kullanıyorsa). Kapalı = anında yolculuk.
@@ -91,7 +91,7 @@ agp_info_btn_close = Hadi başlayalım!
 agp_info_dontshow = Bunu başlangıçta bir daha gösterme
 agp_gtsp_saved = Geçit oluşturucu %s için kaydedildi. Bu harita her başladığında otomatik olarak yüklenir.
 agp_credits_about = Hakkında
-// gate spawner, Grid Power, life support, units (2026-10-21)
+// gate spawner, Grid Power, life support, units
 agp_gs_title = Geçit Oluşturucu
 agp_gs_help = Geçitleri, DHD'leri, halkaları ve rampaları her zamanki gibi yerleştir ve "Haritayı kaydet"e bas: bu harita her başladığında ortaya çıkarlar. Bir parçaya çift tıkla = oraya git, sağ tık = kaldır.
 agp_gs_status = Harita: %s\nOluşturucu: %s\nKullanılan: %s\nParça: %d
@@ -149,7 +149,7 @@ agp_unit_temp = Sıcaklık
 agp_unit_gravity = Yerçekimi
 agp_unit_auto = Otomatik (ülken)
 agp_unit_auto_g = Otomatik (g)
-// our parts: names, suit HUD, gate report, screens, link tool, chat, resources (2026-10-21)
+// our parts: names, suit HUD, gate report, screens, link tool, chat, resources
 agp_ent_cell_xs = Enerji Hücresi (XS)
 agp_ent_cell_small = Enerji Hücresi (S)
 agp_ent_cell_medium = Enerji Hücresi (M)
@@ -751,7 +751,7 @@ agp_hkm_c_reps_core = Replikatörler enerji çekirdeğinde!
 agp_arg_name = Anti-Replikatör Silahı
 agp_arg_purpose = Şu böcekleri yok et
 agp_arg_instr = Sol tık - anti-replikatör dalgası ateşle, R'yi basılı tut - yeni frekans ara
-// window texts (2026-11-10)
+// window texts
 agp_ui_hyperspace = Hiperuzay
 agp_ui_target = Hedef
 agp_ui_jump_target = Seçili hedefe atla
@@ -834,7 +834,7 @@ agp_ui_autolink = Kaynak düğümüne otomatik bağla
 agp_ui_add_velocity = Atışa topun kendi hızı eklenir
 agp_ui_autoweld = Otomatik kaynak
 agp_ui_empty = (boş)
-// Ha'tak consoles (2026-11-10)
+// Ha'tak consoles
 agp_hk_weapons = SİLAHLAR
 agp_hk_staff_cannons = ASA TOPLARI
 agp_hk_charging = ŞARJ
@@ -958,7 +958,7 @@ agp_hk_nearest_ring = Geminin dışındaki en yakın halka
 agp_hk_glyph_pad = Goa'uld sembol paneli
 agp_hk_t_mark = İşaret %s
 agp_hk_t_player = Oyuncu %s
-// Ha'tak messages, crew announcements and ship log (2026-11-10)
+// Ha'tak messages, crew announcements and ship log
 agp_hkm_w_ship = Ha'tak
 agp_hkm_w_engine = Ha'tak makine dairesi
 agp_hkm_w_computer = Ha'tak bilgisayar çekirdeği
@@ -1312,6 +1312,16 @@ agp_ship_title_all = Tüm gemiler
 agp_ship_shieldvis = Kalkan balonu
 agp_ship_shieldvis0 = Yalnızca isabet alınca veya açılıp kapanınca
 agp_ship_shieldvis1 = Her zaman görünür
+agp_ship_wenergy = Silahlar enerji kullanır
+agp_ship_wenergy0 = Asla (ücretsiz)
+agp_ship_wenergy1 = Bağlıyken
+agp_ship_wenergy2 = Her zaman
+agp_ship_spower = Silahlar geminin enerjisini kullanır
+agp_ship_tip_spower = Evet: StarCore gemisindeki bir silah geminin enerjisini alır - önce ZPM'lerinden, jeneratörlerinden ve pillerinden, yoksa geminin kendi enerjisinden.
+agp_ship_wbalance = Gemilere karşı silahlar
+agp_ship_wbalance0 = AGP kum havuzu
+agp_ship_wbalance1 = Dizideki güç
+agp_ship_tip_wbalance = Dizideki güç: silahlar gemilere dizideki kadar sert vurur, el silahları gövdeyi zar zor çizer. AGP kum havuzu: her silahın kendi hasarı.
 agp_ship_destructtime = Kendini imha: geri sayım (saniye)
 agp_ship_tip_shieldvis = Her zaman: kalkan açıkken her geminin kalkan balonu hafifçe parlar. Aksi halde yalnızca isabet alınca ve açılıp kapanırken görünür.
 agp_ship_tip_destructtime = Kendini imha tuşuna basılmasından patlamaya kadar geçen saniye. İkinci basış gemiyi hemen patlatır.

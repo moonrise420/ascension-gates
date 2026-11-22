@@ -101,7 +101,7 @@ end
 function ENT:Spit(override)
 	local pos = self.Entity:GetPos();
 	local trace = StarGate.Trace:New(pos,self:GetBeamNormal(),self.Entity)
-	-- AGP 2026-10-30: release in reverse order of collecting (the last one taken comes out first), not in random order
+	-- AGP: release in reverse order of collecting (the last one taken comes out first), not in random order
 	local list = {};
 	for i = #(self.Order or {}), 1, -1 do
 		local e = self.Order[i];
@@ -128,7 +128,7 @@ function ENT:Spit(override)
 				k:UnSpectate();
 				k:DrawViewModel(true);
 				k:DrawWorldModel(true);
-				-- AGP 2026-11-08: the same life goes on (Mimetisor disguise, armour and ammo stay), not a new one: AGP.ShipRespawnPilot
+				-- AGP: the same life goes on (Mimetisor disguise, armour and ammo stay), not a new one: AGP.ShipRespawnPilot
 				if (AGP and AGP.ShipRespawnPilot) then AGP.ShipRespawnPilot(k) else k:Spawn() end
 				-- Just to be 100% sure!
 				k:SetColor(Color(255,255,255,255));

@@ -108,7 +108,7 @@ function EFFECT:Think()
 		end
 	end
 
-	-- AGP 2026-11-12 (owner: an admin setting "ship shields always visible"): the bubble stays, faint, while the shield is up
+	-- AGP (an admin setting "ship shields always visible"): the bubble stays, faint, while the shield is up
 	self.Hold = GetGlobalBool("AGPShipShieldVisible", false) and not self.TurnOff and IsValid(self.Parent) and not self.Parent:GetNWBool("depleted", false);
 	if (self.Hold and self.Draw) then return true end
 	return (self.Draw and self.Created + self.LifeTime > CurTime());
@@ -134,8 +134,8 @@ function EFFECT:Render()
 		end
 		if (self.Hold and not self.TurnOff) then alpha = math.max(alpha, (multiply > 0.5) and 16 or 1) end -- AGP: the steady glow of "always visible"
 		self.Entity:SetColor(Color(self.Color.r*255,self.Color.g*255,self.Color.b*255,alpha));
-		-- AGP 2026-11-12 (owner: "in the cockpit, shield on / off is not visible"): the bubble's faces look outward, so an eye
-		-- inside it (cockpit, bridge, on foot under the shield) saw nothing - from inside the inner faces are drawn
+		-- AGP: the bubble's faces look outward, so an eye inside it (cockpit, bridge, on foot under the shield) saw nothing -
+		-- from inside the inner faces are drawn
 		local inside = false;
 		do
 			local mn, mx = self.Entity:GetModelBounds();

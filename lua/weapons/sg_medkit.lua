@@ -159,7 +159,7 @@ function SWEP:PrimaryAttack()
 end
 
 function SWEP:SecondaryAttack()
-	self:SendWeaponAnim( ACT_VM_SECONDARYATTACK )   -- AGP 2026-11-10: the grip's low swing
+	self:SendWeaponAnim( ACT_VM_SECONDARYATTACK )   -- AGP: the grip's low swing
 	self:SetNextPrimaryFire(CurTime()+4)
 	self:SetNextSecondaryFire(CurTime()+4)
 
@@ -225,9 +225,9 @@ end
 function SWEP:Reload()
 end
 
--- AGP 2026-11-10 (owner: the hands in first person must be the player's own, the fingers on the item): GMod's hand
--- animations with the player's own hands instead of the old view model's own arms. The grenade grip: the kit lies
--- flat in the hand, its label readable (on the bug bait grip it stood up in front of the face).
+-- AGP (the hands in first person must be the player's own, the fingers on the item): GMod's hand animations with
+-- the player's own hands instead of the old view model's own arms. The grenade grip: the kit lies flat in the
+-- hand, its label readable (on the bug bait grip it stood up in front of the face).
 if (AGP and AGP.SGCWeapon) then
 	SWEP.ViewModel = "models/weapons/c_grenade.mdl"
 	SWEP.ViewModelFOV = 54

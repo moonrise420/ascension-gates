@@ -198,7 +198,7 @@ end
 -----------------------------------DUPLICATOR----------------------------------
 
 function ENT:PostEntityPaste(ply, Ent, CreatedEntities)
-	if (StarGate.WireRD) then StarGate.WireRD.PostEntityPaste(self, ply, Ent, CreatedEntities) end   -- AGP 2026-11-10: the Wire links back
+	if (StarGate.WireRD) then StarGate.WireRD.PostEntityPaste(self, ply, Ent, CreatedEntities) end   -- AGP: the Wire links back
 	self.Owner = ply;
 end
 

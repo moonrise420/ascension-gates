@@ -1,4 +1,4 @@
-// Ascension Gates: Russian texts CAP never translated (2026-10-19)
+// Ascension Gates: Russian texts CAP never translated
 
 // ===== from stargate.lua =====
 stargate_c_tool_21_universe_v2 = Вселенной v2

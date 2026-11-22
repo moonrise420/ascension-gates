@@ -16,7 +16,7 @@ ENT.CAP_ForceCloak = true;
 
 function ENT:Initialize()
 
-	self:SetModel(AGP.ModelOr("models/jaanus/thruster_flat.mdl")) -- AGP 2026-11-08: base-game model without Wiremod (lua/autorun/agp_fallback_models.lua)
+	self:SetModel(AGP.ModelOr("models/jaanus/thruster_flat.mdl")) -- AGP: base-game model without Wiremod (lua/autorun/agp_fallback_models.lua)
 	self:SetMaterial("james/teltac/gold_plain.vtf")
 	self:SetSolid(SOLID_VPHYSICS)
 	self:SetMoveType(MOVETYPE_VPHYSICS)

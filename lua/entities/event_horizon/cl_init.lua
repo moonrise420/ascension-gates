@@ -19,8 +19,8 @@ function ENT:Initialize()
 
 		local ent = self
 		sound.PlayFile(SndPath,"3d mono",function(snd,ercode,erstr)
-			-- AGP 2026-11-14: the file loads a moment later - the horizon can be gone by then (its Supergate removed while
-			-- closing: "Tried to use a NULL entity" in test_results/2026-11-14_18-43-37)
+			-- AGP: the file loads a moment later - the horizon can be gone by then (its Supergate removed while closing:
+			-- "Tried to use a NULL entity" in test_results/ _18-43-37)
 			if(IsValid(snd) and not IsValid(ent)) then snd:Stop() return end
 			if(IsValid(snd)) then
 				snd:Set3DFadeDistance(10000,33000)
@@ -296,7 +296,7 @@ usermessage.Hook( "StarGate.EventHorizon.SecretStop", function(um)
 	if (IsValid(e)) then e.SGSecretEffect = false; end
 end)
 
--- the wormhole ride's tunnel and sound (and cl_stargate_wormhole): modules/agp_ride.lua (2026-11-10, our own; was EAP's)
+-- the wormhole ride's tunnel and sound (and cl_stargate_wormhole): modules/agp_ride.lua (our own; was EAP's)
 
 --universe_travel_end.mp3
 

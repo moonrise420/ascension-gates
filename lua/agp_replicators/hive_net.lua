@@ -1,4 +1,4 @@
--- Replicators: the shared bug network (hive mind), trained by notes/models/make_hive_net.py from the training runs
+-- Replicators: the shared bug network (hive mind), trained by a build script from the training runs
 return {
 	feats = { "dist", "dz", "crowd", "hp", "stock", "enemy", "edist", "armed", "plan", "swarm", "big", "ship", "air", "role" },
 	opts = { "attack", "board", "build", "deliver", "drain", "eat", "explore", "investigate", "rally", "regroup", "scout", "wander" },

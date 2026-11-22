@@ -126,8 +126,8 @@ function SWEP:SecondaryAttack()
 end
 
 function SWEP:Hurt(damage)
-    -- AGP 2026-11-12: a blade, not a bullet (CAP fired a bullet here: bullet holes in walls, bullet damage) - a short
-    -- trace, slash damage, a cut mark where it meets a wall
+    -- AGP: a blade, not a bullet (CAP fired a bullet here: bullet holes in walls, bullet damage) - a short trace,
+    -- slash damage, a cut mark where it meets a wall
     if (CLIENT) then return end
     local o = self.Owner
     if (not IsValid(o)) then return end
@@ -165,16 +165,16 @@ if CLIENT then
         SWEP.WepSelectIcon = surface.GetTextureID("VGUI/weapons/dagger_inventory")
     end
 
-    -- Kill Icon (AGP 2026-11-08: knife_kill never existed and the icon was registered for "KRD" (the Kino remote's
-    -- name), not for the dagger: the dagger's own picture, killicon scales it to the killfeed line like the Kino remote's)
+    -- Kill Icon (AGP: knife_kill never existed and the icon was registered for "KRD" (the Kino remote's name), not
+    -- for the dagger: the dagger's own picture, killicon scales it to the killfeed line like the Kino remote's)
     if (file.Exists("materials/VGUI/weapons/dagger_inventory.vmt", "GAME")) then
         killicon.Add("dagger", "VGUI/weapons/dagger_inventory", Color(255, 255, 255))
     end
 end
 
--- AGP 2026-11-12 (owner: "CAP's is way better held in the hand - why can't we have it exactly the same way"): CAP's own
--- first-person model and animations, with the player's own hands laid onto its arm skeleton
--- (lua/autorun/agp_blueprint_arms.lua). 2026-11-10's GMod hand animations never fitted this item.
+-- AGP: CAP's own first-person model and animations, with the player's own hands laid onto its arm skeleton
+-- (lua/autorun/agp_blueprint_arms.lua). GMod hand animations never fitted this item.
+--
 if (AGP and AGP.BlueprintArms) then
     AGP.BlueprintArms(SWEP, { vm = "models/weapons/v_knife_d.mdl", hide = { "v_hands" }, arms = AGP.BlueprintRigs.knife })
 end

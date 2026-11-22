@@ -58,8 +58,8 @@ function ENT:Initialize()
 	self.EntHealth = 1000
 	self.MaxHealth = self.EntHealth
     self.Destroyed = false
-	-- AGP 2026-11-08: "Health" output (HealthRepair already wrote it, but the port did not exist); the parts update it
-	-- on damage. Also used by the Destiny small and ship rail turrets (they keep this Initialize).
+	-- AGP: "Health" output (HealthRepair already wrote it, but the port did not exist); the parts update it on damage.
+	-- Also used by the Destiny small and ship rail turrets (they keep this Initialize).
 	self:CreateWireOutputs("Health")
 	self:SetWire("Health", self.EntHealth)
 
@@ -252,7 +252,7 @@ function ENT:PhysicsUpdate( phys, deltatime )
 		TargetPos = self.APCply:GetEyeTrace().HitPos;
 
 		if self.APCply:KeyDown( IN_ATTACK ) then
-			// AGP 2026-11-08: a destroyed turret does not fire from its chair either (only the Wire input was blocked)
+			// AGP: a destroyed turret does not fire from its chair either (only the Wire input was blocked)
 			if self.CanFire and not self.Destroyed then self.Entity:Shoot() end
 		end
 	elseif (self.WireActive == 1) then

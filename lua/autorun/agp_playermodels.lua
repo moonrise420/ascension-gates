@@ -1,20 +1,20 @@
 --[[
-	Ascension Gates: the Tau'ri player models. This release works with CAP's player models (owner 2026-11-12): CAP's
-	own four are registered by CAP Enhanced (stargate/shared/misc.lua: SG soldier, Anubis guard, Wraith, Prior); here
-	come four copies of CAP's SG soldier (ViktorK's model: his body, head, hands and skeleton) in each Tau'ri group's
-	cloth, with the series' shoulder patches (notes/models/agp_cap_soldier_build.py). The same four models are the
-	Tau'ri NPC groups (agp_npcs.lua).
-	Our own player models (2026-11-09 .. 11) are parked outside the pack for a later update
-	(Code/parked/player_models_2026-11-12, with the code that registered them).
+	Ascension Gates: the Tau'ri player models. This release works with CAP's player models: CAP's own four are
+	registered by CAP Enhanced (stargate/shared/misc.lua: SG soldier, Anubis guard, Wraith, Prior); here come four
+	copies of CAP's SG soldier (ViktorK's model: his body, head, hands and skeleton) in each Tau'ri group's cloth,
+	with the series' shoulder patches. The same four models are the Tau'ri NPC groups (agp_npcs.lua). Our own
+	player models are parked outside the
+	pack for a later update (Code/parked/player_models_, with the code that registered
+	them).
 ]]
 -- the first-person arms: GMod's own soldier arms (c_arms_dod: a long sleeve buttoned at the wrist), with textures of
--- ours (notes/models/agp_hands_build.py): the server below puts the group's sleeve on them; the soldier wears black
--- gloves
+-- ours: the server below puts the group's sleeve on them; the soldier wears black gloves
+--
 AGP = AGP or {}
 AGP_ARMS = "models/weapons/c_arms_dod.mdl"
 local CAP_SLEEVE = { sg = "bdu_green", sgc = "bdu_navy", atl = "atl", dst = "dst" }
--- each group: CAP's soldier, and the same soldier with the head of one of GMod's own women (owner 2026-11-12: "female
--- head on male body is a good workaround for now"). Atlantis: the flag on the left shoulder is the skin (USA, Canada).
+-- each group: CAP's soldier, and the same soldier with the head of one of GMod's own women. Atlantis: the flag on the
+-- left shoulder is the skin (USA, Canada).
 for _, v in ipairs({ { "sg", "SG Team" }, { "sgc", "SGC Personnel" }, { "atl", "Atlantis Expedition" }, { "dst", "Destiny Crew" } }) do
     for i = 0, 3 do
         local mdl = "models/player/agp_cap/cap_soldier_" .. v[1] .. (i > 0 and ("_f" .. i) or "") .. ".mdl"

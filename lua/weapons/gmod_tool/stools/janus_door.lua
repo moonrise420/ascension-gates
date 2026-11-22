@@ -23,8 +23,8 @@ local function checkTrace(tr)
 	return (tr.Entity and tr.Entity:IsValid() and not (tr.Entity:IsPlayer() or tr.Entity:IsNPC() or tr.Entity:IsVehicle() or tr.HitWorld));
 end
 
--- AGP 2026-11-08: own names for the dupe modifier, numpad functions, message, undo and remove hook. The Janus and the
--- Shield door tool (and the common Workshop "Fading Door" tool) all used "Fading Door", "Fading Doors onUp/onDown",
+-- AGP: own names for the dupe modifier, numpad functions, message, undo and remove hook. The Janus and the Shield
+-- door tool (and the common Workshop "Fading Door" tool) all used "Fading Door", "Fading Doors onUp/onDown",
 -- "FadingDoorHurrah!": the last loaded file (shield_door) won, so a duped Janus door came back as a Shield door
 -- (invisible prop, black bubble) and a new Janus door said "Shield door has been created!".
 local MODIFIER = "AGP Janus Door";
@@ -43,7 +43,7 @@ if (CLIENT) then
 	language.Add("Tool_janus_door_name", "Janus Door");
 	language.Add("Tool_janus_door_desc", "Makes anything into a Janus Door");
 	language.Add("Tool_janus_door_0", "Click on something to make it a Janus Door.");
-	language.Add("Undone_janus_door", "Undone Janus Door"); -- AGP 2026-11-08: own undo name (was fading_door)
+	language.Add("Undone_janus_door", "Undone Janus Door"); -- AGP: own undo name (was fading_door)
 
 	function TOOL:BuildCPanel()
 		self:AddControl("Header",   {Text = "#Tool_janus_door_name", Description = "#Tool_janus_door_desc"});
@@ -52,8 +52,8 @@ if (CLIENT) then
 		self:AddControl("Numpad",   {Label = "Button", ButtonSize = "22", Command = "janus_door_key"});
 	end
 
-	-- AGP 2026-11-08: was "TOOL.LeftClick = checkTrace": called as self:LeftClick(tr), checkTrace got the tool as its
-	-- trace and returned nil, so the client never drew the tool-gun beam. Same check as the server now.
+	-- AGP: was "TOOL.LeftClick = checkTrace": called as self:LeftClick(tr), checkTrace got the tool as its trace and
+	-- returned nil, so the client never drew the tool-gun beam. Same check as the server now.
 	function TOOL:LeftClick(tr)
 		return checkTrace(tr) and true or false;
 	end
@@ -202,7 +202,7 @@ local function dooEet(ply, ent, stuff)
 		ent.fadeActivate = fadeActivate;
 		ent.fadeDeactivate = fadeDeactivate;
 		ent.fadeToggleActive = fadeToggleActive;
-		ent:CallOnRemove(MODIFIER, onRemove); -- AGP 2026-11-08: own name (was "Fading Doors")
+		ent:CallOnRemove(MODIFIER, onRemove); -- AGP: own name (was "Fading Doors")
 		if (WireLib) then
 			doWireInputs(ent);
 			doWireOutputs(ent);
@@ -228,7 +228,7 @@ end
 
 duplicator.RegisterEntityModifier(MODIFIER, dooEet);
 
--- AGP 2026-11-08: old saves/dupes. Both our door tools stored their doors as "Fading Door" (and read Conna's older
+-- AGP: old saves/dupes. Both our door tools stored their doors as "Fading Door" (and read Conna's older
 -- "FadingDoor"). The stored data tells which door it was: only the Shield door stored a colour (r, g, b); no colour =
 -- a Janus door. Exception: if another addon (the Workshop Fading Door tool) had registered the name before us, doors
 -- without a colour go back to it (its data looks just like a Janus door's). The same block is in shield_door.lua:
@@ -306,7 +306,7 @@ function TOOL:LeftClick(tr)
 		toggle   = self:GetClientNumber("toggle") == 1;
 		reversed = self:GetClientNumber("reversed") == 1;
 	});
-	undo.Create("janus_door"); -- AGP 2026-11-08: own names (were fading_door / FadingDoorHurrah!)
+	undo.Create("janus_door"); -- AGP: own names (were fading_door / FadingDoorHurrah!)
 		undo.AddFunction(doUndo, ent);
 		undo.SetPlayer(ply);
 	undo.Finish();

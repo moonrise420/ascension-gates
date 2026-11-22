@@ -1,4 +1,4 @@
-// Ascension Gates: Russian texts (2026-10-19)
+// Ascension Gates: Russian texts
 cat_capital_ship = Крупные корабли
 cat_small_ship = Корабли
 cat_others = Прочее
@@ -50,7 +50,7 @@ wp_m9_berreta = SGC Sidearm
 wp_ori_hand = Ручное оружие Орай
 wp_goauld_zatarc = Затарк гоаулдов
 
-// Слияние функций EAP (2026-10-19)
+// Слияние функций EAP
 key_malp_control = Прекратить управление
 vis_wormhole = Анимация перехода через червоточину
 vis_wormhole_desc = Показывает туннель червоточины при переходе через врата (только если сервер использует последовательность червоточины). Выкл. = мгновенный переход.
@@ -91,7 +91,7 @@ agp_info_btn_close = Поехали!
 agp_info_dontshow = Больше не показывать при запуске
 agp_gtsp_saved = Спавнер врат сохранён для %s. Он загружается автоматически при каждом запуске этой карты.
 agp_credits_about = О паке
-// gate spawner, Grid Power, life support, units (2026-10-21)
+// gate spawner, Grid Power, life support, units
 agp_gs_title = Спавнер врат
 agp_gs_help = Расставь врата, DHD, кольца и рампы как обычно и нажми "Сохранить карту": они будут появляться при каждом запуске этой карты. Двойной щелчок по объекту - перейти к нему, правый щелчок - удалить.
 agp_gs_status = Карта: %s\nСпавнер: %s\nИсточник: %s\nОбъектов: %d
@@ -149,7 +149,7 @@ agp_unit_temp = Температура
 agp_unit_gravity = Гравитация
 agp_unit_auto = Авто (твоя страна)
 agp_unit_auto_g = Авто (g)
-// our parts: names, suit HUD, gate report, screens, link tool, chat, resources (2026-10-21)
+// our parts: names, suit HUD, gate report, screens, link tool, chat, resources
 agp_ent_cell_xs = Энергоячейка (XS)
 agp_ent_cell_small = Энергоячейка (S)
 agp_ent_cell_medium = Энергоячейка (M)
@@ -751,7 +751,7 @@ agp_hkm_c_reps_core = Репликаторы у энергетического �
 agp_arg_name = Антирепликаторное оружие
 agp_arg_purpose = Уничтожь этих жуков
 agp_arg_instr = ЛКМ - выстрел антирепликаторной волной, удерживай R - поиск новой частоты
-// window texts (2026-11-10)
+// window texts
 agp_ui_hyperspace = Гиперпространство
 agp_ui_target = Цель
 agp_ui_jump_target = Прыжок к выбранной цели
@@ -834,7 +834,7 @@ agp_ui_autolink = Автоматически подключать к узлу р
 agp_ui_add_velocity = К выстрелу прибавляется скорость пушки
 agp_ui_autoweld = Автоприварка
 agp_ui_empty = (пусто)
-// Ha'tak consoles (2026-11-10)
+// Ha'tak consoles
 agp_hk_weapons = ОРУЖИЕ
 agp_hk_staff_cannons = ЖЕЗЛОВЫЕ ПУШКИ
 agp_hk_charging = ЗАРЯДКА
@@ -958,7 +958,7 @@ agp_hk_nearest_ring = Ближайшее кольцо вне корабля
 agp_hk_glyph_pad = Панель символов гоаулдов
 agp_hk_t_mark = Метка %s
 agp_hk_t_player = Игрок %s
-// Ha'tak messages, crew announcements and ship log (2026-11-10)
+// Ha'tak messages, crew announcements and ship log
 agp_hkm_w_ship = Ха'так
 agp_hkm_w_engine = Ха'так, машинное отделение
 agp_hkm_w_computer = Ха'так, ядро компьютера
@@ -1312,6 +1312,16 @@ agp_ship_title_all = Все корабли
 agp_ship_shieldvis = Пузырь щита
 agp_ship_shieldvis0 = Только при попадании или переключении
 agp_ship_shieldvis1 = Всегда виден
+agp_ship_wenergy = Оружие тратит энергию
+agp_ship_wenergy0 = Никогда (бесплатно)
+agp_ship_wenergy1 = При подключении
+agp_ship_wenergy2 = Всегда
+agp_ship_spower = Оружие берёт энергию корабля
+agp_ship_tip_spower = Да: оружие на корабле StarCore берёт энергию корабля - сначала из его ZPM, генераторов и батарей, иначе собственную энергию корабля.
+agp_ship_wbalance = Оружие против кораблей
+agp_ship_wbalance0 = Песочница AGP
+agp_ship_wbalance1 = Сила как в сериале
+agp_ship_tip_wbalance = Сила как в сериале: оружие бьёт по кораблям так же сильно, как в сериале, ручное оружие едва царапает корпус. Песочница AGP: собственный урон каждого оружия.
 agp_ship_destructtime = Самоуничтожение: отсчёт (секунды)
 agp_ship_tip_shieldvis = Всегда: пузырь щита каждого корабля слабо светится, пока щит включён. Иначе он виден только при попадании и при включении или выключении.
 agp_ship_tip_destructtime = Секунды от нажатия клавиши самоуничтожения до взрыва. Второе нажатие взрывает корабль сразу.

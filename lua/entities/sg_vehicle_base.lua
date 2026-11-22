@@ -31,7 +31,7 @@ ENT.PrintName = "Stargate Vehicle Base"
 ENT.Author = "RononDex"
 ENT.Base = "base_anim"
 ENT.Type = "vehicle"
-ENT.HoverAlways = true -- AGP 2026-10-30: a ship nobody flies hovers where it was left (it fell like a stone); a ship sets false to fall
+ENT.HoverAlways = true -- AGP: a ship nobody flies hovers where it was left (it fell like a stone); a ship sets false to fall
 ENT.Category = "Ascension Gates: Ships"
 
 ENT.Spawnable = false
@@ -70,8 +70,8 @@ function ENT:Initialize()
 
 end
 
--- AGP 2026-10-31: Wire input "Hyperspace" [VECTOR] = the hyperdrive's jump target (0 0 0 clears it); ships with their
--- own TriggerInput call AGP.ShipHyperdriveInput themselves
+-- AGP: Wire input "Hyperspace" [VECTOR] = the hyperdrive's jump target (0 0 0 clears it); ships with their own
+-- TriggerInput call AGP.ShipHyperdriveInput themselves
 function ENT:TriggerInput(k, v)
 	if (AGP and AGP.ShipHyperdriveInput) then AGP.ShipHyperdriveInput(self, k, v) end
 end
@@ -83,7 +83,7 @@ function ENT:Bang(p) --######## The effect, and killing the player if they're fl
 	local pos, r = self:WorldSpaceCenter(), math.max(80, self:BoundingRadius());
 	local pilot = self.Pilot;
 	self:EmitSound(Sound("jumper/JumperExplosion.mp3"),100,100); --Play the jumper's explosion sound(Only good explosion sound i have)
-	if (AGP and AGP.ShipExplosion) then AGP.ShipExplosion(self) else -- AGP 2026-10-30: big explosion scaled to the ship (agp_ship_shield.lua)
+	if (AGP and AGP.ShipExplosion) then AGP.ShipExplosion(self) else -- AGP: big explosion scaled to the ship (agp_ship_shield.lua)
 	local fx = EffectData();
 		fx:SetOrigin(self:GetPos());
 	util.Effect("dirtyxplo",fx);
@@ -92,10 +92,10 @@ function ENT:Bang(p) --######## The effect, and killing the player if they're fl
 	if(self.Inflight) then
 		self:Exit(true); --Let the player out...
 	end
-	-- AGP 2026-11-12 (owner: "I let it explode near another ship of ours - not even its shields went down"): the blast
-	-- hurts. People and things near the hull (StarGate.BlastDamage), and every ship around takes it on its shield and,
-	-- past that, its hull (AGP.ShipBlast): 1.2 times this ship's own hull at the blast, falling off over three hull radii
-	-- (a ship of the same class right alongside: shield gone and its hull hurt; without a shield it goes up too).
+	-- AGP: the blast hurts. People and things near the hull (StarGate.BlastDamage), and every ship around takes it on
+	-- its shield and, past that, its hull (AGP.ShipBlast): 1.2 times this ship's own hull at the blast, falling off
+	-- over three hull radii (a ship of the same class right alongside: shield gone and its hull hurt; without a shield it
+	-- goes up too).
 	local hull = self:GetNWInt("maxEntHealth", 0);
 	if (hull <= 0) then hull = self.MaxHealth or self.EntHealth or 5000 end
 	local who = IsValid(pilot) and pilot or self;
@@ -118,8 +118,8 @@ function ENT:ToggleShield()
 	if (self.AGPShield and AGP and AGP.ShipShieldToggle) then AGP.ShipShieldToggle(self) end
 end
 
--- AGP 2026-11-08: the repair tool (sg_repair_tool) calls HealthRepair on anything with EntHealth/MaxHealth; ships
--- without their own (Aurora, Destiny ...) threw an error every tick and were never repaired
+-- AGP: the repair tool (sg_repair_tool) calls HealthRepair on anything with EntHealth/MaxHealth; ships without
+-- their own (Aurora, Destiny ...) threw an error every tick and were never repaired
 function ENT:HealthRepair(health)
 	if (not (self.EntHealth and self.MaxHealth)) then return end
 	-- one step of the tool (+1) = 0.1 % of the hull, like the Ha'tak's (+1 a tick took minutes on a 30000 hull)
@@ -128,8 +128,8 @@ function ENT:HealthRepair(health)
 	if (self.AGPSetWire) then self:AGPSetWire("Health", math.floor(self.EntHealth)) end
 end
 
--- AGP: shared hull damage for the ships (2026-10-26): shield first, then the hull, small beam hits add up, destroyed
--- at 0. See AGP.ShipHullDamage in lua/autorun/agp_ship_shield.lua. The ships' OnTakeDamage call this.
+-- AGP: shared hull damage for the ships: shield first, then the hull, small beam hits add up, destroyed at 0. See
+-- AGP.ShipHullDamage in lua/autorun/agp_ship_shield.lua. The ships' OnTakeDamage call this.
 function ENT:AGPHullDamage(dmg, scale)
 	if (AGP and AGP.ShipHullDamage) then return AGP.ShipHullDamage(self, dmg, scale) end
 	return 0
@@ -137,8 +137,8 @@ end
 
 --####### Standard stargate vehicle stuff @RononDex
 function ENT:Think()
-	-- AGP 2026-10-30: states the new HUD shows (lua/autorun/client/agp_ship_hud.lua): landing mode, cloak, and the hull for
-	-- crafts that keep it only in EntHealth (Dart, Gate Glider)
+	-- AGP: states the new HUD shows (lua/autorun/client/agp_ship_hud.lua): landing mode, cloak, and the hull for crafts
+	-- that keep it only in EntHealth (Dart, Gate Glider)
 	local land, cl = self.LandingMode == true, self.Cloaked
 	cl = cl == true or (isentity(cl) and IsValid(cl))
 	if (self:GetNWBool("AGPLanding") ~= land) then self:SetNWBool("AGPLanding", land) end
@@ -159,7 +159,7 @@ function ENT:Think()
 	if(self.Inflight) then
 		if(IsValid(self.Pilot)) then
             self.Pilot:SetPos(self:GetPos());
-			-- AGP 2026-10-30: self-destruct: one press = countdown 5 s, a second press (during it) = at once
+			-- AGP: self-destruct: one press = countdown 5 s, a second press (during it) = at once
 			if (AGP and AGP.KeyPress and AGP.KeyPress(self, self.Pilot, self.Vehicle, "BOOM")) then
 				if (self.AGPDestructAt) then self:Bang(); return end
 				local cv = GetConVar("agp_ship_destruct_time")   -- (admin setting, Stargate > Config > AGP Ships; 5 s by default)
@@ -168,10 +168,10 @@ function ENT:Think()
 				self:EmitSound("ambient/alarms/klaxon1.wav", 100, 100)
 			end
 
-			-- AGP 2026-11-08: the E press that got the pilot in does not get them out again. The ship's keys switch on
-			-- while E is often still held, which sent an EXIT press; a second later (after the 1 s lock) it counted and the
-			-- pilot was thrown out without pressing anything (owner: Prometheus, Replicator ship). During the lock every
-			-- EXIT press is read and dropped, so only a new press afterwards counts.
+			-- AGP: the E press that got the pilot in does not get them out again. The ship's keys switch on while E is
+			-- often still held, which sent an EXIT press; a second later (after the 1 s lock) it counted and the pilot was
+			-- thrown out without pressing anything (Prometheus, Replicator ship). During the lock every EXIT press is
+			-- read and dropped, so only a new press afterwards counts.
 			local out = AGP.KeyPress(self, self.Pilot, self.Vehicle, "EXIT") -- AGP: a quick tap counts too
 			if(self.NextExit<CurTime() and out) then
 				self.NextExit = CurTime()+1;
@@ -196,7 +196,7 @@ function ENT:Enter(p) --####### Get in @RononDex
 		p:DrawViewModel(false);
 		p:SetMoveType(MOVETYPE_OBSERVER);
 		p:SetCollisionGroup(COLLISION_GROUP_WEAPON);
-		self.WeaponsTable = {}; -- AGP 2026-11-10: this ship's own list (the class-wide one mixed up two pilots' weapons)
+		self.WeaponsTable = {}; -- AGP: this ship's own list (the class-wide one mixed up two pilots' weapons)
 		for _,v in pairs(p:GetWeapons()) do
 			table.insert(self.WeaponsTable, v:GetClass());
 		end
@@ -229,7 +229,7 @@ function ENT:Exit(kill) --####### Get out @RononDex
 		self.Pilot:UnSpectate();
 		self.Pilot:DrawViewModel(true);
 		self.Pilot:DrawWorldModel(true);
-		if (AGP and AGP.ShipRespawnPilot) then AGP.ShipRespawnPilot(self.Pilot) else self.Pilot:Spawn() end -- AGP 2026-11-08: keeps armour and ammo, no Ha'tak bunk move (agp_ship_shield.lua)
+		if (AGP and AGP.ShipRespawnPilot) then AGP.ShipRespawnPilot(self.Pilot) else self.Pilot:Spawn() end -- AGP: keeps armour and ammo, no Ha'tak bunk move (agp_ship_shield.lua)
 		self.Pilot:SetNWBool("Flying"..self.Vehicle,false);
 		self.Pilot:SetPos(AGP and AGP.ShipExitSpot and AGP.ShipExitSpot(self, self.Pilot, self.ExitPos, self.AGPCabinExit) or self.ExitPos or self:GetPos()); -- AGP: a free spot
 		self.Pilot:SetParent();
@@ -397,8 +397,8 @@ end
 --############## Collison Dammage @ WeltEntSturm
 function ENT:PhysicsCollide(cdat, phys)
 
-	-- AGP 2026-11-07: shots (energy pulses, drones, missiles: anything with its own .Damage) bring their own damage; at
-	-- their speed this crash rule added 1500-2800 per hit on top (the balance test: a 250 bolt did 2800)
+	-- AGP: shots (energy pulses, drones, missiles: anything with its own .Damage) bring their own damage; at their
+	-- speed this crash rule added 1500-2800 per hit on top (the balance test: a 250 bolt did 2800)
 	local hit = cdat.HitEntity
 	if (IsValid(hit) and type(hit.Damage) == "number") then return end
 	if cdat.DeltaTime > 0.5 then --0.5 seconds delay between taking physics damage
@@ -489,8 +489,8 @@ end
 hook.Add( "PlayerDeath", "SG.VEH.playerDies", playerDies )
 hook.Add( "PlayerSilentDeath", "SG.VEH.playerDies", playerDies )
 
--- AGP 2026-10-30: a pilot who dies in the Daedalus or leaves the game lets go of the ship (it stayed "occupied" and
--- nobody could get in again; the Daedalus kept pulling the respawned player into its hull)
+-- AGP: a pilot who dies in the Daedalus or leaves the game lets go of the ship (it stayed "occupied" and nobody
+-- could get in again; the Daedalus kept pulling the respawned player into its hull)
 local function agpLetGo(p)
 	local veh = p:GetNetworkedEntity("ScriptedVehicle", NULL)
 	if (not IsValid(veh)) then return end
@@ -513,12 +513,12 @@ function ENT:Initialize( )
 	end
 end
 
--- AGP 2026-11-07: the engines glow while a ship flies forward, brighter the faster it goes (it fades in and out
--- smoothly) - seen by everyone (our ships first drew it only for their pilot, while W was held). Drawn with soft
--- additive glow sprites from the ship's DrawTranslucent (RENDERGROUP_BOTH):
+-- AGP: the engines glow while a ship flies forward, brighter the faster it goes (it fades in and out smoothly)
+-- - seen by everyone (our ships first drew it only for their pilot, while W was held). Drawn with soft additive
+-- glow sprites from the ship's DrawTranslucent (RENDERGROUP_BOTH):
 --  * a round engine (nozzle): a bright core and a soft plume tapering back from it
---  * a line of engines (a drive strip across the stern): a soft glow along it, a little blurred (owner: no single
---    puffs on a strip, no trails)
+--  * a line of engines (a drive strip across the stern): a soft glow along it, a little blurred (no single puffs
+--    on a strip, no trails)
 local ENGINE_GLOW = Material("sprites/light_glow02_add")
 function ENT:AGPEngineLevel()
 	local speed = self:GetVelocity():Dot(self:GetForward())
@@ -543,7 +543,7 @@ function ENT:AGPEngineNozzles(nozzles, col, len)
 	end
 end
 -- line: model-space points along the strip, in order; width: the strip's height. Only a soft glow on the strip, a
--- little blurred round it (owner 2026-11-07: no rows of trails - "it is enough when it glows and is a little blurred")
+-- little blurred round it (no rows of trails - "it is enough when it glows and is a little blurred")
 function ENT:AGPEngineLine(line, col, width)
 	local k = self:AGPEngineLevel()
 	if (k < 0.02) then return end
@@ -565,28 +565,33 @@ function SGVehBaseCalcView(Player, Origin, Angles, FieldOfView)
 	local view = {}
 	local p = Player
 	local self = p:GetNetworkedEntity("ScriptedVehicle", NULL)
+	-- (agp_portal: a craft that just went through a doorway turns its pilot's aim; that frame's aim comes from there)
+	local turned = IsValid(self) and AGP_PortalTurnAim and AGP_PortalTurnAim()
+	local aimVec = turned and turned:Forward() or LocalPlayer():GetAimVector()
 
 	if((self)and(self:IsValid()) and self.IsSGVehicle and not self.IsSGVehicleCustomView and self.FirstPerson) then
-		-- AGP 2026-10-30: the view key (1) switched FirstPerson on the big ships, but no camera used it ("change view does
-		-- nothing"). Bridge view: from the front top of the hull, looking where the pilot aims; the ship stays visible.
+		-- AGP: the view key (1) switched FirstPerson on the big ships, but no camera used it ("change view does nothing").
+		-- Bridge view: from the front top of the hull, looking where the pilot aims; the ship stays visible.
 		local mn, mx = self:OBBMins(), self:OBBMaxs()
 		view.origin = self:LocalToWorld(Vector(mx.x * 0.7, 0, mx.z * 0.85 + 20))
-		view.angles = LocalPlayer():GetAimVector():Angle()
+		view.angles = aimVec:Angle()
+		if (AGP_PortalCamera) then view.origin, view.angles = AGP_PortalCamera(self:WorldSpaceCenter(), view.origin, view.angles) end   -- (through a doorway: agp_portal)
 		return view
 	end
 	if((self)and(self:IsValid()) and self.IsSGVehicle and not self.IsSGVehicleCustomView) then
-		-- AGP 2026-10-30: the camera stays far enough behind for the ship's size (big ships had it inside the hull at -750);
-		-- the arrow keys still move it further out / up from there
+		-- AGP: the camera stays far enough behind for the ship's size (big ships had it inside the hull at -750); the arrow
+		-- keys still move it further out / up from there
 		local r = self:BoundingRadius()
 		local back = math.min(self.Dist or -750, (self.Dist or -750) + 750 - r * (self.AGPCamBack or 1.6))
 		local up = math.max(self.UDist or 120, (self.UDist or 120) - 120 + r * (self.AGPCamUp or 0.25))
-		local pos = self:GetPos()+self:GetUp()*up+LocalPlayer():GetAimVector():GetNormal()*back
-		-- AGP 2026-10-30: the camera looks where the mouse aims (the ship turns there). It used to look at the spot the
-		-- nose points to, so moving the mouse swung the camera around the ship while the view stayed put (felt wrong).
+		local pos = self:GetPos()+self:GetUp()*up+aimVec:GetNormal()*back
+		-- AGP: the camera looks where the mouse aims (the ship turns there). It used to look at the spot the nose
+		-- points to, so moving the mouse swung the camera around the ship while the view stayed put (felt wrong).
 		-- Where the guns hit right now is shown by a small marker (HUDPaint below).
-		local face = LocalPlayer():GetAimVector():Angle()
+		local face = aimVec:Angle()
 			view.origin = pos
 			view.angles = face
+		if (AGP_PortalCamera) then view.origin, view.angles = AGP_PortalCamera(self:WorldSpaceCenter(), view.origin, view.angles) end   -- (through a doorway: agp_portal)
 		return view
 	end
 end
@@ -597,8 +602,8 @@ hook.Add("HUDPaint", "AGP.ShipGunMarker", function()
 	local p = LocalPlayer()
 	local ship = p:GetNetworkedEntity("ScriptedVehicle", NULL)
 	if (not IsValid(ship) or not ship.IsSGVehicle or ship.IsSGVehicleCustomView) then return end
-	-- AGP 2026-11-08: a ship whose HUD draws the crosshair (where every gun goes, lua/autorun/agp_ship_aim.lua) does not
-	-- get this nose ring as well: two marks that disagreed ("crosshair and shooting do not fit together")
+	-- AGP: a ship whose HUD draws the crosshair (where every gun goes, lua/autorun/agp_ship_aim.lua) does not get this
+	-- nose ring as well: two marks that disagreed ("crosshair and shooting do not fit together")
 	local spec = AGP and AGP.HUD and AGP.HUD.SpecOf and AGP.HUD.SpecOf(ship)
 	if (spec and spec.marker) then return end
 	local tr = util.TraceLine({ start = ship:GetPos(), endpos = ship:GetPos() + ship:GetForward() * 20000,

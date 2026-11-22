@@ -13,8 +13,8 @@ ENT.EventHorizonData = {
 	OpeningDelay = 1.5,
 	OpenTime = 2.2,
 	NNFix = 1,
-	-- AGP 2026-11-08: "sg1" is not registered any more (CAP's "sg1" is now "old_sg1": the model's own horizon, blue light,
-	-- CAP's unstable texture); with "sg1" the horizon fell back to no light colour and no unstable texture
+	-- AGP: "sg1" is not registered any more (CAP's "sg1" is now "old_sg1": the model's own horizon, blue light, CAP's
+	-- unstable texture); with "sg1" the horizon fell back to no light colour and no unstable texture
 	Type = "old_sg1"
 }
 

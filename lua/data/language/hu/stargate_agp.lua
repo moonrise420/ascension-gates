@@ -1,4 +1,4 @@
-// Ascension Gates: Hungarian texts (2026-10-19)
+// Ascension Gates: Hungarian texts
 cat_capital_ship = Nagy hadihajók
 cat_small_ship = Űrhajók
 cat_others = Egyéb
@@ -50,7 +50,7 @@ wp_m9_berreta = SGC Sidearm
 wp_ori_hand = Ori kézifegyver
 wp_goauld_zatarc = Goa'uld Zatarc
 
-// EAP funkciók összevonása (2026-10-19)
+// EAP funkciók összevonása
 key_malp_control = Irányítás befejezése
 vis_wormhole = Féregjárat-utazás animáció
 vis_wormhole_desc = Megmutatja a féregjárat alagútját, amikor átutazol egy kapun (csak ha a szerver használja a féregjárat-szekvenciát). Ki = azonnali utazás.
@@ -91,7 +91,7 @@ agp_info_btn_close = Gyerünk!
 agp_info_dontshow = Ne mutasd többé indításkor
 agp_gtsp_saved = Kapu-lerakó elmentve ehhez: %s. A pálya minden indításakor automatikusan betöltődik.
 agp_credits_about = Névjegy
-// gate spawner, Grid Power, life support, units (2026-10-21)
+// gate spawner, Grid Power, life support, units
 agp_gs_title = Kapu-lerakó
 agp_gs_help = Helyezd el a kapukat, DHD-ket, gyűrűket és rámpákat a szokásos módon, majd nyomd meg a "Pálya mentése" gombot: a pálya minden indításakor megjelennek. Dupla kattintás egy elemre = odaugrás, jobb kattintás = eltávolítás.
 agp_gs_status = Pálya: %s\nLerakó: %s\nForrás: %s\nElemek: %d
@@ -149,7 +149,7 @@ agp_unit_temp = Hőmérséklet
 agp_unit_gravity = Gravitáció
 agp_unit_auto = Automatikus (az országod)
 agp_unit_auto_g = Automatikus (g)
-// our parts: names, suit HUD, gate report, screens, link tool, chat, resources (2026-10-21)
+// our parts: names, suit HUD, gate report, screens, link tool, chat, resources
 agp_ent_cell_xs = Energiacella (XS)
 agp_ent_cell_small = Energiacella (S)
 agp_ent_cell_medium = Energiacella (M)
@@ -751,7 +751,7 @@ agp_hkm_c_reps_core = Replikátorok az energiamagnál!
 agp_arg_name = Antireplikátor fegyver
 agp_arg_purpose = Pusztítsd el a bogarakat
 agp_arg_instr = Bal kattintás - antireplikátor hullám kilövése, tartsd az R-t - új frekvencia keresése
-// window texts (2026-11-10)
+// window texts
 agp_ui_hyperspace = Hipertér
 agp_ui_target = Cél
 agp_ui_jump_target = Ugrás a kiválasztott célhoz
@@ -834,7 +834,7 @@ agp_ui_autolink = Automatikus csatlakozás egy erőforráscsomóponthoz
 agp_ui_add_velocity = A lövéshez hozzáadódik az ágyú sebessége
 agp_ui_autoweld = Automatikus hegesztés
 agp_ui_empty = (üres)
-// Ha'tak consoles (2026-11-10)
+// Ha'tak consoles
 agp_hk_weapons = FEGYVEREK
 agp_hk_staff_cannons = BOTÁGYÚK
 agp_hk_charging = TÖLT
@@ -958,7 +958,7 @@ agp_hk_nearest_ring = Legközelebbi gyűrű a hajón kívül
 agp_hk_glyph_pad = Goa'uld jelpanel
 agp_hk_t_mark = %s. jel
 agp_hk_t_player = Játékos: %s
-// Ha'tak messages, crew announcements and ship log (2026-11-10)
+// Ha'tak messages, crew announcements and ship log
 agp_hkm_w_ship = Ha'tak
 agp_hkm_w_engine = Ha'tak gépterem
 agp_hkm_w_computer = Ha'tak számítógépmag
@@ -1312,6 +1312,16 @@ agp_ship_title_all = Minden hajó
 agp_ship_shieldvis = Pajzsbuborék
 agp_ship_shieldvis0 = Csak találatkor vagy be-/kikapcsoláskor
 agp_ship_shieldvis1 = Mindig látható
+agp_ship_wenergy = A fegyverek energiát használnak
+agp_ship_wenergy0 = Soha (ingyen)
+agp_ship_wenergy1 = Ha csatlakoztatva
+agp_ship_wenergy2 = Mindig
+agp_ship_spower = A fegyverek a hajó energiáját használják
+agp_ship_tip_spower = Igen: egy StarCore-hajón lévő fegyver a hajó energiáját veszi - először a ZPM-jeiből, generátoraiból és akkumulátoraiból, különben a hajó saját energiáját.
+agp_ship_wbalance = Fegyverek hajók ellen
+agp_ship_wbalance0 = AGP homokozó
+agp_ship_wbalance1 = Sorozatbeli erő
+agp_ship_tip_wbalance = Sorozatbeli erő: a fegyverek olyan erősen találják a hajókat, mint a sorozatban, a kézifegyverek alig karcolják a hajótestet. AGP homokozó: minden fegyver saját sebzése.
 agp_ship_destructtime = Önmegsemmisítés: visszaszámlálás (másodperc)
 agp_ship_tip_shieldvis = Mindig: minden hajó pajzsbuborékja halványan világít, amíg a pajzs be van kapcsolva. Egyébként csak találatkor és be- vagy kikapcsoláskor látszik.
 agp_ship_tip_destructtime = Másodpercek az önmegsemmisítő gomb megnyomásától a robbanásig. A második megnyomás azonnal felrobbantja a hajót.

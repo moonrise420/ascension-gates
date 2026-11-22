@@ -1,15 +1,15 @@
 --[[
-	Ascension Gates (2026-11-08): one aim for every ship - the point under the pilot's crosshair.
-	The pilot's client traces from its real camera (third person behind the ship, or the bridge view on 1) through the
-	middle of the screen and sends the point it hits to the server about 20 times a second. The ships' guns, drones,
-	beams and volleys aim there (AGP.ShipCrosshair).
-	Before, the server traced from the ship's middle along the mouse direction: in the bridge view the camera sits far
-	from that middle, so shots and drones missed what the crosshair showed; and with the shield up that trace hit the
-	ship's own bubble, so the drones flew into their own ship (owner 2026-11-08: Aurora, Destiny, O'Neill).
-	Parts of the ship never count as a hit: AGP.ShipPart (the ship, anything parented to it at any depth - its shield
-	bubble sits on the shield generator - and its own drones and shots).
-	New ships: aim every weapon with AGP.ShipCrosshair / AGP.ShipAimDir (lua/autorun/agp_ship_shield.lua), never with an
-	own trace from the ship.
+	Ascension Gates: one aim for every ship - the point under the pilot's crosshair. The pilot's
+	client traces from its real camera (third person behind the ship, or the bridge view on 1) through the middle of
+	the screen and sends the point it hits to the server about 20 times a second. The ships' guns, drones, beams and
+	volleys aim there (AGP.ShipCrosshair). Before,
+	the server traced from the ship's middle along the mouse direction: in the bridge view the camera sits far from
+	that middle, so shots and drones missed what the crosshair showed; and with the shield up that trace hit the
+	ship's own bubble, so the drones flew into their own ship (Aurora, Destiny, O'Neill). Parts of the ship
+	never count as a hit: AGP.ShipPart (the ship, anything parented to it at any depth - its shield bubble sits on the
+	shield generator - and its own drones and shots). New ships: aim
+	every weapon with AGP.ShipCrosshair / AGP.ShipAimDir (lua/autorun/agp_ship_shield.lua), never with an own trace from
+	the ship.
 ]]
 AddCSLuaFile()
 AGP = AGP or {}
@@ -74,8 +74,8 @@ function AGP.ShipAimCone(ship, from, maxDeg)
 	return (fwd * c + side * math.sin(math.rad(maxDeg))):GetNormalized()
 end
 
--- AGP 2026-11-10: the same front limit for any wanted direction (a Wire target too): guns fixed in the bow fire inside
--- maxDeg of the nose, turrets (maxDeg nil) anywhere in front - never backwards or straight sideways
+-- AGP: the same front limit for any wanted direction (a Wire target too): guns fixed in the bow fire inside maxDeg of
+-- the nose, turrets (maxDeg nil) anywhere in front - never backwards or straight sideways
 function AGP.ShipAimClamp(ship, d, maxDeg)
 	local fwd = ship:GetForward()
 	if not d or d:LengthSqr() < 1e-6 then return fwd end

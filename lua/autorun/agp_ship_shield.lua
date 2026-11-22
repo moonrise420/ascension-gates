@@ -1,11 +1,11 @@
--- Ascension Gates (2026-10-25): shared helpers for the big ships.
+-- Ascension Gates: shared helpers for the big ships.
 --  * Shield on the SHIELD key (G), built like the Tel'tak's: CAP's ship_shield_generator parented to the ship, NW bool
 --    AGPShieldOn. The bubble is one of the ellipsoid shield models (models/iziraider/shields/AxBxC.mdl), fitted to each
 --    hull: the ship sets ENT.AGPShield = { model, yaw, offset, bounds, color, scale } (ship_shield and the bubble effect read
 --    the model from the generator). OnTakeDamage calls AGP.ShipShieldAbsorb (via ENT:AGPHullDamage of sg_vehicle_base),
 --    Think calls AGP.ShipShieldThink. Beams on the shield: AGP.ShipShieldBeam (drained by time).
---  * (2026-10-26) AGP.PlayerStandSpot: a free spot on the floor for exits and arrivals; hook AGP.ShipProtectsCrew:
---    players aboard a ship take no damage from outside while it stands.
+--  * AGP.PlayerStandSpot: a free spot on the floor for exits and arrivals; hook AGP.ShipProtectsCrew: players
+--    aboard a ship take no damage from outside while it stands.
 --  * DHD key (R) on ships with ENT.AGPSupergateDHD: opens the dial menu of the nearest Supergate in range (like the
 --    Gate Glider's OpenDHD), else a short chat hint.
 --  * AGP.ShipShieldText(ship) for the ship HUDs (client).
@@ -133,8 +133,8 @@ if SERVER then
             AGP.ShipShieldBeam(ship, gen, pos, IsValid(inf) and tonumber(inf.AGPDamageScale) or 1)
             return true
         end
-        -- (2026-11-12, owner: a huge blast next to a ship "did not even take the shields down") a hit bigger than what
-        -- the shield has left empties it and the rest goes on to the hull - before, the shield swallowed any hit whole
+        -- (a huge blast next to a ship "did not even take the shields down") a hit bigger than what the shield has
+        -- left empties it and the rest goes on to the hull - before, the shield swallowed any hit whole
         local cap = gen.AGPCap and gen:AGPCap()
         local left = cap and (math.max(0, gen.Strength or 0) / 100 * cap)
         local over = left and (dmg:GetDamage() - left) or 0
@@ -151,9 +151,9 @@ if SERVER then
         ship.AGPShieldGen = nil
     end
 
-    --########## Hull damage (2026-10-26)
-    -- Shared by the ships' OnTakeDamage (sg_vehicle_base ENT:AGPHullDamage; the Daedalus calls it directly). Before, each
-    -- ship subtracted the damage from the NW int "health": hits under 0.5 vanished in the rounding, and the Asuran gate
+    --########## Hull damage Shared by the
+    -- ships' OnTakeDamage (sg_vehicle_base ENT:AGPHullDamage; the Daedalus calls it directly). Before, each ship
+    -- subtracted the damage from the NW int "health": hits under 0.5 vanished in the rounding, and the Asuran gate
     -- weapon's beam (many small hits) never got through the hull of the Wraith cruiser and the others.
     --  * a raised shield takes the hit first (AGP.ShipShieldAbsorb; beams drain it by time)
     --  * continuous beams (AGP.IsBeamDamage) count without a minimum, at most ship.AGPBeamMaxDPS (600) per second: the
@@ -166,7 +166,7 @@ if SERVER then
     local function beamBudget(ship, amount, dmg)
         local now = CurTime()
         if now - (ship.AGPBeamSince or -99) >= 1 then ship.AGPBeamSince, ship.AGPBeamTaken = now, 0 end
-        -- (2026-11-07 balance) a heavier beam (energy_beam2's AGPDamageScale: the Ori's main beam) may do more per second
+        -- (balance) a heavier beam (energy_beam2's AGPDamageScale: the Ori's main beam) may do more per second
         local inf = dmg and dmg:GetInflictor()
         local k = IsValid(inf) and tonumber(inf.AGPDamageScale) or 1
         local take = math.min(amount, math.max(0, (ship.AGPBeamMaxDPS or 600) * k - ship.AGPBeamTaken))
@@ -174,10 +174,10 @@ if SERVER then
         return take
     end
 
-    --########## Blasts on the big ships (2026-11-08, balance test): util.BlastDamage measures from the blast to a ship's
-    -- middle (or to where its trace happens to leave the hull), so a bolt on a big ship's bow did nothing (the Ori's bow
-    -- lies 1700 from its middle, a bolt's blast reaches 290) and a direct hit on the Prometheus did a third to all of
-    -- its damage, by chance. StarGate.BlastDamage (bolts, drones, missiles) wraps util.BlastDamage in these two: the
+    --########## Blasts on the big ships (balance test): util.BlastDamage measures from the blast to a ship's middle (or
+    -- to where its trace happens to leave the hull), so a bolt on a big ship's bow did nothing (the Ori's bow lies 1700
+    -- from its middle, a bolt's blast reaches 290) and a direct hit on the Prometheus did a third to all of its
+    -- damage, by chance. StarGate.BlastDamage (bolts, drones, missiles) wraps util.BlastDamage in these two: the
     -- ships with the shared hull (ENT.AGPShield) take the blast by the distance to their hull box - a direct hit does
     -- its full damage. Ships out of util.BlastDamage's reach get their share afterwards.
     local blastNow
@@ -210,10 +210,10 @@ if SERVER then
         end
     end
 
-    --########## A ship's own explosion (2026-11-12, owner: a ship blew up right next to another one of ours and that one
-    -- took nothing): everything that flies - the ships with the shared hull, the Ha'tak, the Puddle Jumper, the small
-    -- crafts - within `rad` of the blast takes `dmg` at the blast, falling off with the square of the distance to its
-    -- hull (not to its middle). Each ship's own OnTakeDamage decides: the shield first, the rest to the hull.
+    --########## A ship's own explosion (a ship blew up right next to another one of ours and that one took nothing):
+    -- everything that flies - the ships with the shared hull, the Ha'tak, the Puddle Jumper, the small crafts -
+    -- within `rad` of the blast takes `dmg` at the blast, falling off with the square of the distance to its hull
+    -- (not to its middle). Each ship's own OnTakeDamage decides: the shield first, the rest to the hull.
     function AGP.ShipBlast(pos, rad, dmg, inflictor, attacker, skip)
         if not (rad and rad > 0 and dmg and dmg > 0) then return end
         for _, v in ipairs(ents.FindInSphere(pos, rad)) do
@@ -364,16 +364,16 @@ if SERVER then
         if outside then return true end
     end)
 
-    --########## Sealed ships: the one rule "this player breathes ship air" (AGP 2026-11-14)
-    -- Owner: "in our ships when entering water i should have and keep air.... i am in water now and the air countdown is
-    -- counting down". A pilot is spectating (sg_vehicle_base, Daedalus, Puddle Jumper) at the ship's position, so the
-    -- engine / PowerGrid saw a swimmer. AGP.ShipSealedFor(ply) = the player is the pilot of, sits in a seat of, or stands
-    -- inside one of our SEALED ships (a Puddle Jumper with its rear door open is not sealed). A ship that is open to the
-    -- air (a platform seat, a hover bike, ...) sets ENT.AGPOpenCockpit = true and never counts. Used by:
+    --########## Sealed ships: the one rule "this player breathes ship air". A pilot is
+    -- spectating (sg_vehicle_base, Daedalus, Puddle Jumper) at the ship's position, so the engine / PowerGrid saw a
+    -- swimmer. AGP.ShipSealedFor(ply) = the player is the pilot of, sits in a seat of, or stands inside one of our
+    -- SEALED ships (a Puddle Jumper with its rear door open is not sealed). A ship that is open to the air (a platform
+    -- seat, a hover bike, ...) sets ENT.AGPOpenCockpit = true and never counts. Used by:
+    --
     --  * PowerGrid's life support (hook AGP.LS.PlayerSealed, no hard dependency either way): no air drain under water
     --  * the engine's own drowning damage (EntityTakeDamage below)
-    -- Space / bad air: PowerGrid asks the same hook there (2026-11-14), except aboard a ship whose own life support is
-    -- switched off (the Ha'tak's deliberate "no air on board"; decided in agp_ls_env.lua, not here).
+    -- Space / bad air: PowerGrid asks the same hook there, except aboard a ship whose own life support is switched off
+    -- (the Ha'tak's deliberate "no air on board"; decided in agp_ls_env.lua, not here).
     local function sealedShip(s) return IsValid(s) and not s.AGPOpenCockpit and not s.Done and not s.AGPDestroyed end
 
     function AGP.ShipSealedFor(ply)
@@ -407,13 +407,13 @@ if SERVER then
         if ply:WaterLevel() >= 3 and AGP.ShipSealedFor(ply) then return true end   -- (suit damage in vacuum is not water: stays)
     end)
 
-    -- Spacebuild (CAF Life Support) next to us (owner 2026-11-14: "i see the game window and spacebuild is also counting down
-    -- the air not only our addon"): CAF checks every player itself (Player:LsCheck, in its autorun on EVERY map) - under
-    -- water it takes 5 air a second from the suit and then health, in space air / heat / pressure - and knows nothing of our
-    -- ships. It has no hook for "this player has air" (its air exchangers are found by distance from an entity, which would
-    -- also feed a swimmer beside the ship). So for a player aboard one of our sealed ships CAF's check is skipped and the
-    -- suit is kept as it is (air at least 100, CAF's "breathable" value); the moment the player leaves the ship, CAF judges
-    -- them again. Only wraps when CAF's function exists; put on again if CAF defines it anew.
+    -- Spacebuild (CAF Life Support) next to us: CAF checks every player itself (Player:LsCheck, in its autorun on EVERY map)
+    -- - under water it takes 5 air a second from the suit and then health, in space air / heat / pressure - and knows
+    -- nothing of our ships. It has no hook for "this player has air" (its air exchangers are found by distance from an
+    -- entity, which would also feed a swimmer beside the ship). So for a player aboard one of our sealed ships CAF's check
+    -- is skipped and the suit is kept as it is (air at least 100, CAF's "breathable" value); the moment the player leaves
+    -- the ship, CAF judges them again. Only wraps when CAF's function exists; put on again if CAF defines it anew.
+    --
     local function wrapCAF()
         local PLY = FindMetaTable("Player")
         local cur = PLY and PLY.LsCheck
@@ -436,10 +436,10 @@ if SERVER then
     wrapCAF()
 
     --########## DHD key: Supergates only
-    --########## Where a pilot gets out (2026-10-30, owner: realistic, not too safe; order fixed 2026-11-08)
+    --########## Where a pilot gets out (realistic, not too safe)
     -- cabin = true (hollow crafts: Puddle Jumper, Tel'tak): the cabin floor spot `want` when one can stand there.
-    -- Every other craft, always in this order (owner 2026-11-08: "a little underneath; if that is blocked, to the side;
-    -- if the side is blocked, above"):
+    -- Every other craft, always in this order:
+    --
     --  1. a little under the hull, below its real underside at the middle (high up you fall from there)
     --  2. beside the hull (right, left, then front, back), on the ground or whatever is below when it is near
     --  3. on top of the hull
@@ -501,9 +501,9 @@ if SERVER then
         return want or ship:GetPos()
     end
 
-    --########## Back from a ship, chair, MALP or KINO (2026-11-08): CAP gets the player out of spectating with Spawn(),
-    -- which also runs every spawn hook: a Ha'tak bunk moved the player into its barracks after leaving any ship, and the
-    -- (suit) armour and the reserve ammo were reset. Spawn hooks can tell by ply.AGPShipLeaving; armour and ammo come back.
+    --########## Back from a ship, chair, MALP or KINO: CAP gets the player out of spectating with Spawn(), which also
+    -- runs every spawn hook: a Ha'tak bunk moved the player into its barracks after leaving any ship, and the (suit)
+    -- armour and the reserve ammo were reset. Spawn hooks can tell by ply.AGPShipLeaving; armour and ammo come back.
     function AGP.ShipRespawnPilot(ply)
         if not IsValid(ply) then return end
         local armor, ammo = ply:Armor(), ply:GetAmmo()
@@ -524,7 +524,7 @@ if SERVER then
     hook.Add("GravGunOnDropped", "AGP.ShipHoverHere", parkHere)
     hook.Add("OnPhysgunFreeze", "AGP.ShipHoverHere", function(_, _, e) parkHere(nil, e) end)
 
-    --########## Aiming (2026-11-08): every gun goes where the crosshair is - the point the pilot's camera looks at
+    --########## Aiming: every gun goes where the crosshair is - the point the pilot's camera looks at
     -- (AGP.ShipCrosshair, lua/autorun/agp_ship_aim.lua). ShipAimPoint is that point only while Mouse2 (TRACK) is held:
     -- for the weapons that fire on Mouse2 (Destiny's turrets, the O'Neill's Asgard beam). ShipAimDir always aims, only
     -- into the front half (guns do not shoot backwards through the hull).
@@ -538,9 +538,9 @@ if SERVER then
         return AGP.ShipAimCone(ship, from)
     end
 
-    -- Mouse2 (TRACK) volley of the big ships (owner 2026-10-30: Mouse2 only aimed, so it seemed to do nothing).
-    -- One press: o.count shots of o.class at the crosshair, spread over the hull's front, then o.cool seconds pause.
-    -- Holding Mouse2 still aims the main guns (AGP.ShipAimDir). Call from the ship's server Think with a pilot aboard.
+    -- Mouse2 (TRACK) volley of the big ships (Mouse2 only aimed, so it seemed to do nothing). One press:
+    -- o.count shots of o.class at the crosshair, spread over the hull's front, then o.cool seconds pause. Holding
+    -- Mouse2 still aims the main guns (AGP.ShipAimDir). Call from the ship's server Think with a pilot aboard.
     function AGP.ShipVolley(ship, o)
         local p = ship.Pilot
         if not IsValid(p) or not AGP.KeyPress(ship, p, ship.Vehicle, "TRACK") then return end
@@ -566,7 +566,7 @@ if SERVER then
                 e:Spawn()
                 e:Activate()
                 if o.color then e:SetColor(o.color) end
-                if o.damage then e.Damage = o.damage end   -- (2026-11-07 balance) the ship's own bolt damage
+                if o.damage then e.Damage = o.damage end   -- (balance) the ship's own bolt damage
                 if o.sound then ship:EmitSound(o.sound, 90, math.random(100, 120)) end
             end)
         end
@@ -617,7 +617,7 @@ if SERVER then
         ship.AGPNextDHD = CurTime() + 1
         local e = AGP.FindSupergate(ship:GetPos(), ship.AGPSupergateRange or 20000)
         if not IsValid(e) then
-            -- AGP 2026-10-30: no Supergate around: the nearest normal Stargate close to the ship
+            -- AGP: no Supergate around: the nearest normal Stargate close to the ship
             local best = 4000
             for _, v in ipairs(ents.FindInSphere(ship:GetPos(), best)) do
                 if (v.IsStargate and not v.IsSupergate and v:GetClass():find("^stargate_")) then

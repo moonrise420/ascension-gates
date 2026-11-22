@@ -98,8 +98,8 @@ if SERVER then
     --################# Calculate Physics for the drone @Zup & aVoN
     function ENT:PhysicsUpdate(phys, deltatime)
         local time = CurTime()
-        -- AGP 2026-11-08: never faster than its top speed: the steering (ComputeShadowControl) drove them to 14000-16000
-        -- and they circled the target until the fuel was gone (balance test). Not the chair's hand-steered drones.
+        -- AGP: never faster than its top speed: the steering (ComputeShadowControl) drove them to 14000-16000 and they
+        -- circled the target until the fuel was gone (balance test). Not the chair's hand-steered drones.
         if (self.Fuel > 0 and self.MaxVelocity and not self.AGPGetTarget) then
             local v = phys:GetVelocity()
             if (v:LengthSqr() > (self.MaxVelocity * 1.05) ^ 2) then phys:SetVelocity(v:GetNormalized() * self.MaxVelocity) end
@@ -115,10 +115,10 @@ if SERVER then
                 self.Direction = self.Entity:GetForward() * self.CurrentVelocity
             end
             -- Allow tracking only after the drone reached a critical velocity
-            -- AGP 2026-11-08: checked on every update, not only while it still speeds up. The window between 70 % of
-            -- TrackStart and full speed is 0.15 s for a quick one; when the server hitched over it (busy moment, a
-            -- volley spawning), the drone / missile never tracked and flew straight on 10000 units past the crosshair
-            -- (ship test: about 1 in 8 Aurora drones, some Prometheus missiles)
+            -- AGP: checked on every update, not only while it still speeds up. The window between 70 % of TrackStart
+            -- and full speed is 0.15 s for a quick one; when the server hitched over it (busy moment, a volley
+            -- spawning), the drone / missile never tracked and flew straight on 10000 units past the crosshair (ship
+            -- test: about 1 in 8 Aurora drones, some Prometheus missiles)
             if (not self.CanTrack and self.Created + self.TrackStart * 0.7 <= CurTime()) then
                 self.CanTrack = true
             end
@@ -180,22 +180,22 @@ if SERVER then
                 dir:Normalize()
 
                 if (len > 250) then
-                    -- AGP 2026-11-08: the last 1500 units nearly straight in (unless steered by hand): at full speed a
-                    -- weak turn (Randomness 0.3-0.6) circled the target until the fuel was gone (balance test: half the
-                    -- Aurora's drones and nearly all the Prometheus's missiles flew past)
+                    -- AGP: the last 1500 units nearly straight in (unless steered by hand): at full speed a weak turn
+                    -- (Randomness 0.3-0.6) circled the target until the fuel was gone (balance test: half the Aurora's
+                    -- drones and nearly all the Prometheus's missiles flew past)
                     local r = self.Randomness
-                    -- (AGP 2026-11-08: fully straight, and flown on a straight line: see below)
+                    -- (AGP: fully straight, and flown on a straight line: see below)
                     if (len < 1500 and not self.AGPGetTarget) then r = 1; straight = true end
-                    -- AGP 2026-11-08: one that has flown past its target (it gets farther away again) turns straight back:
-                    -- at a point on the ground some flew on 9000-10000 units (ship test: 3 of 7 Aurora drones, half the
-                    -- Prometheus missiles), with fuel to spare
+                    -- AGP: one that has flown past its target (it gets farther away again) turns straight back: at a point
+                    -- on the ground some flew on 9000-10000 units (ship test: 3 of 7 Aurora drones, half the Prometheus
+                    -- missiles), with fuel to spare
                     if (not self.AGPGetTarget and self.AGPLastLen and len < 4000 and len > self.AGPLastLen + 5) then r = 1 end
                     self.AGPLastLen = len
                     self.Direction = (dir * r + self.Entity:GetVelocity():GetNormalized() * (1 - r)) * self.CurrentVelocity
                 else
                     -- We are really near the target. Do not fly around like an electron - Hit it!
                     self.Direction = dir * self.CurrentVelocity
-                    straight = not self.AGPGetTarget -- AGP 2026-11-08
+                    straight = not self.AGPGetTarget -- AGP
 
                     -- Nearly at the prop's position. Instant explode (Failsafe, or when there is no prop, the drones would collide with each other and lag servers!)
                     if (len < 100 and not noProx) then
@@ -216,9 +216,9 @@ if SERVER then
                     deltatime = deltatime
                 }
 
-                -- AGP 2026-11-08: the last 1500 units on a straight line at the target. The shadow control's velocity
-                -- lagged behind its aim: a missile coming down from above at a flat angle struck the ground ~600 short
-                -- of a target on the ground (ship test: 3 to 4 of 12 Prometheus missiles)
+                -- AGP: the last 1500 units on a straight line at the target. The shadow control's velocity lagged
+                -- behind its aim: a missile coming down from above at a flat angle struck the ground ~600 short of a
+                -- target on the ground (ship test: 3 to 4 of 12 Prometheus missiles)
                 if (straight) then
                     phys:SetVelocity(self.Direction)
                     self:SetAngles(dir:Angle())
@@ -321,8 +321,8 @@ if SERVER then
                     e:SetCollisionGroup(COLLISION_GROUP_DEBRIS)
                 end
             end)
-            -- AGP 2026-11-08: and stay where it hit (next tick, not inside the collision callback). The hidden drone /
-            -- missile flew on at full speed for its last 2 s, up to 10000 units past its blast, through gates and
+            -- AGP: and stay where it hit (next tick, not inside the collision callback). The hidden drone / missile
+            -- flew on at full speed for its last 2 s, up to 10000 units past its blast, through gates and
             -- triggers (the ship tests read that as a miss)
             timer.Simple(0, function()
                 if (e and e:IsValid()) then
@@ -348,9 +348,11 @@ if SERVER then
     function ENT:StartTouch(e, delay_deletion)
         if (e and e.IgnoreTouch) then return end -- Gloabal for anyone, who want's to make his scripts "drone-passable"
         if (e == self.Parent) then return end
-        -- AGP 2026-10-30: nothing of the launching ship stops its own missiles/drones: its shield bubble (a trigger on
-        -- the shield generator), the generator, turrets and other parts parented to it. Prometheus missiles blew up
-        -- on their own shield.
+        -- AGP: a ship weapon's drone (StarGate.MarkShot) passes its whole ship and the ship's shield bubbles
+        if (self.AGPFrom and IsValid(e) and StarGate.ShotPasses(self, e)) then return end
+        -- AGP: nothing of the launching ship stops its own missiles/drones: its shield bubble (a trigger on the shield
+        -- generator), the generator, turrets and other parts parented to it. Prometheus missiles blew up on their
+        -- own shield.
         if (IsValid(e) and IsValid(self.Parent)) then
             if (e.Parent == self.Parent or (IsValid(e.Parent) and e.Parent.Owner == self.Parent)) then return end
             local p = e:GetParent()
@@ -403,6 +405,13 @@ if SERVER then
                 -- Do not explode on shields!
                 if (not e.NoCollide or e:GetClass() == "worldspawn") then
                     self:Blast(pos)
+                elseif (isfunction(e.Hit) and IsValid(e.Parent) and isfunction(e.Parent.Hit)) then
+                    -- AGP: a shield bubble takes the hit as from any other shot (drones were removed on a shield and
+                    -- never drained it: a drone launcher could not bring a shield down)
+                    if (not self.AGPShieldDrained) then
+                        self.AGPShieldDrained = true   -- (once: the bubble's own guard counts it too, shield/init.lua stopAt)
+                        e:Hit(self.Entity, pos, math.Clamp((tonumber(self.Damage) or 150) / 20, 1, 20), (pos - e:GetPos()):GetNormalized())
+                    end
                 end
 
                 self:StartRemoving(delay_deletion)

@@ -1,4 +1,4 @@
-// Ascension Gates: Spanish texts CAP never translated (2026-10-19)
+// Ascension Gates: Spanish texts CAP never translated
 
 // ===== de stargate.lua =====
 // Sistema de marcación

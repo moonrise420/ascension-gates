@@ -8,7 +8,7 @@ Ascension Gates is based on Carter's Addon Pack and CAP Enhanced. It adds bug fi
 **Steam Workshop (easiest):** subscribe to [Ascension Gates](https://steamcommunity.com/sharedfiles/filedetails/?id=3840679305) - Steam brings everything it needs with it.
 
 **By hand:** download all four zips from [Releases](../../releases/latest) and unpack them into `garrysmod/addons/`:
-`ascension_gates-1.0.1.zip` (the code) and `ascension_gates_res1`, `_res2`, `_res3` (models, sounds, maps and
+`ascension_gates-1.0.2.zip` (the code) and `ascension_gates_res1`, `_res2`, `_res3` (models, sounds, maps and
 materials, 2.9 GB together - that is why they are release files and not part of this repository). It also needs
 [PowerGrid](https://github.com/moonrise420/powergrid) and [Wiremod](https://github.com/wiremod/wire).
 
@@ -49,11 +49,13 @@ Please use [Issues](../../issues): pick *Bug report* or *Wish or idea*. On the S
 - Death Glider, Al'kesh, Tel'tak, Puddle Jumper, F-302, Daedalus, Wraith Dart
 - Aurora, Destiny, O'Neill, Prometheus, Ori Mothership, Wraith Cruiser, Replicator Mothership, Traveler, Gate Seeder
 - Hyperspace windows, shields, cloaks
+- Ship weapons for your own builds - Asgard Beam Weapon, Ha'tak Staff Cannon, Drone Launcher, Ori Beam Cannon, Destiny turrets, Ship Railgun, Ion Cannon, Vanir and Wraith Plasma Cannons: they never hit their own ship and fire out through its own shield. On a StarCore ship they run on the ship's power (its ZPMs, generators and batteries, else the ship's own). Admins choose if weapons use energy, and how hard they hit a StarCore ship: as in the series (hand weapons barely scratch a hull) or each weapon's own damage.
 
 ### Replicators
 - Blocks crawl together and build bugs, bugs build more bugs, queens lead the swarm
 - They eat metal, follow you through the gate and put themselves back together after a blast
 - Only three things finish them: the Dakara weapon, the ARG and an opening gate's kawoosh
+- Still being tuned: how they move and fight can change from update to update
 
 ### Weapons and gear
 Zat'nik'tel, staff weapon, hand device, healing device, SGC PDW (P90), SGC Sidearm (Beretta), Ori staff, Wraith blaster, Ronon's gun, Asuran gun, Tac, personal shield, Sodan cloak, mimetic imaging device and the Ancient control chair with drones.

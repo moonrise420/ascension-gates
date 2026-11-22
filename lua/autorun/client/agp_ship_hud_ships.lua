@@ -27,15 +27,15 @@ local function chipsCommon(e, th)
 	local at = e:GetNWFloat("AGPDestructAt", 0)
 	if (at > CurTime()) then c[#c + 1] = { L("agp_hud_c_destruct", "SELF-DESTRUCT %d s", math.ceil(at - CurTime())), th.bad } end
 	if (e:GetNWBool("AGPCloaked")) then c[#c + 1] = { L("agp_hud_c_cloaked", "CLOAKED"), th.good } end
-	if (e:GetNWBool("AGPLanding")) then c[#c + 1] = { L("agp_hud_c_landing", "LANDING MODE (NO STEERING)"), th.warn } end   -- (owner 2026-11-11 took a ship left in landing mode for broken controls)
+	if (e:GetNWBool("AGPLanding")) then c[#c + 1] = { L("agp_hud_c_landing", "LANDING MODE (NO STEERING)"), th.warn } end   -- (took a ship left in landing mode for broken controls)
 	if (e:GetNWBool("AGPHyperTarget")) then c[#c + 1] = { L("agp_hud_c_wired", "JUMP TARGET SET"), th.line } end
 	return c
 end
 
 -- a capital ship: hull, shield, hyperdrive, the usual keys
 local function capital(theme, title, layout, opt)
-	-- AGP 2026-11-08: marker "aim": the crosshair where every gun goes (the point the camera looks at, also in the
-	-- bridge view; lua/autorun/agp_ship_aim.lua). The old ring showed where the nose points, from the ship's middle.
+	-- AGP: marker "aim": the crosshair where every gun goes (the point the camera looks at, also in the bridge
+	-- view; lua/autorun/agp_ship_aim.lua). The old ring showed where the nose points, from the ship's middle.
 	local spec = { theme = theme, title = title, layout = layout, shield = true, chips = chipsCommon, marker = "aim",
 		keys = { FLY, UPDOWN, BOOST, ROLL, FIRE, AIM, SHIELD, DHD, HYPER, LAND, VIEW, CAM, BOOM, EXIT } }
 	for k, v in pairs(opt or {}) do spec[k] = v end
@@ -54,13 +54,13 @@ local VOLLEY_SPEC = { keys = VOLLEY_KEYS, rows = function(e, th) return { volley
 local S = HUD.Ships
 S.sg_vehicle_alkesh = capital("goauld", { "agp_hud_n_alkesh", "Al'kesh" }, "Alkesh", {
 	keys = { FLY, UPDOWN, BOOST, ROLL, FIRE, K("BOMB", "agp_hud_k_bomb", "Drop bombs (bombing run)"), SHIELD, DHD, HYPER, LAND, VIEW, CAM, BOOM, EXIT } })
-S.sg_vehicle_aurora = capital("ancient", { "agp_hud_n_aurora", "Aurora" }, "Aurora", {   -- AGP 2026-11-08: Mouse1 drones go to the crosshair
+S.sg_vehicle_aurora = capital("ancient", { "agp_hud_n_aurora", "Aurora" }, "Aurora", {   -- AGP: Mouse1 drones go to the crosshair
 	keys = { FLY, UPDOWN, BOOST, ROLL, K("FIRE", "agp_hud_k_dronesaim", "Drones at the crosshair"), K("TRACK", "agp_hud_k_turretvolley", "Turret volley at the crosshair"), SHIELD, DHD, HYPER, LAND, VIEW, CAM, BOOM, EXIT } })
 S.sg_vehicle_destiny = capital("destiny", { "agp_hud_n_destiny", "Destiny" }, "Destiny", {
 	keys = { FLY, UPDOWN, BOOST, ROLL, FIRE, K("TRACK", "agp_hud_k_sideturrets", "Turrets at the crosshair (hold)"), SHIELD, DHD, HYPER, LAND, VIEW, CAM, BOOM, EXIT } })
--- AGP 2026-11-09: the seed ship sets Stargates down (B): its factory row (on board / coming out / lowering / building); when
--- ready, how high the belly is over the ground in the player's own unit (owner: "no feeling for game units"), green
--- inside the range the ship builds in
+-- AGP: the seed ship sets Stargates down (B): its factory row (on board / coming out / lowering / building); when ready, how
+-- high the belly is over the ground in the player's own unit, green inside the range the ship builds in
+--
 local function seedHeight(e)
 	local from = e:LocalToWorld(Vector(-100, 0, -60))
 	local tr = util.TraceLine({ start = from, endpos = from - Vector(0, 0, 32768), mask = MASK_SOLID_BRUSHONLY })
@@ -68,7 +68,7 @@ local function seedHeight(e)
 	return from.z - tr.HitPos.z
 end
 local function seedRow(e, th)
-	-- (2026-11-09, as in the series) the factory on board keeps up to e.AGPGateStore gates; B sets one down
+	-- (as in the series) the factory on board keeps up to e.AGPGateStore gates; B sets one down
 	local name = L("agp_hud_r_seed", "Gate factory")
 	local now = CurTime()
 	if (e:GetNWFloat("AGPSeedAt", 0) > now) then return { "text", name, L("agp_hud_seed_out", "gate coming out"), th.warn } end
@@ -91,8 +91,8 @@ S.sg_vehicle_prometheus = capital("tauri", { "agp_hud_n_prometheus", "Prometheus
 	keys = { FLY, UPDOWN, BOOST, ROLL, K("FIRE", "agp_hud_k_missiles", "Missiles"), K("TRACK", "agp_hud_k_railguns", "Rail guns"), SHIELD, DHD, HYPER, LAND, VIEW, CAM, BOOM, EXIT } })
 S.sg_vehicle_replicator = capital("asuran", { "agp_hud_n_replicator", "Replicator Ship" }, "ReplicatorMS", VOLLEY_SPEC)
 S.sg_vehicle_traveler = capital("traveler", { "agp_hud_n_traveler", "Traveler Ship" }, "Traveler", VOLLEY_SPEC)
--- AGP 2026-11-09: the Wraith cruiser has no shield (as in the series): its hull grows back, slowly while it is being hit
--- (6 s after the last hit faster again; sg_vehicle_wraithcruiser.lua sets AGPRegrowHit)
+-- AGP: the Wraith cruiser has no shield (as in the series): its hull grows back, slowly while it is being hit (6 s after
+-- the last hit faster again; sg_vehicle_wraithcruiser.lua sets AGPRegrowHit)
 local function regrowRow(e, th)
 	local hp, max = e:GetNWInt("health", 0), math.max(1, e:GetNWInt("maxEntHealth", 1))
 	if (hp >= max) then return { "text", L("agp_hud_r_regrow", "Hull regrowth"), L("agp_hud_regrow_whole", "whole") } end
@@ -181,7 +181,7 @@ S.sg_vehicle_f302 = { theme = "tauri", title = { "agp_hud_n_f302", "F-302" }, la
 		K("EJECT", "agp_hud_k_eject", "Eject"), K("FPV", "agp_hud_k_view", "Change view"), BOOM, EXIT } }
 
 S.sg_vehicle_daedalus = { theme = "tauri", title = { "agp_hud_n_daedalus", "BC-304 Daedalus" }, layout = "Daedalus", shield = true, hullMaxNW = "clmaxhealth", hullMax = 20000,
-	noStatus = true, marker = "aim", keysPos = "center", -- its own BC-304 HUD stays (the owner likes it); here only the controls and the crosshair
+	noStatus = true, marker = "aim", keysPos = "center", -- its own BC-304 HUD stays (the author likes it); here only the controls and the crosshair
 	chips = function(e, th)
 		local c = chipsCommon(e, th)
 		local m = e:GetNWInt("ViewMode", 0)
@@ -266,12 +266,12 @@ table.insert(HUD.Extra, function(ply)
 	if (IsValid(veh)) then return veh:GetNWEntity("AGPHatak") end
 end)
 
--- keys whose default changed (2026-10-30): moved once for players who still have the old default saved
+-- keys whose default changed: moved once for players who still have the old default saved
 local KEY_UPDATES = {
 	Dart = { { "SUCK", "MOUSE1" }, { "SPIT", "MOUSE2" }, { "FIRE", "MOUSE3" }, { "RROLL", "X" } },
 	F302 = { { "BACK", "S" }, { "UP", "SPACE" }, { "DOWN", "CTRL" }, { "WHEELS", "G" }, { "BRAKE", "Q" }, { "FLARES", "F" } },
 	Shuttle = { { "BACK", "S" }, { "RL", "MWHEELDOWN" }, { "RR", "MWHEELUP" }, { "RROLL", "MOUSE3" }, { "SHIELD", "G" } },
-	PuddleJumper = { { "CLOAK", "C" } },   -- 2026-10-31: ALT is free look on every ship now
+	PuddleJumper = { { "CLOAK", "C" } },   -- ALT is free look on every ship now
 	Teltak = { { "CLOAK", "C" } },
 	Daedalus = { { "HYPERSPACE", "H" } },
 	GateGlider = { { "TORPEDO", "MOUSE2" } },

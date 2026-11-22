@@ -1,6 +1,6 @@
--- Ascension Gates (2026-11-08): weapons held in the bare hands (Nox hands, Sodan cloak, personal shield, Mimetisor,
--- Atanik armband) on Garry's Mod's own hands, like GMod's fists: the weapon file sets ViewModel = c_arms.mdl (no mesh of
--- its own, only the fists animations) and UseHands = true. CAP gave them c_arms_animations.mdl without UseHands: no
+-- Ascension Gates: weapons held in the bare hands (Nox hands, Sodan cloak, personal shield, Mimetisor, Atanik
+-- armband) on Garry's Mod's own hands, like GMod's fists: the weapon file sets ViewModel = c_arms.mdl (no mesh of its
+-- own, only the fists animations) and UseHands = true. CAP gave them c_arms_animations.mdl without UseHands: no
 -- hands at all in first person.
 -- AGP.HandsWeapon(SWEP) at the end of the weapon file (after its own Deploy / Think, which it keeps): on deploy the
 -- hands come up (fists_draw), then rest in the fists idle. self:AGPHandsPlay(sequence[, rate]) plays one of c_arms'
@@ -26,10 +26,10 @@ local function play(self, name, rate, deploying)
     return vm:SequenceDuration(seq) / rate
 end
 
--- (2026-11-10, owner: "in first person wraith hands, in third person an SG member") an old first-person model with arms
--- of its own on GMod's ValveBiped skeleton: its arms are hidden and the player's own hands (GMod's hands of the player
--- model) follow the same bones - the device, its animations and its screens stay as they are.
--- AGP.OwnHands(SWEP, { "hand", ... }) - material names (parts, lower case) of the old arms
+-- an old first-person model with arms of its own on GMod's ValveBiped skeleton: its arms are hidden and the player's
+-- own hands (GMod's hands of the player model) follow the same bones - the device, its animations and its screens stay
+-- as they are. AGP.OwnHands(SWEP, { "hand", ... }) - material names (parts, lower case) of
+-- the old arms
 function AGP.OwnHands(SWEP, armMats)
     SWEP.UseHands = true
     if (SERVER) then return end
@@ -57,9 +57,9 @@ function AGP.OwnHands(SWEP, armMats)
     end
 end
 
--- (2026-11-10) an item made with the SWEP Construction Kit, whose old first-person model had arms of its own: first
--- person now on GMod's hand animations (cfg.vm, e.g. c_bugbait) with the player's own hands; the item sits on the hand
--- bone exactly as its world element sits on the player's hand in third person (the kit's pos / angle / size).
+-- an item made with the SWEP Construction Kit, whose old first-person model had arms of its own: first person now
+-- on GMod's hand animations (cfg.vm, e.g. c_bugbait) with the player's own hands; the item sits on the hand bone
+-- exactly as its world element sits on the player's hand in third person (the kit's pos / angle / size).
 -- AGP.HandItem(SWEP, { vm = "models/weapons/c_bugbait.mdl", model, bone, pos, ang, size, fov })
 function AGP.HandItem(SWEP, cfg)
     SWEP.ViewModel = cfg.vm
@@ -112,7 +112,7 @@ function AGP.HandItem(SWEP, cfg)
         ang:RotateAroundAxis(ang:Forward(), cang.r)
         e:SetPos(pos); e:SetAngles(ang)
         if (c.center) then e:SetPos(pos + pos - e:LocalToWorld(e:OBBCenter())) end
-        -- cfg.flip = a point of the model (where the hand holds it): the item turned end for end around it (owner: an
+        -- cfg.flip = a point of the model (where the hand holds it): the item turned end for end around it (an
         -- injector's tip points to the body, not away into the air)
         if (cfg.flip) then
             local g = e:LocalToWorld(cfg.flip)
@@ -148,7 +148,7 @@ function AGP.HandItem(SWEP, cfg)
     end
 end
 
--- (2026-11-12) only the third-person half of AGP.HandItem, for an item whose first person is CAP's own model again
+-- only the third-person half of AGP.HandItem, for an item whose first person is CAP's own model again
 -- (AGP.BlueprintArms): its world model has no hand bone of its own - the engine leaves it at the player's feet - so
 -- in a player's hand it is drawn on the hand bone (the kit's pos / angle / size); dropped, the model itself.
 -- AGP.WorldOnHand(SWEP, { model, bone, pos, ang, size })
@@ -181,10 +181,10 @@ function AGP.WorldOnHand(SWEP, cfg)
     end
 end
 
--- (2026-11-12, owner: "the Goa'uld weapon is not really in the hand") a world model that HAS the hand bone but was
--- built for another hand: bone-merged as it comes, CAP's hand device lies ~40 degrees turned and too far back - its
--- finger caps stick out at the wrist in every pose. In a player's hand the model is drawn by hand: on the hand bone,
--- with a correction in the bone's own space (pos = along the fingers / to the palm / to the thumb, ang = Angle).
+-- a world model that HAS the hand bone but was built for another hand: bone-merged as it comes, CAP's hand device
+-- lies ~40 degrees turned and too far back - its finger caps stick out at the wrist in every pose. In a player's
+-- hand the model is drawn by hand: on the hand bone, with a correction in the bone's own space (pos = along the
+-- fingers / to the palm / to the thumb, ang = Angle).
 -- AGP.WorldFitted(SWEP, { pos = Vector, ang = Angle, convar = "name" })   -- the convar "x y z p y r" overrides (tuning)
 function AGP.WorldFitted(SWEP, cfg)
     if (SERVER) then return end
@@ -228,10 +228,10 @@ function AGP.WorldFitted(SWEP, cfg)
     end
 end
 
--- (2026-11-10, owner: "the remote lies wrong in the hand, the animation does not fit, left click does nothing") a
--- weapon on a GMod hand model whose animations have other names (e.g. c_slam's detonator: draw, idle, the thumb
+-- a weapon on a GMod hand model whose animations have other names (e.g. c_slam's detonator: draw, idle, the thumb
 -- pressing the button): the weapon's own SendWeaponAnim(ACT_VM_...) calls play the mapped ones, deploying plays
 -- map.draw, and after any of them the hand goes back to map.idle.
+--
 -- AGP.ActMap(SWEP, { draw = ACT_..., idle = ACT_..., [ACT_VM_PRIMARYATTACK] = ACT_..., ... })
 function AGP.ActMap(SWEP, map)
     local W = FindMetaTable("Weapon")
@@ -280,9 +280,9 @@ function AGP.ActMap(SWEP, map)
     end
 end
 
--- (2026-11-12, the night's sweep of all weapons: "a click that is not heard feels like nothing happened") a device's
--- buttons are heard: AGP.ClickSounds(SWEP, { primary = "...", secondary = "...", reload = "...", level = 60 }) at the
--- end of a weapon file plays the sound when that button is used (CAP's own button sounds; at most every `gap` s).
+-- (the night's sweep of all weapons: "a click that is not heard feels like nothing happened") a device's buttons are
+-- heard: AGP.ClickSounds(SWEP, { primary = "...", secondary = "...", reload = "...", level = 60 }) at the end of a
+-- weapon file plays the sound when that button is used (CAP's own button sounds; at most every `gap` s).
 function AGP.ClickSounds(SWEP, snd)
     local function wrap(name, s, gap)
         if (not s) then return end
@@ -324,9 +324,9 @@ function AGP.HandsWeapon(SWEP)
     end
 end
 
--- (2026-11-10, full check) five weapons whose world model sits ~20 units off its origin (kino remote, Asuran weapon,
--- the MALP / Jumper / ring remotes): lying on the ground, walking onto them did not pick them up (GMod's own touch
--- never fired). A player within reach of what you see picks it up - only where GMod's pickup rules allow it.
+-- (full check) five weapons whose world model sits ~20 units off its origin (kino remote, Asuran weapon, the MALP /
+-- Jumper / ring remotes): lying on the ground, walking onto them did not pick them up (GMod's own touch never
+-- fired). A player within reach of what you see picks it up - only where GMod's pickup rules allow it.
 if (SERVER) then
     local CLASSES = { "kinoremote", "weapon_asura", "weapon_ringcaller", "weapon_jumper_remote", "weapon_malp_remote" }
     timer.Create("AGP.WalkPickup", 0.25, 0, function()
@@ -347,13 +347,13 @@ if (SERVER) then
     end)
 end
 
--- AGP.WorldMerged(SWEP, { model = "...", convar = "..." }) (2026-11-12, owner: "the hand device is still not really
--- in the hand"; suite hdevab): in third person the holder wears another model than the weapon's world model - one
--- whose pieces hang on the hand's and the fingers' own bones (the Goa'uld hand device: notes/models/
--- agp_hdevice_build.py), so the game's bonemerge lays it on the hand and bends it with the fingers on every body.
--- The dropped weapon stays its world model. convar "off": the world model as it is, to compare.
--- the hand device: on a body without ring finger bones in third person (GMod's citizens) the ring and little finger's
--- pieces move with the middle finger
+-- AGP.WorldMerged(SWEP, { model = "...", convar = "..." }) (suite hdevab): in third person the holder wears another
+-- model than the weapon's world model - one whose pieces hang on the hand's and the fingers' own bones (the
+-- Goa'uld hand device: A build script agp_hdevice_build.py), so the game's bonemerge lays it on the
+-- hand and bends it with the fingers on every body. The dropped weapon stays its world model. convar "off": the
+-- world model as it is, to compare. the hand device: on a body without ring finger bones in
+-- third person (GMod's citizens) the ring and little finger's pieces move with the middle finger
+--
 AGP.HandDeviceStandIn = {
     ["ValveBiped.Bip01_R_Finger3"] = "ValveBiped.Bip01_R_Finger2",
     ["ValveBiped.Bip01_R_Finger31"] = "ValveBiped.Bip01_R_Finger21",

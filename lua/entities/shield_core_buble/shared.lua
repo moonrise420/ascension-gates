@@ -19,9 +19,9 @@ function ENT:GetTraceSize()
 end
 
 --################# AGP: the shield core bubble as a hard wall (server and client, so the client predicts it too) #################
--- The owner's rule: nothing from outside gets in (players, NPCs, props, shots, blasts); what was inside when the bubble
--- went up, shots from there, and the owner (immunity on) may pass. Both realms use the same shape and the same rule:
--- the server from its own fields, the client from the networked values (cached in the bubble's client Think).
+-- The author's rule: nothing from outside gets in (players, NPCs, props, shots, blasts); what was inside when the
+-- bubble went up, shots from there, and the owner (immunity on) may pass. Both realms use the same shape and the
+-- same rule: the server from its own fields, the client from the networked values (cached in the bubble's client Think).
 AGP_SC = AGP_SC or {}
 local SC = AGP_SC
 
@@ -257,6 +257,8 @@ function SC.Allowed(b, e)
 	if (not isentity(e) or not IsValid(e)) then return false end
 	if (inSet(b, e)) then return true end
 	if (e.AGPBornIn == b) then return true end -- made inside after the bubble went up (server, init.lua)
+	-- AGP: a shot of a weapon of the core's own ship (StarGate.MarkShot: pulses, drones) passes, in and out
+	if (SERVER and e.AGPFrom and StarGate.SameShip and StarGate.SameShip(e.AGPFrom, b.Parent)) then return true end
 	local o = e:GetOwner() -- shot by someone who may be inside
 	if (IsValid(o) and o ~= b and inSet(b, o)) then return true end
 	if (e:IsVehicle() and e.GetDriver) then

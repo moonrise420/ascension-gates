@@ -29,8 +29,8 @@ SWEP.Slot = 3;
 SWEP.SlotPos = 4;
 SWEP.DrawAmmo	= false;
 SWEP.DrawCrosshair = true;
--- AGP 2026-11-08: Garry's Mod's own hands with the fists animations (agp_weapon_hands.lua); c_arms_animations.mdl
--- without UseHands showed no hands at all
+-- AGP: Garry's Mod's own hands with the fists animations (agp_weapon_hands.lua); c_arms_animations.mdl without
+-- UseHands showed no hands at all
 SWEP.ViewModel = "models/weapons/c_arms.mdl";
 SWEP.ViewModelFOV = 54;
 SWEP.UseHands = true;
@@ -76,7 +76,7 @@ function SWEP:PrimaryAttack()
 		self.Owner:SetNoTarget(true);
 		self.Owner:EmitSound(self.Sounds.Engage,90,math.random(97,103));
 		self:DoCloakEffect();
-		if (self.AGPHandsPlay) then self:AGPHandsPlay("fists_draw", 1.5) end -- AGP 2026-11-08: the hands come up (first person)
+		if (self.AGPHandsPlay) then self:AGPHandsPlay("fists_draw", 1.5) end -- AGP: the hands come up (first person)
 		self.Weapon:SetNextSecondaryFire(CurTime()+0.8);
 	end
 	return true;
@@ -89,7 +89,7 @@ function SWEP:SecondaryAttack()
 		self.Owner:SetNoTarget(false);
 		self.Owner:EmitSound(self.Sounds.Disengage,90,math.random(97,103));
 		self:DoCloakEffect();
-		if (self.AGPHandsPlay) then self:AGPHandsPlay("fists_draw", 1.5) end -- AGP 2026-11-08: the hands come up (first person)
+		if (self.AGPHandsPlay) then self:AGPHandsPlay("fists_draw", 1.5) end -- AGP: the hands come up (first person)
 		self.Weapon:SetNextPrimaryFire(CurTime()+0.8);
 	end
 	return true;
@@ -108,7 +108,7 @@ end
 timer.Create("StarGate.SodanCloaking.DamagePlayerOverTime",1,0,
 	function()
 		for _,v in pairs(player.GetAll()) do
-			-- AGP 2026-11-10: no device, no cloak (backs up OnRemove, whose owner is gone when the weapons are stripped)
+			-- AGP: no device, no cloak (backs up OnRemove, whose owner is gone when the weapons are stripped)
 			if(IsValid(v) and v:GetNWBool("pCloaked",false) and not v:HasWeapon("sodan_cloak")) then
 				v:SetNWBool("pCloaked",false); v:SetNoTarget(false);
 			end
@@ -161,8 +161,8 @@ hook.Add("PlayerSilentDeath","StarGate.SodanCloaking.PlayerDeath",
 	end
 );
 
--- AGP 2026-11-10: the cloak stays on when the device is put away, but it ends once the player carries no Sodan cloak
--- any more (taken away, dropped, stripped): without the device nothing could switch it off - the player stayed
+-- AGP: the cloak stays on when the device is put away, but it ends once the player carries no Sodan cloak any more
+-- (taken away, dropped, stripped): without the device nothing could switch it off - the player stayed
 -- invisible with the blue tint for good
 function SWEP:Equip(owner) self.AGPCloakOwner = owner end
 function SWEP:OnRemove()
@@ -180,8 +180,8 @@ end
 
 if CLIENT then
 
--- AGP 2026-11-08: the attacks run on the server only; without these the client used weapon_base's and played the
--- pistol's empty click in multiplayer
+-- AGP: the attacks run on the server only; without these the client used weapon_base's and played the pistol's
+-- empty click in multiplayer
 function SWEP:PrimaryAttack() end
 function SWEP:SecondaryAttack() end
 
@@ -214,8 +214,8 @@ hook.Add("RenderScreenspaceEffects","StarGate.SodanCloaking.RenderScreenspaceEff
 			);
 			-- Makes view blurry
 			DrawMotionBlur(0.2,0.7,0);
-			-- Draw blurred edges @aVoN (AGP 2026-11-08: "bluredges" comes only with Wiremod; without it the error texture
-			-- covered the whole screen while cloaked)
+			-- Draw blurred edges @aVoN (AGP: "bluredges" comes only with Wiremod; without it the error texture covered
+			-- the whole screen while cloaked)
 			if (not BlurEdges:IsError()) then
 				render.SetMaterial(BlurEdges);
 				render.UpdateScreenEffectTexture();
@@ -264,5 +264,5 @@ end);
 
 end
 
--- AGP 2026-11-08: the hands come up on deploy and rest in the fists idle (agp_weapon_hands.lua)
+-- AGP: the hands come up on deploy and rest in the fists idle (agp_weapon_hands.lua)
 if (AGP and AGP.HandsWeapon) then AGP.HandsWeapon(SWEP) end

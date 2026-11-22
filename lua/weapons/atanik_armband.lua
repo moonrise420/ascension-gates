@@ -14,7 +14,7 @@ SWEP.PrintName = SGLanguage.GetMessage("weapon_misc_atanik");
 SWEP.Category = SGLanguage.GetMessage("weapon_misc_cat");
 else
 SWEP.PrintName = "Atanik Armband"
-SWEP.Category = (SGLanguage and SGLanguage.GetMessage) and SGLanguage.GetMessage("weapon_misc_cat") or "Misc Weapons"   -- AGP 2026-11-10: one of our two weapon folders (was "Misc Weapons": a folder of its own)
+SWEP.Category = (SGLanguage and SGLanguage.GetMessage) and SGLanguage.GetMessage("weapon_misc_cat") or "Misc Weapons"   -- AGP: one of our two weapon folders (was "Misc Weapons": a folder of its own)
 end
 SWEP.Author = "Llapp"
 SWEP.Contact = "llapp612@googlemail.com"
@@ -25,7 +25,7 @@ SWEP.Slot = 1
 SWEP.SlotPos = 5
 SWEP.DrawAmmo = false
 SWEP.DrawCrosshair = true
--- AGP 2026-11-08: Garry's Mod's own hands with the fists animations (agp_weapon_hands.lua): v_hands.mdl has no punch
+-- AGP: Garry's Mod's own hands with the fists animations (agp_weapon_hands.lua): v_hands.mdl has no punch
 -- (ACT_VM_HITCENTER), the punches did not show in first person
 SWEP.ViewModel = "models/weapons/c_arms.mdl"
 SWEP.WorldModel = "models/weapons/w_bugbait.mdl"
@@ -62,9 +62,9 @@ function SWEP:Initialize()
     end
 end
 
--- AGP 2026-11-12 (the night's weapon sweep: "a punch into the air is silent, a hit sounds like a fall-pain grunt and
--- leaves a bullet hole"): a fist - a short trace with blunt damage (CAP fired a bullet), the whoosh of the swing
--- always, a real impact sound on a hit (HL2's own recordings).
+-- AGP (the night's weapon sweep: "a punch into the air is silent, a hit sounds like a fall-pain grunt and leaves a
+-- bullet hole"): a fist - a short trace with blunt damage (CAP fired a bullet), the whoosh of the swing always, a
+-- real impact sound on a hit (HL2's own recordings).
 function SWEP:Punch(damage, delay, seq, force)
     if (CurTime() < self.NextHit) then return end
     self.NextHit = CurTime() + delay
@@ -114,7 +114,7 @@ if SERVER then
     function SWEP:OnDrop()
         self:SetNWBool("WorldNoDraw", false)
 
-        -- AGP 2026-11-08: gives back the run speed, jump and armour he had (was run 500, jump 200, armour 0);
+        -- AGP: gives back the run speed, jump and armour he had (was run 500, jump 200, armour 0);
         -- StarGate.AtanikOff: stargate/shared/init.lua
         if (IsValid(self.OldOwner) and self.OldOwner.CAP_Atanik) then
             StarGate.AtanikOff(self.OldOwner)
@@ -124,7 +124,7 @@ if SERVER then
         return true
     end
 
-    -- AGP 2026-11-08: taken away while worn (a ship's StripWeapons, death, remover): the boost ended there too
+    -- AGP: taken away while worn (a ship's StripWeapons, death, remover): the boost ended there too
     function SWEP:OnRemove()
         local owner = IsValid(self:GetOwner()) and self:GetOwner() or self.OldOwner
         if (not IsValid(owner) or not owner.CAP_Atanik or not owner.GetActiveWeapon) then return end
@@ -140,7 +140,7 @@ if SERVER then
     end
 
     function SWEP:OwnerChanged()
-        -- AGP 2026-11-08: keep the last real owner (on a drop the owner turns NULL, maybe before OnDrop runs)
+        -- AGP: keep the last real owner (on a drop the owner turns NULL, maybe before OnDrop runs)
         if (IsValid(self:GetOwner())) then
             self.OldOwner = self:GetOwner()
         end
@@ -159,9 +159,9 @@ if CLIENT then
         end
     end
 
-    -- AGP 2026-11-08: the old GetViewModelPosition (10 back, 1 down) was made for v_hands.mdl; removed - GMod's hands
-    -- sit where its fists do
+    -- AGP: the old GetViewModelPosition (10 back, 1 down) was made for v_hands.mdl; removed - GMod's hands sit where
+    -- its fists do
 end
 
--- AGP 2026-11-08: the hands come up on deploy and rest in the fists idle (agp_weapon_hands.lua)
+-- AGP: the hands come up on deploy and rest in the fists idle (agp_weapon_hands.lua)
 if (AGP and AGP.HandsWeapon) then AGP.HandsWeapon(SWEP) end

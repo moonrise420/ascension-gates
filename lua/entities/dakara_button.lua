@@ -24,7 +24,7 @@ AddCSLuaFile();
 
 function ENT:Initialize()
 
-	self.Entity:SetModel(AGP.ModelOr("models/beer/wiremod/numpad.mdl")); -- AGP 2026-11-08: base-game model without Wiremod (lua/autorun/agp_fallback_models.lua)
+	self.Entity:SetModel(AGP.ModelOr("models/beer/wiremod/numpad.mdl")); -- AGP: base-game model without Wiremod (lua/autorun/agp_fallback_models.lua)
 	self.Entity:SetName("Dakara Button");
 	self.Entity:PhysicsInit(SOLID_VPHYSICS);
 	self.Entity:SetMoveType(MOVETYPE_VPHYSICS);

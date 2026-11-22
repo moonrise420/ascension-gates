@@ -1,14 +1,14 @@
--- Replicators: a brain that learns which decisions pay off (owner 2026-11-02: "they need to learn what good decisions are").
--- Every kind of decision a bug can take (eat, board, tower, flank, ambush, wait, guard ...) has a learned value for each
--- situation. A situation is a few coarse facts: what kind of target (on the ground, in the air, none), how crowded it is
--- there, the enemy (none, weak, armed), the swarm's size. In Look the option's score is multiplied by that value.
--- What came of a decision is measured: metal eaten, a ship boarded, a new bug built, an enemy hurt, a shield drained are
--- good; stuck, a missed jump, being shot apart, wasted time are bad. When the bug takes its next decision (or after 15 s)
--- the value moves a little towards what that decision earned.
--- The trained default brain ships with the addon (agp_replicators/brain_default.lua, made by training runs in test
--- games); on top of it every server learns a little more, but only within limits round the default, so it can never
--- drift into stupid habits. agp_rep_learn: 0 = default brain only, 1 = learn (bounded, default), 2 = training (free, for
--- making the default brain).
+-- Replicators: a brain that learns which decisions pay off. Every kind of decision a bug can take (eat, board, tower, flank,
+-- ambush, wait, guard ...) has a learned value for each situation. A situation is a few coarse facts: what kind of
+-- target (on the ground, in the air, none), how crowded it is there, the enemy (none, weak, armed), the swarm's size. In
+-- Look the option's score is multiplied by that value. What came of a decision is measured: metal eaten, a ship
+-- boarded, a new bug built, an enemy hurt, a shield drained are good; stuck, a missed jump, being shot apart, wasted
+-- time are bad. When the bug takes its next decision (or after 15 s) the value moves a little towards what that decision
+-- earned. The trained default brain ships with the addon
+-- (agp_replicators/brain_default.lua, made by training runs in test games); on top of it every server learns a
+-- little more, but only within limits round the default, so it can never drift into stupid habits. agp_rep_learn: 0
+-- = default brain only, 1 = learn (bounded, default), 2 = training (free, for making the default brain).
+--
 local R = AGP.Rep
 local Br = R.Brain or {}
 R.Brain = Br

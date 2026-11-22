@@ -742,10 +742,10 @@ end
 if CLIENT then
     -- The magazine of w_sgc_pdw is its own mesh part but not a separate bone/bodygroup, so it is cut out with clip planes:
     -- the gun is drawn without the magazine box, a second copy of the model drawn only inside the box is the magazine.
-    -- Model space: +x = left side of the gun, -y = muzzle, +z = up. Box found from the model source (notes/models/build_weapons):
-    -- magazine y -6.37 .. 4.72, z 4.54 .. 5.79; below z 4.78 it sits inside the receiver, behind y 4.30 inside the magazine catch,
-    -- the sight mount's legs stand beside it (x < -0.24 / > 1.63) in front of y 2.5, where the magazine is narrower.
-    -- A plane {n, d} keeps n . p > d (model units).
+    -- Model space: +x = left side of the gun, -y = muzzle, +z = up. Box found from the model source: magazine y -6.37 .. 4.72, z
+    -- 4.54 .. 5.79; below z 4.78 it sits inside the receiver, behind y 4.30 inside the magazine catch, the sight mount's legs
+    -- stand beside it (x < -0.24 / > 1.63) in front of y 2.5, where the magazine is narrower. A plane {n, d} keeps n
+    -- . p > d (model units).
     local MAG_ONLY = {
         { { Vector(1, 0, 0), -0.24 }, { Vector(-1, 0, 0), -1.63 }, { Vector(0, 1, 0), -6.39 }, { Vector(0, -1, 0), -2.5 }, { Vector(0, 0, 1), 4.78 }, { Vector(0, 0, -1), -5.795 } },
         { { Vector(0, 1, 0), 2.5 }, { Vector(0, -1, 0), -4.30 }, { Vector(0, 0, 1), 4.78 }, { Vector(0, 0, -1), -5.795 } },
@@ -944,9 +944,9 @@ function SWEP:CSShootBullet(dmg, recoil, numbul, cone)
         bullet.Src = AGP.NPCMuzzle(self.Owner, 14, self)
         bullet.Dir = (aimAt - bullet.Src):GetNormalized()
     end
-    -- AGP 2026-11-14 (owner: "for p90 its not accurate were the bullets come out when shooting"): the engine started the
-    -- tracer and the flash on the HL2 SMG's muzzle, not on the barrel of our model; ours leave the P90's own muzzle
-    -- (lua/autorun/agp_muzzle.lua), the bullet is still traced from the eye
+    -- AGP: the engine started the tracer and the flash on the HL2 SMG's muzzle, not on the barrel of our model; ours
+    -- leave the P90's own muzzle (lua/autorun/agp_muzzle.lua), the bullet is still traced from the eye
+    --
     local ours = AGP and AGP.MuzzleShot and AGP.MuzzleShot(self, bullet, "bullet")
     self.Owner:FireBullets(bullet) -- Fire the round
     if self.VMRateUntil then self:SetVMRate(1) end

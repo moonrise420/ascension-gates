@@ -1,11 +1,11 @@
 --[[
-	Ascension Gates (2026-11-12): parts that a tool or a parent entity places get their model from that tool or
-	parent. Created bare (a script, a test, another addon) they had none and the game drew a red ERROR. Owner: "dont
-	these have looks individual themselfs? and why not give them this look?" - so each of them now has its own
-	normal model as the default: the tool's default choice or the one its parent gives it (the list and where each
-	comes from: notes/bare_part_models_2026-11-12.json). A model set before Spawn - what tools and parents do - is
-	left alone. mobile_gate has no model at all (the Attero device's invisible carrier of an event horizon): bare, it
-	is not drawn.
+	Ascension Gates: parts that a tool or a parent entity places get their model from that tool or parent.
+	Created bare (a script, a test, another addon) they had none and the game drew a red ERROR. - so each of them now
+	has its own normal model as the default: the tool's default choice or the one its parent gives it (the list
+	and where each comes from). A model set before Spawn - what tools and parents do - is left alone. mobile_gate
+	has no model at all (the Attero device's invisible carrier of an event horizon): bare, it is not drawn.
+
+
 ]]
 local MODELS = {
 	agp_door_panel = "models/agp/hatak/props/door_57x112x10.mdl",

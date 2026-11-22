@@ -12,14 +12,7 @@ sg_err_05 = Abonne-toi à tous les éléments du Workshop nécessaires pour que 
 sg_err_06 = Ton Garry's Mod n'est pas à jour. Installe la dernière version !
 sg_err_07 = Wiremod est introuvable.<br>Vérifie que Wiremod est correctement installé.
 sg_err_08 = Tu utilises la bêta de Garry's Mod 13, qui ne prend plus en charge cet addon. Utilise la version officielle et à jour de Garry's Mod !
-sg_err_09 =[[Abonne-toi à tous les objets de la collection sur le workshop pour que l'addon fonctionne correctement.
-<br>Clique sur le bouton<b>"S'abonner à tout"</b> sur la page de la collection du workshop: <a href='http://steamcommunity.com/sharedfiles/filedetails/?id=180077636'>Lien de la Collection</a>.
-<br>
-<br>La collection est énorme, il pourrait y avoir des problèmes avec des objets qui ne sont pas complètement téléchargés ou qui sont corrompus.
-%s
-<br>
-<br>S'il y a des objets listés ci-dessus, assure-toi d'y être abonné ; si tu l'es déjà, supprime le fichier .gma de ton dossier addons et laisse Steam/Gmod le retélécharger.
-]]
+sg_err_09 = Ascension Gates n'est pas installé correctement.<br>Vérifie que toutes les parties d'Ascension Gates sont installées et qu'aucun ancien addon de code CAP / CAP Enhanced / EAP n'est installé en même temps.
 sg_err_10 = Tu as en même temps la version workshop et la version github de cap_resources.<br>Supprime l'une des deux : efface le dossier cap_resources de ton dossier addons ou désabonne-toi depuis la collection du workshop.
 sg_err_11 =[[Ascension Gates n'est pas installé correctement.<br>Assure-toi que toutes les parties d'Ascension Gates sont installées et qu'aucun ancien addon de code CAP / CAP Enhanced / EAP n'est installé en même temps.
 ]]

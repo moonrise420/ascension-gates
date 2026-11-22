@@ -243,10 +243,10 @@ if SERVER then
         self.Owner:SetNWBool("KActive", true);
     end
 
-    -- AGP 2026-11-08: out of the KINO view without a respawn's losses (Spawn() ran the loadout: all ammo wiped, health
-    -- and armour reset, a Ha'tak bunk moved him away). AGP.ShipRespawnPilot (autorun/agp_ship_shield.lua) keeps armour
-    -- and ammo, like kino_ball.lua does; here health, the weapons he carried (with their clips) and nothing more than
-    -- that (the loadout's extra weapons and ammo go again).
+    -- AGP: out of the KINO view without a respawn's losses (Spawn() ran the loadout: all ammo wiped, health and armour
+    -- reset, a Ha'tak bunk moved him away). AGP.ShipRespawnPilot (autorun/agp_ship_shield.lua) keeps armour and ammo,
+    -- like kino_ball.lua does; here health, the weapons he carried (with their clips) and nothing more than that (the
+    -- loadout's extra weapons and ammo go again).
     local function AGPLeaveKinoView(ply)
         if (not (AGP and AGP.ShipRespawnPilot)) then
             ply:Spawn()
@@ -286,7 +286,7 @@ if SERVER then
             if (self.Owner:Alive()) then
                 self.Owner:SetMoveType(MOVETYPE_WALK);
                 self.Owner:SetObserverMode(OBS_MODE_NONE);
-                AGPLeaveKinoView(self:GetOwner()); -- AGP 2026-11-08: was self.Owner:Spawn()
+                AGPLeaveKinoView(self:GetOwner()); -- AGP: was self.Owner:Spawn()
                 self.Owner:SetFOV(self.FOV,0.3);
                 self.Owner:SetPos(self.StartPos + Vector(0,0,5)); -- whoa it repaired everythin
                 self.Owner:Give("KinoRemote"); -- We get back our wep
@@ -376,7 +376,7 @@ if SERVER then
 end
 
 if CLIENT then
-    -- AGP 2026-11-08: an own hook name - the plain "HideHud" can be another addon's too, and then one of the two stops
+    -- AGP: an own hook name - the plain "HideHud" can be another addon's too, and then one of the two stops
     hook.Add("HUDShouldDraw", "AGP.KinoRemote.HideHud", function(name)
         local ply = LocalPlayer()
         if not IsValid(ply) then return end -- Check if the player is valid
@@ -522,9 +522,9 @@ if CLIENT then
     end
 end
 
--- AGP 2026-11-12 (owner: "CAP's is way better held in the hand - why can't we have it exactly the same way"): CAP's own
--- first-person model and animations, with the player's own hands laid onto its arm skeleton
--- (lua/autorun/agp_blueprint_arms.lua). 2026-11-10's GMod hand animations never fitted this item.
+-- AGP: CAP's own first-person model and animations, with the player's own hands laid onto its arm skeleton
+-- (lua/autorun/agp_blueprint_arms.lua). GMod hand animations never fitted this item.
+--
 if (AGP and AGP.BlueprintArms) then
     AGP.BlueprintArms(SWEP, { vm = "models/Iziraider/kinoremote/v_kinoremote.mdl", hide = { "v_hands" }, arms = AGP.BlueprintRigs.izi })
 end

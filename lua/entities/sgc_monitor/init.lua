@@ -230,8 +230,8 @@ function ENT:PreEntityCopy()
 
 	dupeInfo.Keyboard = self.Keyboard:EntIndex();
 	dupeInfo.Server = self.Server:EntIndex();
-	-- AGP 2026-11-08: with its own dupe class (bottom of this file) only what is stored here comes back: the keyboard keys
-	-- from the tool and whether the tool made the keyboard (removed with the screen) were copied by accident before
+	-- AGP: with its own dupe class (bottom of this file) only what is stored here comes back: the keyboard keys from the
+	-- tool and whether the tool made the keyboard (removed with the screen) were copied by accident before
 	dupeInfo.Key = self.Key;
 	dupeInfo.KeyD = self.KeyD;
 	dupeInfo.KeyboardSpawned = self.KeyboardSpawned;
@@ -266,9 +266,9 @@ function ENT:PostEntityPaste(ply, Ent, CreatedEntities)
 	if (dupeInfo.Keyboard and CreatedEntities[dupeInfo.Keyboard]) then
 		self.Keyboard = CreatedEntities[dupeInfo.Keyboard];
 		CreatedEntities[dupeInfo.Keyboard].SGCScreen = Ent;
-		self.KeyboardSpawned = dupeInfo.KeyboardSpawned; -- AGP 2026-11-08: see PreEntityCopy
+		self.KeyboardSpawned = dupeInfo.KeyboardSpawned; -- AGP: see PreEntityCopy
 	end
-	-- AGP 2026-11-08: the keyboard keys chosen in the tool (see PreEntityCopy)
+	-- AGP: the keyboard keys chosen in the tool (see PreEntityCopy)
 	if (dupeInfo.Key) then self.Key = dupeInfo.Key end
 	if (dupeInfo.KeyD) then self.KeyD = dupeInfo.KeyD end
 	if (dupeInfo.Server and CreatedEntities[dupeInfo.Server]) then
@@ -284,7 +284,7 @@ function ENT:PostEntityPaste(ply, Ent, CreatedEntities)
 end
 
 if (StarGate and StarGate.CAP_GmodDuplicator) then
-	-- AGP 2026-11-08: registered "sgc_server" here (CAP copy-paste; the server registers itself in sgc_server.lua), so the
-	-- monitor fell back to the generic duplicator, which copies the whole entity table (old links, Wire tables) onto the paste
+	-- AGP: registered "sgc_server" here (CAP copy-paste; the server registers itself in sgc_server.lua), so the monitor
+	-- fell back to the generic duplicator, which copies the whole entity table (old links, Wire tables) onto the paste
 	duplicator.RegisterEntityClass( "sgc_monitor", StarGate.CAP_GmodDuplicator, "Data" )
 end

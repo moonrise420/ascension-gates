@@ -127,7 +127,7 @@ if(file.Exists("materials/VGUI/weapons/virus.vmt","GAME")) then
 	SWEP.WepSelectIcon = surface.GetTextureID("VGUI/weapons/virus");
 end
 
--- AGP 2026-11-08: stargate/universe/kinoturnon.wav never existed; the Kino's own turn-on sound (as the Goa'uld DHD SWEP)
+-- AGP: stargate/universe/kinoturnon.wav never existed; the Kino's own turn-on sound (as the Goa'uld DHD SWEP)
 SWEP.Primary.Sound = "kino/kino_turn_on.wav"
 SWEP.Secondary.Sound = "kino/kino_turn_on.wav"
 SWEP.DrawAmmo	= false;
@@ -639,12 +639,12 @@ if CLIENT then
 
 end
 
--- AGP 2026-11-10 (owner: the hands in first person must be the player's own, the fingers on the item): GMod's
--- small-object grip (c_bugbait) with the player's own hands; the item sits in the hand as its world element does
--- in third person. The old view model had arms of its own.
+-- AGP (the hands in first person must be the player's own, the fingers on the item): GMod's small-object grip
+-- (c_bugbait) with the player's own hands; the item sits in the hand as its world element does in third person.
+-- The old view model had arms of its own.
 if (AGP and AGP.HandItem) then
 	AGP.HandItem(SWEP, { vm = "models/weapons/c_bugbait.mdl", model = "models/assassin21/agv/agv.mdl", pos = Vector(3.2, 9.2, -0.4), ang = Angle(-120, 180, 0), size = 0.75 })
 end
 
--- AGP 2026-11-12: its buttons are heard (agp_weapon_hands.lua)
+-- AGP: its buttons are heard (agp_weapon_hands.lua)
 if (AGP and AGP.ClickSounds) then AGP.ClickSounds(SWEP, { primary = "kino/kino_turn_on.wav", gap = 0.6 }) end

@@ -210,8 +210,8 @@ function ENT:ToggleDoor() --############# Toggle Door @ RononDex
 			end
 		end
 		self.NextUse.Door = CurTime() + self:SequenceDuration(self.doorseq);
-		-- AGP 2026-10-30: start the animation only when the door really toggles. It was restarted (and the sound played)
-		-- on every call, so holding the key a moment kept the door at its first frame: "nothing happens".
+		-- AGP: start the animation only when the door really toggles. It was restarted (and the sound played) on every
+		-- call, so holding the key a moment kept the door at its first frame: "nothing happens".
 		self:ResetSequence(self.doorseq)
 		self:SetPlaybackRate(0.675)
 		self:EmitSound(self.Sounds.Door,100,100)
@@ -316,9 +316,9 @@ function ENT:TogglePods() --############# Toggle Engine Pods @ RononDex
 			if(not(self.epodo)) then
 				self.sequence = self:LookupSequence("epodo") -- Open the drive pods
 				self.epodo = true
-				-- AGP 2026-11-16 (owner test): the drone pods sit in the drive pods - with the drive pods closed they are
-				-- closed too. A WepPods flag left over (pilot got out with both open) made Fire skip opening them: no
-				-- drones, and Q "closed" them first.
+				-- AGP (test): the drone pods sit in the drive pods - with the drive pods closed they are closed too. A
+				-- WepPods flag left over (pilot got out with both open) made Fire skip opening them: no drones, and Q
+				-- "closed" them first.
 				self.WepPods = false
 				self:EmitSound(self.Sounds.EnginePodOpen,100,100)
 				self.CanDoPods=false

@@ -231,8 +231,8 @@ if SERVER then
         elseif(k == "Radius") then
             self.Radius = math.Clamp(v,1,130)
         elseif (k == "Teleport Everything") then
-            -- AGP 2026-11-08: dropped SetWire("Teleport Everything", b): it is an input (works, as in CAP), there is no
-            -- output of that name, so the write went nowhere
+            -- AGP: dropped SetWire("Teleport Everything", b): it is an input (works, as in CAP), there is no output of
+            -- that name, so the write went nowhere
             self.TeleportEverything = b
         end
     end

@@ -49,8 +49,8 @@ function EFFECT:Init(data)
 	self.FrameRate = 25; -- This is for the collapse effect
 	self.FrameEnd = 17; -- The last frame of the animated texture above
 	self.Size = e:BoundingRadius()*1.4; -- The "Collapse's" size
-	-- (AGP 2026-11-13: these bounds stay as they were although the Supergate's horizon is bigger - the engine sorts see-through
-	-- things by their bounds, and with a bigger box this white overlay was drawn after the vortex and covered it)
+	-- (AGP: these bounds stay as they were although the Supergate's horizon is bigger - the engine sorts see-through things by
+	-- their bounds, and with a bigger box this white overlay was drawn after the vortex and covered it)
 	self:SetRenderBounds(Vector(1,1,1)*-1024,Vector(1,1,1)*1024);
 	self.Entity:SetRenderMode(RENDERMODE_TRANSALPHA);
 	self.Draw = true;
@@ -93,8 +93,8 @@ function EFFECT:Render()
 	local mul = math.Clamp((CurTime()-self.Spawned-self.Delay)/(self.LifeTime-self.Delay),0,1);
 	if(mul > 0) then
 		self.Entity:SetColor(Color(255,255,255,math.Clamp(mul*130,1,130)));
-		-- AGP 2026-11-13: this overlay is the horizon's own model in the horizon's own place - on the Supergate's huge horizon the two
-		-- fought over the depth buffer (dark streaks through the opening, filmed). Drawn a hair nearer to the eye.
+		-- AGP: this overlay is the horizon's own model in the horizon's own place - on the Supergate's huge horizon the two fought over
+		-- the depth buffer (dark streaks through the opening, filmed). Drawn a hair nearer to the eye.
 		render.MaterialOverride(self.Material);
 		render.DepthRange(0,0.99999);
 		self.Entity:DrawModel();

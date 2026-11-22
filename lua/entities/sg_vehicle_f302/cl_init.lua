@@ -21,7 +21,7 @@ KBD:SetDefaultKey("TRACK", StarGate.KeyBoard.BINDS["+attack2"] or "MOUSE2") -- T
 --Special Actions
 KBD:SetDefaultKey("CHGATK", "R") --  Toggle Bullets and Missiles
 KBD:SetDefaultKey("WHEELS", "G") -- AGP: landing gear (Ctrl is down now)
-KBD:SetDefaultKey("FLARES", "F") -- AGP 2026-10-31: was ALT, ALT is free look now
+KBD:SetDefaultKey("FLARES", "F") -- AGP: was ALT, ALT is free look now
 KBD:SetDefaultKey("EJECT", "2")
 KBD:SetDefaultKey("BRAKE", "Q") -- AGP: air-brake turn (180 degrees); Space is up now
 KBD:SetDefaultKey("BOOST", "B")

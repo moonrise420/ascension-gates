@@ -1,8 +1,8 @@
 --[[
-	Stargate Console - Ascension Gates' own code (2026-11-07); no Evolution Addon Pack code left (the class name stays
-	for saves and dupes). A console that lights up (skin 1) when a player comes within 400 units (auto mode), or a
-	Wire button: USE switches it on and off and leaves auto mode. Spawned with the console tool (sg_console).
-	Wire inputs: "Disable Auto-mode", "Pressed", "Disable Use"; output: "Active".
+	Stargate Console - Ascension Gates' own code; no Evolution Addon Pack code left (the class name stays for saves and
+	dupes). A console that lights up (skin 1) when a player comes within 400 units (auto mode), or a Wire button:
+	USE switches it on and off and leaves auto mode. Spawned with the console tool (sg_console). Wire inputs:
+	"Disable Auto-mode", "Pressed", "Disable Use"; output: "Active".
 ]]
 if (StarGate ~= nil and StarGate.LifeSupportAndWire ~= nil) then StarGate.LifeSupportAndWire(ENT) end
 

@@ -1,17 +1,17 @@
 --[[
-	Wraith Enzyme - Ascension Gates' own code and model (2026-11-06), designed after the series; no Evolution Addon
-	Pack content left (the class name stays for saves). The enzyme a Wraith injects when it feeds: in a human it heals
-	and lends strength and speed for a while (Ford in "The Lost Boys"). A bright red dose in an Earth syringe.
-	AGP 2026-11-08 (owner: "not so naked, flat and sterile"; inject like the adrenaline shot): a Wraith-grown injector
+	Wraith Enzyme - Ascension Gates' own code and model, designed after the series; no Evolution Addon Pack content
+	left (the class name stays for saves). The enzyme a Wraith injects when it feeds: in a human it heals and lends
+	strength and speed for a while (Ford in "The Lost Boys"). A bright red dose in an Earth syringe. AGP
+	(inject like the adrenaline shot): a Wraith-grown injector
 	- orange enzyme in a glass barrel held by a dark blue-green carapace (ribs, spine knobs, a nozzle with bone hooks
 	and an amber glow), bone claws as finger grips, a bone plunger, a ribbed cap over the needle
-	(models/agp_weapons/w_wraith_enzyme2.mdl, notes/models/agp_injectors_*.py).
-	One dose: health +60 and armour +50 (up to 200 each), then 30 seconds faster, healing, the world tinted red.
-	At 200 health a further dose is refused.
+	(models/agp_weapons/w_wraith_enzyme2.mdl). One dose: health +60 and armour
+	+50 (up to 200 each), then 30 seconds faster, healing, the world tinted red. At 200 health a further dose is
+	refused.
 ]]
 SWEP.Base = "agp_injector_base"
 SWEP.PrintName = "Wraith Enzyme"
-SWEP.Category = (SGLanguage and SGLanguage.GetMessage) and SGLanguage.GetMessage("weapon_misc_cat") or "Misc Weapons"   -- AGP 2026-11-10: one of our two weapon folders (was "Misc": a folder of its own)
+SWEP.Category = (SGLanguage and SGLanguage.GetMessage) and SGLanguage.GetMessage("weapon_misc_cat") or "Misc Weapons"   -- AGP: one of our two weapon folders (was "Misc": a folder of its own)
 if (SGLanguage ~= nil and SGLanguage.GetMessage ~= nil) then
     SWEP.PrintName = SGLanguage.GetMessage("wp_wraith_enzyme")
     SWEP.Category = SGLanguage.GetMessage("weapon_misc_cat")
@@ -23,8 +23,8 @@ SWEP.Purpose = (AGP and AGP.L) and AGP.L("agp_wp_wraith_enzyme_p", "Heal yoursel
 SWEP.Instructions = (AGP and AGP.L) and AGP.L("agp_wp_wraith_enzyme_i", "Left click: inject") or "Left click: inject"
 SWEP.Spawnable = true
 SWEP.AdminSpawnable = true
-SWEP.WorldModel = "models/agp_weapons/w_wraith_enzyme2.mdl"   -- AGP 2026-11-08: the new injector (the old model stays)
-SWEP.PlungerTravel = 3.2                                    -- AGP 2026-11-08: the stopper to the front of the barrel
+SWEP.WorldModel = "models/agp_weapons/w_wraith_enzyme2.mdl"   -- AGP: the new injector (the old model stays)
+SWEP.PlungerTravel = 3.2                                    -- AGP: the stopper to the front of the barrel
 SWEP.CapPivot = Vector(0, 0, 2.55)
 if CLIENT then SWEP.WepSelectIcon = surface.GetTextureID("vgui/weapons/agp_wraith_enzyme2_inventory") end
 
@@ -73,4 +73,4 @@ else
             ["$pp_colour_mulr"] = 0.4 * f, ["$pp_colour_mulg"] = 0, ["$pp_colour_mulb"] = 0 })
     end)
 end
--- AGP 2026-11-08: no AGP.SGCWeapon any more - agp_injector_base.lua draws it on the adrenaline shot's hands
+-- AGP: no AGP.SGCWeapon any more - agp_injector_base.lua draws it on the adrenaline shot's hands

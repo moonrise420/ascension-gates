@@ -8,7 +8,7 @@
 	Everything is decided on the server; the client only draws the shimmer and a small HUD line.
 ]]
 SWEP.PrintName = AGP.L("agp_wp_tollan_phase", "Tollan Phase Device")
-SWEP.Category = (SGLanguage and SGLanguage.GetMessage) and SGLanguage.GetMessage("weapon_misc_cat") or "Misc Weapons"   -- AGP 2026-11-10: one of our two weapon folders (was "Player Weapons": a folder of its own)
+SWEP.Category = (SGLanguage and SGLanguage.GetMessage) and SGLanguage.GetMessage("weapon_misc_cat") or "Misc Weapons"   -- AGP: one of our two weapon folders (was "Player Weapons": a folder of its own)
 if (SGLanguage ~= nil and SGLanguage.GetMessage ~= nil) then
     SWEP.Category = SGLanguage.GetMessage("weapon_cat")
 end
@@ -38,8 +38,8 @@ SWEP.Secondary.Automatic = false
 SWEP.Secondary.Ammo = "none"
 
 SWEP.PhaseCooldown = 1.5
--- AGP 2026-11-08: 64 left only 48 units between you and the wall (your body is 16 wide each side), so from a normal
--- step away it said "look at a wall" while you did; 100 = about two metres
+-- AGP: 64 left only 48 units between you and the wall (your body is 16 wide each side), so from a normal step away
+-- it said "look at a wall" while you did; 100 = about two metres
 SWEP.PhaseReach = 100       -- the wall must be at most this far in front of your eyes
 SWEP.PhaseMaxThick = 160    -- the thickest matter you can phase through
 SWEP.GateRange = 300        -- right click: an open gate must be this close
@@ -54,8 +54,8 @@ function SWEP:Initialize()
     self:SetHoldType("normal")
 end
 
--- AGP 2026-11-08: the view model is no longer switched off with Player:DrawViewModel(false) on Deploy. That switch
--- belongs to the player, not to this weapon: when the device left the hand without Holster (death, dropped, stripped
+-- AGP: the view model is no longer switched off with Player:DrawViewModel(false) on Deploy. That switch belongs to
+-- the player, not to this weapon: when the device left the hand without Holster (death, dropped, stripped
 -- - OnRemove then has no owner any more) it could stay off, and every weapon after it would show no hands and no
 -- model in first person. ShouldDrawViewModel below hides this weapon's (empty) view model on its own.
 function SWEP:Deploy()
@@ -65,8 +65,8 @@ end
 function SWEP:ShouldDrawViewModel() return false end
 function SWEP:Reload() end
 
--- AGP 2026-11-08: never left lying around - without a world model a dropped one was an invisible pick-up (on death
--- or dropped); GMod's fists do the same
+-- AGP: never left lying around - without a world model a dropped one was an invisible pick-up (on death or
+-- dropped); GMod's fists do the same
 function SWEP:ShouldDropOnDie() return false end
 if SERVER then
     function SWEP:OnDrop() self:Remove() end
@@ -331,8 +331,8 @@ if CLIENT then
     end)
 
     -- a faint glow at the wrist; the player model shimmers right after a phase
-    -- AGP 2026-11-08: drawn after the player model: with an empty WorldModel GMod never draws the weapon itself, so this
-    -- was SWEP:DrawWorldModel, never called, and nobody saw the glow
+    -- AGP: drawn after the player model: with an empty WorldModel GMod never draws the weapon itself, so this was
+    -- SWEP:DrawWorldModel, never called, and nobody saw the glow
     local function wristGlow(ply)
         local bone = ply:LookupBone("ValveBiped.Bip01_L_Hand")
         if (not bone) then return end

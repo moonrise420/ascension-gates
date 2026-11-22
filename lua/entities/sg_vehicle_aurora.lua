@@ -1,15 +1,15 @@
 --[[
-	Aurora-class battleship (Ancient warship from Stargate Atlantis) - Ascension Gates' own code (2026-11-06).
-	Model and code are ours (EAP's model and code are gone since 2026-11-06). The class name stays
-	"sg_vehicle_aurora", so saves and dupes keep working. Built on:
+	Aurora-class battleship (Ancient warship from Stargate Atlantis) - Ascension Gates' own code. Model and
+	code are ours (EAP's model and code are gone). The class name stays "sg_vehicle_aurora", so
+	saves and dupes keep working. Built on:
 	  * the ship base sg_vehicle_base (CAP, RononDex): flying, getting in / out, the camera
 	  * the Ancient drone "drone" (CAP, Zup): the drones home in on ship.Target while ship.Track is set
 	  * our own ship systems (lua/autorun/agp_ship_shield.lua, agp_ship_hyperdrive.lua): shield, hull damage,
 	    aiming, pulse volleys, hyperdrive, the Supergate / Stargate dial menu
 	Weapons as in the series: drones out of the launchers along the hull, pulse turrets on the upper deck.
-	Keys: Mouse1 drones at the crosshair (a volley of 4 per press, up to 16 in flight; owner 2026-11-08: the drones
-	follow the crosshair without holding Mouse2), a Mouse2 press = turret volley at the crosshair, G shield,
-	H hyperdrive (hold), R dial menu, 1 bridge view.
+	Keys: Mouse1 drones at the crosshair (a volley of 4 per press, up to 16 in flight the drones follow the
+	crosshair without holding Mouse2), a Mouse2 press = turret volley at the crosshair, G shield, H
+	hyperdrive (hold), R dial menu, 1 bridge view.
 ]]
 ENT.Type = "vehicle"
 ENT.Base = "sg_vehicle_base"
@@ -26,14 +26,14 @@ ENT.AGPHyperRange = 30000       -- hyperdrive: longest jump
 ENT.AGPCamBack, ENT.AGPCamUp = 1.15, 0.22
 list.Set("CAP.Entity", ENT.PrintName, ENT)
 
--- our own model, designed after the series (notes/models/agp_aurora_test.py)
+-- our own model, designed after the series
 local MODEL = "models/agp/aurora/agp_aurora.mdl"
 function ENT:AGPModel() return MODEL end
 
 -- the shield bubble: a long ellipsoid stretched round the hull
-ENT.AGPShield = { model = "models/iziraider/shields/4x4x3.mdl", yaw = 0, offset = Vector(0, 0, 30), scale = Vector(1.43, 0.48, 0.24), color = { 0.6, 0.8, 1 } }   -- fitted round every point of the hull (2026-11-07)
--- (2026-11-07 balance, the series' order: Ori > O'Neill > Aurora > Daedalus > Destiny > Prometheus > Al'kesh > Tel'tak)
--- the shield holds 30000 damage (a beam: 30 s)
+ENT.AGPShield = { model = "models/iziraider/shields/4x4x3.mdl", yaw = 0, offset = Vector(0, 0, 30), scale = Vector(1.43, 0.48, 0.24), color = { 0.6, 0.8, 1 } }   -- fitted round every point of the hull (balance,
+-- the series' order: Ori > O'Neill > Aurora > Daedalus > Destiny > Prometheus > Al'kesh > Tel'tak) the shield holds
+-- 30000 damage (a beam: 30 s)
 ENT.AGPShieldHP, ENT.AGPShieldBeamTime = 30000, 30
 
 local HULL = 30000
@@ -161,7 +161,7 @@ if SERVER then
 		e.Owner = self:GetVar("Owner", self)
 		e:Spawn()
 		e.Radius, e.Damage = DRONE_RADIUS, DRONE_DAMAGE   -- after Spawn: the drone's Initialize sets CAP's values
-		e.AGPSweep = true   -- (2026-11-08) it hits whatever lies on its path (fast, it flew through hulls)
+		e.AGPSweep = true   -- it hits whatever lies on its path (fast, it flew through hulls)
 		e:SetVelocity(self:GetVelocity() + dir:GetNormalized() * 600)
 		self.Drones[e] = true
 		self.DroneCount = self.DroneCount + 1
@@ -183,7 +183,7 @@ if SERVER then
 	-- the pulse turrets: a volley at the crosshair from the turrets on the deck (golden bolts)
 	function ENT:TurretVolley()
 		if (not IsValid(self.Pilot)) then return end
-		local aim = AGP.ShipCrosshair(self)   -- AGP 2026-11-08: from the pilot's camera (lua/autorun/agp_ship_aim.lua)
+		local aim = AGP.ShipCrosshair(self)   -- AGP: from the pilot's camera (lua/autorun/agp_ship_aim.lua)
 		if (not aim) then return end
 		for i, p in ipairs(TURRETS) do
 			timer.Simple(i * 0.09, function()
@@ -210,8 +210,8 @@ if SERVER then
 		if (AGP and AGP.ShipShieldThink) then AGP.ShipShieldThink(self) end
 		if (AGP and AGP.ShipHyperdriveThink) then AGP.ShipHyperdriveThink(self) end
 		self.ExitPos = self:GetPos() + self:GetUp() * 200
-		-- where the drones go: the crosshair while someone flies (AGP 2026-11-08: no Mouse2 needed any more; they flew
-		-- out sideways and on without it), else a wired target, else straight on
+		-- where the drones go: the crosshair while someone flies (AGP: no Mouse2 needed any more; they flew out
+		-- sideways and on without it), else a wired target, else straight on
 		local aim = self.Inflight and AGP and AGP.ShipCrosshair and AGP.ShipCrosshair(self)
 		self.Target = aim or self.WireTarget
 		self.Track = self.Target ~= nil
