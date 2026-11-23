@@ -12,14 +12,14 @@ local R = AGP.Rep
 local N = R.SurfNav or {}
 R.SurfNav = N
 R.cv.surfnav = R.cv.surfnav or CreateConVar("agp_rep_surfnav", "1", FCVAR_ARCHIVE, "Replicators: plan climbs from the shape of the world")
--- (watching the course: "the bug is running threw your wall" - on rails, its collisions off, the body follows the way's
--- straight lines through outside corners, thin boards and the course's prop walls, 15-38 times a run. Solid instead
--- (planrails 0) it went into walls half as often but looked far worse: tilted off the surface 21-47 times a run
--- instead of 0-6, its body flipping 10-32 times instead of 0-1, hanging 9 times on the course -. So rails stayed,
--- until the way round corners was done properly.) Done (its body round corners from one stance, sv_walk.lua
--- R.Stance): solid now went through no wall at all, the sign, the wall and the roof scenes clean (on rails: 18-25
--- passes, those three unclean) -. Rails only with agp_rep_solidways 0. (A new name again: server.vdf keeps every
--- archived setting's value, the old agp_rep_planrails 1 would have kept the rails on.)
+-- (on rails, its collisions off, the body follows the way's straight lines through outside corners, thin boards and the
+-- course's prop walls, 15-38 times a run. Solid instead (planrails 0) it went into walls half as often but looked far
+-- worse: tilted off the surface 21-47 times a run instead of 0-6, its body flipping 10-32 times instead of 0-1,
+-- hanging 9 times on the course. So rails stayed, until the way round corners was done properly.) Done (its body round
+-- corners from one stance, sv_walk.lua R.Stance): solid now went through no wall at all, the sign, the wall and the
+-- roof scenes clean (on rails: 18-25 passes, those three unclean). Rails only with agp_rep_solidways 0. (A new name
+-- again: server.vdf keeps every archived setting's value, the old agp_rep_planrails 1 would have kept the rails on.)
+--
 --
 R.cv.solid = R.cv.solid or CreateConVar("agp_rep_solidways", "1", FCVAR_ARCHIVE, "Replicators: 1 = a bug on a planned way stays solid (it cannot go through walls); 0 = it does not collide with the world on it (the old rails)")
 
@@ -376,11 +376,11 @@ function N.Clear(plan)
 	plan.clear = ok
 	return ok
 end
--- a fresh way over real surfaces? (freespace13: "crawling up in the air as if there was a pillar but there was none" -
--- every first climb at the building was a way 340 straight up through the air in front of it, then the fall. Ways
--- are made of surface points, so each point mid-face must have its surface under it. Checked once, when the way is
--- taken - nothing while walking, so no jump, gap or bridge can be taken for air. Points where the way turns round an
--- edge are left out (there a ray can graze past the corner), and only 2 misses in a row count)
+-- a fresh way over real surfaces? (every first climb at the building was a way 340 straight up through the air in
+-- front of it, then the fall. Ways are made of surface points, so each point mid-face must have its surface under
+-- it. Checked once, when the way is taken - nothing while walking, so no jump, gap or bridge can be taken for air.
+-- Points where the way turns round an edge are left out (there a ray can graze past the corner), and only 2 misses in
+-- a row count)
 function N.OnSurfaces(plan)
 	local pts, ups, miss = plan.pts, plan.ups, 0
 	for k = 2, #pts - 1, 2 do

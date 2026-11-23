@@ -127,10 +127,10 @@ local function expand(nd)
 	return nb
 end
 
--- a point read from the saved map: is its surface still there? (freespace13: "crawling up in the air as if there was a
--- pillar but there was none" - every first climb at the building went 340 up a wall of saved points with nothing there,
--- then fell. Whatever stood there once - a test's block, a changed map - is gone.) Looked at once, the first time a
--- way comes by it; a dead one is never used and not saved again
+-- a point read from the saved map: is its surface still there? (every first climb at the building went 340 up a wall of
+-- saved points with nothing there, then fell. Whatever stood there once - a test's block, a changed map - is gone.)
+-- Looked at once, the first time a way comes by it; a dead one is never used and not saved again
+--
 local function alive(nd)
 	if nd.ok ~= nil then return nd.ok end
 	local t = tr(nd.p + nd.n * H, nd.p - nd.n * (H + 6))

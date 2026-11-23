@@ -463,8 +463,8 @@ function R.Walk(b, pos, up, fwd, step, moving, goalPos, dt)
 	end
 	-- over a lip (rule 1 below), in two moves: first out to the lip's front face while still under it, then up onto that
 	-- face. Straight at its top in one go - from 40 below, as soon as a feeler touched the lip - the body ran into the
-	-- lip's corner on the way, was knocked off the wall and lay across it sideways, 18 off it (the lip test's film: "did
-	-- you not see the flip over???")
+	-- lip's corner on the way, was knocked off the wall and lay across it sideways, 18 off it
+	--
 	local lo = b.LipOver
 	if lo then
 		-- (and stopped as soon as the body leans off the surface it reaches over from: it is not going as planned)

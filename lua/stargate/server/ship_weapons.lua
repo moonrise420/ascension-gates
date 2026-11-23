@@ -239,7 +239,7 @@ function StarGate.WeaponEnergy(ent, amount, check_only)
 	return true
 end
 
---################# Shields on a StarCore ship use the ship's energy (the owner)
+--################# Shields on a StarCore ship use the ship's energy
 
 -- "if i weld the shield core to the ship it does not use its energy its saying 500 needed 0 available, also with the
 -- tool gun agp shield". A shield asks its own network for energy; welded on a ship and not linked by cable it was a
@@ -332,7 +332,7 @@ function StarGate.ShipPowered(ent)
 	end
 end
 
---################# Charging per second (the owner)
+--################# Charging per second
 
 -- The charging weapons paid their charge cost on every Think (CAP's values: up to 14,000 each time), so the cost grew
 -- with the server's tick rate - the Ha'tak staff cannon took about 30,000 a second, eleven Naquadah generators (Mk1:
@@ -352,7 +352,7 @@ function StarGate.WeaponCharge(ent)
 	return StarGate.WeaponEnergy(ent, (StarGate.ChargeRate[ent:GetClass()] or 0) * dt)
 end
 
---################# Weapons on a StarCore ship use the ship's power (the owner)
+--################# Weapons on a StarCore ship use the ship's power
 
 -- "if i spawn and weld a agp weapon onto the ship it still is not using the ships power ... i thought of more connecting
 -- the weapon to the hull its using the ships own power and for that also some admin settings with on off and default

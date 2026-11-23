@@ -214,9 +214,15 @@ function ENT:PrepareTeleport(t)
 	-- FIXME: Seemed sometimes not to work properly. Invent a new check!
 	local height = g[1]:BoundingRadius();
 	local dir = Vector(0,0,height);
+	-- AGP: the height on our side was measured from the base entity down, past it alone - the trace met the
+	-- contraption's own floor (a ship's deck under its body) instead of the ground, and the far side set the ship
+	-- that much lower. Its own parts are passed by.
+	local own = {e};
+	for _,v in pairs(t.Attached) do own[#own+1] = v end;
+	for _,v in ipairs(table.Copy(own)) do for _,c in ipairs(v:GetChildren()) do own[#own+1] = c end end;
 	local trace={
 		-- On our side
-		util.QuickTrace(p[1],-1*dir,g[1]:GetTraceIgnoredEntities(e)),
+		util.QuickTrace(p[1],-1*dir,g[1]:GetTraceIgnoredEntities(unpack(own))),
 		-- On the other event horizon
 		util.QuickTrace(ret.Entity.Position.New+dir,-2*dir,g[2]:GetTraceIgnoredEntities()),
 	}

@@ -69,10 +69,10 @@ TOOL.Language["Cleaned"] = SGLanguage.GetMessage("stool_staff_weapon_cleaned");
 TOOL.Language["SBoxLimit"] = SGLanguage.GetMessage("stool_staff_weapon_limit");
 --################# Code
 
--- AGP 2026-11-08: one place for colour, shaft and explosion (and its colour), used when spawning, pasting and when a click
--- changes an existing staff weapon. Before, that click set DrawExplosion (nothing reads it; the weapon uses .Explosion),
--- and the shaft and "colorize explosion" settings of the presets did nothing at all (staff_weapon_glider.lua passes them
--- to its shots, energy_pulse.lua draws them). nil = leave as it is (old dupes, spawn menu: shaft on, coloured explosion).
+-- AGP: one place for colour, shaft and explosion (and its colour), used when spawning, pasting and when a click changes an
+-- existing staff weapon. Before, that click set DrawExplosion (nothing reads it; the weapon uses .Explosion), and the
+-- shaft and "colorize explosion" settings of the presets did nothing at all (staff_weapon_glider.lua passes them to its
+-- shots, energy_pulse.lua draws them). nil = leave as it is (old dupes, spawn menu: shaft on, coloured explosion).
 local function ApplySettings(e,r,g,b,shaft,explosion,explosion_colorize)
 	if (r and g and b) then e.Color = Color(r,g,b,255) end;
 	if (explosion ~= nil) then e.Explosion = util.tobool(explosion) end;
@@ -92,10 +92,10 @@ function TOOL:LeftClick(t)
 	local explosion_colorize = self:GetClientNumber("explosion_colorize");
 	local add_cannon_velocity = self:GetClientNumber("add_cannon_velocity");
 	if(t.Entity and t.Entity:GetClass() == self.Entity.Class) then
-		ApplySettings(t.Entity,r,g,b,shaft,explosion,explosion_colorize); -- AGP 2026-11-08: as when spawning (see ApplySettings)
+		ApplySettings(t.Entity,r,g,b,shaft,explosion,explosion_colorize); -- AGP: as when spawning (see ApplySettings)
 		t.Entity.AddCannonVelocity = util.tobool(add_cannon_velocity);
 		-- THIS FUNCTIONS SAVES THE MODIFIED KEYS TO THE SENT, SO THEY ARE AVAILABLE WHEN COPIED WITH DUPLICATOR!
-		-- AGP 2026-11-08: only tool-made staff weapons have UpdateKeys (one made with ent_create errored here)
+		-- AGP: only tool-made staff weapons have UpdateKeys (one made with ent_create errored here)
 		if (t.Entity.UpdateKeys) then t.Entity:UpdateKeys(_,_,_,r,g,b,shaft,explosion,explosion_colorize,add_cannon_velocity) end;
 		return true;
 	end
@@ -132,7 +132,7 @@ function TOOL:PostEntitySpawn(p,e,shoot,explode,model,r,g,b,shaft,explosion,expl
 	if(explode) then
 		numpad.OnDown(p,explode,"StaffExplode",e);
 	end
-	ApplySettings(e,r,g,b,shaft,explosion,explosion_colorize); -- AGP 2026-11-08: colour, explosion, shaft, explosion colour
+	ApplySettings(e,r,g,b,shaft,explosion,explosion_colorize); -- AGP: colour, explosion, shaft, explosion colour
 	/*
 	e.AddCannonVelocity = util.tobool(add_cannon_velocity);
 	e.ColorizeExplosion = util.tobool(explosion_colorize);*/

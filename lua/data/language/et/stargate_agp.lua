@@ -1332,3 +1332,6 @@ agp_goauld_took = Sümbiont võttis peremeheks: %s.
 agp_goauld_took_npc = Sümbiont võttis peremehe. Ta on nüüd Goa'uld.
 agp_gs_scanning = Otsin sellel kaardil häid kohti ... väravad ilmuvad, kui otsing on valmis.
 agp_old_packs = Paigaldatud on ka vana Stargate'i pakk: %s. Palun eemalda CAP ja CAP Enhanced - Ascension Gates asendab need. Koos põhjustavad need vigu.
+agp_resmiss_text = Osa Ascension Gatesi sisust puudub: %s. Asjad võivad paista lilla-mustade ruutudena või ERROR. Telli see Steam Workshopist ja käivita mäng uuesti.
+agp_resmiss_open = Ava %s
+agp_resmiss_ok = Kogu sisu on olemas (Resources 1, 2 ja 3).

@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.3
+**New**
+- A few seconds after the game starts, Ascension Gates checks that Resources 1, 2 and 3 are installed. If one is missing, a window names it (why things look like purple-black squares or ERROR) with a button that opens its Workshop page. Console command `agp_res_check` checks again.
+
+**Fixed**
+- A new Atlantis transporter gets a free name by itself (Transporter 1, Transporter 2, ...), so it shows in the other transporters' dial menu at once; before, one without a name never showed and could not be called. Opening the dial menu also sends the whole list again, so players who joined the server later no longer see an empty list.
+- The pilot of a SpaceGrid ship sees the wormhole tunnel on the way through a Stargate.
+- A ship or contraption comes out of the far gate at the height above the ground it went in; it could come out slightly in the ground.
+
 ## 1.0.2
 **New**
 - Admin setting "Weapons against ships" (Stargate > Config > AGP Ships, `agp_weapon_balance`): Series power (default) ranks the weapons as in the series - Ori beam, Asgard beam and drones on top, hand weapons do 5 %. AGP sandbox keeps every weapon's own damage.

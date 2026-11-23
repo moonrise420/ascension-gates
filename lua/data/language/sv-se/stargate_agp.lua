@@ -1332,3 +1332,6 @@ agp_goauld_took = Symbioten har tagit %s som värd.
 agp_goauld_took_npc = Symbioten har tagit en värd. Han är en Goa'uld nu.
 agp_gs_scanning = Letar efter bra platser på den här kartan ... portarna dyker upp när sökningen är klar.
 agp_old_packs = Ett gammalt Stargate-paket är också installerat: %s. Avinstallera CAP och CAP Enhanced - Ascension Gates ersätter dem. Tillsammans orsakar de fel.
+agp_resmiss_text = En del av innehållet i Ascension Gates saknas: %s. Saker kan visas som lila-svarta rutor eller ERROR. Prenumerera på det i Steam Workshop och starta om spelet.
+agp_resmiss_open = Öppna %s
+agp_resmiss_ok = Allt innehåll finns (Resources 1, 2 och 3).

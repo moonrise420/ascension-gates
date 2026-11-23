@@ -398,11 +398,11 @@ if SERVER then
 		local vmax = math.max(260, (self.RepSpeed or 150) * (self.SpeedMul or 1) * 2)
 		-- on an even surface (all its feet on one floor, wall or ceiling, no wall ahead, no corner just now) it walks on
 		-- along it without probing: every other tick near the players, two ticks of three further away (the probing was
-		-- a quarter of the server's time with 22 bugs -). Near edges, corners and walls it probes every tick. the
-		-- felt map (sv_field.lua): it glides on
-		-- what the swarm felt of the map - no leg rays (agp_rep_legwalk 1: legs only). Not near a prop (the map only is felt),
-		-- not on a planned way or round a corner body and all,
-		-- not in a tower or a bridge; where the felt map has no surface near it walks with its legs as before
+		-- a quarter of the server's time with 22 bugs). Near edges, corners and walls it probes every tick. the felt
+		-- map (sv_field.lua): it glides on what
+		-- the swarm felt of the map - no leg rays (agp_rep_legwalk 1: legs only). Not near a prop (the map only is felt), not
+		-- on a planned way or round a corner body and all, not
+		-- in a tower or a bridge; where the felt map has no surface near it walks with its legs as before
 		--
 		if (R.FieldOn and R.FieldOn() and R.FieldWalk and self.RepClimb and CurTime() > (self.FieldWaitT or 0) and not self.SurfPath and not self.Transit and not self.InTower and not self.InBridge) then
 			local now = CurTime()
@@ -1019,8 +1019,8 @@ if SERVER then
 			-- part of a ship (also the Ha'tak's inside): the bites count for the whole ship, the part itself stays
 			local ship = IsValid(p.AGPShip) and p.AGPShip or p
 			-- (a StarCore ship - a SpaceGrid hull, a welded prop ship: one hull for the whole ship, kept by its core. The
-			-- a Replicator eating his flying SpaceGrid ship: "i only lost 1% of my hull" - the bites went to the hull part,
-			-- which has no health of its own, so each one cost a fixed 10 of the ship's whole hull)
+			-- the bites went to the hull part, which has no health of its own, so each one cost a fixed 10 of the ship's
+			-- whole hull)
 			local core = R.ShipCore(ship)
 			local meal = core or ship
 			local sph = ship:GetPhysicsObject()
@@ -3143,8 +3143,8 @@ if SERVER then
 		-- route: next waypoint
 		-- (on to the next one only when it sees it from here, or is at this one: from 90 away it turned for the next one at
 		-- once - at a door that is round the door's edge, at a stair hole round its rim - and went straight at it, up the
-		-- wall beside the door, into the ceiling under the hole, and wobbled there, freespace13: "they wobbled in the
-		-- top corner of the ground floor's ceiling", "one slid along a wall instead of leaving")
+		-- wall beside the door, into the ceiling under the hole, and wobbled there)
+		--
 		if (self.Route and self.MoveTo and self.MoveTo:DistToSqr(pos) < 90 * 90 and not (R.Mover and R.Mover.Owns(self))) then
 			local nx = self.Route[self.RouteI + 1] or self.Goal
 			self.WpNearT = (self.WpNearI == self.RouteI and self.WpNearR == self.Route) and self.WpNearT or now

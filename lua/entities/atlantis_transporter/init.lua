@@ -65,6 +65,10 @@ function ENT:Initialize()
 
 	self.TLocal = false;
 	self.TGroup = "ATL";
+	-- AGP (the dial menu should list spawned transporters by itself, like the Stargate dial menu): a transporter
+	-- without a name never showed in any list and could not be called. A new one gets the first free name "Transporter
+	-- 1", "Transporter 2"... once spawning is over (map spawner and dupes set their own name first).
+	timer.Simple(0, function() if (IsValid(self) and (self.TName or "") == "") then self:SetAtlName(self:AGPFreeName()) end end)
 
 	self.Disallowed = {};
 	for _,v in pairs(StarGate.CFG:Get("atlantis_transporter","classnames",""):TrimExplode(",")) do
@@ -77,6 +81,31 @@ function ENT:Initialize()
 		phys:SetMass(500);
 	end
 	self.Phys = phys;
+end
+
+function ENT:AGPFreeName()
+	local used = {}
+	for _,v in pairs(ents.FindByClass("atlantis_transporter")) do if (v ~= self and v.TName) then used[v.TName] = true end end
+	local n = 1
+	while (used["Transporter "..n]) do n = n + 1 end
+	return "Transporter "..n
+end
+
+-- AGP: every transporter's name, group, private and local, sent to one player. The list was only broadcast when
+-- something changed, so a player who joined later had an empty dial menu.
+function ENT:AGPSendList(ply)
+	for _,v in pairs(ents.FindByClass("atlantis_transporter")) do
+		if (IsValid(v)) then
+			net.Start("UpdateAtlTP")
+			net.WriteInt(v:EntIndex(),16)
+			net.WriteInt(3,4)
+			net.WriteString(v.TName or "")
+			net.WriteBit(v.TPrivate and true or false)
+			net.WriteString(v.TGroup or "")
+			net.WriteBit(v.TLocal and true or false)
+			net.Send(ply)
+		end
+	end
 end
 
 function ENT:ToggleDoors()
@@ -224,7 +253,7 @@ function ENT:SetAtlNameGrp(name,grp,ply,wire)
 	end
 
 	self.TGroup = grp;
-	net.Start("UpdateAtlTp");
+	net.Start("UpdateAtlTP");
 	net.WriteInt(self:EntIndex(),16);
 	net.WriteInt(4,4);
 	net.WriteString(grp);
@@ -265,7 +294,7 @@ function ENT:SetAtlGrp(grp)
 	end
 
 	self.TGroup = grp;
-	net.Start("UpdateAtlTp");
+	net.Start("UpdateAtlTP");
 	net.WriteInt(self:EntIndex(),16);
 	net.WriteInt(4,4);
 	net.WriteString(grp);
@@ -369,6 +398,7 @@ function ENT:Use(ply)
 	if (self.Busy) then return end
 	if (self:GetAimingConsole(ply)) then
 		if (self.Open and not self.DisMenu and not self.ConsoleLocked and (not self:IsDoorsOpen() or not self.OnlyClosed) and not self:IsDoorsBusy()) then
+			self:AGPSendList(ply)
 			umsg.Start("AtlantisTransporterShowWindow", ply)
 			umsg.Entity(self)
 			umsg.End()

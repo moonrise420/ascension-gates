@@ -1332,3 +1332,6 @@ agp_goauld_took = Симбионт взял носителем: %s.
 agp_goauld_took_npc = Симбионт взял носителя. Теперь он гоа'улд.
 agp_gs_scanning = Ищу хорошие места на этой карте ... врата появятся, когда поиск закончится.
 agp_old_packs = Также установлен старый пакет Stargate: %s. Удали CAP и CAP Enhanced - Ascension Gates заменяет их. Вместе они вызывают ошибки.
+agp_resmiss_text = Не хватает части содержимого Ascension Gates: %s. Объекты могут выглядеть как фиолетово-чёрные квадраты или ERROR. Подпишись на него в Steam Workshop и перезапусти игру.
+agp_resmiss_open = Открыть %s
+agp_resmiss_ok = Всё содержимое на месте (Resources 1, 2 и 3).

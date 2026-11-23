@@ -1,8 +1,8 @@
 --[[
-	Ascension Gates (the author's wish: "right click makes Goa'uld out of NPCs or players"): a Goa'uld larva can
-	take a host. The larva's right click on a person in reach (weapons/goauld_larva.lua) calls
-	AGP.GoauldTake(host, by). Like in the series the host keeps his looks - what shows is the eyes: they glow when the
-	symbiote takes over, now and then afterwards, and when the host is hurt.
+	Ascension Gates: a Goa'uld larva can take a host. The larva's right click on a person in reach
+	(weapons/goauld_larva.lua) calls AGP.GoauldTake(host, by). Like in the series the host keeps his
+	looks - what shows is the eyes: they glow when the symbiote takes over, now and then afterwards, and when the host
+	is hurt.
 	 * a player: stronger and healing by himself (150 health, 1 a second), the Goa'uld's people take him for one of
 	   theirs, the Tau'ri's shoot at him; it ends with his death
 	 * an NPC: from then on a Goa'uld - it sides with the Goa'uld's people, against the Tau'ri and against the players

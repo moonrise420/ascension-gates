@@ -1332,3 +1332,6 @@ agp_goauld_took = Symbiont si vzal hráče %s za hostitele.
 agp_goauld_took_npc = Symbiont si vzal hostitele. Teď je to Goa'uld.
 agp_gs_scanning = Hledám dobrá místa na této mapě ... brány se objeví po dokončení hledání.
 agp_old_packs = Je nainstalován také starý balíček Stargate: %s. Odinstaluj prosím CAP a CAP Enhanced - Ascension Gates je nahrazuje. Společně způsobují chyby.
+agp_resmiss_text = Chybí část obsahu Ascension Gates: %s. Věci se mohou zobrazit jako fialovo-černé čtverečky nebo ERROR. Odebírej ji ve Steam Workshopu a pak hru restartuj.
+agp_resmiss_open = Otevřít %s
+agp_resmiss_ok = Veškerý obsah je k dispozici (Resources 1, 2 a 3).

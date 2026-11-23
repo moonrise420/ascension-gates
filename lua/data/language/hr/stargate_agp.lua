@@ -1332,3 +1332,6 @@ agp_goauld_took = Simbiont je uzeo igrača %s za domaćina.
 agp_goauld_took_npc = Simbiont je uzeo domaćina. Sada je Goa'uld.
 agp_gs_scanning = Tražim dobra mjesta na ovoj mapi ... vrata se pojave kad pretraga završi.
 agp_old_packs = Instaliran je i stari Stargate paket: %s. Deinstaliraj CAP i CAP Enhanced - Ascension Gates ih zamjenjuje. Zajedno uzrokuju greške.
+agp_resmiss_text = Dio sadržaja Ascension Gatesa nedostaje: %s. Stvari se mogu prikazati kao ljubičasto-crni kvadratići ili ERROR. Pretplati se na Steam Workshopu, a zatim ponovno pokreni igru.
+agp_resmiss_open = Otvori %s
+agp_resmiss_ok = Sav sadržaj je tu (Resources 1, 2 i 3).

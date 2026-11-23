@@ -1332,3 +1332,6 @@ agp_goauld_took = El simbionte ha tomado a %s como huésped.
 agp_goauld_took_npc = El simbionte ha tomado un huésped. Ahora es un Goa'uld.
 agp_gs_scanning = Buscando buenos lugares en este mapa ... las puertas aparecen cuando termina la búsqueda.
 agp_old_packs = También hay instalado un paquete Stargate antiguo: %s. Desinstala CAP y CAP Enhanced: Ascension Gates los sustituye. Juntos provocan errores.
+agp_resmiss_text = Falta parte del contenido de Ascension Gates: %s. Algunas cosas pueden verse como cuadros morados y negros o ERROR. Suscríbete en Steam Workshop y reinicia el juego.
+agp_resmiss_open = Abrir %s
+agp_resmiss_ok = Todo el contenido está instalado (Resources 1, 2 y 3).

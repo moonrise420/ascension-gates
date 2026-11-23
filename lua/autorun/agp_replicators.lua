@@ -937,11 +937,11 @@ local function assemble(group, owner)
 	local c = Vector()
 	for _, b in ipairs(group) do c:Add(b:GetPos()) end
 	c:Div(#group)
-	-- the floor they lie on: the map, a prop, a ship's deck. (a Replicator eating his flying SpaceGrid ship: "the made
-	-- replicators parts fly threw the ship outside". The floor was looked for in the map only - through the deck to the
-	-- ground under the ship - and the frozen blocks were moved in the world while the ship flew on, so they went out
-	-- through its walls and the new bug was made behind it. Now all of it is worked out on what they lie on, and moves
-	-- with it.)
+	-- the floor they lie on: the map, a prop, a ship's deck. (The floor was looked for in the map only - through the
+	-- deck to the ground under the ship - and the frozen blocks were moved in the world while the ship flew on, so they
+	-- went out through its walls and the new bug was made behind it. Now all of it is worked out on what they lie on,
+	-- and moves with it.)
+	--
 	local tr = util.TraceLine({ start = c + Vector(0, 0, 40), endpos = c - Vector(0, 0, 200), mask = MASK_SOLID,
 		filter = function(e) return not e.AGPReplicator and not e:IsPlayer() and not e:IsNPC() and not e.SpaceGridKeel end })
 	local on = (tr.Hit and IsValid(tr.Entity) and not tr.Entity:IsWorld()) and tr.Entity or nil

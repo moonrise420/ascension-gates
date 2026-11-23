@@ -1332,3 +1332,6 @@ agp_goauld_took = Simbiyot %s adlı oyuncuyu konak olarak aldı.
 agp_goauld_took_npc = Simbiyot bir konak aldı. O artık bir Goa'uld.
 agp_gs_scanning = Bu haritada iyi yerler aranıyor ... arama bitince geçitler görünür.
 agp_old_packs = Eski bir Stargate paketi de yüklü: %s. Lütfen CAP ve CAP Enhanced'i kaldır - Ascension Gates onların yerini alır. Birlikte hatalara yol açarlar.
+agp_resmiss_text = Ascension Gates içeriğinin bir kısmı eksik: %s. Nesneler mor-siyah kareler ya da ERROR olarak görünebilir. Steam Atölyesi'nde abone ol, sonra oyunu yeniden başlat.
+agp_resmiss_open = %s aç
+agp_resmiss_ok = Tüm içerik yüklü (Resources 1, 2 ve 3).

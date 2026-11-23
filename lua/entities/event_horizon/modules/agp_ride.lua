@@ -68,6 +68,27 @@ if (SERVER) then
 		if (isShip(v)) then return v.Pilot end
 	end
 
+	-- e, the parts of its contraption and everything parented to them (The ship's body went in - its keel - and the
+	-- pilot's seat sits on the ship one sees, parented to it: only e and the welded parts were asked for a seated
+	-- player, so nobody saw the tunnel.)
+	local function withChildren(list)
+		local out, seen = {}, {}
+		local function add(v)
+			if (not IsValid(v) or seen[v]) then return end
+			seen[v] = true
+			out[#out + 1] = v
+			for _, c in ipairs(v:GetChildren()) do add(c) end
+		end
+		for _, v in ipairs(list) do add(v) end
+		-- (the seats themselves too: on a SpaceGrid ship the game listed no children for the hull its seats are parented
+		-- to)
+		for _, veh in ipairs(ents.FindByClass("prop_vehicle_*")) do
+			local p = veh:GetParent()
+			if (IsValid(p) and seen[p]) then add(veh) end
+		end
+		return out
+	end
+
 	-- every part of the contraption but e, its children, the players in its seats
 	local function groupHold(e, r, list)
 		local held, seen = {}, { [e] = true }
@@ -84,7 +105,7 @@ if (SERVER) then
 		for _, v in ipairs(list or {}) do hide(v) end
 		for _, c in ipairs(e:GetChildren()) do hide(c) end
 		local riders = {}
-		for _, v in ipairs({ e, unpack(list or {}) }) do
+		for _, v in ipairs(withChildren({ e, unpack(list or {}) })) do
 			local d = IsValid(v) and seated(v)
 			if (IsValid(d) and d:IsPlayer() and not riders[d]) then
 				riders[d] = { God = d:HasGodMode() }
@@ -265,7 +286,7 @@ if (SERVER) then
 		-- who sees the tunnel: the player, a ship's pilot, everyone in a seat of the contraption
 		local list = istable(attached) and attached.Attached or {}
 		local viewers, wants = {}, {}
-		for _, v in ipairs({ e, unpack(list) }) do
+		for _, v in ipairs(withChildren({ e, unpack(list) })) do
 			local p = IsValid(v) and (rideViewer(v) or seated(v))
 			if (IsValid(p) and p:IsPlayer() and not table.HasValue(viewers, p)) then
 				viewers[#viewers + 1] = p

@@ -19,10 +19,10 @@ AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
 include('shared.lua')
 
--- AGP 2026-11-15 (owner, trailer: "they bugged the ring around", "some ring glitched sideways under the floor"): the
--- rings pass round their cargo instead of shoving it, as in the series. A collision rule, not a no-collide constraint:
--- through the rings (no-collided with the world) a constraint tied the cargo to the world, and the transporter leaves
--- world-attached things behind.
+-- AGP: the rings pass round their cargo instead of shoving it, as in the series. A collision rule, not a no-collide
+-- constraint: through the rings (no-collided with the world) a constraint tied the cargo to the world, and the
+-- transporter leaves world-attached things behind.
+--
 hook.Add("ShouldCollide", "AGPRingsPassCargo", function(a, b)
     local pa, pb = a.AGPRingPass, b.AGPRingPass
     if ((pa and pa[b]) or (pb and pb[a])) then return false end
@@ -250,8 +250,8 @@ function ENT:GetBones(e)
 end
 
 function ENT:DoTeleport()
-    -- (2026-11-12: the other platform removed in the 0.3 s between "both ready" and the teleport: self.Other is NULL
-    -- then and self.Other.Ents below threw a script error. Nothing to exchange with - the rings just go back.)
+    -- (the other platform removed in the 0.3 s between "both ready" and the teleport: self.Other is NULL then and
+    -- self.Other.Ents below threw a script error. Nothing to exchange with - the rings just go back.)
     if (not IsValid(self.Other)) then return end
     local entz = ents.FindInSphere(self.Entity:LocalToWorld(self.EndPos), 80)
 

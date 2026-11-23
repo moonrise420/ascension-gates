@@ -1332,3 +1332,6 @@ agp_goauld_took = A szimbióta gazdatestnek vette: %s.
 agp_goauld_took_npc = A szimbióta gazdatestet vett. Mostantól Goa'uld.
 agp_gs_scanning = Jó helyeket keresek ezen a pályán ... a kapuk a keresés végén jelennek meg.
 agp_old_packs = Egy régi Stargate csomag is telepítve van: %s. Távolítsd el a CAP-et és a CAP Enhancedet - az Ascension Gates kiváltja őket. Együtt hibákat okoznak.
+agp_resmiss_text = Az Ascension Gates egy része hiányzik: %s. A tárgyak lila-fekete kockákként vagy ERROR-ként jelenhetnek meg. Iratkozz fel rá a Steam Workshopban, majd indítsd újra a játékot.
+agp_resmiss_open = %s megnyitása
+agp_resmiss_ok = Minden tartalom megvan (Resources 1, 2 és 3).
