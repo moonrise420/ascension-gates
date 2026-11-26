@@ -257,6 +257,17 @@ function ENT:GetTraceIgnoredEntities(...)
 	return t;
 end
 
+-- AGP: a part that is no traveller by itself, but goes along on a ship: a Stargate, iris or DHD welded on (never a frozen one:
+-- a base), and what rides on a SpaceGrid ship (frozen on its place, the ship carries it). Before, one such part and the gate
+-- took nothing of the ship: it flew through the horizon as through air.
+--
+function ENT:AGPGoesAlong(v)
+	if (IsValid(v.SGRiderOf)) then return true end
+	local phys = v:GetPhysicsObject();
+	if (not IsValid(phys) or not phys:IsMoveable()) then return false end
+	return v.IsStargate == true or v.IsDHD == true or v:GetClass():find("stargate_") ~= nil;
+end
+
 --################# Retrieves the valid entites for a teleport from a given entity @aVoN
 function ENT:GetEntitiesForTeleport(e)
 	if(self:Allowed(e)) then
@@ -270,7 +281,7 @@ function ENT:GetEntitiesForTeleport(e)
 			if(v == self:GetParent()) then return false end; -- No stuff which is attached to the gate
 			if(v:GetClass() == "gmod_spawner") then -- Do not teleport stuff which is attached to an gmod-spawner
 				return {Entity=e,Attached={}};
-			elseif(self:Allowed(v,true)) then -- Valid prop? If not, do not teleport the whole contraption!
+			elseif(self:Allowed(v,true) or (v ~= e and self:AGPGoesAlong(v))) then -- Valid prop? If not, do not teleport the whole contraption!
 				if(v ~= e and not IsValid(v:GetParent())) then -- test fix for not teleport parents by AlexALX (ent should be teleported with its parent automatically)
 					table.insert(entities,v);
 				end
@@ -512,6 +523,7 @@ end
 --################# The entity which should get teleported has been destroyed: Shield blocked or wrong side entered? @aVoN
 function ENT:DestroyEntity(e)
 	if(not IsValid(e)) then return end;
+	hook.Run("StarGate.Lost",e); -- AGP: lost in the gate (SpaceGrid: who stands in the ship goes with it)
 	if(e:IsPlayer()) then
 		e:SetParent(); -- Unparent, when he is maybe parented to a SENT
 		if (not e:HasGodMode()) then

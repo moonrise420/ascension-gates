@@ -118,6 +118,11 @@ function N.Plan(from, goal)
 							local mp = F.Onto(mid)
 							ok = mp and mp:DistToSqr(mid) < JUMP * JUMP
 						end
+						-- (and nothing of the map straight between them: past a thin wall's end the level of its two faces met and the
+						-- way went through the wall - a bug inside freespace13's building stood 24 s at it, its next waypoint behind
+						-- the wall, the way asked anew gave the same. Only from one face to one turned the other way: round a shelf's edge the
+						-- line grazed the corner and the course's shelf fell from 5 of 6 to 3 of 9)
+						if ok and nd.m:Dot(qm) < -0.3 and not (R.TestOff and R.TestOff.feltThru) and util.TraceLine({ start = nd.p, endpos = q, mask = MASK_PLAYERSOLID_BRUSHONLY }).Hit then ok = false N.thru = (N.thru or 0) + 1 end
 						if ok then
 							local cost = gc[cur] + len * weight(qm)
 							if not gc[k] or cost < gc[k] then

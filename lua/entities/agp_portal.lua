@@ -220,6 +220,8 @@ if SERVER then
 	-- bullets: a shot that reaches the doorway before hitting anything goes on from the partner's side
 	hook.Add("EntityFireBullets", "AGP_Portal", function(shooter, data)
 		if (data.AGPPortalHop or 0) >= 4 then return end
+		-- (a shot aboard a flying StarCore ship: the others on it are put right before anything asks where they are)
+		if StarCore and StarCore.ShotAboard then StarCore.ShotAboard(shooter) end
 		local src, dir = data.Src, data.Dir:GetNormalized()
 		local dist = data.Distance or 56756
 		local tr = util.TraceLine({ start = src, endpos = src + dir * dist, filter = { shooter, data.IgnoreEntity }, mask = MASK_SHOT })

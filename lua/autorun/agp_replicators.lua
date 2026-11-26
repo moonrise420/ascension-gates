@@ -95,6 +95,17 @@ net.Receive("agp_rep_fps", function(_, p)
 	if not IsValid(p) or not (game.SinglePlayer() or p:IsListenServerHost()) then return end
 	R.lag.fps, R.lag.fpsOk, R.lag.fpsT = fps, valid, SysTime()
 end)
+-- how much of their time the swarm's side jobs get (the ways across the map, feeling the map and the props): 1 = all of it,
+-- less the lower the host's frame rate is (80 and more: all, 20 and less: a tenth), smoothed; on a dedicated server a third
+-- while the game falls behind. 60 bugs at a fresh building on freespace13: 2 frames a second, the side jobs took 4 ms of
+-- every 15 ms tick (replag13). Fewer than 12 bugs: all of it
+local function ease(L, ratio, real)
+	if R.Count("bugs") < 12 or (R.TestOff and R.TestOff.ease) then L.ease = 1 return end
+	local want = ratio < 0.97 and 0.3 or 1
+	if L.fpsT and real - L.fpsT < 3 and L.fpsOk then want = math.min(want, math.Clamp((L.fps - 14) / 66, 0.1, 1)) end
+	L.ease = math.Clamp(Lerp(want < (L.ease or 1) and 0.6 or 0.2, L.ease or 1, want), 0.1, 1)
+end
+function R.Ease() return R.lag.ease or 1 end
 timer.Create("AGPRepLagGuard", 1, 0, function()
 	local L = R.lag
 	local now, real = CurTime(), SysTime()
@@ -103,6 +114,7 @@ timer.Create("AGPRepLagGuard", 1, 0, function()
 		if ts <= 0 then ts = 1 end
 		local ratio = (now - L.c) / math.max(real - L.s, 0.001) / ts
 		L.ratio = ratio
+		ease(L, ratio, real)
 		-- (behind under 88 % for 3 s; keeping up again only at 97 % or more for 8 s running - let go at 88 %, the swarm
 		-- grew again until it was behind again and settled where the game always lagged a little)
 		local lim = R.cv.lagfps:GetFloat()
@@ -761,6 +773,8 @@ hook.Add("PhysgunPickup", "AGPRepProvoke", function(ply, e)
 end)
 hook.Add("EntityFireBullets", "AGPRepProvoke", function(shooter, data)
 	if not (IsValid(shooter) and (shooter:IsPlayer() or shooter:IsNPC())) or (R.Count("bugs") == 0 and R.Count("queens") == 0) then return end
+	-- (a shot aboard a flying StarCore ship: the others on it are put right before anything asks where they are)
+	if StarCore and StarCore.ShotAboard then StarCore.ShotAboard(shooter) end
 	local range = (data.Distance and data.Distance > 0) and data.Distance or 56756
 	local tr = util.TraceLine({ start = data.Src, endpos = data.Src + data.Dir * range, filter = shooter, mask = MASK_SHOT })
 	for _, e in ipairs(ents.FindInSphere(tr.HitPos, 90)) do

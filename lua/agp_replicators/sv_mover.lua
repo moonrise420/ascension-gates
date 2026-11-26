@@ -49,9 +49,35 @@ end
 -- (why it left a bug to the usual walk: for the stall log below)
 local function no(b, why) b.MoverWhy = why return false end
 
+-- a crowded swarm shares the ticks (replag13: the mover's steps of 60 bugs were 2 ms of every tick): 20 bugs and more: each
+-- works out its step every 2nd tick, 45 and more: every 3rd; between them it goes on straight along the even face it is on
+-- (M.Step says when: b.ShareN). Near a corner, an edge, a step, its waypoint or an incoming gate every tick
+local shareTick, shareDiv = 0, 1
+function M.Shared(b, ph, dt)
+	if not b.ShareN then return false end
+	local tk = engine.TickCount()
+	if shareTick ~= tk then
+		shareTick = tk
+		local n = 0
+		for _ in pairs(R.bugs) do n = n + 1 end
+		shareDiv = R.TestOn and R.TestOn.shareDiv or n >= 45 and 3 or n >= 20 and 2 or 1
+	end
+	if shareDiv == 1 or b.ShareN >= shareDiv - 1 or tk - b.ShareTick > 4 or not b.RepAt or not b.MoveTo or #R.deadGates > 0
+		or b.Transit or b.SurfPath or b.Falling or b.Boarded or b.Eating or b.InTower or b.InBridge or b.Crossing or (R.TestOff and R.TestOff.share) then b.ShareN = nil return false end
+	b.ShareN = b.ShareN + 1
+	M.shared = (M.shared or 0) + 1
+	local u, f = b.RepUp, b.RepFwd
+	local p = b.RepAt + f * ((b.RepSpeed or 150) * (b.SpeedMul or 1) * dt)
+	b.RepAt = p
+	ph:ComputeShadowControl({ secondstoarrive = 0.08, pos = p, angle = f:AngleEx(u), maxangular = 4000,
+		maxangulardamp = 8000, maxspeed = math.max(260, (b.RepSpeed or 150) * (b.SpeedMul or 1) * 2), maxspeeddamp = 9000, dampfactor = 0.85, teleportdistance = 0, deltatime = dt })
+	return true
+end
+
 -- one tick. true: it set the body; false: the usual walk this tick
 function M.Step(b, ph, pos, up, fwd, dt)
 	b.MoverOn = nil
+	b.ShareN = nil
 	if not R.cv.mover:GetBool() then return no(b, "switched off") end
 	if not b.RepClimb then return no(b, "not a climber") end
 	if not (R.FieldOn and R.FieldOn()) then return no(b, "felt map off (agp_rep_legwalk 1?)") end
@@ -350,6 +376,10 @@ function M.Step(b, ph, pos, up, fwd, dt)
 	-- (risen before a step ahead, maps and props alike - sv_walk.lua R.StepGlide)
 	if R.StepGlide and fu.z > 0.7 then ft = R.StepGlide(b, ft, fu, ff) else b.GlideAdd = nil end
 	control(b, ph, ft, fu, ff, dt, b.GlideAdd and "mover: follow, gliding up" or "mover: follow")
+	-- (on an even face, its body on it, its waypoint not close: a crowded swarm may go on like this for a tick or two, M.Shared)
+	if not b.GlideAdd and up:Dot(fu) > 0.999 and bu:Dot(fu) > 0.97 and fwd:Dot(ff) > 0.98 and dwp > 60 and stuck < 0.3 then
+		b.ShareN, b.ShareTick = 0, engine.TickCount()
+	end
 	return true
 end
 

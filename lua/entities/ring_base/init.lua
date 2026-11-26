@@ -350,6 +350,7 @@ function ENT:DoTeleport()
 
                     ent:SetPos(destination)
                     ent.AGPRingArrive = CurTime() -- AGP: a ship shield lets ring arrivals in (ship_shield/init.lua)
+                    hook.Run("StarGate.Arrived", ent, self.Other)   -- (a flying ship takes who arrives along at once)
                     -- AGP: what arrives passes through the rings standing round it (arriving props and Replicators shoved
                     -- and tipped them; RingsPass at the top)
                     if (not ent:IsPlayer()) then
@@ -557,10 +558,12 @@ function ENT:DoRings()
 
         for k, v in pairs(self.Rings) do
             local pos = traceRes.HitPos - (self.Entity:GetUp() * 110) + (self.Entity:GetUp() * num) * (k - self.OriFix)
+            -- (in the platform's space right away: a ship in flight is far off when the ring starts - rcrings)
+            local lpos = self.Entity:WorldToLocal(pos)
 
             timer.Simple(times[k], function()
-                if IsValid(v) then
-                    v:GotoPos(self.Entity:WorldToLocal(pos))
+                if IsValid(v) and IsValid(self.Entity) then
+                    v:GotoPos(lpos)
                 end
             end)
         end
@@ -572,10 +575,11 @@ function ENT:DoRings()
 
         for k, v in pairs(self.Rings) do
             local pos = self.Entity:GetPos() + (self.Entity:GetUp() * num) * (k + self.OriFix)
+            local lpos = self.Entity:WorldToLocal(pos)
 
             timer.Simple(times[k], function()
-                if IsValid(v) then
-                    v:GotoPos(self.Entity:WorldToLocal(pos))
+                if IsValid(v) and IsValid(self.Entity) then
+                    v:GotoPos(lpos)
                 end
             end)
         end

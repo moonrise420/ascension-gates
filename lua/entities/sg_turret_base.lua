@@ -205,6 +205,19 @@ function ENT:Think(ply)
 
 	if not (IsValid(self.StandPhys) and IsValid(self.TurnPhys) and IsValid(self.CannPhys)) then return end
 
+	-- AGP (a railgun welded on a SpaceGrid cockpit did not move 1:1 with it): the stand was welded, its turning parts
+	-- hang on axes and trailed behind. All of it rides together, whichever part is welded on (SpaceGrid's riders:
+	-- SGRideAlong)
+	if (not self.SGRideAlong) then
+		self.SGRideAlong = function(e)
+			local list = {};
+			for _, x in ipairs({ self.Stand or NULL, self.Turn or NULL, self.Cann or NULL }) do if (IsValid(x)) then list[#list + 1] = x end end
+			return list;
+		end
+	end
+	self.Turn.SGRideAlong = self.SGRideAlong;
+	self.Cann.SGRideAlong = self.SGRideAlong;
+
 	//physics can be frozen but cannot sleep!!
 	self.TurnPhys:Wake();
 	self.StandPhys:Wake();

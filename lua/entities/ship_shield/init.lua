@@ -125,6 +125,7 @@ function ENT:Initialize()
 	if (agpModel) then
 		local _, mx = self.Entity:GetModelBounds();
 		offset = self.Parent.AGPShieldBounds or Vector(mx.x * agpScale.x, mx.y * agpScale.y, mx.z * agpScale.z);
+		self.AGPRadii = Vector(mx.x * agpScale.x, mx.y * agpScale.y, mx.z * agpScale.z); -- the drawn bubble (HitEffect)
 	end
 	self.Entity:SetCollisionBounds(-1*offset,offset);
 
@@ -441,17 +442,18 @@ end
 
 --################# Draws an hiteffect, drains energy and makes the baseprop "wobbly" @aVoN
 function ENT:HitShield(e,pos,phys,class,normal)
-	-- Zapping
-	local fx = EffectData();
-	fx:SetStart(e:GetPos());
-	fx:SetOrigin(pos);
-	fx:SetScale(10);
-	fx:SetMagnitude(10);
-	fx:SetEntity(e);
-	util.Effect("TeslaHitBoxes",fx,true,true);
 	-- Hit effect
 	if(not self.HasHitShield[e]) then
 		self.HasHitShield[e] = true;
+		-- Zapping (AGP: once per touch like the hit effect - it was sent every tick for everything resting against a
+		-- bubble, 66 effects a second each: a ship pressing on a shield, a crowd of Replicators)
+		local fx = EffectData();
+		fx:SetStart(e:GetPos());
+		fx:SetOrigin(pos);
+		fx:SetScale(10);
+		fx:SetMagnitude(10);
+		fx:SetEntity(e);
+		util.Effect("TeslaHitBoxes",fx,true,true);
 		local strength = 5;
 		if (isnumber(e.Damage) and e.Damage > 0) then
 			strength = e.Damage / 50; -- AGP: shots drain by their real damage (a pulse drained 200-400 % by mass x speed)
@@ -469,11 +471,26 @@ end
 
 --################# Draw the Hit Effect @aVoN
 function ENT:HitEffect(e,pos,strength)
+	-- AGP (the hit flash showed far away from the ship, not on the shield): shots are stopped at the shield's box,
+	-- which near its corners is up to 1.7 times further out than the drawn bubble. The flash goes onto the bubble
+	-- itself, on the line from its middle.
+	local r = self.AGPRadii;
+	if (r and isvector(pos) and r.x > 0 and r.y > 0 and r.z > 0) then
+		local l = self.Entity:WorldToLocal(pos);
+		local k = math.sqrt((l.x / r.x) ^ 2 + (l.y / r.y) ^ 2 + (l.z / r.z) ^ 2);
+		if (k > 0.01) then pos = self.Entity:LocalToWorld(l / k); end
+	end
 	-- Hit sound
 	local time = CurTime();
 	if((self.NextSound or 0) < time) then
 		sound.Play(self.Sounds.Hit,pos,math.random(70,100),math.random(90,110));
 		self.NextSound = time +math.random(2,3)/10;
+	end
+	-- AGP (firing a railgun at a ship's shield): a hit effect lives about 2 seconds and costs frames; fast guns (35 bullets a
+	-- second each) piled up hundreds. Weak hits: at most 10 effects a second a shield.
+	if ((tonumber(strength) or 0) < 5) then
+		if ((self.AGPHitFxAt or 0) > CurTime()) then return end
+		self.AGPHitFxAt = CurTime() + 0.1;
 	end
 	-- Draw the hiteffect- But in that function.
 	local shield = self.Entity;

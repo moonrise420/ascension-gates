@@ -1234,6 +1234,8 @@ function ENT:GetGateAddress()
 	return self.GateAddress or "";
 end
 
+-- AGP: until Initialize has set it (a map's gate made again by the gate spawner while it was being removed: Lua error)
+ENT.WireCharters = ENT.WireCharters or "A-Z0-9@#";
 --################# Sets the address @aVoN
 function ENT:SetGateAddress(s)
 	if (self.Entity:GetClass()=="stargate_orlin") then return end

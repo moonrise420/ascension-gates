@@ -53,7 +53,8 @@ if SERVER then
             local parent = self.Entity:GetParent()
 
             for _, v in pairs(ents.FindInSphere(self.Entity:GetPos(), self.Radius)) do
-                if (IsValid(v) and not (parent.IsBelowGate and parent:IsBelowGate(v))) then -- AGP: not the floor under the gate
+                if (IsValid(v) and not (parent.IsBelowGate and parent:IsBelowGate(v)) -- AGP: not the floor under the gate
+                    and (not parent.AGPReached or parent:AGPReached(v, self.Entity:GetPos(), tonumber(self.Radius) or 0, self.AGPTarget))) then -- AGP: nor what only has it in its box
                     if (not (parent.Attached[v] or v.GateSpawnerSpawned or v.NoDissolve)) then
                         if (constraint.HasConstraints(v)) then
                             local entities = StarGate.GetConstrainedEnts(v, 2)

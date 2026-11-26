@@ -631,7 +631,7 @@ hook.Add("Tick", "AGPRepNav", function()
 	-- little later; the game keeps its frame rate -, 60 bugs at a building on freespace13) (a few bugs:
 	-- twice the time - a way on the felt map at a place not felt yet took 15-30 s at 2 ms)
 	local few = (R.Count and R.Count("bugs") or 0) <= 5
-	local stop = SysTime() + (few and BUDGET * 2 or BUDGET) / ((R.walkDiv or 1) > 1 and 2 or 1)
+	local stop = SysTime() + (few and BUDGET * 2 or BUDGET) / ((R.walkDiv or 1) > 1 and 2 or 1) * R.Ease()
 	local now = CurTime()
 	while #V.order > 0 and SysTime() < stop do
 		local key = V.order[#V.order]
@@ -705,7 +705,7 @@ local function wanted(p, out, seen)
 end
 
 liveTick = function()
-	if not R.cv.navscan:GetBool() or (R.lag and (R.lag.behind or R.lag.dormant)) or (R.walkDiv or 1) > 1 then return end   -- (crowded: later)
+	if not R.cv.navscan:GetBool() or (R.lag and (R.lag.behind or R.lag.dormant)) or (R.walkDiv or 1) > 1 or R.Ease() < 0.6 then return end   -- (crowded: later)
 	local now = CurTime()
 	local t0 = SysTime()
 	local stop = t0 + (V.liveBudget or LIVET)

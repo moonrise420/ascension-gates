@@ -37,6 +37,9 @@ P.n = P.n or 0
 P.hot = P.hot or {}
 P.hotSet = P.hotSet or {}
 local HOTBUDGET = 0.0015
+-- (allowances that build up each tick and are paid off by what feeling really took: a block costs up to 1-2 ms, "only while
+-- there is time" still felt one a tick; R.Ease)
+local hotAllow, queueAllow = 0, 0
 
 -- (which things: every frozen solid thing the players put down - not only plain props (prop_physics, the ways' own list
 -- V.psig) but a Stargate, its DHD, its ramp, a SENT; the author's game: bugs by the gate ramp walked with their legs,
@@ -155,6 +158,10 @@ local function refeel(kb)
 end
 
 -- which props changed (every 2 s, after the ways' own look at them)
+-- (what moves is not felt until it lies still for one look: the frozen things on a flying ship are put to a new place
+-- every tick and were felt again and again, 107 to 119 ms a second on the server - odd_fps. Till then the bugs near it
+-- walk with their legs, F.PropKnown)
+P.moving = P.moving or {}   -- thing -> where it was at the last look
 local nextLook = 0
 local function look()
 	local sigs = {}
@@ -171,7 +178,19 @@ local function look()
 		if IsValid(e) then
 			seen[e] = true
 			local o = P.of[e]
-			if not o or o.sig ~= sig then
+			local moves = false
+			if not (R.TestOff and R.TestOff.propIdle) then
+				if P.moving[e] then moves = P.moving[e] ~= sig
+				elseif o then moves = o.sig ~= sig
+				else moves = e.SGCarryAt ~= nil or e:GetVelocity():LengthSqr() > 25 end   -- (new: on a ship, or on its way)
+			end
+			P.moving[e] = moves and sig or nil
+			if moves then
+				if o then
+					if o.keys then for _, kb in ipairs(o.keys) do refeel(kb) end end   -- (where it was: felt again without it)
+					P.of[e], P.ready[e] = nil, nil
+				end
+			elseif not o or o.sig ~= sig then
 				-- (where it was: felt again without it; where it is: felt with it)
 				if o and o.keys then for _, kb in ipairs(o.keys) do refeel(kb) end end
 				local keys = blocksOf(e)
@@ -181,6 +200,7 @@ local function look()
 			end
 		end
 	end
+	for e in pairs(P.moving) do if not seen[e] then P.moving[e] = nil end end
 	for e, o in pairs(P.of) do
 		if not seen[e] then
 			if o.keys then for _, kb in ipairs(o.keys) do refeel(kb) end end
@@ -218,10 +238,14 @@ hook.Add("Tick", "AGPRepFieldProps", function()
 		end
 		return
 	end
+	-- (no Replicator on the map: nothing is looked at or felt, what is known is kept - the first one brings a look at once)
+	if next(R.bugs) == nil and next(R.queens) == nil and not (R.TestOff and R.TestOff.propIdle) then nextLook = 0 return end
 	local now = CurTime()
 	if now > nextLook then nextLook = now + 2 look() end
 	if #P.hot > 0 then
-		local stopH = SysTime() + HOTBUDGET
+		hotAllow = math.min(hotAllow + HOTBUDGET * R.Ease(), 0.003)
+		local h0 = SysTime()
+		local stopH = h0 + hotAllow
 		while #P.hot > 0 and SysTime() < stopH do
 			local kb = table.remove(P.hot)
 			P.hotSet[kb[1]] = nil
@@ -232,9 +256,12 @@ hook.Add("Tick", "AGPRepFieldProps", function()
 				if F.ForgetSoft then F.ForgetSoft(kb[2] * CS - 1, kb[3] * CS - 1, kb[4] * CS - 1, kb[2] * CS + CS, kb[3] * CS + CS, kb[4] * CS + CS) end
 			end
 		end
+		hotAllow = hotAllow - (SysTime() - h0)
 	end
 	if #P.queue == 0 then return end
-	local stop = SysTime() + BUDGET
+	queueAllow = math.min(queueAllow + BUDGET * R.Ease(), 0.0015)
+	local q0 = SysTime()
+	local stop = q0 + queueAllow
 	while #P.queue > 0 and SysTime() < stop do
 		local kb = table.remove(P.queue)
 		if P.want[kb[1]] and P.ch[kb[1]] == nil then
@@ -243,4 +270,5 @@ hook.Add("Tick", "AGPRepFieldProps", function()
 			if F.ForgetSoft then F.ForgetSoft(kb[2] * CS - 1, kb[3] * CS - 1, kb[4] * CS - 1, kb[2] * CS + CS, kb[3] * CS + CS, kb[4] * CS + CS) end
 		end
 	end
+	queueAllow = queueAllow - (SysTime() - q0)
 end)

@@ -111,6 +111,7 @@ if (SERVER) then
 				riders[d] = { God = d:HasGodMode() }
 				d:GodEnable()
 				d:SetNoDraw(true)
+				d.AGPRideSeat = r
 			end
 		end
 		r.Group, r.Seated = held, riders
@@ -136,11 +137,19 @@ if (SERVER) then
 		for d, st in pairs(r.Seated or {}) do
 			if (IsValid(d)) then
 				d:SetNoDraw(false)
+				if (d.AGPRideSeat == r) then d.AGPRideSeat = nil end
 				if (not st.God) then d:GodDisable() end
 			end
 		end
 		r.Group, r.Seated = nil, nil
 	end
+
+	-- (test scene_ride: who got up in the wormhole stood at the first gate): no getting up meanwhile, also without the
+	-- tunnel's picture. Death, a kick and ply:ExitVehicle() by code still work.
+	hook.Add("CanExitVehicle", "AGP.WormholeRide", function(_, ply)
+		local r = IsValid(ply) and ply.AGPRideSeat
+		if (r and not r.AGPDone) then return false end
+	end)
 
 	-- the tunnel for everyone who sees this ride
 	local function viewAll(r, on)
@@ -257,6 +266,7 @@ if (SERVER) then
 
 	-- dead / removed at once (in a closing gate, or a gate going nowhere)
 	local function lost(e)
+		hook.Run("StarGate.Lost", e)
 		if (e:IsPlayer()) then e:KillSilent() else e:Remove() end
 	end
 
@@ -281,6 +291,12 @@ if (SERVER) then
 				lost(e)
 				return
 			end
+		end
+
+		-- AGP: a gate on board cannot hold its own wormhole while its ship is in another one: it shuts (what came out of it
+		-- meanwhile would stand where the ship had been). A dialling one stops.
+		for _, v in ipairs(withChildren({ e, unpack(istable(attached) and attached.Attached or {}) })) do
+			if (IsValid(v) and v.IsStargate and (v.IsOpen or v.Dialling or v.Active) and v.AbortDialling) then v:AbortDialling() end
 		end
 
 		-- who sees the tunnel: the player, a ship's pilot, everyone in a seat of the contraption
@@ -399,6 +415,7 @@ if (SERVER) then
 		elseif (self.ShuttingDown and not rider:IsPlayer()) then
 			viewAll(r, false)
 			groupFree(r)
+			hook.Run("StarGate.Lost", k)
 			k:Remove()
 			routeDone(r)
 			self.Ents[k] = nil
@@ -456,6 +473,7 @@ if (SERVER) then
 				k:SetPos(g:GetPos() + g:GetForward() * 30 + g:GetUp() * -80)
 			end
 		end
+		if (IsValid(k) and not block) then hook.Run("StarGate.Arrived", k, (cfd and self or self.Target):GetParent()) end
 		if (IsValid(k)) then self:AGPAutoClose(k) end   -- came out (or hit the iris): the gate closes a while later
 		routeDone(r)
 	end

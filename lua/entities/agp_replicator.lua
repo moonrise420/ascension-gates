@@ -192,6 +192,7 @@ if SERVER then
 		end
 		self.RestAt, self.RestAng, self.RestOn = nil, nil, nil
 		ph:Wake()
+		if (self.ShareN and R.Mover and R.Mover.Shared(self, ph, dt)) then return end   -- (a crowded swarm: on along the even face it is on, sv_mover.lua)
 		if (self.Crossing) then
 			local T = self.Crossing
 			local p0 = ph:GetPos()
@@ -1158,6 +1159,7 @@ if SERVER then
 		self:SetNWBool("RepFall", false)
 		local a = n * 90 + math.random(-25, 25)
 		self.Clinging = { p = p, a = a, t0 = CurTime() }
+		self:SGUnrest()
 		self:SetParent(p)
 		self:SetLocalPos(Vector(math.cos(math.rad(a)) * 13, math.sin(math.rad(a)) * 13, 12))
 		self:SetLocalAngles(Angle(-75, a + 180, 0))
@@ -1989,6 +1991,15 @@ if SERVER then
 		self:StartFall(v, true)
 	end
 
+	-- out of SpaceGrid's deck cargo before it is fixed to something: a bug standing still a second in a ship was frozen there
+	-- as resting cargo, and the ship went on putting its body to the deck spot each tick after it was parented - read as a
+	-- spot on the ship, twice the ship's position away, under the map, removed (release check H 12)
+	function ENT:SGUnrest()
+		local rs = SpaceGrid and SpaceGrid.Resting
+		if (rs and rs[self]) then rs[self] = nil end
+		self.SGRestAt = nil
+	end
+
 	-- clinging to a ship: parented to it, eats it from the hull (the crew inside is protected by the ship, the ship is not)
 	-- (inside: on the deck of a flying ship, ENT:Look - it stays solid for shots and players, only its body is out of the
 	-- physics; it eats only when eating is on, builds aboard, and walks again once the ship stands)
@@ -2024,6 +2035,7 @@ if SERVER then
 		self:SetAngles(f:AngleEx(n))
 		self.RepUp = n
 		R.Stat(best and "boarded: on the hull" or "boarded: on its box (no hull felt)")
+		self:SGUnrest()
 		self:SetParent(ship)
 		self.Boarded = ship
 		self.BoardTry = nil

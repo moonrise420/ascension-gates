@@ -1,6 +1,6 @@
 -- Ascension Gates: pack version and our own links (shown in the info screen, the Credits panel and the "Information" entry)
 AGP = AGP or {}
-AGP.Version = "1.0.3" -- numbers first: the update check compares them with the GitHub release tag (v0.1.0)
+AGP.Version = "1.0.4" -- numbers first: the update check compares them with the GitHub release tag (v0.1.0)
 
 -- Fill these in once they exist. Empty = the buttons are not shown.
 AGP.Links = {

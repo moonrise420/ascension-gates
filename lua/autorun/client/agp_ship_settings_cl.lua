@@ -16,7 +16,7 @@ local TIPS = {
     agp_hatak_glider_respawn_time = { "agp_ship_tip_gliderrespawntime", "Seconds until a lost glider comes back." },
     agp_ship_shield_visible = { "agp_ship_tip_shieldvis", "Always: every ship's shield bubble glows faintly while the shield is up. Otherwise it only shows when it is hit or switched on or off." },
     agp_ship_destruct_time = { "agp_ship_tip_destructtime", "Seconds from pressing the self-destruct key to the explosion. A second press blows the ship up at once." },
-    agp_ship_power = { "agp_ship_tip_spower", "Yes: a weapon on a StarCore ship takes the ship's power - its ZPMs, generators and batteries first, else the ship's own power." },
+    agp_ship_power = { "agp_ship_tip_spower", "Yes: a weapon or shield on a StarCore ship takes the ship's power - its ZPMs, generators and batteries first, else the ship's own power." },
     agp_weapon_balance = { "agp_ship_tip_wbalance", "Series power: weapons hit ships as hard as in the series, hand weapons barely scratch a hull. AGP sandbox: every weapon's own damage." },
 }
 local page
@@ -110,7 +110,7 @@ local function build(panel)
     choice("agp_weapon_energy", L("agp_ship_wenergy", "Weapons use energy"), {
         [0] = L("agp_ship_wenergy0", "Never (free)"), [1] = L("agp_ship_wenergy1", "When connected"), [2] = L("agp_ship_wenergy2", "Always"),
     })
-    choice("agp_ship_power", L("agp_ship_spower", "Weapons use the ship's power"), {
+    choice("agp_ship_power", L("agp_ship_spower", "Weapons and shields use the ship's power"), {
         [0] = L("agp_ship_no", "No"), [1] = L("agp_ship_yes", "Yes"),
     })
     choice("agp_weapon_balance", L("agp_ship_wbalance", "Weapons against ships"), {

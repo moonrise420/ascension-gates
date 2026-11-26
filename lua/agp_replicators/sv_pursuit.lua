@@ -107,7 +107,9 @@ end
 -- refused and it wandered over the inner rim into the horizon). Each
 -- entry: { g = gate, eh = horizon, oc = the horizon's middle (local), r = its radius }
 R.deadGates = R.deadGates or {}
-local DEAD_ALONG, DEAD_BODY = 30, 14
+-- (25 beside the disc: bugs crossed the plane over the ring's foot 122 from the middle - disc 107, ring 107 to 140 - with
+-- their body and legs in the horizon, and one died of it)
+local DEAD_ALONG, DEAD_BODY = 30, 25
 function R.DeadEntry(g)
 	local eh = IsValid(g) and g.EventHorizon
 	if not IsValid(eh) then return nil end
@@ -183,7 +185,18 @@ function R.DeadClamp(b, pos, target)
 	local a0, _, f = deadRel(e, pos)
 	local t2 = target - f * (target - pos):Dot(f)
 	if math.abs(a0) < DEAD_ALONG then t2 = t2 + f * (a0 >= 0 and 1 or -1) * 3 end   -- (in the zone: out on its side)
-	if R.DeadStep(pos, t2, 0) then return Vector(pos) end
+	if R.DeadStep(pos, t2, 0) then
+		-- (on the ring itself, beside the disc: the part towards the middle is taken out instead - else it hung on the
+		-- ring's face at the zone's edge, 20 s, until the next kawoosh took it)
+		local d = pos - e.eh:LocalToWorld(e.oc)
+		d = d - f * d:Dot(f)
+		local rad = d:Length()
+		if rad < e.r then return Vector(pos) end
+		d = d / rad
+		t2 = target + d * (2 - math.min(0, (target - pos):Dot(d)))
+		if R.DeadStep(pos, t2, 0) then t2 = pos + d * 4 end
+		if R.DeadStep(pos, t2, 0) then return Vector(pos) end
+	end
 	b.DeadKeptT = CurTime()
 	return t2
 end
@@ -228,6 +241,11 @@ function R.RoundDead(a, b)
 			local f, r, u = eh:GetForward(), eh:GetRight(), eh:GetUp()
 			local rel = a - c
 			local off = rel:Dot(f)
+			-- (on the ring's face the way out is sideways off the ring, not through the air along the normal)
+			if k == 0 and (rel - f * off):Length() > e.r then
+				local side = rel:Dot(r) >= 0 and 1 or -1
+				return a + r * side * (e.r + DEAD_BODY + 60 - math.abs(rel:Dot(r))), g
+			end
 			if k == 0 then return a + f * (off >= 0 and 1 or -1) * (DEAD_ALONG + 40 - math.abs(off)), g end
 			local side = rel:Dot(r) >= 0 and 1 or -1
 			local goalOff = (b - c):Dot(f)

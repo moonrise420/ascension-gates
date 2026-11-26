@@ -7,7 +7,7 @@ Ascension Gates is based on Carter's Addon Pack and CAP Enhanced. It adds bug fi
 ## Install
 **Steam Workshop (easiest):** subscribe to [Ascension Gates](https://steamcommunity.com/sharedfiles/filedetails/?id=3840679305) - Steam brings everything it needs with it.
 
-**By hand:** download four zips and unpack them into `garrysmod/addons/`: `ascension_gates-1.0.3.zip` (the code) from
+**By hand:** download four zips and unpack them into `garrysmod/addons/`: `ascension_gates-1.0.4.zip` (the code) from
 the [latest release](../../releases/latest), and `ascension_gates_res1`, `_res2`, `_res3` (models, sounds, maps and
 materials, 2.9 GB together) from [release 1.0.2](../../releases/tag/v1.0.2) - the content has not changed since,
 so it is needed only once. It also needs

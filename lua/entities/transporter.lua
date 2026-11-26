@@ -275,8 +275,21 @@ if SERVER then
         end
     end
 
-    local function DoTeleportTimer(e, pos, r, g, b, a, rm)
+    -- AGP: what moves under a place (a flying ship's floor): the beam takes 0.8 s, and the ship flew on - who was beamed aboard
+    -- came out hundreds of units behind it (test rcbeam). The place is kept in that body, and people and things come out with
+    -- its speed instead of the one of where they were
+    local function MovingUnder(pos, skip)
+        local tr = util.TraceLine({ start = pos, endpos = pos - Vector(0, 0, 200), mask = MASK_SOLID, filter = function(x)
+            return not (skip[x] or x:IsPlayer() or x:IsNPC() or x:GetClass() == "ring_ring")
+        end })
+        local b = tr.Entity
+        if IsValid(b) and not b:IsWorld() and b:GetMoveType() == MOVETYPE_VPHYSICS then return b end
+    end
+
+    local function DoTeleportTimer(e, pos, r, g, b, a, rm, start, onto, lstart, body, lpos)
         if not IsValid(e) then return end
+        local first = pos
+        if IsValid(body) then pos = body:LocalToWorld(lpos) end
         local isplayer = e:IsPlayer()
         local mtype
 
@@ -290,11 +303,24 @@ if SERVER then
             if (AGP and AGP.PlayerStandSpot) then pos = AGP.PlayerStandSpot(pos, e, nil, 40, 60) or pos end
         end
 
+        -- (how far each of the two flew in the 0.8 s)
+        local vfrom = IsValid(onto) and (onto:LocalToWorld(lstart) - start) / 0.8 or vector_origin
+        local vto = IsValid(body) and (pos - first) / 0.8 or vector_origin
         e:SetPos(pos)
         BeamShow(e) -- AGP: visible again at the destination (restores the colour/render mode saved by BeamHide)
 
         if (isplayer) then
             e:SetMoveType(mtype)
+            hook.Run("StarGate.Arrived", e)   -- (a flying ship takes who arrives along at once)
+        elseif (not e:IsNPC() and (vfrom:LengthSqr() > 50 * 50 or vto:LengthSqr() > 50 * 50)) then
+            -- (a body that is moved by its physics takes it along by its speed; one moved by code - a SpaceGrid hull - carries what
+            -- lies in it itself: there it comes to rest, with the speed it went 460 units ahead of its place)
+            local bp = IsValid(body) and body:GetPhysicsObject()
+            local moves = IsValid(bp) and bp:IsMotionEnabled()
+            for i = 0, e:GetPhysicsObjectCount() - 1 do
+                local ph = e:GetPhysicsObjectNum(i)
+                if IsValid(ph) and ph:IsMotionEnabled() then ph:SetVelocity(moves and vto or vector_origin) end
+            end
         end
     end
 
@@ -417,7 +443,10 @@ if SERVER then
                 fx:SetScale(0); -- "Spit out" - a.k.a. "beam me down". Don't spit bitch
                 -- Note to myself: Why am I so damn sarcastic and vogue?
                 util.Effect("teleport_effect",fx,true,true);
-                timer.Simple(0.8,function() DoTeleportTimer(v,dest,color.r,color.g,color.b,color.a,rendmode) end);
+                local body = MovingUnder(dest + Vector(0, 0, 10), entities)
+                local onto = MovingUnder(start + Vector(0, 0, 10), entities)
+                local lpos, lstart = body and body:WorldToLocal(dest), onto and onto:WorldToLocal(start)
+                timer.Simple(0.8,function() DoTeleportTimer(v,dest,color.r,color.g,color.b,color.a,rendmode,start,onto,lstart,body,lpos) end);
                 timer.Simple(3,function() BeamWatchdog(v) end); -- AGP: never leave an object invisible
 
                 

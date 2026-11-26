@@ -16,6 +16,7 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 if (StarGate==nil or StarGate.MaterialCopy==nil) then return end
+local lastRefract = -1
 EFFECT.Material1 = StarGate.MaterialCopy("ShieldRefract","refract_ring");
 EFFECT.Material2 = StarGate.MaterialCopy("ShieldGlow","models/roller/rollermine_glow");
 
@@ -83,7 +84,8 @@ function EFFECT:Render()
 			self.Material1:SetFloat("$alpha",self.Alpha);
 			self.Material1:SetFloat("$refractamount",math.sin(self.Refract*math.pi)*0.1);
 			render.SetMaterial(self.Material1);
-			render.UpdateRefractTexture();
+			-- AGP: the screen is copied once a frame, not once for every hit effect
+			if (lastRefract ~= FrameNumber()) then lastRefract = FrameNumber() render.UpdateRefractTexture() end
 			render.DrawQuadEasy(self.Entity:GetPos(),normal,self.Size*mul,self.Size*mul); -- Draw from the front
 			render.DrawQuadEasy(self.Entity:GetPos(),-1*normal,self.Size*mul,self.Size*mul); -- And from the back
 		end

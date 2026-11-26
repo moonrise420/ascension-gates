@@ -502,7 +502,15 @@ end
 --################# The dissolve function of the kawoosh. MOST LEET FUNCTION EVER! @TetaBonita & aVoN
 -- Some sort of inspired by TetaBonitas Strider Cannon: His dissolving way is much cuter than my crappy "Lasers". This thing isn't a complete copy and paste
 -- The way he does it is already the only way to do it. So I mentioned him "for being the first" who has done this.
-function ENT:EHDissolve(pos,radius)
+-- AGP: target = what is to be cut (nil: the kawoosh). Other things only where their real shape is reached.
+function ENT:AGPReached(v,pos,radius,target)
+	if (IsValid(target)) then
+		if (v == target or v == target.SGHull) then return true end
+		for _,c in pairs(constraint.GetAllConstrainedEntities(target) or {}) do if (c == v) then return true end end
+	end
+	return StarGate.ShapeNear(v,pos,radius);
+end
+function ENT:EHDissolve(pos,radius,target)
 	-- The hurt will actually kill things and give credits to the stargate as killer
 	local e = ents.Create("kawoosh_hurt");
 	if (self.Instancing) then
@@ -515,6 +523,7 @@ function ENT:EHDissolve(pos,radius)
 	e:SetKeyValue("DamageType",bit.bor(DMG_DISSOLVE, DMG_BLAST));
 	e:SetPos(pos);
 	e:SetParent(self.Entity);
+	e.AGPTarget = target;
 	if (self.GateSpawnerSpawned) then e.GateSpawnerSpawned = true; end
 	e:Spawn();
 	local Data = self.KawooshData;
@@ -524,7 +533,7 @@ function ENT:EHDissolve(pos,radius)
 	e:Fire("kill","",Data[3]);
 	-- Start dissolving the crap!
 	if(StarGate.CFG:Get("stargate","disintegrate",true)) then
-		timer.Simple(0.01,function() if IsValid(self.Entity) then self:DissolveEntities(pos,radius) end end);
+		timer.Simple(0.01,function() if IsValid(self.Entity) then self:DissolveEntities(pos,radius,target) end end);
 	end
 end
 
@@ -541,11 +550,12 @@ function ENT:IsBelowGate(v)
 end
 
 --################# Dissolving entities @TetaBonita & aVoN
-function ENT:DissolveEntities(pos,radius)
+function ENT:DissolveEntities(pos,radius,target)
 	if (self.Attached==nil) then return end
 	local name = "EH_DISSOLVE_"..self:EntIndex();
 	for _,v in pairs(ents.FindInSphere(pos,radius)) do
 		if (self:IsBelowGate(v)) then continue end
+		if (not self:AGPReached(v,pos,radius,target)) then continue end
 		if(not (self.Attached[v] or v.GateSpawnerSpawned or v.NoDissolve)) then
 			if(v:GetMoveType() == 6 and not self.Attached[v:GetParent()] and not self.Attached[v:GetDerive()]) then
 				if (constraint.HasConstraints(v)) then
@@ -641,8 +651,10 @@ function ENT:Shutdown(override)
 
 	local e = self.Entity;
 	for k,v in pairs(self.AllBuffer) do
-		if (IsValid(v)) then
-			self:EHDissolve(v:GetPos(),5)
+		-- AGP (test keelsupergate: the gate shut behind a ship and the ship blew up 5000 units away; the list keeps parts of a
+		-- ship that went through): only what still is at this horizon, and not what is in the wormhole just now
+		if (IsValid(v) and not v.AGPRideWith and self:AGPInPlane(v)) then
+			self:EHDissolve(v:GetPos(),5,v)
 		end
 	end
 	-- Let the light fade away!
@@ -668,8 +680,9 @@ function ENT:BufferEmpty()
 	if(self.ShuttingDown or not self:IsOpen()) then return end; -- Aready shutting down or not opened yets
 	for k,v in pairs(self.AllBuffer) do
 		if (IsValid(v)) then
+			local here = not v.AGPRideWith and self:AGPInPlane(v) -- AGP: not what left long ago (see ENT:Shutdown)
 			self:CleanBufferVars(v) -- may prevent physics crash
-			self:EHDissolve(v:GetPos(),5)
+			if (here) then self:EHDissolve(v:GetPos(),5,v) end
 		end
 	end
 	self.AllBuffer = {};
@@ -763,8 +776,54 @@ function ENT:AGPAtHorizon(v)
 	return v:NearestPoint(c):DistToSqr(c) <= r * r;
 end
 
+-- AGP (a real server: a ship that had come out of a Supergate vanished when the gate shut - AGPAtHorizon is all within the
+-- horizon's radius, 3500 units there): what a shutting horizon cuts reaches through its plane, really
+function ENT:AGPInPlane(v)
+	if (not self:AGPAtHorizon(v)) then return false end
+	local s = IsValid(v.SGHull) and v.SGHull or v;
+	local n, mn, mx = self:GetForward(), s:OBBMins(), s:OBBMaxs();
+	local h = (mx-mn)/2;
+	local reach = math.abs(s:GetForward():Dot(n))*h.x + math.abs(s:GetRight():Dot(n))*h.y + math.abs(s:GetUp():Dot(n))*h.z;
+	if (math.abs((s:LocalToWorld((mn+mx)/2)-self:GetPos()):Dot(n)) > math.max(reach-2, 1)) then return false end
+	return self:AGPReallyTouches(v);
+end
+
+-- AGP: the game's touch, and the kawoosh's search, go by the box round a thing. A hollow thing that stands round the gate
+-- (a SpaceGrid hall or station, a hangar, a house of one model) has the gate in its box though no wall of it is near: the
+-- horizon took hold of it and it drifted off, or cut it while it formed (test rckawoosh). For things bigger than the
+-- horizon their real shape counts. (A SpaceGrid keel's blocks fill the ship's rooms: the hull's shape counts for it.)
+local function shapeOf(e) return IsValid(e.SGHull) and e.SGHull or e end
+local function boxHits(s, pos, b)
+	local tr = util.TraceHull({start=pos,endpos=pos+Vector(0,0,0.1),mins=Vector(-b,-b,-b),maxs=Vector(b,b,b),mask=MASK_ALL,ignoreworld=true,filter=function(x) return x == s end});
+	return tr.Hit or tr.StartSolid;
+end
+-- is something of the real shape of e within r of pos? (what is no body with a shape of its own: yes, as ever)
+function StarGate.ShapeNear(e,pos,r)
+	local s = shapeOf(e);
+	if (not s:IsSolid() or s:GetSolid() ~= SOLID_VPHYSICS or s:BoundingRadius() <= r) then return true end
+	return boxHits(s,pos,r*0.85);
+end
+function ENT:AGPReallyTouches(e)
+	local s = shapeOf(e);
+	if (e:IsPlayer() or e:IsNPC() or e.IsJumper or e.IsSGVehicle) then return true end
+	if (not s:IsSolid() or s:GetSolid() ~= SOLID_VPHYSICS or s:BoundingRadius() <= self:BoundingRadius()) then return true end
+	local c, right, up = self:GetPos(), self:GetRight(), self:GetUp();
+	-- (the opening, three quarters of the model's half width: a gate stands a little in its floor)
+	local ext = (self:OBBMaxs()-self:OBBMins())/2;
+	local step = math.min(ext.y,ext.z)*0.2;
+	for x=-3,3 do
+		for y=-3,3 do
+			if (x*x+y*y <= 9.5 and boxHits(s,c+right*(x*step)+up*(y*step),step*0.55)) then return true end
+		end
+	end
+	return false;
+end
+
 --################# The most important part - Recognizes entering props and teleports them @RononDex
 function ENT:StartTouch(e)
+	self.AGPNear = self.AGPNear or {};
+	if (not self:AGPReallyTouches(e)) then self.AGPNear[e] = true; return end -- (only its box: see ENT:Touch)
+	self.AGPNear[e] = nil;
 	local class = e:GetClass();
 	if (self.Instancing) then
 		if e:GetInstance() != self:GetInstance() then return end
@@ -798,6 +857,10 @@ end
 
 --################# Keeps clipping plane up to date @RononDex
 function ENT:Touch(e)
+	if (self.AGPNear and self.AGPNear[e]) then
+		if (not self:AGPReallyTouches(e)) then return end
+		self:StartTouch(e);
+	end
 	if (self.Instancing) then
 		if e:GetInstance() != self:GetInstance() then return end
 	end
@@ -986,6 +1049,7 @@ end
 
 --################# Stops being in the eventhorizon @aVoN,RononDex
 function ENT:EndTouch(e)
+	if (self.AGPNear and self.AGPNear[e]) then self.AGPNear[e] = nil; return end -- (it never was in the horizon)
 
 	if(self.ShuttingDown) then return end; -- We are shutting down
 	if(not IsValid(e)) then return end; -- Not valid or ignore
@@ -1293,7 +1357,7 @@ function ENT:Think()
 										(not IsValid(vp) or (vp ~= parent and not vp.IsDHD and not vp.IsStargate and not vp.GateSpawnerSpawned))
 									) then
 										-- Keep the EH open!
-										if(not v:IsPlayer() or v:Alive()) then -- Only if it's a player who is alive
+										if((not v:IsPlayer() or v:Alive()) and StarGate.ShapeNear(v,e:GetPos(),e:BoundingRadius())) then -- Only if it's a player who is alive
 											close = false;
 											break;
 										end
@@ -1439,7 +1503,7 @@ function BUFFER:Touch(EventHorizon,e)
 				end
 			end
 			if(not(EventHorizon.Attached[e])) then
-				EventHorizon:EHDissolve(e:GetPos(),5)
+				EventHorizon:EHDissolve(e:GetPos(),5,e)
 			end
 		end
 	end

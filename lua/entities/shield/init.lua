@@ -510,6 +510,12 @@ function ENT:HitEffect(e,pos,strength,softsound)
 			self.NextSound = time +math.random(1,2)/10;
 		end
 	end
+	-- AGP (firing a railgun at a ship's shield): a hit effect lives about 2 seconds and costs frames; fast guns (35 bullets a
+	-- second each) piled up hundreds. Weak hits: at most 10 effects a second a shield.
+	if ((tonumber(strength) or 0) < 5) then
+		if ((self.AGPHitFxAt or 0) > CurTime()) then return end
+		self.AGPHitFxAt = CurTime() + 0.1;
+	end
 	-- Draw the hiteffect- But in that function.
 	local shield = self.Entity;
 	local function draw_effect(shield)

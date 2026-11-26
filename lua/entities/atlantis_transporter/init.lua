@@ -45,6 +45,7 @@ function ENT:Initialize()
 	self:CreateWireInputs("Teleport","Destination [STRING]","Group [STRING]","Toggle Doors","Lock Doors","Lock Console","Should be closed","Disable auto-open","Disable auto-close","Disable Dial Menu","Disable Edit Menu");
 	self:CreateWireOutputs("Active","Doors Opened");
 
+	self.Doors = {};   -- (filled by CreateDoors / a dupe paste; a booth without doors gave an error every tick and never beamed)
 	self.TName = "";
 	self.TPrivate = false;
 	self.Destination = "";
@@ -560,8 +561,20 @@ function ENT:DoTeleport(target)
 
 	if (IsValid(self.Target)) then
 		self.Target.Fail = true;
+		-- AGP (rcbeam): FindInBox gives everything whose box touches the booth's - on a ship that is the ship itself (a
+		-- SpaceGrid hall's keel, its hull with it, went down to the target booth). Only what stands in the booth, and nothing the
+		-- booth is built onto.
+		local own = constraint.GetAllConstrainedEntities(self) or {}
+		local function inBooth(v)
+			if (own[v]) then return false end
+			local root = v
+			while IsValid(root:GetParent()) do root = root:GetParent() end
+			if (own[root]) then return false end
+			local l = self:WorldToLocal(v:WorldSpaceCenter())
+			return l.x >= -76 and l.x <= 6 and l.y >= -56 and l.y <= 46 and l.z >= -6 and l.z <= 126
+		end
 		for _,v in pairs(ents.FindInBox(min,max)) do
-			if IsValid(v) and not self.Target.EntsTP[v] then
+			if IsValid(v) and not self.Target.EntsTP[v] and inBooth(v) then
 				local rotation_matrix = MMatrix.RotationMatrix(self.Target:GetUp(),0);
 				local pos = self.Target:LocalToWorld(rotation_matrix*self:WorldToLocal(v:GetPos()))
 				if v:IsPlayer() then
@@ -599,6 +612,10 @@ function ENT:DoTeleport(target)
 						dest = standAt(pos) or standAt(pos + (c - pos) * 0.5) or standAt(Vector(c.x, c.y, pos.z)) or dest
 					end
 					v:SetPos(dest);
+					-- (out of a flying ship the player kept its speed and flew 640 units out of the booth on the ground, with fall
+					-- damage; a ship carries who arrives in it itself - rcbeam)
+					if (v:IsPlayer()) then v:SetLocalVelocity(vector_origin) end
+					hook.Run("StarGate.Arrived", v)   -- AGP: a flying ship takes who arrives along at once, and lets go of who left it (rcbeam)
 					if (not v:IsNPC()) then
 						umsg.Start("AtlantisTransporterTele", v);
 							umsg.Bool(false);

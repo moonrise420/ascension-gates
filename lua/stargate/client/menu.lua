@@ -650,6 +650,7 @@ function StarGate.Hook.AddToolTab()
 
     if (StarGate.CheckModule("base")) then
         spawnmenu.AddToolCategory(cat_name, "Tech", "Tech")
+        spawnmenu.AddToolCategory(cat_name, "Energy", "Energy")   -- right under Tech (it used to come last, made by its first tool)
     end
 
 

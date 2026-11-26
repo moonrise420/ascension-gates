@@ -180,7 +180,11 @@ local function drawStatus(e, spec, th)
 	local n, f, txt = HUD.HyperRow(e)
 	if (n) then rows[#rows + 1] = { "bar", n, f, txt, acc } end
 	if (spec.rows) then for _, r in ipairs(spec.rows(e, th) or {}) do rows[#rows + 1] = r end end
-	rows[#rows + 1] = { "text", L("agp_hud_speed", "Speed"), HUD.SpeedText(e:GetVelocity():Length()) }
+	-- the client only guesses a ship's speed from the last positions it got, which jumps with the network timing
+	-- (a Ha'tak flying steadily on W read 90, 106, 90...): the readout follows it smoothly
+	local spd = e:GetVelocity():Length()
+	e.AGPHudSpd = Lerp(math.min(FrameTime() * 3, 1), e.AGPHudSpd or spd, spd)
+	rows[#rows + 1] = { "text", L("agp_hud_speed", "Speed"), HUD.SpeedText(e.AGPHudSpd) }
 	local chips = spec.chips and spec.chips(e, th) or {}
 
 	local w, pad = 236, 12

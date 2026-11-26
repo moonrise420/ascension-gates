@@ -9,7 +9,14 @@ local CABIN_Y = { 0, 10, -10 }
 local function cabinSpot(self, ply)
 	local mins, maxs = Vector(-16, -16, 0), Vector(16, 16, 72)
 	if IsValid(ply) and ply.GetHull then mins, maxs = ply:GetHull() end
-	local function skip(e) return IsValid(e) and e ~= ply and not e:IsPlayer() end
+	-- the Jumper's own shield bubble is not in the way (with the shield on, every cabin spot was blocked by it and the
+	-- pilot was put outside, under the Jumper)
+	local bubble = IsValid(self.Shields) and self.Shields.Shield
+	local function skip(e)
+		if not IsValid(e) or e == ply or e:IsPlayer() then return false end
+		if e == bubble or (e:GetClass() == "ship_shield" and AGP and AGP.ShipPart and AGP.ShipPart(self, e)) then return false end
+		return true
+	end
 	local omin, omax = self:OBBMins(), self:OBBMaxs()
 	for _, x in ipairs(CABIN_X) do
 		for _, y in ipairs(CABIN_Y) do

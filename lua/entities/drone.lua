@@ -296,6 +296,24 @@ if SERVER then
         end
     end
 
+    -- AGP: a drone that got stuck (in its own ship's hull, which it passes, or wedged where its physics sleeps) never
+    -- used up its fuel, because fuel goes by the way flown: it stayed forever, glowing and humming, and the physgun
+    -- cannot take it. One that has not moved for 2 s, or is older than 2 minutes, goes away quietly.
+    function ENT:Think()
+        local now = CurTime()
+        local pos = self:GetPos()
+        if (not self.AGPStuckPos or pos:DistToSqr(self.AGPStuckPos) > 20 * 20) then
+            self.AGPStuckPos, self.AGPStuckT = pos, now
+        end
+        if (now - self.Created > 120 or (now - self.Created > 3 and now - self.AGPStuckT > 2)) then
+            self.Think = function() end
+            self:StartRemoving(false)
+            return
+        end
+        self:NextThink(now + 0.5)
+        return true
+    end
+
     --################# The blast @aVoN
     function ENT:Blast(pos)
         local fx = EffectData()

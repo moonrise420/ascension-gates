@@ -27,10 +27,45 @@ if SERVER then
         self.StartPos = self:GetPos()
         self.Entity:SetTrigger(true)
         self.Entity:SetRenderMode(RENDERMODE_TRANSALPHA)
+        -- AGP (test rcrings: on a flying ship nobody was taken - a ring flies to its spot over the platform, the ship flew on
+        -- meanwhile and it never got there): on what flies it moves in the platform's own space
+        local p = self.Parent
+        if (IsValid(p)) then
+            local ship = p.SGRiderOf
+            local keel = IsValid(ship) and ship.SGKeel
+            local vel = IsValid(keel) and IsValid(keel:GetPhysicsObject()) and keel:GetPhysicsObject():GetVelocity() or p:GetVelocity()
+            -- (rcrings ship to ship 2 of 3 times: the keel's speed read 0 now and then in full flight, the rings of one ship
+            -- were made the ground way and never got to their spot - nobody taken. On a ship they always ride.)
+            local onShip = IsValid(ship) or (StarCore and StarCore.PartCore and IsValid(StarCore.PartCore[p]))
+            if (onShip or vel:LengthSqr() > 20 * 20) then
+                self.Rides = { at = p:WorldToLocal(self:GetPos()) }
+                self.Rides.home = self.Rides.at
+                self.Phys:EnableMotion(false)
+                self:SetMoveType(MOVETYPE_NONE)
+                self:SetParent(p)
+                self:SetLocalPos(self.Rides.at)
+                self:SetLocalAngles(Angle(0, 0, 0))
+            end
+        end
+    end
+    -- where it should be in the platform's space, and as far as it gets in this step (as fast as on the ground: a third of a second)
+    function ENT:RideStep()
+        local r = self.Rides
+        local to = self.Return and r.home or self.DesiredPos
+        if (not isvector(to)) then return end
+        if (self.Return) then to = r.home end
+        local way = to - r.at
+        local step = math.max(way:Length() * 0.2, 4)
+        if (way:Length() <= step) then r.at = Vector(to.x, to.y, to.z) else r.at = r.at + way:GetNormalized() * step end
+        self:SetLocalPos(r.at)
+        if (not self.Return and not self.ReachedPos and r.at:DistToSqr(to) < 1) then
+            self.ReachedPos = true
+            self.Parent:ReportReachedPos(self.Entity)
+        end
     end
 
     function ENT:PhysicsSimulate(phys, deltatime)
-        if (not IsValid(self.Parent)) then return end
+        if (not IsValid(self.Parent) or self.Rides) then return end
         phys:Wake()
         local pr = {}
         pr.secondstoarrive = 1
@@ -96,6 +131,12 @@ if SERVER then
     function ENT:Think()
         if (not IsValid(self.Parent)) then
             self:Remove()
+            return
+        end
+        if (self.Rides) then
+            self:RideStep()
+            self:NextThink(CurTime())
+            return true
         end
 
         if not self.ReachedPos then

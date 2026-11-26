@@ -372,6 +372,8 @@ end
 hook.Add("EntityFireBullets", "AGP.ShieldCoreBullets", function(shooter, data)
 	local L = SC.List()
 	if (#L == 0 or not data or not data.Src or not data.Dir) then return end
+	-- (a shot aboard a flying StarCore ship: the others on it are put right before anything asks where they are)
+	if StarCore and StarCore.ShotAboard then StarCore.ShotAboard(shooter) end
 	local src = data.Src
 	local dir = data.Dir:GetNormalized()
 	if (dir:LengthSqr() < 0.5) then return end

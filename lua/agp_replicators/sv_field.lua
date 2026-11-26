@@ -80,7 +80,7 @@ local function budgetLeft(b)
 	if F.tick ~= tk then
 		F.tick, F.spent = tk, 0
 		local big = (R.Count and R.Count("bugs") or 0) > 20
-		askAllow = math.min(askAllow + (big and 0.0003 or BUDGET), 0.003)
+		askAllow = math.min(askAllow + (big and 0.0003 or BUDGET) * R.Ease(), 0.003)
 	end
 	if F.testBudget then return F.spent < F.testBudget end   -- (test runs only)
 	-- (the way across the map checks its steps on the felt map, sv_nav.lua: it has its own time budget and gives way)
@@ -475,7 +475,7 @@ local idleCo, idleSaid
 local idleAllow, idleTick = 0, 0
 local function idleRate()
 	if #player.GetAll() == 0 then return 0.005 end
-	return next(R.bugs or {}) and 0.0002 or 0.003
+	return next(R.bugs or {}) and 0.0002 * R.Ease() or 0.003
 end
 local function idleBudget()
 	local tk = engine.TickCount()

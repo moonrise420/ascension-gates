@@ -191,6 +191,13 @@ function ENT:IsEntityATarget(entity)
 		if(string.find(entityClass, targetType)) then return true end
 		-- AGP: every ship is a vehicle (the Puddle Jumper and our Ha'tak have no "vehicle" in their class name)
 		if(targetType == "vehicle" and (entity:IsVehicle() or entity.IsSGVehicle or entityClass == "puddle_jumper" or entityClass == "agp_hatak")) then return true end
+		-- AGP: "props" also takes the weapons placed in the world (turrets, cannons, drone launchers...) and weapons
+		-- lying on the ground; their classes have no "prop" in them, so they used to survive. Gates and Dakara stay.
+		if(targetType == "prop" and not entity.IsStargate and not string.StartWith(entityClass, "dakara")) then
+			if (entity:IsWeapon() and not IsValid(entity:GetOwner())) then return true end
+			local cat = entity.Category
+			if (cat and (cat == "Ascension Gates: Weapons" or cat == "Weapons" or (SGLanguage and SGLanguage.GetMessage and cat == SGLanguage.GetMessage("entity_weapon_cat")))) then return true end
+		end
 	end
 
    return false

@@ -184,7 +184,18 @@ if SERVER then
     end
 
     -----------------------------------THINK----------------------------------
+    -- AGP: its parts ride together on a SpaceGrid ship, whichever of them is welded on (sg_turret_base the same)
+    local function rideAlong(e)
+        local s = e.AGPRideOf or e
+        local list = {}
+        for _, x in ipairs({ s, s.Stand or NULL, s.Turn or NULL, s.Cann or NULL }) do if IsValid(x) then list[#list + 1] = x end end
+        return list
+    end
+
     function ENT:Think(ply)
+        for _, x in ipairs({ self, self.Stand or NULL, self.Turn or NULL, self.Cann or NULL }) do
+            if IsValid(x) and not x.SGRideAlong then x.AGPRideOf = self x.SGRideAlong = rideAlong end
+        end
         if (not IsValid(self.Turn) or not IsValid(self.Cann)) then
             self.Entity:OnRemove()
 

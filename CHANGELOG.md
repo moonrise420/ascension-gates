@@ -1,5 +1,33 @@
 # Changelog
 
+## 1.0.4
+**Replicators**
+- Big swarms lag much less. With 60 bugs chasing a player I went from about 2 to about 30 fps.
+- Replicators standing on a SpaceGrid ship stay aboard when it takes off, also through a Supergate. They used to get thrown under the map.
+- They don't get stuck at thin walls anymore on their way to a ship parked on a roof.
+- They keep away from an incoming gate's horizon instead of stepping into it.
+- Crates riding on a flying ship no longer slow the server down while Replicators are around.
+
+**Gates and transport on ships**
+- Transport rings work on a flying ship: the rings rise with the platform and take you to the right spot, also from one flying ship to another. Before, they often took nobody.
+- The Asgard transporter puts you exactly on the spot when you beam onto or off a flying ship (you used to land far behind it).
+- The Atlantis transporter on a flying ship only takes who stands in it, and you don't fly off with the ship's speed when you arrive on the ground.
+- A ship with a Stargate, iris or DHD on board can fly through another gate. The gate on board closes its own wormhole first.
+- A gate that shuts only destroys what reaches through its horizon, not parts of a ship that already went through.
+- A gate standing inside a hall or hangar no longer pulls in or destroys the whole building. The wormhole and the kawoosh only take what is really in front of the gate.
+- Leaving the Puddle Jumper with its shield on puts you in the cabin, not under the Jumper.
+- Dakara set to props now also dissolves placed weapons like turrets and cannons.
+- A drone that got stuck somewhere doesn't stay there glowing and humming forever.
+- A shield hit flashes on the shield itself, not somewhere in front of it, and things touching a shield cost much less fps.
+- The speed readout in AGP ships doesn't jump around anymore.
+- In the Ascension Gates tool menu, Energy sits right under Tech.
+- Nobody can get up from a seat while in the wormhole, and nobody falls through the floor of a big ship in the gate.
+
+**Shields and weapons**
+- A shield on a StarCore ship without its own power source runs on the ship's power, like the weapons (admin setting "Weapons and shields use the ship's power").
+- The parts of a turret or railgun stay together on a SpaceGrid ship.
+- Lots of weak hits on a shield don't eat your fps anymore.
+
 ## 1.0.3
 **New**
 - A few seconds after the game starts, Ascension Gates checks that Resources 1, 2 and 3 are installed. If one is missing, a window names it (why things look like purple-black squares or ERROR) with a button that opens its Workshop page. Console command `agp_res_check` checks again.

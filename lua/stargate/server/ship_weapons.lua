@@ -265,7 +265,8 @@ end
 local function shipPay(core, amount)
 	local have, nets, inNet = shipEnergy(core)
 	local left = math.min(amount, have)
-	if (left <= 0) then return end
+	if (left <= 0) then return 0 end
+	local paid = left
 	local fromNets = 0
 	for _, n in ipairs(nets or {}) do fromNets = fromNets + (n.energy or 0) end
 	local a = math.min(left, fromNets)
@@ -276,6 +277,7 @@ local function shipPay(core, amount)
 		local take = math.min(left, math.max(r.amount or 0, 0))
 		if (take > 0) then r.amount = r.amount - take left = left - take end
 	end
+	return paid - math.max(left, 0)
 end
 local function shipOf(ent)
 	if (not (StarCore and StarCore.PartCore and StarCore.PowerNets and StarCore.PayJump)) then return nil end
@@ -286,6 +288,17 @@ local function shipOf(ent)
 end
 StarGate.ShieldShip = shipOf
 StarGate.ShipEnergy = function(core) return (shipEnergy(core)) end
+
+-- What the ship itself gives a shield, as it gives its weapons: a shield on a ship without any store runs on the
+-- ship's own power, at its plain recharge (ZPMs and generators on board make that faster). Not with "Always"
+-- (agp_weapon_energy 2) or agp_ship_power 0, and not for a shield core in Atlantis mode (its strength is the energy
+-- itself).
+--
+local SHIP_OWN = 5000
+local function shipOwn(self)
+	local on, cv = GetConVar("agp_ship_power"), GetConVar("agp_weapon_energy")
+	return on and on:GetBool() and (not cv or cv:GetInt() ~= 2) and not self.Atlantis
+end
 
 -- called by the shields' Initialize (shield_core, shield_generator)
 function StarGate.ShipPowered(ent)
@@ -298,7 +311,9 @@ function StarGate.ShipPowered(ent)
 				-- (read a few times a tick by a shield: the sum is kept a tenth of a second; paying makes it anew)
 				local now = CurTime()
 				if ((core.AGPShipEAt or 0) < now) then core.AGPShipE, core.AGPShipEAt = shipEnergy(core), now + 0.1 end
-				return core.AGPShipE or 0
+				local have = core.AGPShipE or 0
+				if (have < SHIP_OWN and shipOwn(self)) then return SHIP_OWN end
+				return have
 			end
 		end
 		return own.get(self, res, default)
@@ -306,7 +321,15 @@ function StarGate.ShipPowered(ent)
 	ent.ConsumeResource = function(self, res, amount)
 		if (res == "energy") then
 			local core = shipOf(self)
-			if (core) then shipPay(core, tonumber(amount) or 0) core.AGPShipEAt = 0 return end
+			if (core) then
+				local n = tonumber(amount) or 0
+				local paid = shipPay(core, n)
+				-- (what switching on took from the ship's stores: only that comes back when switched off - on the ship's own
+				-- power it took nothing, the release chat's rcrefund)
+				if (n > 0 and n == tonumber(self.EngageEnergy)) then self.AGPEngagePaid = paid end
+				core.AGPShipEAt = 0
+				return
+			end
 		end
 		return own.use(self, res, amount)
 	end
@@ -315,7 +338,10 @@ function StarGate.ShipPowered(ent)
 			if (res == "energy") then
 				local core = shipOf(self)
 				if (core) then
-					-- (the engage energy given back when switched off: into the ship's first store)
+					-- (the engage energy given back when switched off: into the ship's first store, as much as it took)
+					amount = math.min(tonumber(amount) or 0, self.AGPEngagePaid or 0)
+					self.AGPEngagePaid = 0
+					if (amount <= 0) then return end
 					local _, nets, inNet = shipEnergy(core)
 					local p = nets and nets[1] and nets[1].part
 					if (IsValid(p) and p ~= self and p.SupplyResource) then p:SupplyResource("energy", amount) return end

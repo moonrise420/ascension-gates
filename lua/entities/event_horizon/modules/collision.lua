@@ -14,6 +14,10 @@ function ShouldEHEntitiesCollide(ent1,ent2)
 	local enta, entb = ent1, ent2
 	if (not IsValid(enta) || not IsValid(entb)) then return true end
 
+	-- AGP (a real server: who stood in a SpaceGrid hall fell through its deck as soon as they were past the plane - the deck
+	-- under them still counted as before it): a ship one can walk in stays solid to who and what is in it
+	if (enta.SpaceGridHull or entb.SpaceGridHull) then return end
+
 	local eh, ent, tent, ent_dir, tent_bdir;
 
 	local eha, ehb;
@@ -82,6 +86,14 @@ function ShouldEHEntitiesCollide(ent1,ent2)
 	-- if collide with gate
 	if (tent.IsStargate) then
 		return
+	end
+
+	-- AGP: who stands on a thing that goes through (the deck of a ship made of props) keeps standing on it past the plane - on
+	-- it, or a moment ago; the wall of what comes out in front of somebody else stays as before
+	if (tent:IsPlayer() or tent:IsNPC()) then
+		local g = tent:GetGroundEntity();
+		if (IsValid(g) and (g == ent or g:GetNWBool("PhysBuffered",false))) then tent.AGPStoodOn = CurTime() end
+		if (tent.AGPStoodOn and CurTime() - tent.AGPStoodOn < 0.7) then return end
 	end
 
 	local bdir = 0

@@ -29,7 +29,7 @@ local SETTINGS = {
     -- weapons against ships: 1 = series power (ranked as in the series, hand weapons 5 %), 0 = AGP sandbox (each
     -- weapon's own damage); stargate/server/ship_weapons.lua StarGate.HullFactor a weapon
     -- welded on a StarCore ship uses the ship's power (stargate/server/ship_weapons.lua)
-    agp_ship_power = { def = 1, min = 0, max = 1, help = "Ascension Gates: weapons on a StarCore ship use the ship's power - its ZPMs, generators and batteries first, else the ship's own power (0 = off)" },
+    agp_ship_power = { def = 1, min = 0, max = 1, help = "Ascension Gates: weapons and shields on a StarCore ship use the ship's power - its ZPMs, generators and batteries first, else the ship's own power (0 = off)" },
     agp_weapon_balance = { def = 1, min = 0, max = 1, help = "Ascension Gates: weapons against ships - 1 = series power (as strong as in the series, hand weapons 5 %), 0 = AGP sandbox (each weapon's own damage)" },
 }
 for name, s in pairs(SETTINGS) do CreateConVar(name, tostring(s.def), FCVAR_ARCHIVE + FCVAR_NOTIFY, s.help, s.min, s.max) end

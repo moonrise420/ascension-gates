@@ -218,6 +218,8 @@ StarGate.Bullets = StarGate.Bullets or {}
 
 hook.Add("EntityFireBullets", "StarGate.EntityFireBullets", function(self, bullet)
     if (not bullet) then return end
+    -- (a shot aboard a flying StarCore ship: the others on it are put right before anything asks where they are)
+    if StarCore and StarCore.ShotAboard then StarCore.ShotAboard(self) end
     local original_bullet = table.Copy(bullet)
     local override = false -- If set to true, we will shoot the bullets instead of letting the engine decide
     -- The modified part now, to determine if we hit a shield!
